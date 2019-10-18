@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="../css/aui.css" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>购物车</title>
+	<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+	<link rel="stylesheet" href="../css/frozenui.css">
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+	<link rel="stylesheet" type="text/css" href="../css/malls/mall.shopping.css" />
+</head>
+
+<body>
+	<header class="page-head">
+		<i class="iconfont icon-back"></i>
+		<span>购物车</span>
+		<span class="edit">编辑</span>
+	</header>
+	<!-- 导购 -->
+	<div class="shopHead">
+		<label class="ui-checkbox">
+			<input type="checkbox">
+		</label>
+		<span class="shopName">厨连联自营店</span>
+	</div>
+	<!-- 购买的产品 -->
+
+
+	<!-- <div class="product"> -->
+	<div class="chef-form-card">
+		<label class="ui-checkbox">
+			<input type="checkbox">
+		</label>
+		<div class="chef-form-leftimg">
+			<img src="" alt="">
+		</div>
+		<div class="chef-right-content">
+			<p class="chef-head1"> 广式双炒双温节能灶</p>
+			<div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+			<div class="chef-head3">
+				<span class="forum-foot-bg">九折</span>
+				<span class="forum-foot-bg">上门安装</span>
+			</div>
+			<div class="chef-head4 ">
+				<p class="swiper-red">￥
+					<span>258</span>
+					<span class="swiper-del">￥536</span>
+					<div class="numberBox">
+						<span class="count">-</span>
+						<span class="nubBox">1</span>
+						<span class="count1">+</span>
+					</div>
+				</p>
+			</div>
+		</div>
+	</div>
+	<!-- 导购 -->
+	<div class="shopHead shopMar">
+		<label class="ui-checkbox">
+			<input type="checkbox">
+		</label>
+		<span class="shopName">厨连联自营店</span>
+	</div>
+	<div class="chef-form-card">
+		<label class="ui-checkbox">
+			<input type="checkbox">
+		</label>
+		<div class="chef-form-leftimg">
+			<img src="" alt="">
+		</div>
+		<div class="chef-right-content">
+			<p class="chef-head1"> 广式双炒双温节能灶</p>
+			<div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+			<div class="chef-head3">
+				<span class="forum-foot-bg">九折</span>
+				<span class="forum-foot-bg">上门安装</span>
+			</div>
+			<div class="chef-head4 ">
+				<p class="swiper-red">￥
+					<span>258</span>
+					<span class="swiper-del">￥536</span>
+					<div class="numberBox">
+						<span class="count">-</span>
+						<span class="nubBox">1</span>
+						<span class="count1">+</span>
+					</div>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="chef-form-card">
+		<label class="ui-checkbox">
+			<input type="checkbox">
+		</label>
+		<div class="chef-form-leftimg">
+			<img src="" alt="">
+		</div>
+		<div class="chef-right-content">
+			<p class="chef-head1"> 广式双炒双温节能灶</p>
+			<div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+			<div class="chef-head3">
+				<span class="forum-foot-bg">九折</span>
+				<span class="forum-foot-bg">上门安装</span>
+			</div>
+			<div class="chef-head4 ">
+				<p class="swiper-red">￥
+					<span>258</span>
+					<span class="swiper-del">￥536</span>
+					<div class="numberBox">
+						<span class="count">-</span>
+						<span class="nubBox">1</span>
+						<span class="count1">+</span>
+					</div>
+				</p>
+			</div>
+		</div>
+	</div>
+	
+	<!-- </div> -->
+	<!-- 底部浮动按钮 -->
+	<div class="shopSub">
+		<div class="shopHead">
+			<label class="ui-checkbox">
+				<input type="checkbox">
+			</label>
+			<span class="shopName">全选</span>
+		</div>
+		<div class="submission">
+			<div class="submissionPrice">
+				<p>
+					<span class="submissionB">合计：</span>
+					<span class="submissionR">￥0.00</span>
+				</p>
+				<p class="discount">优惠：
+					<span>￥0.00</span>
+				</p>
+			</div>
+			<button class="submissionBtn">结算</button>
+		</div>
+	</div>
+</body>
+
+</html>

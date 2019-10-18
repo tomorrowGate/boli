@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>名厨汇聚</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.converge.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head">
+            <div class="back" onclick="goBack()" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>名厨汇聚</span>
+            </div>
+        </header>
+
+        <!-- 头部搜索 -->
+        <div class="search-head">
+            <div class="search-main">
+                <i class="iconfont icon-search"></i>
+                <input class="search-virtual" placeholder="搜索商品" tapmode>
+                </input>
+            </div>
+            <div class="search-real">搜索</div>
+        </div>
+
+        <!-- 轮播图 -->
+        <div class="swiper">
+            <div class="swiper-container swiper-top">
+                <div class="swiper-wrapper" id="adv">
+                    <div class="swiper-slide" tapmode>
+                        <div class="swiper-slide-imgbox">
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                    <div class="swiper-slide" tapmode>14</div>
+                    <div class="swiper-slide" tapmode>153</div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <div class="chef-main-recomend1">
+            <!-- 名厨汇聚 -->
+            <div class="chef-main-head">
+                <div class="chef-head-left">
+                    <i class="iconfont icon-qianbi"></i>
+                    <div class="chef-left-text">大师推荐</div>
+                </div>
+            </div>
+
+            <div class="chef-cards" @click="goChefDet()">
+                <div class="chef-card-out">
+                    <div class="chef-card">
+                        <div class="chef-card-bg">
+                            <div class="chef-card-imgbox">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                        <div class="chef-card-detail">
+                            <div class="chef-detail-name">周伯通</div>
+                            <div class="chef-detail-text">国家一级厨师</div>
+                            <div class="chef-detail-follow" @click.self.stop="focus()">关注</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chef-main-recomend2">
+            <div class="chef-main-head">
+                <div class="chef-head-left">
+                    <i class="iconfont icon-qianbi"></i>
+                    <div class="chef-left-text">大师推荐</div>
+                </div>
+            </div>
+            <!-- 厨师列表 -->
+            <div class="chef-busy-out">
+                <div class="chef-busy-card" @click="goChefDet()">
+                    <div class="chef-leftimg">
+                        <img src="" alt="">
+                    </div>
+                    <div class="chef-right-content">
+                        <div class="chef-head1">
+                            <div class="chef-head1-name">周伯通</div>
+                            <div class="chef-head1-follow">
+                                <span class="chef-follow-num">1256</span>
+                                人关注
+                            </div>
+                        </div>
+                        <div class="chef-head2 chef-light">国家一级厨师</div>
+                        <div class="chef-head3 chef-light">擅长：川菜、湘菜、鲁菜</div>
+                        <div class="chef-head4 ">前列推荐这款羽绒服，改变了我对羽绒服的定义，都能驾驭得了么么哒。</div>
+                        <div class="chef-foot">
+                            <div class="chef-foot-left">查看详情</div>
+                            <div class="chef-foot-right">
+                                <div class="chef-right-btn">学习</div>
+                                <div class="chef-right-btn">关注</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var swiperTop = new Swiper('.swiper-top', {
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        loop: false,
+        autoplay: true,
+        pagination: {
+            el: '.swiper-pagination',
+        },
+    });
+    apiready = function () {
+        URL = $api.URL();
+        m_id = api.pageParam.m_id;
+        var header = $api.dom('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        headerH = $api.fixStatusBar(header);
+    }
+    var wrap = new Vue({
+            el: "#wrap",
+            data: {
+                
+            },
+            methods: {
+                focus:function focus(str){
+                    api.ajax({
+                        url: 'ajax_url',
+                        method: 'post',
+                        timeout: 30,
+                        dataType: 'json',
+                        returnAll:false
+                    },function(ret,err){
+                        if (ret) {
+                            // TODO 
+                        } else {
+                            api.alert({
+                                msg:('错误码：'+err.code+'；错误信息：'+err.msg+'网络状态码：'+err.statusCode)
+                            });
+                        };
+                    });
+                },
+                goChefDet: function goChefDet(id){
+                    api.openWin({
+                        name: 'chef.detail',
+                        url: './chef.detail.html',
+                        bounces: false,
+                        pageParam: {key : 'value'}
+                    });
+                }
+            },
+            created: function created() {
+
+            },
+            mounted: function mounted() {
+
+            },
+        })
+
+        //返回上一页
+        function goBack() {
+            api.closeWin();
+        }
+
+</script>
+
+</html>

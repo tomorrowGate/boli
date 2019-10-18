@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/base.css" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/register.css"/>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+</head>
+<body>
+	<div class="columnDisBox">
+		<div class="bg_color" id="header">
+			<div style="position:relative;">
+				<div class="top_title">注册</div>
+				<div id="apDiv1" onclick="goBack()" tapmode>
+					<i class="iconfont icon-youjiantou"></i>
+				</div>
+			</div>
+		</div>
+		<div id="main" class="main columnBoxFlex" style="overflow:hidden;position:relative;">
+			<div class="wrapperScroll wrapperNoRefrensh" id="wrapperScroll" style="height:100%;position:absolute;width:100%;background-color:#FAFAFA;">
+				<div class="scrollSlide">
+		            <div class="content">
+		                <form  id="form1" role="form" class="form-horizontal">
+			                <div class="country hide"><span class="">中国 +86&nbsp;&nbsp;<i class="iconfont icon-shumogongjuicon-"></i></span></div>
+
+			                <div class="list_item border-b">
+			                	<input type="text" name="tj_uid" id="tj_uid" class="ip" placeholder="推荐人手机号码">
+			               	</div>
+			            	<div class="list_item border-b">
+			            		<input type="text" name="telephone" id="telephone" class="ip" placeholder="手机号码">
+			            	</div>
+			             	<div class="list_item border-b">
+			             		<input type="text" name="check_code" id="check_code" class="ip1" placeholder="短信验证码">
+			             		<input class="Captcha" type="button" value="获取" onclick="fun.getCode(this)" tapmode />
+			             	</div>
+			             	<div class="list_item border-b">
+			             		<input type="password" name="password" id="password" class="ip" placeholder="密码">
+			             	</div>
+			             	<div class="list_item border-b">
+			             		<input type="password" name="check_password" id="check_password" class="ip" placeholder="确认密码">
+			             	</div>
+				            <div class="agree">
+				            	<input type="checkbox" name="checkbox" id="checkbox" checked="checked" class="iconfont" />我已阅读并同意POPC<span class="text-primary"  onclick="fun.goAgreement()" tapmode>《服务协议》</span>
+				            </div>
+				            <div class="sub_botton clearfix">
+				            	<input type="button" class="btn btn-primary col-xs-12" value="注 册" onclick="fun.goRegister()" style="background-color:#2f5cb7;border-color:#2f5cb7;"/>
+				            </div>
+			            </form>
+			            <div class="text-right text-primary">已有账号，下载APP登录</div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../script/lib/bscroll.min.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		$(function() {  //消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+
+		var URL="";
+		apiready = function(){
+			var header = $api.byId('#header');
+	        //适配iOS 7+，Android 4.4+状态栏
+	        $api.fixStatusBar(header);
+
+			URL=$api.URL();
+	    }
+	     //返回上一页
+	    var goBack=function(){
+	        api.closeWin();
+	    }
+
+		var fun={};
+		//获取验证码
+		var _telphone=""; //暂存手机号码
+		var _code=""; //验证码
+		fun.getCode=function(objThis){
+			var telephone=$("#telephone").val();
+
+			if(telephone=="" || telephone==null ||telephone==undefined){
+				MyToast('请输入手机号码');
+			}else if(!(/^1[34578]\d{9}$/.test(telephone))){
+				MyToast('手机号格式错误');
+			}else{
+				$(objThis).prop("disabled",true);
+				api.ajax({
+					url : URL+'/index.php?app=sms&act=app_crsms',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							telphone:telephone
+						}
+					}
+				}, function(ret, err) {
+					if (ret) {
+						if(ret[0].error) {
+							$(".Captcha").removeAttr("disabled");
+							MyToast(ret[0].error);
+						}else{
+							_telphone=telephone;
+							_code=ret[0].yzm;
+							MyToast('发送成功');
+							countDown(); //倒计时
+						}
+					}else{
+						$(".Captcha").removeAttr("disabled");
+						MyToast("网络超时，请稍后再试");
+					};
+				});
+			}
+		}
+
+		//倒计时
+		function countDown(){
+			var i=60;
+			$(".Captcha").val(i+"s");
+			$(".Captcha").css({"color":"#ccc"});
+			var _timer=setInterval(function(){
+				if(i>0){
+					i--;
+					$(".Captcha").val(i+"s");
+				}else{
+					clearInterval(_timer);
+					$(".Captcha").val("重新获取");
+					$(".Captcha").removeAttr("disabled");
+					$(".Captcha").css({"color":"#ffab00"});
+				}
+			},1000)
+		}
+
+		//注册
+		fun.goRegister=function(){
+			var tj_uid=$("#tj_uid").val(); //邀请码
+			var telephone=$("#telephone").val(); //手机号码
+			var check_code=$("#check_code").val();  //验证码
+			var password=$("#password").val();   //密码
+			var check_password=$("#check_password").val();  //确认密码
+			var checkbox=$("#checkbox").prop("checked");   //已阅读
+			if(tj_uid=="" || tj_uid==null ||tj_uid==undefined){
+				MyToast('请输入邀请码');
+			}else if(telephone=="" || telephone==null ||telephone==undefined){
+				MyToast('请输入手机号码');
+			}else if(!(/^1[34578]\d{9}$/.test(telephone))){
+				MyToast('手机号格式错误');
+			}else if(check_code=="" || check_code==null ||check_code==undefined){
+				MyToast('请输入验证码');
+			}else if(_code!=check_code){
+				MyToast('验证码错误');
+			}else if(password=="" || password==null ||password==undefined){
+				MyToast('请输入密码');
+			}else if(password.length>20 ||password.length<6){
+				MyToast('请输入6-20位密码');
+			}else if(check_password=="" || check_password==null ||check_password==undefined){
+				MyToast('请再次输入密码');
+			}else if(check_password!=password){
+				MyToast('2次输入的密码不一致');
+			}else if(checkbox==false){
+				MyToast('注册需要同意注册协议');
+			}else if(_telphone!=telephone){
+				MyToast('手机号错误');
+			}else{
+				api.ajax({
+					url : URL+'/index.php?app=appajax&act=register',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							tj_telphone:tj_uid,
+							name:telephone,
+							code:check_code,
+							password:password
+						}
+					}
+				}, function(ret, err) {
+					if (ret) {
+						if (!ret[0].error) {
+							MyToast("注册成功");
+							api.openWin({
+								name: 'login',
+								url: './login.html',
+								bounces: false,
+								animation:{
+									type:"push",                //动画类型（详见动画类型常量）
+									subType:"from_right",       //动画子类型（详见动画子类型常量）
+									duration:300                //动画过渡时间，默认300毫秒
+								}
+							});
+						}else{
+							MyToast(ret[0].error);
+						}
+					  }else{
+						  MyToast("网络超时，请稍后再试");
+					  };
+				});
+			}
+		}
+
+
+		//服务协议
+		fun.goAgreement=function(){
+		  	api.openWin({
+			  	name: 'agreement',
+			  	url: './agreement.html',
+			  	bounces: false,
+			  	animation:{
+				  	type:"push",                //动画类型（详见动画类型常量）
+				  	subType:"from_right",       //动画子类型（详见动画子类型常量）
+				  	duration:300                //动画过渡时间，默认300毫秒
+			  	}
+		  });
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+
+ /*名厨讲堂-头*/
+.chef-hotslist-head{
+    display: flex;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.9em;
+}
+.hotslist-head-item{
+    width: 50%;
+    /* padding: 5px 0; */
+    margin: 10px 0;
+    font-size: 1.1em;
+    text-align: center;
+}
+.hotslist-head-active{
+    position: relative;
+    color: #6eb92c;
+}
+.hotslist-head-active::after{
+    position: absolute;
+    display: block;
+    content:"";
+    width: 30%;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    border:1px solid  #6eb92c;
+}
+
+.chef-nocloccet{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%)
+}
+.chef-nocloccet-imgbox{
+    width: 50%;
+}
+.chef-nocloccet-imgbox img{
+    width: 100%;
+}
+.chef-nocloccet-text{
+    color: #999;
+}
+/* 名厨讲堂 */
+.chef-collect-timetotal{
+    background: #f2f2f2;
+    padding-bottom:20px; 
+}
+.chef-collect-time{
+    padding: 0 10px ;
+    height: 30px;
+    line-height: 30px;
+    color: #999;
+    font-size: 0.8em;
+    background: #fff;
+}
+.chef-form-formlist{
+    width: 100%;
+    height: 110px;
+    background: #fff;
+}
+.form-formlist-item{
+    display: flex;
+    width: calc(100% + 80px);
+    height: 110px;
+}
+.chef-form-card{
+    display: flex;
+    padding: 10px;
+    width: 100vw;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+}
+.chef-form-leftimg{
+    width: 120px;
+    height: 80px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background: skyblue;
+}
+.chef-form-leftimg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+.chef-forum-light{
+    font-size: 0.9em;
+    color: #999;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.chef-form-formlist .chef-head1-name{
+    font-size: 1em;
+    font-weight: bold;
+}
+.chef-head4{
+    line-height: 24px;
+    font-size: 0.9em;
+    color: #999;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.chef-right-del{
+    height: 100%;
+    line-height: 110px;
+    width: 80px;
+    text-align: center;
+    background: #f00;
+    color: #fff;
+}
+.hide{
+    display: none;
+}

@@ -1,0 +1,411 @@
+/*头部*/
+
+.page-head {
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+
+.head-center {
+    margin: 0 auto;
+}
+
+.back {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%)
+}
+
+
+/* 搜索 */
+
+.search-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 10px;
+}
+
+.search-main {
+    position: relative;
+    width: 86%;
+    background: #f2f2f2;
+    border: 1px solid #f2f2f2;
+    border-radius: 15px;
+}
+
+.search-virtual {
+    margin-left: 20px;
+    width: calc( 100% - 32px);
+    height: 20px;
+    padding: 5px;
+}
+
+.icon-search {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-60%)
+}
+
+
+/* 轮播图 */
+
+.swiper {
+    width: 96vw;
+    height: 48vw;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.swiper-top {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-pagination-bullet {
+    width: 12px;
+    border-radius: 4px;
+}
+
+.swiper-pagination-bullet-active {
+    background: #6eb92c;
+}
+
+.swiper-slide-imgbox {
+    width: 100%;
+    height: 100%;
+    background: skyblue;
+    border-radius: 10px;
+}
+
+.swiper-slide-imgbox img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+
+/*名厨介绍*/
+
+.introduce {
+    width: 85%;
+    height: 90px;
+    margin: 11px auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.history {
+    width: 23%;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.history-ball {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #efdfbd;
+}
+
+.history-ball-text {
+    font-size: 14px;
+}
+
+
+/*球形列表*/
+
+.chef-ball-list {
+    width: 96vw;
+    margin: 10px auto;
+    font-size: 14px;
+    color: #999;
+    border-top: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
+    padding: 5px 0 12px 0;
+}
+
+.swiper-ball-items {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.swiper-ball-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    padding: 10px 0;
+}
+
+.swiper-ball-imgbox {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 6px;
+}
+
+.swiper-ball-imgbox img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: skyblue;
+}
+
+.swiper-ball-text {
+    text-align: center;
+}
+
+.flip {
+    width: 100px;
+    border: 1px solid #f2f2f2;
+    margin: 0 auto;
+}
+
+
+/*教学轮播列表*/
+
+.swiper-teaching {
+    width: 100%;
+    height: 110px;
+    border: 5px solid #f2f2f2;
+    color: #c15f78;
+      box-sizing: border-box;
+}
+
+.swiper-teaching-slide {
+    width: 37%;
+    height: 83px;
+    background: #ffedf1;
+    border-radius: 5px;
+    margin:12px 10px;
+    padding: 6px 0 5px 8px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+
+.slide-blue {
+    background: #bdf5f4;
+    color: #4bb2ae;
+}
+
+.slide-purple {
+    background: #f3f1ff;
+    color: #726c9a;
+}
+
+.slide-blue .goBtn-blue {
+    border: 1px solid #4bb2ae;
+}
+
+.slide-purple .goBtn-purple {
+    border: 1px solid #726c9a;
+}
+
+.teaching-text {
+    font-size: 12px;
+}
+
+.goBtn {
+    width: 40px;
+    height: 16px;
+    font-size: 12px;
+    border: 1px solid #c15f78;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-htbArrowright {
+    font-size: 12px;
+}
+
+
+/*教学推荐头部*/
+
+.chef-main-head {
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+    padding: 12px 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.chef-head-left {
+    display: flex;
+    align-items: center;
+}
+
+.chef-main-head .icon-qianbi {
+    color: #6eb92c;
+}
+
+.chef-left-text {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-left: 6px;
+}
+
+/*.chef-head-more {
+    color: #a3a3a3;
+}*/
+
+
+/*教学推荐卡片*/
+.teaching-recommend-card{
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 8px ;
+}
+.teaching-card-item{
+    width: 50%;
+}
+
+
+.forum-item {
+    width: 176px;
+    /* height: 150px; */
+    padding: 1px 0;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 0 10px #eee;
+}
+
+.forum-item-imgbox {
+    position: relative;
+    width: 180px;
+    height: 90px;
+    border-radius: 6px;
+}
+
+.forum-item-tagtop {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    padding: 1px 8px;
+    border-radius: 8px;
+    font-size: 0.8em;
+}
+
+.forum-item-pay {
+    background: #6eb92c;
+    color: #fff;
+    font-size: 0.8em;
+}
+
+..forum-item-explain {
+    padding: 5px 10px;
+}
+
+.forum-explain-title {
+    padding: 4px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.forum-explain-foot {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.forum-foot-explain {
+    display: flex;
+}
+
+.forum-foot-name {
+    margin-right: 5px;
+}
+
+.forum-foot-level {
+    margin-left: 5px;
+}
+
+
+
+/*教学名片选项*/
+
+.chef-hotslist-head {
+    display: flex;
+    justify-content: flex-start;
+    background: #fff;
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+.hotslist-head-item {
+    padding: 0 12px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.hotslist-head-active {
+    position: relative;
+    color: #6eb92c;
+}
+
+.hotslist-head-active::after {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 40%;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    border: 1px solid #6eb92c;
+}
+
+
+/*教学视频列表*/
+
+.detail-teach-videos {
+    padding: 10px;
+}
+
+.detail-teach-videobox {
+    background: skyblue;
+    margin-bottom: 10px;
+}
+
+.detail-video-name {
+    font-weight: bold;
+}
+
+.video-video-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.video-video-left {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.video-left-text {
+    margin: 10px;
+}
+
+.video-video-right {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+.video-footer-item {
+    margin-left: 10px;
+}

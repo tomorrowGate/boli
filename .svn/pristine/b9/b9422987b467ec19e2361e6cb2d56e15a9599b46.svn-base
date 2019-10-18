@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>新增地址</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.newlyAdd.css" />
+</head>
+
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>新增地址</span>
+        </div>
+    </header>
+    <!-- 新增地址 -->
+    <form class="formBox" action="">
+        <div class="formName">
+            <input type="text" placeholder="请输入收货人姓名">
+        </div>
+        <div class="formName">
+            <input type="text" placeholder="请输入手机号码">
+        </div>
+        <div class="formRegion">
+            <span>所在地址</span>
+            <span>请选择<i class="iconfont icon-htbArrowright iconRight"></i></span>
+        </div>
+        <textarea class="inputText" placeholder="请输入详细地址 (5-120个字)"></textarea>
+        <div class="formAdd">
+            <span>设置默认地址</span>
+            <i>❤</i>
+        </div>
+    </form>
+    <p class="remarks">以上信息将用于帮助您完成下单即收货</p>
+    <!-- 底部按钮 -->
+    <button class="addFlexd">保存并使用</button>
+
+</body>
+
+</html>

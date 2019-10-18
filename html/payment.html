@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>付款</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<style>
+			html, body {
+				background-color: #fff;
+			}
+			.pay_con {
+				padding: 10px;
+			}
+			.succeed {
+				text-align: center;
+				padding: 10px 0;
+			}
+			.succeed_i {
+				height: 40px;
+				width: 40px;
+				border-radius: 22px;
+				margin-bottom: 10px;
+				border: 2px solid #f49082;
+			}
+			.succeed i {
+				font-size: 2em;
+				color: #f49082;
+			}
+			.succeed img {
+				height: 70px;
+				width: 70px;
+				margin: 10px;
+			}
+			.order_info {
+				padding: 10px 0;
+			}
+			.line_img {
+				height: 5px;
+				width: 100%;
+				background: url('../image/line.png') no-repeat;
+				background-size: 100% 100%
+			}
+			.buy {
+				padding: 15px 0;
+			}
+			.pay_way dt {
+				padding-bottom: 10px
+			}
+			.pay_way dd {
+				height: 40px;
+				line-height: 40px
+			}
+			.pay_way dd img {
+				width: 30px;
+				height: 30px;
+				vertical-align: middle;
+			}
+			input[type='radio'] {
+				vertical-align: middle;
+				width: 20px;
+				height: 40px;
+				-webkit-appearance: none;
+				outline: 0 !important;
+				display: inline-block;
+				background: url("../image/uncheck.png") no-repeat center;
+				background-size: 16px 16px;
+				/* position: relative;
+				 top:-2px; */
+			}
+			input[type='radio']:checked {
+				background: url("../image/checked.png") no-repeat center;
+				background-size: 16px 16px
+			}
+			.sub_div {
+				text-align: center;
+				margin-top: 20px;
+			}
+			.sub_div span {
+				width: 70%;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+		<div class="header">
+			付款
+		</div>
+		<div class="DIV_L" onclick="goBack()" tapmode>
+			<i class="iconfont icon-back"></i>
+		</div>
+	 </header>
+		<!---------选择付款方式----------->
+		<div class="pay_con">
+			<div class="succeed">
+				<span class="succeed_i"><i class="iconfont icon-wancheng1"></i></span>
+				<h4>订单提交成功！</h4>
+				<p class="default_color3">
+					您的订单已成功生成，选择您想用的支付方式进行支付
+				</p>
+			</div>
+			<div class="order_info">
+				<p>
+					订单号：<span class="order_sn" id="order_id">order_id</span>
+				</p>
+				<p>
+					订单总价：&yen;<span class="order_amout" id="order_amout">order_amount</span>
+				</p>
+			</div>
+			<div class="line_img"></div>
+			<div class="buy">
+				<dl class="pay_way" id="pay_way">
+					<dt class="font_w1">
+						选择支付方式并付款
+					</dt>
+					<!--线上付款-->
+					<!--<dd>
+					<p>
+					<input type="radio" name="payment_id" checked value="{$payment.payment_id}"  id="payment_{$payment.payment_code}" class="radio">
+					<label for="payment_{$payment.payment_code}"><img src="../image/payments/{$payment.payment_code}/logo.png"><span>（在线支付）</span></label>
+					</p>
+					</dd>
+					<dd>
+					<p>
+					<input type="radio" name="payment_id" checked value="{$payment.payment_id}"  id="payment_{$payment.payment_code}" class="radio">
+					<label for="payment_{$payment.payment_code}"><img src="../image/payments/{$payment.payment_code}/logo.png"><span>（在线支付）</span></label>
+					</p>
+					</dd>-->
+					<!--线下付款-->
+					<!--<dd>
+					<p>
+					<input type="radio" name="payment_id" value="{$payment.payment_id}"  id="payment_{$payment.payment_code}" class="radio">
+					<label for="payment_{$payment.payment_code}"><img src="../image/payments/{$payment.payment_code}/logo.png"><span>（线下支付）</span></label>
+					</p>
+					</dd>-->
+				</dl>
+			</div>
+			<div class="sub_div">
+				<span class="btn_default2" onclick="gotoPay()" tapmode>确认支付</span>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		var URL = "";
+		var orderId;
+		var actual_price;
+		var payment_id = 0;
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+			orderId = api.pageParam.orderId;
+			actual_price = api.pageParam.actual_price;
+			console.log(actual_price);
+			//$api.html($api.byId("order_amout"), actual_price);
+			$("#order_amout").html(actual_price);
+			$("#order_id").html(orderId);
+			//$api.html($api.byId("order_id"), orderId);
+			//加载付款方式信息
+			function getPayment() {
+				api.ajax({
+					url : URL + 'index.php?app=cashier&order_id=' + orderId,
+					method : 'get',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							user_id : userId,
+							ajax : 1
+						}
+					}
+				}, function(ret, err) {
+					console.log(JSON.stringify(ret));
+					if (ret && ret.done) {
+						$api.html($api.byId("order_id"), ret.retval[0].order_sn);
+						$("#order_amout").html(actual_price);
+						//$api.html($api.byId("order_amout"), ret.retval[0].order_amount);
+						if (ret.retval[0].payment_id) {
+							payment_id = ret.retval[0].payment_id;
+							gotoPay();
+						} else {
+							var str = "";
+							$.each(ret.retval[1].online, function(i, item) {
+								str = '<dd><p>';
+								if (i == 0) {
+									str += '<input type="radio" checked name="payment_id" value=' + item.payment_id + '  id="payment_' + item.payment_code + '" class="radio">';
+								} else {
+									str += '<input type="radio" name="payment_id" value=' + item.payment_id + '  id="payment_' + item.payment_code + '" class="radio">';
+								}
+								str += '<label for="payment_' + item.payment_code + '"><img src="' + URL + '/includes/payments/' + item.payment_code + '/logo.gif"></label><span>（' + item.payment_name + '）</span>';
+								str += '</p></dd>';
+								$api.append($api.byId("pay_way"), str);
+							});
+							$.each(ret.retval[1].offline, function(i, item) {
+								str = '<dd><p>';
+								if (i == 0) {
+									str += '<input type="radio" checked name="payment_id" value=' + item.payment_id + '  id="payment_' + item.payment_code + '" class="radio">';
+								} else {
+									str += '<input type="radio" name="payment_id" value=' + item.payment_id + '  id="payment_' + item.payment_code + '" class="radio">';
+								}
+								str += '<label for="payment_' + item.payment_code + '"><img src="../image/payments/' + item.payment_code + '/logo.png"></label><span>（' + item.payment_name + '）</span>';
+								str += '</p></dd>';
+								$api.append($api.byId("pay_way"), str);
+							});
+						}
+					}
+				});
+			}
+
+			//初始加载列表
+			getPayment();
+		};
+		function gotoPay() {
+			if (payment_id == 0 || payment_id == "") {
+				payment_id = $("input[name='payment_id']:checked").val();
+			}
+			api.ajax({
+				url : URL + 'index.php?app=cashier&act=goto_pay&order_id=' + orderId,
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						payment_id : payment_id,
+						ajax : 1
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					var params = ret.retval[2].jsApiParameters;
+					console.log("mchId:" + params.mch_id + "prepay_id:" + params.prepay_id + "nonceStr:" + params.nonce_str + "timeStamp:" + params.timeStamp + "sign:" + params.sign_app);
+					var wxPay = api.require('wxPay');
+					wxPay.payOrder({
+						//apiKey : '',
+						orderId : params.prepay_id,
+						mchId : params.mch_id,
+						nonceStr : params.nonce_str,
+						timeStamp : params.timeStamp,
+						package : 'Sign=WXPay',
+						sign : params.sign_app,
+					}, function(ret, err) {
+						if (ret.status) {
+							//支付成功
+							console.log("支付成功");
+						} else {
+							alert(err.code);
+							console.log(err.code);
+						}
+					});
+				} else {
+					api.toast({
+						msg : '支付失败',
+						duration : 2000,
+						location : 'bottom'
+					});
+				}
+			});
+		}
+	</script>
+</html>

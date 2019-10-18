@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>拜师</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<style>
+			html, body {
+				background-color: #efefef;
+			}
+			p {
+				margin: 10px;
+			}
+			textarea {
+				width: 100%;
+				height: 120px;
+			}
+			.top_div {
+				padding: 10px 0 0 0;
+				background-color: #fff;
+			}
+			.top_div img {
+				width: 100%;
+			}
+			.main_div {
+				background-color: #fff;
+				padding-top: 10px;
+			}
+			.out_div {
+				margin-top: 10px;
+			}
+			#upload_img_list span {
+				width: 33%;
+				text-align: left;
+				margin-bottom: 10px;
+			}
+			#upload_img_list span img {
+				width: 80px;
+				height: 80px;
+			}
+			.add_img {
+				height: 40px;
+				width: 40px;
+				border: 1px dotted #ddd;
+			}
+			.add_img i {
+				font-size: 2em;
+				color: #ccc;
+				position: relative;
+				left: 5px;
+			}
+			.ip1 {
+				width: 100%;
+			}
+			.sub_btn {
+				text-align: center;
+				margin-top: 80px;
+			}
+			#btn_tj {
+				width: 40%;
+				height: 36px;
+				line-height: 36px;
+				border-radius: 18px;
+				padding: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				拜师申请
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class="top_div"><img src="../image/baishi.png">
+		</div>
+		<div class="main_div">
+			<p>
+				拜师理由:
+			</p>
+			<div class="out_div clearfix">
+				<textarea name="suggestion" id="suggestion" placeholder=写下您拜师的理由></textarea>
+			</div>
+		</div>
+		<div class="sub_btn">
+			<span  id="btn_tj" class="btn_default2">申请拜师</span>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		var masterId;
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		var URL = "";
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+			masterId = api.pageParam.masterId;
+		};
+		$("#btn_tj").bind("click", function() {
+			var content = $("#suggestion").val();
+			api.ajax({
+				url : URL + 'index.php?app=appstaff&act=bind',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						content : content,
+						user_id : userId,
+						master_id : masterId,
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					api.toast({
+						msg : '申请成功，请等待师傅同意',
+						duration : 2000,
+						location : 'bottom',
+						global:true
+					});
+					api.execScript({
+              name:"master",
+              script:"isMaster(masterId);"
+            });
+					api.closeWin();
+				} else {
+					api.toast({
+						msg : ret.msg,
+						duration : 2000,
+						location : 'bottom'
+					});
+				}
+			});
+		});
+	</script>
+</html>

@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+	<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+    <title>代理商绑定零售</title>
+    <style>
+        .ui-autocomplete-category {
+            font-weight: bold;
+            padding: .2em .4em;
+            margin: .8em 0 .2em;
+            line-height: 1.5;
+        }
+
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        html,
+        body {
+            background-color: #fff;
+
+        }
+
+        .content {
+            padding: 12px;
+            font-size: 17px;
+        }
+
+        input,
+        select,
+        option {
+            height:34px;
+            font-size: 0.9em;
+        }
+
+        .header {
+            font-size: 1.0em;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .dv_form {
+            border: 0px solid #000;
+            height: auto;
+
+        }
+
+        h5 {
+            font-weight: bold;
+            padding-left: 10px;
+        }
+
+        .dv_form .dv_table tr {
+            height: 2.0em;
+            line-height: 2.0em;
+            font-size: 1.0em;
+        }
+
+        .dv_form .dv_table tr input,
+        .dv_form .dv_table tr select {
+            border: hidden;
+        }
+
+        .dv_form .dv_table tr td:nth-child(1) {
+            padding-left: 10px;
+        }
+
+        .dv_form .dv_table tr td:nth-child(2) {
+            padding-left: 20px;
+        }
+
+        .tijiao {
+            text-align: center;
+            margin: auto;
+            width: 35%;
+            height: 25px;
+            border: 1px solid #c96565;
+            color: #c96565;
+            border-radius: 12px;
+            line-height: 25px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .customer-type {
+            display: flex;
+        }
+
+        .customer-type label {
+            padding-right: 20px;
+        }
+
+        .hide {
+            display: none;
+        }
+        input[type='radio']{
+    -webkit-appearance: radio;
+    position:relative;
+    top:10px;
+   }
+   .my_icon3{
+   	color:#0b93eb;
+   }
+.th1{
+			/*border:1px solid red;*/
+			width:100px;
+		}
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header">信息详情</div>
+         <div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+		</div>
+    </header>
+    <!--当前显示-->
+    <div class="content">
+        <div class="dv_form" id="table_one">
+
+            <h4><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;设备信息</h4>
+            <table class="dv_table">
+                <tr>
+                    <td class="th1">设备编码:</td>
+                    <td><input type="text" value="" id="IMEI_name" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td class="th1">SIM:</td>
+                    <td><input type="text" value="" id="SIM" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td class="th1">设备名称:</td>
+                    <td><input type="text" value="" id="device_name" placeholder="请输入设备名称" readonly="readonly" /></td>
+                </tr>
+                <!-- <tr><td>序列号</td><td><input type="text" value="123456" id="num_name" /></td></tr> -->
+                <tr>
+                    <td class="th1">型号:</td>
+                    <td>
+                        <select id="m_type" disabled="disabled">
+                        </select>
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td class="th1">保修期:</td>
+                    <td>2年</td>
+                </tr>
+                <!--<tr id="type_tr" class="hide">
+                    <td>客户类型:</td>
+                    <td>
+                        <input type="radio" name="type" value="1" id="agent" checked />
+                        <label for="agent">代理</label>
+                        <input type="radio" name="type" value="0" id="retail" />
+                        <label for="retail">终端用户</label>
+                    </td>
+                </tr>-->
+            </table>
+        </div>
+        
+        
+        
+        
+        
+        <div class="dv_form " id="table_two">
+            <h4><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;代理客户信息</h4>
+            <table class="dv_table">
+                <tbody>
+
+                    <tr id="to_user_tr" class="hide">
+                        <td class="th1">用户id:</td>
+                        <td><input type="text" value="" id="to_user_id" /></td>
+                    </tr>
+
+                    <tr>
+                        <td class="th1">名称:</td>
+                        <td><input type="text" value="" id="device_name2" placeholder="请输入用户姓名" readonly="readonly" /></td>
+                    </tr>
+                    <tr>
+                        <td class="th1">电话:</td>
+                        <td><input type="text" value="" id="num_name2" placeholder="用户手机号" readonly="readonly" /></td>
+                    </tr>
+                     <tr id="type_tr" >
+                    <td class="th1">客户类型:</td>
+                    <td >
+                        <input type="radio" name="type2" value="1" id="agent" />
+                        <label for="agent">二级代理</label>
+                        <input type="radio" name="type2" value="0" id="retail" />
+                        <label for="retail">终端用户</label>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+        
+        
+        
+        
+        
+        <div class="dv_form hide" id="table_four">
+            <h4><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;二级代理信息</h4>
+            <table class="dv_table">
+                <tbody>
+
+                    <tr id="to_user_tr" class="hide">
+                        <td>用户id:</td>
+                        <td><input type="text" value="" id="to_user_id2" /></td>
+                    </tr>
+
+                    <tr>
+                        <td>名称:</td>
+                        <td><input type="text" value="" id="device_name22" placeholder="请输入二级代理名称" /></td>
+                    </tr>
+                    <tr>
+                        <td>电话:</td>
+                        <td><input type="text" value="" id="num_name22" placeholder="用户手机号" readonly="readonly" /></td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+        <!--<div class="tijiao" style="margin-top:10px;" onclick="edit_machine()">提交</div>-->
+
+
+        <!--如果是零售-->
+        <!-- <div class="dv_form hide" id="table_three"> -->
+        <div class="dv_form hide" id="table_three">
+
+            <h4><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;终端用户信息</h4>
+            <table class="dv_table">
+                <tr>
+                    <td>名称:</td>
+                    <td><input type="text" value="" id="to_lsname" placeholder="请输入用户姓名" /></td>
+                </tr>
+                <tr>
+                    <td>联系方式:</td>
+                    <td><input type="text" value="" id="to_lsphone" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td>单位名称:</td>
+                    <td><input type="text" value="" id="company_name" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td>一级联系方式:</td>
+                    <td><input type="text" value="" id="tj_phone" readonly="readonly" /></td>
+                </tr>
+                 <tr>
+                    <td>出厂日期:</td>
+                    <td><input type="date" id="cc_time" /></td>
+                </tr>
+                
+                <tr class="hide">
+                    <td></td>
+                    <td><input type="text" value="" id="to_lsid" /></td>
+                </tr>
+                <tr id="work_tr2">
+                    <td>出售状态:</td>
+                    <td>
+                        <select id="work_type2">
+                            <option value="0">锁机</option>
+                            <option value="1">租用</option>
+                            <option value="2">买断</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="hide" id="end_tr2">
+                    <td>租用至:</td>
+                    <td><input type="date" id="end_name2" /></td>
+                </tr>
+            </table>
+
+
+        </div>
+        <div class="tijiao" style="margin-top:10px;" onclick="tj()" id="tj">提交</div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/template.js"></script>
+<script type="text/javascript">
+	var userId = window.localStorage.getItem("userId");
+	var URL = "";
+	var id = 0;
+	$(function() {//消除300ms点击延迟
+		FastClick.attach(document.body);
+		
+		
+	});
+	var addr_id = null;
+	apiready=function(){
+		URL=$api.URL();
+		var header = $api.dom('header');
+		//适配iOS 7+，Android 4.4+状态栏
+		headerH = $api.fixStatusBar(header);
+		addr_id = api.pageParam.addr_id;
+		$("#IMEI_name").val(addr_id);
+		//alert(addr_id);
+		get_machine_type();
+    	get_machine_info();
+	}
+	
+    
+    
+    
+    
+    
+    $('input[type=radio][name=type2]').change(function () {
+        $("#device_name22").val("");
+        $("#num_name22").val("");
+        if (this.value == '0') {
+            //零售
+            $("#table_three").removeClass("hide");
+            $("#table_four").addClass("hide");
+
+
+            //模糊查询零售人信息
+            $("#to_lsname").autocomplete({
+
+                source: URL+"index.php?app=boli_homepage&act=mh_select",
+                minLength: 1,
+                autoFocus: true,
+                select: function (event, ui) {
+                    //console.log("aa");
+                    $("#to_lsname").val(ui.item.real_name);
+                    $("#to_lsphone").val(ui.item.phone_mob);
+                    $("#to_lsid").val(ui.item.user_id);
+                    $("#tj_phone").val(ui.item.tj_phone);
+                    $("#company_name").val(ui.item.company_name);
+                    
+
+                    return false;
+                }
+
+
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                return $("<li class='ui-autocomplete-category'>")
+                    .append("用户名称：" + item.real_name)
+                    .appendTo(ul);
+            };
+        } else if (this.value == '1') {
+        	
+            //代理
+            $("#table_three").addClass("hide");
+            $("#table_four").removeClass("hide");
+
+
+
+            //模糊查询二级代理人信息
+            $("#device_name22").autocomplete({
+
+                source: URL+"/index.php?app=boli_homepage&act=mh_select3",
+                minLength: 1,
+                autoFocus: true,
+                select: function (event, ui) {
+                    console.log("aa");
+                    $("#device_name22").val(ui.item.real_name);
+                    $("#num_name22").val(ui.item.phone_mob);
+                    $("#to_user_id2").val(ui.item.user_id);
+
+                    return false;
+                }
+
+
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                return $("<li class='ui-autocomplete-category'>")
+                    .append("用户名称：" + item.real_name)
+                    .appendTo(ul);
+            };
+
+        }
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //获得设备信息
+    function get_machine_info() {
+
+    
+    	api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=get_machine_info',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						addr_id: addr_id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					var data = ret;
+					//设备信息
+                    $("#device_name").val(data.retval.machine_name);
+					$("#SIM").val(data.retval.SIM);
+					
+                    $("#m_type option[value=" + data.retval.e_id + "]").prop("selected", true);
+//                  if(data.retval.factory_time){
+//                      $("#cc_time").html(formatDateTime(data.retval.factory_time));
+//                  }
+
+
+                    //代理信息
+                    $("#device_name2").val(data.retval.store_name);
+
+                    $("#num_name2").val(data.retval.store_phone);
+
+                    $("#to_user_id").val(data.retval.store_id);
+
+                    //零售信息
+
+				} else {
+					api.toast({
+	                  msg: ret.msg,
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+				}
+			});
+
+    };
+
+    $("#work_type2").change(function () {
+        var selected = $(this).children('option:selected').val()
+        // alert(selected);
+        if (selected == "1") {
+            //document.getElementById("search_content_id").
+            $("#end_tr2").removeClass("hide");
+        } else {
+            $("#end_tr2").addClass("hide");
+        }
+    });
+
+
+
+ //获得设备类型
+
+
+    function get_machine_type() {
+        
+        api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=get_machine_type',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						addr_id: addr_id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					var data = ret;
+					var m_type_str = '';
+
+	                $.each(data.retval, function (i, item) {
+	                    m_type_str += '<option value ="' + item.id + '">' + item.model + '</option>';
+	                })
+	                $("#m_type").html(m_type_str);
+
+
+                    //零售信息
+
+				} else {
+					api.toast({
+	                  msg: ret.msg,
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+				}
+			});
+
+    };
+
+
+
+	function bind_dl(){
+		
+        var real_name = $("#device_name22").val();
+        var to_user_id = $("#to_user_id2").val();
+        //       alert(addr_id);
+
+        // alert(device_name);
+        //       alert(m_type);
+        //       alert(work_type);
+        //       alert(end_time);
+        //       alert(real_name);
+        //       alert(to_user_id);
+        //       alert(is_dl);
+
+        //       alert(factory_time);
+        if (confirm("你确定提交吗？")) {
+            
+            
+            
+             api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=bind_dl2',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id:userId,
+						addr_id: addr_id,
+	                    real_name: real_name,
+	                    to_user_id: to_user_id,
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					api.toast({
+	                  msg: ret.retval,
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+setTimeout("goBack()",3000); 
+				} else {
+					api.toast({
+	                  msg: ret.msg,
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+				}
+			});   
+           
+        } else {
+            return false;
+        }
+	}
+    //代理绑定零售
+    function bind_user() {
+
+
+
+
+        var work_type = $('#work_type2 option:selected').val();
+        var end_time = $("#end_name2").val();
+
+        var real_name = $("#to_lsname").val();
+        var to_user_id = $("#to_lsid").val();
+        var factory_time = $("#cc_time").val();
+        //       alert(addr_id);
+
+        // alert(device_name);
+        //       alert(m_type);
+        //       alert(work_type);
+        //       alert(end_time);
+        //       alert(real_name);
+        //       alert(to_user_id);
+        //       alert(is_dl);
+
+        //       alert(factory_time);
+        if (confirm("你确定提交吗？")) {
+            
+            
+            
+             api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=bind_lsuser',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						addr_id: addr_id,
+	                    work_type: work_type,
+	                    end_time: end_time,
+	                    real_name: real_name,
+	                    to_user_id: to_user_id,
+	                    user_id:userId,
+	                    factory_time:factory_time
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					api.toast({
+	                  msg: ret.retval,
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+				setTimeout("goBack()",3000); 
+				} else {
+					api.toast({
+	                  msg: ret.msg,
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+				}
+			});   
+           
+        } else {
+            return false;
+        }
+
+    };
+    function tj(){
+    	var is_dl = $('input[name="type2"]:checked').val();
+    	//alert(is_dl);
+    	if(is_dl==0){
+    		bind_user();
+    	}
+    	if(is_dl==1){
+    		bind_dl();
+    	}
+    	
+    }
+
+    //模糊查询零售人信息
+//          $("#to_lsname").autocomplete({
+//
+//              source:  URL +"index.php?app=boli_homepage&act=mh_select",
+//              minLength: 1,
+//              autoFocus: true,
+//              select: function (event, ui) {
+//                  console.log("aa");
+//                  $("#to_lsname").val(ui.item.real_name);
+//                  $("#to_lsphone").val(ui.item.phone_mob);
+//                  $("#to_lsid").val(ui.item.user_id);
+//                  $("#tj_phone").val(ui.item.tj_phone);
+//                  $("#company_name").val(ui.item.company_name);
+//                  
+//
+//                  return false;
+//              }
+//
+//
+//          }).data("ui-autocomplete")._renderItem = function (ul, item) {
+//              return $("<li class='ui-autocomplete-category'>")
+//                  .append("用户名称：" + item.real_name)
+//                  .appendTo(ul);
+//          };
+
+
+    //时间戳转换
+    function formatDateTime(timeStamp) {
+        var date = new Date();
+        date.setTime(timeStamp * 1000);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        second = second < 10 ? ('0' + second) : second;
+
+        return y + '-' + m + '-' + d;
+    };
+    function goBack() {
+			api.sendEvent({
+			    name: 'manaDecList'
+			});
+			api.historyBack({
+				//frameName : 'hangqing_view'
+			}, function(ret, err) {
+				if (!ret.status) {
+					api.closeWin();
+				}
+			})
+		}
+</script>
+</html>

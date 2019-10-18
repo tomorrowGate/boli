@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<widget id="A6008778587775" version="0.0.1"> 
+  <name>boli</name>  
+  <description>Example For APICloud.</description>  
+  <author email="developer@apicloud.com" href="http://www.apicloud.com">Developer</author>  
+  <content src="./html/index.html"/>  
+  <preference name="pageBounce" value="false"/>  
+  <preference name="appBackground" value="rgba(0,0,0,0.0)"/>  
+  <preference name="windowBackground" value="rgba(0,0,0,0.0)"/>  
+  <preference name="frameBackgroundColor" value="rgba(0,0,0,0.0)"/>  
+  <preference name="hScrollBarEnabled" value="false"/>  
+  <preference name="vScrollBarEnabled" value="false"/>  
+  <preference name="autoLaunch" value="true"/>  
+  <preference name="fullScreen" value="false"/>  
+  <preference name="autoUpdate" value="true"/>  
+  <preference name="smartUpdate" value="false"/>  
+  <preference name="debug" value="true"/>  
+  <preference name="customRefreshHeader" value="UIPullRefresh"/>  
+  <preference name="statusBarAppearance" value="true"/>  
+  <preference name="querySchemes" value="sinaweibohd,sinaweibo,weibosdk,weibosdk2.5"/>  
+  <preference name="querySchemes" value="mqq,mqqapi"/>  
+  <preference name="urlScheme" value="boli"/>  
+  <permission name="readPhoneState"/>  
+  <permission name="camera"/>  
+  <permission name="record"/>  
+  <permission name="location"/>  
+  <permission name="fileSystem"/>  
+  <permission name="internet"/>  
+  <permission name="bootCompleted"/>  
+  <permission name="hardware"/>  
+  <preference name="softInputBarEnabled" value="false" />
+    <preference name="softInputMode" value="pan"/>
+  <access origin="*"/>  
+  <feature name="wx"> 
+    <param name="urlScheme" value="wx95b5837f4ceacd3d"/>  
+    <param name="apiKey" value="wx95b5837f4ceacd3d"/>  
+    <param name="apiSecret" value="4d2699fddd65b47ca43986862d500fef"/> 
+  </feature>  
+  <feature name="QQPlus"> 
+    <param name="urlScheme" value="tencent101551405"/>  
+    <param name="apiKey" value="101551405"/> 
+  </feature>  
+  <feature name="weibo"> 
+    <param name="urlScheme" value="wb1065650181"/>  
+    <param name="apiKey" value="1065650181"/>  
+    <param name="registUrl" value="http://www.apicloud.com"/> 
+  </feature>  
+  <feature name="wxPay"> 
+    <param name="urlScheme" value="wx95b5837f4ceacd3d"/>  
+    <param name="apiKey" value="wx95b5837f4ceacd3d"/>  
+    <param name="apiSecret" value="4d2699fddd65b47ca43986862d500fef"/> 
+  </feature>  
+  <feature name="UIAlbumBrowser"/> 
+</widget>

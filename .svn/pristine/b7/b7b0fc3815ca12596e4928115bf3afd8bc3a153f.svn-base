@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <style>
+         html, body{}
+         .top_header{position: -webkit-sticky;position: sticky;top: 0;z-index: 10;}
+        .center_div{padding-bottom: 10px;}
+        .swiper_top{max-height:165px;}
+         /*swiper_goods*/
+         .lunbo{
+           padding:0 10px;
+         }
+        .swiper_goods .good_name{
+          height:30px;
+          line-height: 15px;
+          overflow: hidden;
+          position:relative;
+          font-size: 0.9em;
+        }
+        .span_name{
+          display:-webkit-box;
+        -webkit-line-clamp:2;
+        -webkit-box-orient:vertical;
+        overflow:hidden;
+        }
+
+        .swiper_goods .good_price{ color:#ff0000;font-size:0.7em; }
+        .swiper_goods .good_price del{ color:#8d8d8d}
+         /* 商品列表goods_list */
+          #goods_list{ padding:0 3%;width:100%; }
+          .good_item{ margin:10px 0;padding:10px 0; }
+          .relative{position: relative;}
+          .good_img{ padding:0 10px 0 0;float:left }
+         .good_info{ position:absolute;top:7px;left:100px;right:0 }
+         .tags{ font-size: 0.8em; }
+         .tag{ padding:0 0.5em;border-radius: 3px;color:#ff0000;background-color: #ffe1ec; }
+         .tag_odd{ padding:0 0.5em;border-radius: 3px;color:#a17fff;background-color: #f4f0ff;  }
+         .sales{ color:#8d8d8d; }
+         .item_val{position: absolute;right:0;top:-11px;}
+         .item_val1{position: absolute;right:3.8em;top:-11px;}
+         .buy_btn{ padding:2px 0.5em;color:#fff;background-color: #0b93eb ;border-radius: 5px;font-size:1.1em;}
+         .buy_btn1,.buy_btn2{ padding:2px;color:#fff;background-color: #fff;color: #0b93eb ;border:1px solid #0b93eb ; border-radius: 5px;font-size:1.1em;}
+         .buy_btn2{ color:#fff;background-color: #0b93eb ; }
+         .good_desc{ color:#8d8d8d;font-size: 0.8em }
+         .relative{position: relative;}
+         .col_good_price{ color:#ff0000;padding-right: 5px }
+         .col_old_price{ color:#8d8d8d; }
+         .good_title,.sales{ margin-bottom:0 }
+         .extension{  white-space:nowrap;text-overflow:ellipsis; overflow: hidden; }
+         .tags{ margin-bottom:2px }
+         .sub_title{ color:#8d8d8d;font-size: 0.9em;margin-bottom: 2px }
+         .good_title{white-space:nowrap;text-overflow:ellipsis; overflow: hidden;}
+         .displ{ display: none;}
+         .margin_div{ margin-bottom: 20px;}
+    </style>
+</head>
+<body>
+  <div class="top_header">
+    <div class="header">限时秒杀</div>
+    <span class="DIV_L"><i onclick="goBack()" class="iconfont icon-back"></i></span>
+    <span class="DIV_R"  onclick="fnOpenshare('1');"><i class="iconfont icon-fenxiang"></i></span>
+  </div>
+    <div class="center_div clearfix">
+      <div class="swiper-container swiper_top" id="adc">
+        <div class="swiper-wrapper" id="adv">
+           <div class="swiper-slide" onclick="goAdv()" tapmode>
+              <img src="../image/lunbo1.png" width="100%" class="circle" />
+            </div>
+            <div class="swiper-slide" onclick="goAdv()" tapmode>
+              <img src="../image/lunbo2.png" width="100%" class="circle" />
+            </div>
+        </div>
+      </div>
+    </div>
+    <div id="goods_list" class="clearfix"></div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+  });
+var swiper_top = new Swiper('.swiper_top', {
+  slidesPerView: 1,
+  spaceBetween:0,
+  loop: true,
+  autoplay:true
+});
+
+
+var URL="";
+var dialogBox;
+var ugrade=window.localStorage.getItem("ugrade");
+var userId=window.localStorage.getItem("userId");
+
+var start_time;
+var end_time;
+var start=0;
+var end=10;
+    apiready = function(){
+      var header = $api.dom('.top_header'); // 获取 header 标签元素
+  		headerH = $api.fixStatusBar(header);
+        URL=$api.URL();
+        start_time=api.pageParam.start_time;
+        end_time=api.pageParam.end_time;
+        //console.log(start_time);
+        //console.log(start_time);
+        //console.log(end_time);
+        listLoad0(start_time,end_time);
+
+
+        //上拉加载
+
+         api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 50 //距离底部距离
+            }
+        }, function(ret, err) {
+            console.log("上拉加载");
+           if(data_goods!=null){
+//    		api.toast({
+//	                  msg: '没有更多了',
+//	                  duration: 2000,
+//	                  location: 'bottom'
+//	                });
+	        	if(data_goods.length<10){
+			        api.toast({
+				                  msg: '没有更多了',
+				                  duration: 2000,
+				                  location: 'bottom'
+				                });
+	            }else{
+	            	start+=10;
+
+					setTimeout('SplicingGoods(data_goods)', '3000');
+			      }
+		      }
+
+			          //alert(xli+"  "+xli2);
+
+
+        });
+
+
+      }
+var data_goods;
+var xli=0;
+var xli2=10;
+   function listLoad0(start_time,end_time){
+      api.ajax({
+          url : URL+'/index.php?app=homepage&act=spike_goods',
+          method : 'post',
+          cache : false,
+          timeout : 30,
+          dataType : 'json',
+          returnAll : false,
+          data : {
+            values : {
+              user_id:userId,
+//              states:cid
+              start_time:start_time,
+              end_time:end_time,
+              start:start,
+              end:end,
+            }
+          }
+        }, function(ret, err) {
+          // alert(JSON.stringify(ret));
+          if (ret.done) {
+            if(ret.retval.length==0){
+              $("#wrapperScroll0 .moreLoad p").text("暂无秒杀产品");
+            }else{
+
+				data_goods=ret.retval;
+
+				SplicingGoods();
+            }
+
+
+          }else{
+                api.toast({
+                  msg: '失败',
+                  duration: 2000,
+                  location: 'bottom'
+                });
+            }
+            if(err){
+              api.toast({
+                msg: err.msg,
+                duration: 2000,
+                location: 'bottom'
+              });
+            }
+          });
+      }
+
+      //分享模块打开
+     function fnOpenshare() {
+      var gId='seckill';
+      dialogBox = api.require('dialogBox');
+        dialogBox.actionMenu ({
+    rect:{
+        h: 150
+    },
+    texts:{
+         cancel: '取消'
+    },
+    items:[
+    {
+        text: '微信',
+        icon: 'widget://image/wechat.png'
+    },
+    {
+        text: 'QQ',
+        icon: 'widget://image/qq.png'
+    },
+    {
+        text: '微博',
+        icon: 'widget://image/weibo.png'
+    },
+    {
+        text: '商品二维码',
+        icon: 'widget://image/erweima.png'
+    }
+    ,
+    {
+        text: '复制链接',
+        icon: 'widget://image/copylink.png'
+    }
+    ],
+    styles:{
+        bg:'#FFF',
+        column: 5,
+        itemText: {
+            color: '#000',
+            size: 12,
+            marginT:8
+        },
+        itemIcon:{
+            size:60
+        },
+        cancel:{
+            bg: 'fs://icon.png',
+            color:'#000',
+            h: 44 ,
+            size: 14
+        }
+    },
+    tapClose: true
+}, function(ret, err) {
+            if (ret) {
+                //console.log(JSON.stringify(ret));
+                if (ret.eventType == "cancel") {
+                  var dialogBox = api.require('dialogBox');
+                  dialogBox.close({
+                    dialogName: 'actionMenu'
+                 });
+                }
+                if (ret.eventType == "click" && ret.index == 0) {
+                    fnopenWechat(gID);
+                      var dialogBox = api.require('dialogBox');
+                    var dialogBox = api.require('dialogBox');
+                    dialogBox.close({
+                      dialogName: 'actionMenu'
+                    });
+                }
+                if (ret.eventType == "click" && ret.index == 1) {
+                    fnopenQq(gID);
+                      var dialogBox = api.require('dialogBox');
+                    dialogBox.close({
+                      dialogName: 'actionMenu'
+                    });
+                }
+                if (ret.eventType == "click" && ret.index == 2) {
+                    fnopenWeibo(gID);
+                      var dialogBox = api.require('dialogBox');
+                    dialogBox.close({
+                      dialogName: 'actionMenu'
+                    });
+                }
+                if (ret.eventType == "click" && ret.index == 3) {
+                    fnopenErweima(gID);
+                      var dialogBox = api.require('dialogBox');
+                    dialogBox.close({
+                      dialogName: 'actionMenu'
+                    });
+                }
+                if (ret.eventType == "click" && ret.index == 4) {
+                    fnopenCopylink(gID);
+                      var dialogBox = api.require('dialogBox');
+                    dialogBox.close({
+                      dialogName: 'actionMenu'
+                    });
+                }
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+    }
+        //商品详情
+        function goDetail(goodId){
+            api.openWin({
+                name: 'goods.view',
+                url: './goods.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    goodId: goodId, //商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                    seckill:"1"
+                }
+            });
+        }
+
+        function goBack(){
+          api.closeWin();
+      }
+//拼接商品
+     function SplicingGoods(){
+     	var str='';
+              str+='';
+              //console.log(JSON.stringify(data_goods));
+                 for(var i=0;i<data_goods.length;i++){
+               		//console.log(data_goods[i].gprice);
+                  var str='<div class="good_item relative clearfix margin_div" onclick="goDetail('+data_goods[i].goods_id+')">';
+                      str+='<div class="good_img"><img src="'+$api.img_surl+data_goods[i].default_image+'" width="90" height="90" ></div>';
+                      str+='<div class="good_info">';
+                      str+='<P class="good_title">'+data_goods[i].goods_name+'</P>';
+                      str+='<p class="sales"><span class="extension">'+data_goods[i].extension_content+'</span></p>';
+                      str+='<P class="tags"><span class="tag">新品</span><span class="tag_odd">假一赔十</span><span class="tag">直邮</span><span class="tag_odd">包邮</span></P>';
+                      str+='<p class="sales"><span >销量:'+data_goods[i].orders+'</span></p>';
+                       var buy_type;
+                       if(ugrade>0){
+                         buy_type='省钱购';
+                       }else{
+                         buy_type='立即购买';
+                       }
+                       var member_price=data_goods[i].member_price.split("-");
+	                    var zhuan=member_price[0]-member_price[ugrade];
+                       if(ugrade==0||ugrade==1){
+	                    	if(data_goods[i].spike_states==1){
+	                    		str+='<p class="relative" ><span class="col_good_price">&yen;&nbsp;'+data_goods[i].goods_price+'</span><del class="col_old_price">&yen;&nbsp;'+data_goods[i].oprice+'</del><span class="item_val buy_btn1">'+buy_type+'</span></p>';
+
+	                    	}else if(data_goods[i].spike_states==2){
+	                    		str+='<p class="relative" ><span class="col_good_price">&yen;&nbsp;'+data_goods[i].gprice+'</span><del class="col_old_price">&yen;&nbsp;'+data_goods[i].oprice+'</del><span class="item_val buy_btn1">'+buy_type+'</span></p>';
+
+	                    	}
+	                    }else{
+	                    	// $("#goods_list").append('<span class="col_good_price">&yen;&nbsp;'+ret.retval[i].price+'</span><span class="col_old_price">赚&yen;36</span><span class="item_val buy_btn1">省钱购</span><span >分享赚</span></p>');
+	                    	//$api.append($api.byId("goods_list"), '<span class="col_good_price">&yen;&nbsp;'+ret.retval[i].price+'</span><span class="col_old_price">赚&yen;36</span><span class="item_val buy_btn1">省钱购</span><span >分享赚</span></p>');
+	                    	//console.log(data_goods[i].member_price);
+	                    	if(data_goods[i].spike_states==1){
+	                    		str+='<p class="relative" ><span class="col_good_price">&yen;&nbsp;'+data_goods[i].goods_price+'</span><span class="col_old_price">赚&yen;'+zhuan+'</span><span class="item_val buy_btn1">'+buy_type+'</span></p>';
+	                    	}else if(data_goods[i].spike_states==2){
+	                    		str+='<p class="relative" ><span class="col_good_price">&yen;&nbsp;'+member_price[ugrade]+'</span><span class="col_old_price">赚&yen;'+zhuan+'</span><span class="item_val buy_btn1">'+buy_type+'</span></p>';
+	                    	}
+	                    }
+                     // str+='<p class="relative" ><span class="col_good_price">&yen;&nbsp;'+data_goods[i].gprice+'</span><del class="col_old_price">&yen;&nbsp;'+data_goods[i].oprice+'</del><span class="item_val buy_btn1">'+buy_type+'</span></p>';
+                      str+='</div></div>';
+
+                   $api.append($api.byId("goods_list"), str)
+               }
+     }
+</script>
+</html>

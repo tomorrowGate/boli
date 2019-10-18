@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>订单详情</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+</head>
+<style>
+ul {
+  list-style-type:none;
+  text-transform:capitalize;
+}
+li{list-style-type:none; float:left }
+table{
+border-collapse:collapse;
+border-spacing:0;
+}
+a{ text-decoration:none;}
+body{ background-color:#f6f6f6;}
+
+.sh{
+background:#fff;
+border:1px solid #ddd;
+padding:5px 15px;
+border-radius: 5px;
+color:#444547;
+margin:0 0 10px 0;
+font-size: 0.9em
+}
+/* 收货人信息 */
+.s{padding:10px 0; background-color:#fff}
+.s_tab{color:#6e6e6e; line-height:25px;width:100%;border:none; }
+.td{padding:10px; width:5%}
+/* 卖家信息 */
+.div{width:100%; background-color:#fff; margin-top:10px;}
+.d1{float:left; padding:15px 10px 10px 10px ;}
+.d2{float:left; padding:10px 0; line-height:30px; color:#3c3c3c; }
+.d3{float:left; padding:15px 0 10px 10px;}
+/* 商品列表 */
+.goods_list{ border-bottom:1px solid #eee;border:none;width:100%; background-color: #fff;}
+.tab{width:15%; padding:10px;}
+.tab img{ width:80px;height:80px; }
+.tab1{vertical-align:top; padding:12px 10px 0 0; line-height:25px;}
+.tab_span{color:#404143}
+.tab_span1{color:#a4a4a4}
+/* 价格运费栏 */
+.price_div{ background-color:#fff; line-height:30px; color:#565656; border-bottom:1px solid #eee;border:none;width:100%;margin-top:10px; }
+.td_l{ text-align:left;padding-left:10px; }
+.td_r{ text-align:right;padding-right:10px; }
+/* 时间等信息 */
+.order_info{ background-color:#fff; margin:10px 0; line-height:30px; padding:10px; color:#939393; }
+/* 快递信息 */
+.invoice{ background-color:#fff; margin:10px 0; line-height:30px; padding:10px; color:#939393; }
+.displ{ display: none;}
+</style>
+
+<body>
+  <header>
+  <div class="header">订单详情</div>
+  <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+</header>
+<div class="s" id="con">
+
+</div>
+
+
+<div id="order_goods">
+<!--<div class="div">
+  <div class="d1"><i class="iconfont icon-dianpu1"></i></div>
+  <div class="d2">卖家</div>
+  <div class="d3" onClick="goStore('seller_id')" tapmod><i class="iconfont icon-htbArrowright"></i></div>
+  <div style="clear:both"></div>
+</div>
+<table class="goods_list" >
+  <tr>
+    <td class="tab"><img src="../image/good_img.png" width="80" height="80" /></td>
+    <td class="tab1"><span class="tab_span">商品名称商品名称商品名称商品名称</span><br /><span class="tab_span1">商品规格</span></td>
+    <td align="right" class="tab1"><span class="tab_span">  &yen;120 </span><br /><span class="tab_span1">x2</span></td>
+  </tr>
+  <tr>
+    <td colspan="3" class="td_r hide">
+      <input type="submit" name="button" id="button" value="申请售后" class="sh" />
+    </td>
+  </tr>
+</table>-->
+</div>
+
+
+
+
+<div id="order_price">
+
+</div>
+
+<div class="order_info" id="order_info">
+
+</div>
+<div class="invoice" style="" id="order_kd">
+
+</div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      var URL="";
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      var orderId=api.pageParam.orderId;//订单ID
+	     //初始加载列表
+	      var cId=api.pageParam.orderId;
+	      getOrderview(cId);
+	      getOrderConsignee(cId);
+	      get_order_info(cId);
+      };
+	var kdf=0;
+	function getOrderConsignee(cId){//订单头部
+		api.ajax({
+                url : URL+'index.php?app=myinfo&act=get_order_buy',
+                method : 'post',
+                cache : false,
+                timeout : 30,
+                dataType : 'json',
+                returnAll : false,
+                data : {
+                        values : {
+                            order_id:cId
+                        }
+                    }
+                }, function(ret, err) {
+
+                	if(ret.done){
+                		console.log(JSON.stringify(ret));
+                		  var str='';
+                		  str+='<table class="s_tab"><tr>';
+					      str+='<td rowspan="2" class="td"><i class="iconfont icon-dizhi"></i></td>';
+					      str+='<td>收货人：'+ret.retval.consignee+'</td>';
+					      str+='<td align="right">'+ret.retval.phone_tel+'　</td></tr><tr>';
+					      str+='<td colspan="2">收货地址：'+ret.retval.region_name+'&nbsp;'+ret.retval.address+'</td></tr></table>';
+					      $("#con").html(str);
+					      kdf=ret.retval.shipping_fee;
+                	}else{
+                		console.log(5);
+                	}
+                });
+	}
+     function getOrderview(cId){    	//订单中部
+                api.ajax({
+                    url : URL+'index.php?app=myinfo&act=get_order',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            order_id:cId
+                        }
+                    }
+                }, function(ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    var str='';
+                    var sum=0;
+                    str+='<div class="div">';
+					  str+='<div class="d1"><i class="iconfont icon-dianpu1"></i></div>';
+					  str+='<div class="d2">'+ret.retval[0].seller_name+'</div>';//onClick="goStore('seller_id')"
+					  str+='<div class="d3" tapmod><i class="iconfont icon-htbArrowright"></i></div>';
+					  str+='<div style="clear:both"></div>';
+					str+='</div>';
+					$.each(ret.retval,function(i,item){
+						str+='<table class="goods_list" >';
+						str+='<tr onClick="goDetail('+item.goods_id+')">';
+						    str+='<td class="tab"><img src="'+URL+item.goods_image+'" width="80" height="80" /></td>';
+						    str+='<td class="tab1"><span class="tab_span">'+item.goods_name+'</span><br /><span class="tab_span1">商品规格</span></td>';
+						    str+='<td align="right" class="tab1"><span class="tab_span">  &yen;'+item.price+' </span><br /><span class="tab_span1">x'+item.quantity+'</span></td>';
+						    sum+=item.price*item.quantity;
+						  str+='</tr>';
+						  str+='<tr>';
+						    str+='<td colspan="3" class="td_r hide">';
+						      str+='<input type="submit" name="button" id="button" value="申请售后" class="sh" />';
+						    str+='</td>';
+						  str+='</tr>';
+						str+='</table>';
+					});
+					$("#order_goods").html(str);
+					var str1='';
+					str1+='<table class="price_div"><tr>';
+					str1+='<td class="td_l">运费：</td><td class="td_r">&yen;'+kdf+'(包邮)</td></tr><tr>';
+					str1+='<td class="td_l">优惠券：</td><td class="td_r">-&yen;0.00</td></tr><tr>';
+					str1+='<td class="td_l">实付款：</td><td class="td_r"><span class="default_color1">&yen;'+sum+'</span></td></tr></table>';
+					$("#order_price").html(str1);
+                });
+            }
+
+            function get_order_info(cId){//订单尾部
+            	api.ajax({
+                url : URL+'index.php?app=myinfo&act=get_order_info',
+                method : 'post',
+                cache : false,
+                timeout : 30,
+                dataType : 'json',
+                returnAll : false,
+                data : {
+                        values : {
+                            order_id:cId
+                        }
+                    }
+                }, function(ret, err) {
+                if(ret.done){
+                	console.log(JSON.stringify(ret));
+              		  var str='';
+					  str+='<p>订单状态：'+ret.retval[0].status+'</p>';
+					  str+='<p>订单编号：'+ret.retval[0].order_sn+'</p>';
+					  if(ret.retval[0].payment_name==null){
+					  	str+='<p>支付方式：暂未付款</p>';
+					  }else{
+					  	str+='<p>支付方式：'+ret.retval[0].payment_name+'</p>';
+					  }
+
+					  str+='<p>创建时间：'+ret.retval[0].add_time+'</p>';
+					  if(ret.retval[0].pay_time==null){
+					  	str+='<p>付款时间：暂未付款</p>';
+					  }else{
+					  	str+='<p>付款时间：'+ret.retval[0].pay_time+'</p>';
+					  }
+
+					  if(ret.retval[0].ship_time==null){
+					  	str+='<p>发货时间：暂未发货</p>';
+					  }else{
+					  	str+='<p>发货时间：'+ret.retval[0].ship_time+'</p>';
+					  }
+
+					  if(ret.retval[0].finished_time==null){
+					  	str+='<p>完成时间：暂未完成</p>';
+					  }else{
+					  	str+='<p>完成时间：'+ret.retval[0].finished_time+'</p>';
+					  }
+
+					  $("#order_info").html(str);
+
+					  var str1='';
+					if(ret.retval[0].invoice_name==null){
+						$("#order_kd").addClass("displ");
+					}else{
+						str1+='<p>快递名称：'+ret.retval[0].invoice_name+'</p>';
+  						str1+='<p>快递单号：'+ret.retval[0].invoice_no+'</p>';
+					}
+
+  					$("#order_kd").html(str1);
+                	}else{
+                		console.log(404);
+                	}
+                });
+            }
+
+
+
+	function goDetail(goodId){
+		        console.log(goodId);
+		            api.openWin({
+		                name: 'goods.view',
+		                url: './goods.view.html',
+		                bounces: false,
+		                animation:{
+		                    type:"push",                //动画类型（详见动画类型常量）
+		                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+		                    duration:300                //动画过渡时间，默认300毫秒
+		                },
+		                pageParam: {
+		                    goodId: goodId //商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+		                }
+		            });
+		        }
+  </script>
+
+</html>

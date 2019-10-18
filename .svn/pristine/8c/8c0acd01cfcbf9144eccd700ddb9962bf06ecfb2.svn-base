@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>积分商店</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.integralStore.css" />
+</head>
+
+<body>
+    <!-- 头部搜索 -->
+    <header class="search-head">
+        <div class="search-bg"></div>
+        <div class="search-main">
+            <span id="area" class="search-area" onclick="selectCity()" tapmode>
+                湖州市
+                <i class="iconfont icon-down down_icon"></i>
+            </span>
+            <div class="search-virtual" onclick="goSearch()" tapmode>
+                <i class="iconfont icon-search"></i>搜索商品
+            </div>
+            <div class="search-real">搜索</div>
+        </div>
+    </header>
+
+    <!-- 轮播图 -->
+    <div class="swiper">
+        <div class="swiper-container swiper-top">
+            <div class="swiper-wrapper" id="adv">
+                <div class="swiper-slide" tapmode>13</div>
+                <div class="swiper-slide" tapmode>14</div>
+                <div class="swiper-slide" tapmode>153</div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <!-- 图片条 -->
+    <div class="displayImg">
+        <img src="" alt="">
+    </div>
+    <!-- 宝贝精选头部 -->
+    <div class="chef-main-head">
+        <div class="chef-head-left">
+            <i class="iconfont icon-qianbi"></i>
+            <div class="chef-left-text">宝贝精选</div>
+        </div>
+    </div>
+    <!-- 宝贝精选 -->
+    <div class="swiper-container swiper-rush ">
+        <div class="swiper-wrapper" id="forum">
+            <div class="swiper-slide swiper-option" tapmode>
+                <div class="forum-item-imgbox">
+                    <img src="" alt="">
+                </div>
+                <div class="forum-item-explain">
+                    <p class="forum-explain-title"><span>TCL</span>电脑温控...</p>
+                    <p class="swiper-red">￥<span>258</span><span class="swiper-del">￥536</span></p>
+                </div>
+            </div>
+            <div class="swiper-slide swiper-option" tapmode>
+                <div class="forum-item-imgbox">
+                    <img src="" alt="">
+                </div>
+                <div class="forum-item-explain">
+                    <p class="forum-explain-title"><span>TCL</span>电脑温控...</p>
+                    <p class="swiper-red">￥<span>258</span><span class="swiper-del">￥536</span></p>
+                </div>
+            </div>
+            <div class="swiper-slide swiper-option" tapmode>
+                <div class="forum-item-imgbox">
+                    <img src="" alt="">
+                </div>
+                <div class="forum-item-explain">
+                    <p class="forum-explain-title"><span>TCL</span>电脑温控...</p>
+                    <p class="swiper-red">￥<span>258</span><span class="swiper-del">￥536</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全部最新热卖 -->
+    <div class="chef-hotslist-head">
+        <p class="hotslist-head-item hotslist-head-active">全部</p>
+        <p class="hotslist-head-item">最新</p>
+        <p class="hotslist-head-item">热卖</p>
+    </div>
+    <!-- 全部最新热卖列表 -->
+    <div class="bestSellers">
+        <div class="bestSellers-item">
+            <div class="bestSellers-img"><img src="" alt=""></div>
+            <p class="introduce">COMOTOMO/苹果多么硅胶奶瓶...</p>
+            <p class="bestSellers-red introduce">
+                <span class="bestSellers-text">￥</span>
+                <span class="bestSellers-text">258</span>
+                <span class="bestSellers-del">￥536</span>
+                <span class="salesVolume">销量450</span>
+            </p>
+        </div>
+        <div class="bestSellers-item">
+            <div class="bestSellers-img"><img src="" alt=""></div>
+            <p class="introduce">金龙鱼 盘镜大米 蟹稻共生5kg 东北大米 人气爆款 细...</p>
+            <p class="bestSellers-red introduce">
+                    <span class="bestSellers-text">￥</span>
+                <span class="bestSellers-text">258</span>
+                <span class="bestSellers-del">￥536</span>
+                <span class="salesVolume">销量450</span>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

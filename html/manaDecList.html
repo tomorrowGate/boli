@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>设备列表</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+    <style>
+        html,
+        body {
+            background-color: #efefef;
+        }
+        ul,li{
+            list-style: none;
+        }
+        button{
+            outline: none
+        }
+        .con {
+            background-color: #f9f8f8;
+            padding: 10px;
+        }
+
+        .header-search{
+            height: 50px;
+            line-height: 50px;
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding:0 10px ;
+        }
+        .header-search .ip{
+            height: 30px;
+            line-height: 40px;
+            padding:0 10px;
+            border:1px solid #ddd;
+            border-right: transparent;
+            border-radius: 15px 0 0 15px;
+            vertical-align: middle;
+        }
+        .header-search .search-btn{
+            width: 80px;
+            height: 32px;
+            line-height: 32px;
+            margin-left: -5px;
+            border:1px solid rgb(185, 224, 201);
+            border-radius:0 15px 15px 0;
+            border-left: transparent;
+            background-color: rgb(185, 224, 201);
+            color: #fff;
+            vertical-align: middle;
+        }
+        .device-num {
+            height: 40px;
+            padding-left: 13px;
+            line-height: 40px;
+            background-color: #fff;
+            color: #6eb92c;
+        }
+
+        .addDevice {
+            float: right;
+            margin-top: 10px;
+            width: 80px;
+            height: 20px;
+            line-height: 20px;
+            border: 1px solid #6eb92c;
+            border-radius: 11px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .deviceType {
+            /*height: 40px;*/
+            padding-left: 13px;
+            padding-right: 10px;
+            line-height: 40px;
+            background-color: #fff;
+        }
+
+        .deviceType i {
+            float: right;
+            transition: .3s;
+        }
+
+        .icon-iconfontxuanzhong1 {
+            /* display: inline-block;
+				 width: 14px;
+				 height: 14px;
+				 vertical-align: middle;
+				 border:1px solid #269FF2;
+				 border-radius: 50%; */
+            color: #000;
+            margin-right: 10px;
+        }
+
+        .devItemBox {
+        	
+            overflow: hidden;
+            padding: 1px;
+            /*用来显示隐藏的*/
+            /* display: none */
+        }
+
+        .devItem {
+        position:relative;
+            height: 60px;
+            line-height: 60px;
+            transition: .2s;
+           /* border:1px solid red;*/
+        }
+
+        .img-box {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+        }
+
+        .devItem img {
+            height: 50px;
+            vertical-align: middle;
+        }
+
+        .item-description {
+            /*vertical-align:top;*/
+            font-size: 15px;
+            color: #ccc;
+            position: relative;
+            top: 15px;
+         
+        }
+		.equip_num{
+			position:absolute;
+			top:-10px;
+			left:60px;
+			font-size:14px;
+			color:#ccc;
+		}
+        .blueActive {
+            color: #269FF2;
+        }
+
+        .submitNow {
+            width: 60%;
+            height: 30px;
+            background-color: #6eb92c;
+            color: #fff;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 15px;
+            margin: 25px auto;
+        }
+
+        .state {
+            float: right;
+            font-size: 14px;
+        }
+
+        .alert {
+            color: #f00;
+        }
+
+        .working {
+            color: #6eb92c;
+        }
+
+        .nowork {
+            color: #ddd;
+        }
+
+        .open_icon {
+            transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            /* Internet Explorer */
+            -moz-transform: rotate(180deg);
+            /* Firefox */
+            -webkit-transform: rotate(180deg);
+            /* Safari 和 Chrome */
+            -o-transform: rotate(180deg);
+            /* Opera */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header">设备列表</div>
+        <div class="DIV_L" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+    </header>
+    <div class="con">
+        <div class="header-search">
+            <input type="text" name="search" placeholder="请输入设备编码" class="ip" id="addr_input" >
+            <button  id="apDiv1" class="search-btn" onclick="test()" tapmode>绑定</button>
+        </div>
+        
+        <div class="device-num">
+            <i class="iconfont icon-qianbi"></i>
+            <span>设备数量： <span class="dev-num" id="num"></span>台</span>
+            </span> <span class="addDevice hide">添加设备</span>
+        </div>
+        <div class="deviceType" id="tt">
+            <!-- <div class="device_type" onclick="changeshow('1')" tapmode>
+                <span class="devKey">广式单炒单温</span>
+                <i class="iconfont icon-htbArrowright changeicon_1"></i>
+            </div> -->
+            <ul class="devItemBox item_1">
+                <li class="devItem" onclick="goDevInfo(window.event)" tapmode>
+                    <div class="img-box"><img src="../image/kitchen.png" alt="" />
+                    </div>
+                    <span class="equip_num">设备编码</span>
+                    <span class="item-description">广式单炒单温-设备01</span>
+                    <span class="state working">已出售</span>
+                </li>
+                <li class="devItem" onclick="goDevInfo(window.event)" tapmode>
+                    <div class="img-box"><img src="../image/kitchen.png" alt="" />
+                    </div>
+                    <span class="item-description">广式单炒单温-设备01</span>
+                    <span class="state alert">未出售</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    //用户id
+    var URL;
+    apiready = function () {
+        URL = $api.URL();
+        var header = $api.dom('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        headerH = $api.fixStatusBar(header);
+        get_machine_list();
+		api.addEventListener({
+				name : 'manaDecList'
+			}, function(ret) {
+					console.log("返回刷新");
+					get_machine_list();
+				
+			});
+    };
+    function get_machine_list() {
+        api.ajax({
+            url: URL + 'index.php?app=boli_homepage&act=get_myall_machine',
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            returnAll: false,
+            data: {
+                values: {
+                    user_id: userId
+                }
+            }
+        }, function (ret, err) {
+            console.log(JSON.stringify(ret));
+            if (ret.done) {
+                var str = '';
+                if (ret.retval.length > 0) {
+                	
+                    $.each(ret.retval, function (i, item) {
+                    var fun_str="test('"+item.addr_id+"')";
+                    /* 拼接字符串 */
+						str+='<li class="devItem" onclick="'+fun_str+'" tapmode>';
+						str+='<div class="img-box"><img src="../image/kitchen.png" alt="" />';
+						str+='</div>';
+						str+='<span class="item-description">'+item.machine_name+'</span>';
+				
+						str+='<span class="equip_num">'+item.addr_id+'</span>';
+						if(item.user_id==null||item.user_id==0){
+							str+='<span class="state alert">未出售</span>';
+						}else{
+							str+='<span class="state working">已出售</span>';
+						}
+
+                    });
+                    $("#tt").html(str);
+                } else {
+                    $("#tt").html("暂无设备");
+                }
+                $("#num").html(ret.retval.length);
+
+            } else {
+                $("#tt").html("暂无设备");
+                $("#num").html("0");
+            }
+        });
+    }
+
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    function goDevInfo(m_id) {
+        //e.target.addEventListener("onclick",open,e.target)
+        api.openWin({
+            name: 'oneDevice',
+            url: './oneDevice.html',
+            bounces: false,
+            reload: true,
+            animation: {
+                type: "push", //动画类型（详见动画类型常量）
+                subType: "from_right", //动画子类型（详见动画子类型常量）
+                duration: 300 //动画过渡时间，默认300毫秒
+            },
+            pageParam: {
+                m_id: m_id
+            }
+        });
+        /* else{
+         e.target.click()
+         } */
+    }
+
+    function goBack() {
+        api.closeWin();
+    }
+    function goPreService(m_id) {
+        api.openWin({
+            name: 'preService',
+            url: './preService.html',
+            bounces: false,
+            reload: true,
+            animation: {
+                type: "push", //动画类型（详见动画类型常量）
+                subType: "from_right", //动画子类型（详见动画子类型常量）
+                duration: 300 //动画过渡时间，默认300毫秒
+            },
+            pageParam: {
+                m_id: m_id
+            }
+        });
+    }
+
+    
+    //test
+function test(addr_id){
+//alert("a");
+	var addr_id=addr_id;
+	var addr_id2=$("#addr_input").val();
+    console.log(addr_id)
+	if(addr_id==null||addr_id==""){
+		if(addr_id2==null||addr_id2==""){
+			api.toast({
+	                  msg: "设备编号不能为空",
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+	                return;
+		}else{
+			addr_id=addr_id2;
+		}
+		
+	}
+	 api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=scanner_tz',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						addr_id: addr_id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					//跳转各自页面
+					if(ret.retval['page']=='my-bind'){
+						    api.openWin({
+						      name: 'my-bind',
+						      url: './my-bind.html',
+						      bounces: false,
+						      pageParam: {
+						                addr_id:ret.retval['addr_id']
+						                 },
+						      animation:{
+						        type:"push",                //动画类型（详见动画类型常量）
+						        subType:"from_right",       //动画子类型（详见动画子类型常量）
+						        duration:300                //动画过渡时间，默认300毫秒
+						      }
+						    });
+					}
+					if(ret.retval['page']=='info_bind'){
+						    api.openWin({
+						      name: 'info_bind',
+						      url: './info_bind.html',
+						      bounces: false,
+						      pageParam: {
+						                addr_id:ret.retval['addr_id'],
+						                is_login:ret.retval['is_login'],
+						                is_ls:ret.retval['is_ls']
+						                 },
+						      animation:{
+						        type:"push",                //动画类型（详见动画类型常量）
+						        subType:"from_right",       //动画子类型（详见动画子类型常量）
+						        duration:300                //动画过渡时间，默认300毫秒
+						      }
+						    });
+					}
+					if(ret.retval['page']=='dls_bind_ls'){
+						    api.openWin({
+						      name: 'dls_bind_ls',
+						      url: './dls_bind_ls.html',
+						      bounces: false,
+						      pageParam: {
+						                addr_id:ret.retval['addr_id'],
+						                 },
+						      animation:{
+						        type:"push",                //动画类型（详见动画类型常量）
+						        subType:"from_right",       //动画子类型（详见动画子类型常量）
+						        duration:300                //动画过渡时间，默认300毫秒
+						      }
+						    });
+					}
+					if(ret.retval['page']=='dls_bind_ls2'){
+						    api.openWin({
+						      name: 'dls_bind_ls2',
+						      url: './dls_bind_ls2.html',
+						      bounces: false,
+						      pageParam: {
+						                addr_id:ret.retval['addr_id'],
+						                 },
+						      animation:{
+						        type:"push",                //动画类型（详见动画类型常量）
+						        subType:"from_right",       //动画子类型（详见动画子类型常量）
+						        duration:300                //动画过渡时间，默认300毫秒
+						      }
+						    });
+					}
+					
+				} else {
+					api.toast({
+	                  msg: ret.msg,
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+				}
+			});
+
+      }
+</script>
+
+</html>

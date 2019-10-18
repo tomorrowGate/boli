@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>热门</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<style>
+			html, body {
+				background-color: #fff;
+			}
+			.hide {
+				display: none;
+			}
+			.material {
+				padding: 10px 10px 0 10px;
+				background-color: #fff;
+			}
+			.my_icon1 {
+				color: #0b93eb;
+			}
+			.swiper1 {
+				height: 100px;
+				padding: 10px 0;
+			}
+			.swiper1 .swiper-slide {
+				height: 80px;
+				width: 120px;
+			}
+			.swiper1 .material_tab {
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+				position: relative;
+			}
+			.swiper1 .circle {
+				height: 100%;
+				width: 100%;
+				border-radius: 12px
+			}
+			.swiper1 .material_type {
+				position: absolute;
+				top: 0;
+				width: 100%;
+				text-align: center;
+				height: 100%;
+				line-height: 80px;
+				/*background-color: rgba(0, 0, 0, 0.45);*/
+				color: #fff;
+				border-radius: 12px
+			}
+			.swiper1 .material_type span{
+				width:5em;
+				border:1px solid #fff;
+				height:24px;
+				line-height:24px;
+				border-radius: 12px;
+			}
+			.main_body {
+				margin-top: 15px;
+				background-color: #f6f6f6;
+			}
+			.find_item {
+				margin-bottom: 10px;
+				background-color: #fff;
+				padding: 10px 5%;
+			}
+			.find_title {
+				height: 44px;
+				line-height: 22px;
+				position: relative;
+				padding-left: 50px;
+				margin-bottom: 10px
+			}
+			.circle {
+				height: 44px;
+				width: 44px;
+				border-radius: 22px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			.find_title p {
+				margin: 0;
+			}
+			.find_content {
+			}
+			.info_title {
+			}
+			.info_content {
+				line-height: 20px;
+				font-size: 14px;
+				margin-bottom: 10px;
+			}
+			.small_height {
+				max-height: 60px;
+				overflow: hidden
+			}
+			.real_height {
+				line-height: 20px;
+			}
+			.show_all, .close_all {
+				color: #576b95;
+				margin-bottom: 10px;
+			}
+			.content_image {
+			}
+			.content_image .image_item img {
+				width: 95%;
+				height: 95%;
+			}
+			.margin_r {
+				margin-right: 10%
+			}
+			.find_foot {
+			}
+			.share {
+				margin-bottom: 10px;
+				background-color: #f6f6f6;
+				position: relative;
+				height: 50px;
+				line-height: 50px
+			}
+			.share_content {
+				padding: 0 60px;
+			}
+			.share_l {
+				position: absolute;
+				top: 5px;
+				left: 10px;
+				height: 40px;
+				width: 40px;
+			}
+			.share_r {
+				position: absolute;
+				top: 0px;
+				right: 10px;
+				font-size: 24px;
+			}
+			.find_foot i {
+				color: #a3a3a3;
+			}
+			.footer span {
+				padding: 0 8px;
+				height: 20px;
+				line-height: 20px;
+				border-radius: 9px;
+				font-size: 14px;
+				background-color: #eff4f8;
+				text-align: center;
+			}
+			/* sticky */
+			.sticky {
+				position: -webkit-sticky;
+				position: sticky;
+				top: 0;
+				padding: 5px 3% ;
+				background-color: #fff;
+				z-index: 1;
+			}
+			.sticky .list_type {
+				width: 33.33%;
+				text-align: center;
+				float: left;
+				height: 30px;
+				line-height: 30px;
+				font-weight:  bold;
+			/* 	border-bottom:1px solid #f2f2f2 */
+			}
+			.sticky .active  span{
+				color: #0b93eb;
+				border-bottom: 2px solid #0b93eb;
+				font-weight: bold;
+				height: 32px;/* border占了2px大小 */
+				line-height: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="material">
+			<div class="order_all clearfix">
+				<div class="t_l font_s1 font_w1">
+					<i class="iconfont icon-qianbi my_icon1"></i>&nbsp;素材库
+				</div>
+				<div class="t_r font_c1 ">
+
+				</div>
+			</div>
+			<div class="swiper-container swiper1" >
+				<div class="swiper-wrapper" id="adv">
+					<div class="swiper-slide" onclick="goMaterial('1')" tapmode>
+						<div class="material_tab">
+							<img src="../image/material1.png"  class="circle" />
+							<p class="material_type">
+								<span>菜系</span>
+							</p>
+						</div>
+					</div>
+					<div class="swiper-slide" onclick="goMaterial('2')" tapmode>
+						<div class="material_tab">
+							<img src="../image/material2.png"  class="circle" />
+							<p class="material_type">
+								<span>派系</span>
+							</p>
+						</div>
+					</div>
+					<div class="swiper-slide" onclick="goMaterial('3')" tapmode>
+						<div class="material_tab">
+							<img src="../image/material3.png"  class="circle" />
+							<p class="material_type">
+								<span>西餐</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="sticky">
+			<div class="list_type active" onclick="changeOrder('0')" tapmode>
+				<span>热门</span>
+			</div>
+			<div class="list_type" onclick="changeOrder('1')" tapmode>
+				<span>圈子</span>
+			</div>
+			<div class="list_type" onclick="changeOrder('2')" tapmode>
+				<span>我的</span>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="main_body" id="div1"></div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+			var mywidth = $(".image_item").width();
+			$(".image_item").height(mywidth);
+		});
+		function setHeight() {
+			var mywidth = $(".image_item").width();
+			$(".image_item").height(mywidth);
+		}
+
+		var swiper1 = new Swiper('.swiper1', {
+			slidesPerView : 'auto',
+			spaceBetween : 10,
+			loop : false,
+			autoplay : false
+		});
+		var dialogBox;
+		var photoBrowser;
+		var URL = "";
+		apiready = function() {
+			URL = $api.URL();
+			// alert("2222");
+			//热门数据获取
+			api.refreshHeaderLoading();
+			$('.swiper-wrapper').on('touchstart', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group2',
+					scrollEnabled : false
+				});
+				api.setFrameAttr({
+						name: 'group2',
+						bounces: false
+				});
+			});
+			$('.swiper-wrapper').on('touchend', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group2',
+					scrollEnabled : true
+				});
+				api.setFrameAttr({
+						name: 'group2',
+						bounces: true
+				});
+			});
+			//底部分享模块
+			dialogBox = api.require('dialogBox');
+			/*    //横屏
+			api.setScreenOrientation({
+			orientation: 'auto'
+			});*/
+			//图片查看模块
+			photoBrowser = api.require('photoBrowser');
+			//下拉刷新
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#F6F6F6',
+            images: {
+                pull: 'widget://image/refresh/pulling.png',
+                transform: [
+                    'widget://image/refresh/transform0.png',
+                    'widget://image/refresh/transform1.png',
+                    'widget://image/refresh/transform2.png',
+                    'widget://image/refresh/transform3.png',
+                    'widget://image/refresh/transform4.png',
+                    'widget://image/refresh/transform5.png',
+                    'widget://image/refresh/transform6.png'
+                ],
+                load: [
+                    'widget://image/refresh/loading0.png',
+                    'widget://image/refresh/loading1.png',
+                    'widget://image/refresh/loading2.png',
+                    'widget://image/refresh/loading3.png',
+                    'widget://image/refresh/loading4.png',
+                ]
+            }
+        }, function(ret, err) {
+					console.log('loading=================================>');
+                get_hot_info();
+				        setTimeout('api.refreshHeaderLoadDone()', '3000');
+
+        });
+
+		};
+		//判断图片是否存在
+		function validateImage(url){    
+    var xmlHttp ;
+    if (window.ActiveXObject){
+         xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+     }else if (window.XMLHttpRequest){
+         xmlHttp = new XMLHttpRequest();
+     } 
+    xmlHttp.open("Get",url,false);
+    xmlHttp.send();
+    return (xmlHttp.status==404)?false:true;
+}
+
+		//获取热门信息
+		function get_hot_info() {
+			var userId = localStorage.getItem("userId");
+			api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=get_news',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						start:0,
+						userId:userId,
+						cate_id:32
+						//page:0
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				console.log(JSON.stringify(err));
+				if (ret) {
+				if (ret.done) {
+					$("#div1").html("");
+					var data = ret.retval;
+					for (var i = 0; i < data.length; i++) {
+						var lbt = '';
+						lbt += '<div class="find_item clearfix" id="article_' + data[i].article_id + '">';
+						lbt += ' <div class="find_title">';
+						if (data[i].portrait) {
+							lbt += ' <img src="' + URL + data[i].portrait + '" class="circle">';
+						} else {
+							lbt += ' <img src="../image/logo.png" class="circle">';
+						}
+						//判断用户是否已填写昵称或者微信登录，否则显示邀请码
+						if (data[i].real_name) {
+							lbt += ' <p>' + data[i].real_name + '</p>';
+						} else {
+							lbt += ' <p>' + data[i].invite_code + '</p>';
+						}
+						lbt += ' <p class="font_c1">' + data[i].add_time + '</p></div>';
+						lbt += ' <div class="find_content clearfix">';
+						lbt += ' <p class="info_title font_w1">' + data[i].title + '</p>';
+						lbt += '<div class="info_content font_c1 small_height"><div class="real_height">' + data[i].content + '</div></div>';
+						lbt += ' <span class="show_all show_' + i + '" onclick="showall(' + i + ')" tapmod>全文</span><span class="close_all hide_' + i + ' hide"  onclick="hideall(' + i + ')" tapmod>收起</span>';
+						lbt += '<div class="content_image imgGroup_' + i + '">';
+						if(data[i].img_url){
+							var imgs = data[i].img_url;
+							for (var k = 0; k < imgs.length; k++) {
+								//console.log(URL + imgs[k].file_path);
+								// var imgurl=URL + imgs[k].file_path;
+								// if(validateImage(imgurl)){
+								// 		lbt += '<div class="image_item width3" onclick="fnOpenPhoto(\'imgGroup_' + i + '\',\'' + k + '\')"><img src="' + URL + imgs[k].file_path + '" class="good_img' + k + '"></div> ';
+								// }else{
+								// 	 	lbt += '<div class="image_item width3" onclick="fnOpenPhoto(\'imgGroup_' + i + '\',\'' + k + '\')"><img src="../image/lost.png" class="good_img' + k + '"></div> ';
+								// }
+								 lbt += '<div class="image_item width3" onclick="fnOpenPhoto(\'imgGroup_' + i + '\',\'' + k + '\')"><img src="' + URL + imgs[k].file_path + '" class="good_img' + k + '"></div> ';
+
+
+								if (k >= 8) {
+									break;
+								}
+							}
+						}
+
+						lbt += '</div></div>';
+						lbt += '<div class="find_foot clearfix">';
+						if (data[i].goods_id > 0) {
+							lbt += '<div class="share clearfix">';
+							lbt += '<img src="' + URL + data[i].default_image + '" class="share_l">';
+							lbt += '<div class="share_content font_c3 ellipsis">' + data[i].extension_content + '</div>';
+							//console.log('<i class="share_r iconfont icon-fenxiang" onclick="fnOpenshare(' + data[i].goods_name + ',' + data[i].extension_content + ',' + goods_url + data[i].goods_id + ',' + data[i].default_image + ')" tapmod></i>');
+							lbt += '<i class="share_r iconfont icon-fenxiang" onclick="fnOpenshare(' + data[i].goods_id + ')" tapmod></i>';
+							lbt += '</div>';
+						}
+						lbt += ' <div class="footer font_c3">';
+						//lbt += '<div class="width3"><span><i class="iconfont icon-pinglun1"></i>评论(136)</span></div>';
+						lbt += '<div class="width6 float_r text_r"><span onclick="fnOpendown(' + data[i].article_id + ')"><i class="iconfont icon-xiazai"></i>下载分享</span>&nbsp;<span>156人已分享</span></div>';
+						lbt += '</div>';
+						lbt += '</div>';
+						lbt += '</div>';
+						$api.append($api.byId("div1"), lbt);
+						setHeight();
+					}
+				}else{
+                api.toast({
+                  msg: ret.msg,
+                  duration: 2000,
+                  location: 'middle'
+                });
+            }
+					}
+            if(err){
+              api.toast({
+                msg: err.msg,
+                duration: 2000,
+                location: 'middle'
+              });
+            }
+				api.refreshHeaderLoadDone();
+			});
+		}
+
+		//点击全文
+		function showall(id) {
+			$('.show_' + id).parents(".find_item").find(".info_content").removeClass("small_height");
+			$('.show_' + id).addClass("hide");
+			$('.hide_' + id).removeClass("hide");
+			$('.show_' + id).siblings(".close_all").removeClass("hide");
+		}
+
+		//点击收起
+		function hideall(id) {
+			$('.hide_' + id).parents(".find_item").find(".info_content").addClass("small_height");
+			$('.hide_' + id).addClass("hide");
+			$('.show_' + id).removeClass("hide");
+			$('.hide_' + id).siblings(".close_all").addClass("hide");
+		}
+
+		//分享模块打开
+		function fnOpenshare(goods_id) {
+			dialogBox.actionMenu({
+				rect : {
+					h : 150
+				},
+				texts : {
+					cancel : '取消'
+				},
+				items : [{
+					text : '微信',
+					icon : 'widget://image/wechat.png'
+				}, {
+					text : '微信朋友圈',
+					icon : 'widget://image/wpyq.png'
+				}, {
+					text : 'QQ',
+					icon : 'widget://image/qq.png'
+				}, {
+					text : 'QQ空间',
+					icon : 'widget://image/qzone.png'
+				}, {
+					text : '微博',
+					icon : 'widget://image/weibo.png'
+				}, {
+					text : '商品二维码',
+					icon : 'widget://image/erweima.png'
+				}, {
+					text : '复制链接',
+					icon : 'widget://image/copylink.png'
+				}],
+				styles : {
+					bg : '#FFF',
+					column : 5,
+					itemText : {
+						color : '#000',
+						size : 12,
+						marginT : 8
+					},
+					itemIcon : {
+						size : 60
+					},
+					cancel : {
+						bg : 'fs://icon.png',
+						color : '#000',
+						h : 44,
+						size : 14
+					}
+				},
+				tapClose : true
+			}, function(ret, err) {
+				if (ret) {
+					console.log(JSON.stringify(ret));
+					if (ret.eventType == "cancel") {
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 0) {
+						get_goods_info(goods_id, "session");
+						//fnopenWechat("weixin",title,text,url,img);
+						var dialogBox = api.require('dialogBox');
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 1) {
+						get_goods_info(goods_id, "timeline");
+						//fnopenWechat("weixin",title,text,url,img);
+						var dialogBox = api.require('dialogBox');
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 2) {
+						get_goods_info(goods_id, "QFriend");
+						//fnopenQq(gID);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 3) {
+						get_goods_info(goods_id, "QZone");
+						//fnopenQq(gID);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 4) {
+						get_goods_info(goods_id, "sinaWb");
+						//fnopenWeibo(gID);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 5) {
+						fnopenErweima(goods_id);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 6) {
+						fnopenCopylink(gID);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+				} else {
+					//alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		function get_goods_info(goods_id, tag) {
+			api.ajax({
+				url : URL + 'index.php?app=appfind&act=get_goods_info',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						goods_id : goods_id,
+						//page:0
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+				    var url="";
+					var goods_url = URL + "index.php?app=goods&id=";
+					var title = ret.retval.goods_name;
+					var text = ret.retval.extension_content;
+					//var url = goods_url + ret.retval.goods_id;
+					var img = URL + ret.retval.default_image;
+					//微信
+					if (tag == "session") {
+						fnopenWechat(tag, title, text, url, img);
+					} else if (tag == "timeline") {//微信朋友圈
+						fnopenWechat(tag, title, text, url, img);
+					} else if (tag == "QFriend") {
+						fnopenQq(tag, title, text, url, img);
+					}else if (tag == "QZone") {
+						fnopenQq(tag, title, text, url, img);
+					}else if (tag == "sinaWb") {
+						fnopenWeibo(tag, title, text, url, img);
+					}
+
+				} else {
+					//alert(ret.msg);
+				}
+			});
+		}
+
+		//下载分享
+		function fnOpendown(aId) {
+			//复制文章文字
+			var content = $("#article_" + aId).find(".info_content").find("div").text();
+			var clipBoard = api.require('clipBoard');
+			clipBoard.set({
+				value : content
+			}, function(ret, err) {
+				if (err) {
+					api.toast({
+						msg : err.msg,
+						duration : 2000,
+						location : 'bottom'
+					});
+				}
+			});
+			//下载图片
+			var pic_url = $("#article_" + aId).find(".image_item");
+			$.each(pic_url, function(i, item) {
+				var path = $(this).find("img").attr('src');
+				var myurl = path;
+				console.log(path);
+				api.download({
+					url : path,
+					report : true,
+					cache : true,
+					allowResume : true,
+				}, function(ret, err) {
+					if (ret.state == 1) {
+						//下载成功
+						console.log("下载成功");
+						console.log(ret.savePath);
+						myurl = ret.savePath;
+						api.saveMediaToAlbum({
+							path : myurl
+						}, function(ret, err) {
+							if (ret && ret.status) {
+								console.log('保存成功');
+
+							} else {
+								console.log('保存失败');
+
+							}
+						});
+					} else {
+						console.log("下载失败");
+					}
+				});
+
+			})
+			api.openFrame({
+				name : 'download.share',
+				url : './download.share.html',
+				bounces : false,
+				bgColor : 'rgba(0,0,0,0.5)',
+				animation : {
+					type : "movein", //动画类型（详见动画类型常量）
+					subType : "from_bottom", //动画子类型（详见动画子类型常量）
+					duration : 100 //动画过渡时间，默认300毫秒
+				}
+			});
+		}
+
+		//图片查看打开
+		function fnOpenPhoto(Gindex, Pindex) {
+			var imgs = $("." + Gindex).find("img");
+			var srcs;
+			var i = imgs.length;
+			var mysrcs = new Array();
+			imgs.each(function(index, element) {
+				mysrcs[index] = $(this).attr('src');
+			});
+			photoBrowser.open({
+				images : mysrcs,
+				activeIndex : Pindex,
+				placeholderImg : 'widget://image/apicloud.png',
+				bgColor : '#000'
+			}, function(ret) {
+				console.log(ret);
+				if (ret.eventType == 'click') {
+					photoBrowser.close();
+				}
+			});
+		}
+
+
+
+		function fnopenWechat(tar, title, text, url, img) {
+			filename = (new Date()).valueOf() + '.' + img.substring(img.lastIndexOf('.') + 1);
+			api.download({
+				url : img,
+				savePath : 'fs://' + filename,
+				report : false,
+				cache : true,
+				allowResume : true
+			}, function(ret, err) {
+				var wx = api.require('wx');
+				wx.isInstalled(function(ret) {
+					if (ret.installed) {
+						api.toast({
+							msg : '分享中，请稍候',
+							duration : 2000,
+							location : "middle"
+						});
+					} else {
+						api.toast({
+							msg : '没有安装微信，无法进行分享',
+							duration : 2000,
+							location : "middle"
+						});
+					}
+				});
+				wx.shareWebpage({
+					apiKey : '',
+					scene : tar,
+					title : title,
+					description : text,
+					thumb : 'fs://' + filename,
+					contentUrl : url
+				}, function(ret, err) {
+					if (ret.status) {
+						api.toast({
+							msg : '分享成功',
+							duration : 2000,
+							location : "middle"
+						});
+					}
+				});
+			});
+		}
+
+		function fnopenWechat2(gID) {
+			api.toast({
+				msg : '敬请期待!',
+				duration : 2000,
+				location : 'bottom'
+			});
+		}
+
+		function fnopenQq(tar, title, text, url, img) {
+			var qq = api.require('QQPlus');
+			qq.installed(function(ret) {
+				if (ret.status) {
+					api.toast({
+						msg : '分享中，请稍候',
+						duration : 2000,
+						location : "middle"
+					});
+				} else {
+					api.toast({
+						msg : '没有安装QQ，无法进行分享',
+						duration : 2000,
+						location : "middle"
+					});
+				}
+			});
+			qq.shareNews({
+				url : url,
+				title : title,
+				description : text,
+				imgUrl : img,
+				type : tar
+			}, function(ret, err) {
+				if (ret.status) {
+					api.toast({
+						msg : '分享成功',
+						duration : 2000,
+						location : "botoom"
+					});
+				}
+			});
+		}
+
+		function fnopenErweima(gID) {
+			api.openWin({
+				name : 'share.ewm',
+				url : './share.ewm.html',
+				bounces : false,
+				pageParam : {
+					goodId : gID
+				},
+				animation : {
+					type : "push", //动画类型（详见动画类型常量）
+					subType : "from_right", //动画子类型（详见动画子类型常量）
+					duration : 300 //动画过渡时间，默认300毫秒
+				}
+			});
+		}
+
+		function fnopenWeibo(tar, title, text, url, img) {
+			filename = (new Date()).valueOf() + '.' + img.substring(img.lastIndexOf('.') + 1);
+			api.download({
+				url : img,
+				savePath : 'fs://' + filename,
+				report : false,
+				cache : true,
+				allowResume : true
+			}, function(ret, err) {
+				var weibo = api.require('weibo');
+				weibo.shareImage({
+					text : title + text + url,
+					imageUrl : 'fs://' + filename
+				}, function(ret, err) {
+					if (ret.status) {
+						api.toast({
+							msg : '分享成功',
+							duration : 2000,
+							location : "middle"
+						});
+					}
+				});
+			});
+		}
+
+		function fnopenCopylink(gID) {
+			var sUrl = URL + 'index.php?app=goods&id=' + gID;
+			copyHref(sUrl);
+		}
+
+		function changeOrder(order) {
+			$(this).addClass("active").siblings().removeClass("active");
+			api.execScript({
+				frameName : 'find',
+				script : 'fnsetFrameGroupIndex("group2","' + order + '");'
+			});
+		}
+		function goMaterial(aId){
+      	if(aId=='1'){
+      		api.openWin({
+	        name: 'cooking.style',
+	        url: './cooking.style.html',
+	        bounces: false,
+	        animation:{
+	          type:"push",                //动画类型（详见动画类型常量）
+	          subType:"from_right",       //动画子类型（详见动画子类型常量）
+	          duration:300                //动画过渡时间，默认300毫秒
+	        }
+        });
+      	}else if(aId=='2'){
+      		api.toast({
+							msg : '敬请期待!',
+							duration : 2000,
+							location : 'bottom'
+						});
+      		// api.openWin({
+	       //  name: 'cooking.factions',
+	       //  url: './cooking.factions.html',
+	       //  bounces: false,
+	       //  animation:{
+	       //    type:"push",                //动画类型（详见动画类型常量）
+	       //    subType:"from_right",       //动画子类型（详见动画子类型常量）
+	       //    duration:300                //动画过渡时间，默认300毫秒
+	       //  }
+        // });
+			}else if(aId='3'){
+					api.toast({
+						msg : '敬请期待!',
+						duration : 2000,
+						location : 'bottom'
+					});
+			}
+
+      }
+	</script>
+</html>

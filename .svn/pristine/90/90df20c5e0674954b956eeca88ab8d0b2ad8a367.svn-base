@@ -1,0 +1,445 @@
+html {
+	font-family: PingFang SC, Hiragino Sans GB, Microsoft YaHei, \\5FAE\8F6F\96C5\9ED1, Helvetica Neue, Helvetica, Arial, sans-serif;
+	;
+}
+
+html,
+body,
+header,
+section,
+footer,
+div,
+ul,
+ol,
+li,
+img,
+a,
+span,
+em,
+del,
+legend,
+center,
+strong,
+var,
+fieldset,
+form,
+label,
+dl,
+dt,
+dd,
+cite,
+input,
+hr,
+time,
+mark,
+code,
+figcaption,
+figure,
+textarea,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	margin: 0;
+	border: 0;
+	padding: 0;
+	font-style: normal;
+}
+
+html,
+body {
+	-webkit-touch-callout: none;
+	-webkit-text-size-adjust: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-user-select: none;
+	background-color: #fff;
+	font-size: 16px !important
+}
+
+nav,
+article,
+aside,
+details,
+main,
+header,
+footer,
+section,
+fieldset,
+figcaption,
+figure {
+	display: block;
+}
+
+img,
+a,
+button,
+em,
+del,
+strong,
+var,
+label,
+cite,
+small,
+time,
+mark,
+code,
+textarea {
+	display: inline-block;
+}
+
+header,
+section,
+footer {
+	position: relative;
+}
+
+header {
+	background-color: #f2f2f2;
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+	z-index: 999;
+}
+
+ol,
+ul {
+	list-style: none;
+}
+
+input,
+button,
+textarea {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 1em;
+	line-height: 1em;
+	/*-webkit-appearance:none;*/
+	background-color: rgba(0, 0, 0, 0);
+}
+
+input,
+textarea {
+	outline: none;
+	-webkit-appearance: none;/解决iphone上的默认样式问题/
+}
+
+span {
+	display: inline-block;
+}
+
+a:active,
+a:hover {
+	outline: 0;
+}
+
+a,
+a:visited {
+	text-decoration: none;
+}
+
+label,
+.wordWrap {
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+td,
+th {
+	padding: 0;
+}
+
+.clearfix:after {
+	content: ' ';
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+.loading_more {
+	display: block;
+	height: 1.5em;
+	width: 100%;
+}
+
+.loading_more:before {
+	display: inline-block;
+	vertical-align: text-bottom;
+	content: ' ';
+	height: 16px;
+	width: 16px;
+	margin-right: 6px;
+	background: url(../image/loading_more.gif) no-repeat center;
+	-webkit-background-size: contain;
+	background-size: contain;
+}
+
+.loading_more:after {
+	content: '加载更多';
+}
+
+/* 通用 */
+.DIV_L {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 4em;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 10px;
+	z-index: 999;
+}
+
+.DIV_R {
+	position: absolute;
+	right: 10px;
+	bottom: 0;
+	width: 60px;
+	height: 40px;
+	line-height: 40px;
+	text-align: right;
+	z-index: 999;
+}
+
+.DIV_R1 {
+	position: absolute;
+	right: 10px;
+	bottom: 0;
+	width: 40px;
+	height: 50px;
+	line-height: 50px;
+	text-align: right;
+	z-index: 999;
+}
+
+.default_color {
+	color: #279df1
+}
+
+/*浅蓝*/
+.default_color1 {
+	color: #6eb92c
+}
+
+/*蓝*/
+.default_color2 {
+	color: #8d8d8d;
+}
+
+/*灰色1*/
+.default_color3 {
+	color: #a3a3a3;
+}
+
+/*灰色2*/
+.default_color4 {
+	color: #f4f4f4;
+}
+
+/*灰色3*/
+.default_bg {
+	background-color: #279df1
+}
+
+.default_bg1 {
+	background-color: #6eb92c
+}
+
+.default_bg2 {
+	background-color: #efefef
+}
+
+.header {
+	position: relative;
+	height: 40px;
+	line-height: 40px;
+	background-color: #f2f2f2;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align: center
+}
+
+.header_1 {
+	height: 50px;
+	line-height: 50px;
+	background-color: #f4f4f4;
+}
+
+.top_bg {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 200px;
+	background-color: #282724;
+}
+
+.out_div {
+	margin: 0 10px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+	background-color: #fff;
+	padding: 10px;
+	position: relative;
+}
+
+.hide {
+	display: none;
+}
+
+.f_l {
+	float: left;
+}
+
+.f_r {
+	float: right;
+}
+
+.t_l {
+	float: left;
+	width: 50%;
+}
+
+.t_r {
+	float: right;
+	width: 50%;
+	text-align: right;
+}
+
+.font_s1 {
+	font-size: 1.1em;
+}
+
+.font_s2 {
+	font-size: 0.8em;
+}
+
+.font_c1 {
+	color: #8d8d8d;
+}
+
+.font_c2 {
+	color: #6eb92c;
+}
+
+.font_c3 {
+	color: #a3a3a3;
+}
+
+.font_w1 {
+	font-weight: bold;
+}
+
+.width5 {
+	width: 50%;
+	float: left;
+}
+
+.width3 {
+	width: 33.33%;
+	float: left;
+}
+
+.width6 {
+	width: 60%;
+	float: left;
+}
+
+.float_l {
+	float: left;
+}
+
+.float_r {
+	float: right;
+}
+
+.text_l {
+	text-align: left;
+}
+
+.text_r {
+	text-align: right;
+}
+
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.btn_default {
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+	color: #fff;
+	border-radius: 5px
+}
+
+.btn_default1 {
+	padding: 5px 1em;
+	color: #6eb92c;
+	background-color: #fff;
+	border: 1px solid #6eb92c;
+	border-radius: 5px;
+	font-size: 1.1em;
+	text-align: center
+}
+
+.btn_default2 {
+	padding: 5px 1em;
+	color: #fff;
+	background-color: #6eb92c;
+	border-radius: 5px;
+	text-align: center
+}
+
+/*遮罩层*/
+.mask {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 12;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .5);
+}
+
+@media (max-width: 720px) {
+	.mask {
+		position: fixed;
+	}
+}
+
+.border-b {
+	border-bottom: 1px solid #f2f2f2;
+}
+
+.flex {
+	display: flex;
+	display: -webkit-flex;
+	-webkit-flex-flow: row wrap;
+	/*flex属性，规定灵活项目的方向和是否拆行或拆列*/
+}
+
+.cross-middle {
+	/*子元素垂直居中*/
+	display: flex;
+	display: -webkit-flex;
+	display: -moz-flex;
+	align-items: center;
+	-webkit-align-items: center;
+	-moz-align-items: center;
+}
+
+.tapmodeclass {
+	background: rgba(0, 0, 0, 0.3);
+}

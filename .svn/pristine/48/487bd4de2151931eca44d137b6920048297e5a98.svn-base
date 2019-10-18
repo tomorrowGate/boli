@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+      <title>一级会员</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="../css/vip1.css">
+
+      <style>
+      html,body {
+        background-color: #fff;
+      }
+      </style>
+  </head>
+  <body>
+     <div id="wrap" class="flex-wrap flex-vertical">
+<!--第一个盒子-->
+  <div class="container case1" id="kqfx">
+  <header></header>
+    <div class="row scase">
+      <div class="fx">开启美好分享时代</div>
+      <span class="jx">299元惊喜大礼包，先购先得！</span>
+    </div>
+  </div>
+<!--  会员栏目-->
+  <div class="case2">
+    <div class="my_info clearfix">
+      <div class="info_l"><img src="../image/default_portrait.png"  class="portrait" id="portrait"></div>
+      <div class="info_m">
+        <div class="info1"><span id="user_name">未登录</span><span id="sex"><img src="../image/male.png" class="img2" id="gender"/></span><span class="jb" id="level">一级会员</span></div>
+        <div class="info2"><span class="border-w">邀请码:<span id="invite_code"></span></span><span class="border-c" onclick="copyHref()" tapmode>复制</span></div>
+
+      </div>
+      <span class="money" onclick="goMoney()" tapmode><span>0.00</span>&nbsp;<i class="iconfont icon-htbArrowright my_icon2" ></i><span>
+    </div>
+    <div class="scase2" id="ewm" onclick="goPoster()" tapmod>点击生成我的专属二维码</div>
+  </div>
+  <div class="row xt2"></div>
+<!--  礼包精选栏目-->
+  <div class="case3">
+    <div class="scase4">
+      <div class="lb"><img src="../image/tb1.png" class="img2" /><span>礼包精选</span></div>
+    </div>
+    <div class="scase5">
+    <div class="scase6" id="kq">
+      <div class="fx">玩主礼包精选</div>
+      <span class="jx">即刻开启玩主之旅</span>
+    </div>
+    </div>
+<!--    循环体盒子-->
+    <div class="case4" id="goodslist" >
+    <!--循环开始-->
+    <!--<div class="gift_pack">
+        <div class="gift_img"><img src="../image/bg2.png" class="img7" /></div>
+      <div class="scase7">
+        <div class=" ms1">韩后</div>
+        <div class=" ms2">植物力量&nbsp;清爽利咽</div>
+        <div class=" ms3">传承日本200年口碑</div>
+        <div class=" ms4">
+          <div class="jg">¥598</div>
+          <div class="dj" id="dj">点击查看</div>
+        </div>
+      </div>
+    </div>-->
+    <!--结束-->
+
+
+    </div>
+  </div>
+
+</div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+    FastClick.attach(document.body);
+  });
+  var userId=window.localStorage.getItem("userId"); //用户id
+  var real_name=window.localStorage.getItem("real_name");//昵称
+  var gender=window.localStorage.getItem("gender");//性别
+  var ugrade=window.localStorage.getItem("ugrade");//用户等级
+  var portrait=window.localStorage.getItem("portrait");//用户头像
+  var level_name=window.localStorage.getItem("level_name");//用户等级对应的名称
+  var invite_code=window.localStorage.getItem("invite_code");//邀请码
+  var URL="";
+  var headerH;
+  apiready = function(){
+        var header = $api.dom('header'); // 获取 header 标签元素
+        headerH = $api.fixStatusBar(header);
+        URL=$api.URL();
+        $api.html($api.byId("user_name"), real_name);
+        $api.html($api.byId("level"), level_name);
+        if (window.localStorage.getItem('portrait')) {
+   var  portrait=window.localStorage.getItem('portrait');
+    if(portrait.substr(0,7).toLowerCase() == "http://"){
+      $api.attr($api.byId('portrait'),'src',portrait);
+      }else{
+        $api.attr($api.byId('portrait'),'src',URL+portrait);
+     }
+     }
+     if(gender=1){
+       $api.attr($api.byId("gender"),'src','../image/female.png');
+     }
+        $api.html($api.byId("invite_code"),invite_code);
+        getSpecinfo();
+  };
+  //获取商品规格
+  function getSpecinfo(){
+    api.ajax({
+          url : URL + 'index.php?app=store&act=get_gift_goods',
+                  method : 'post',
+                  cache : false,
+                  timeout : 30,
+                  dataType : 'json',
+                  returnAll : false,
+                  data : {
+                     values : {
+                         user_id:userId
+                     }
+                  }
+        },function(ret,err){
+        console.log(JSON.stringify(ret));
+          if(ret.done)
+          {
+          $.each(ret.retval, function(i, item) {
+            var str='<div class="gift_pack">';
+                str+='<div class="gift_img"><img src="'+URL+item.default_image+'" class="img7" /></div>';
+                str+='<div class="scase7">';
+                if(item.goods_brand){
+                  str+='<div class=" ms1">'+item.goods_brand+'</div>';
+                }
+                str+='<div class=" ms2">'+item.goods_name+'</div>';
+                str+='<div class=" ms3">'+item.extension_content+'</div>';
+                str+='<div class=" ms4">';
+                str+='<div class="jg">&yen;'+item.price+'</div>';
+                str+='<div class="dj" id="dj">点击查看</div>';
+                str+='</div>';
+                str+='</div>';
+                str+='</div>';
+            $api.html($api.byId("goodslist"), str);
+           });
+         }else{
+            api.toast({
+              msg: '失败',
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+
+      });
+   }
+    //跳转专属海报
+      function goPoster(){
+        api.openWin({
+          name: 'appshare.ewm',
+          url: './appshare.ewm.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          },
+          pageParam: {
+             articleType: 'notice' //通过var articleType=api.pageParam.articleType; 调用
+          }
+        });
+      }
+      //跳转财务
+      function goMoney(){
+        api.openWin({
+          name: 'vipmember.money.ewm',
+          url: './vipmember.money.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          }
+        });
+      }
+   //复制邀请码
+   function copyHref(){
+     var content=$("#invite_code").text();
+     var clipBoard = api.require('clipBoard');
+     clipBoard.set({
+       value: content
+     }, function(ret, err) {
+       if (ret) {
+         api.toast({
+           msg: '复制成功',
+           duration: 2000,
+           location: 'bottom'
+         });
+       }else{
+         api.toast({
+           msg: '复制失败',
+           duration: 2000,
+           location: 'bottom'
+         });
+       }
+     });
+   }
+  </script>
+  </html>

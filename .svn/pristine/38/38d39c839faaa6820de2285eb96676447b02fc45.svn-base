@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/login.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css"/>
+		<style type="text/css">
+			.time {
+				text-align: center;
+				font-size: 0.9em;
+				color: #fff;
+				background-color: #b2b2b2;
+				height: 22px;
+				line-height: 22px;
+				position: absolute;
+				right: 10px;
+				top: 12px;
+				padding: 0 5px;
+				border-radius: 5px
+			}
+			#wrap {
+				padding: 0 5%;
+			}
+			.sub_botton {
+				text-align: center;
+				margin-top: 85px;
+			}
+			.btn_bind {
+				background-color: #292929;
+				color: #fff;
+				height: 34px;
+				line-height: 34px;
+				border-radius: 17px;
+				padding: 0;
+				width: 90%;
+			}
+			#adv {
+				text-align: center;
+				height: 250px;
+				padding: 20px 0 0 0;
+			}
+			#adv img {
+				width: 200px;
+				height: 200px;
+				border-radius: 100px;
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+		<div class="header"></div>
+		<div class="DIV_L" onclick="goBack()" tapmode>
+			<i class="iconfont icon-back"></i>
+		</div>
+	</header>
+		<div class="time" onclick="goindex()" tapmode>
+			3S
+		</div>
+		<div id="wrap">
+			<div id="adv" class="clearfix hide">
+				<img src="../image/begin.png" id="adv_img">
+			</div>
+			<div class="sub_botton clearfix">
+				<input type="button" class="btn btn_bind" value="开启会员生活" id="btn_adv" onclick="goindex()" tapmode/>
+			</div>
+		</div>
+		<script type="text/javascript" src="../script/api.js"></script>
+		<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+		<script type="text/javascript">
+			var URL = "";
+			var tuijian_id;
+			var userId;
+			var telephone;
+			$(function() {//消除300ms点击延迟
+				FastClick.attach(document.body);
+			});
+			apiready = function() {
+				var header = $api.dom('header');
+				//适配iOS 7+，Android 4.4+状态栏
+				$api.fixStatusBar(header);
+				tuijian_id = api.pageParam.tuijian_id;
+				userId = api.pageParam.userId;
+				telephone = api.pageParam.telephone;
+				URL = $api.URL();
+				getAdv();
+			}
+			//返回上一页
+			var goBack = function() {
+				api.closeWin();
+			}
+			//获取广告图片
+			function getAdv() {
+				api.ajax({
+					url : URL + 'index.php?app=appinvite&act=get_partner',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							user_id : userId,
+						}
+					}
+				}, function(ret, err) {
+					// alert(JSON.stringify(ret));
+					if (ret.done) {
+						$api.attr($api.byId('adv_img'), ret.retval.link);
+					}
+				});
+			}
+
+			//登录
+			function goindex() {
+				api.ajax({
+					url : URL + 'index.php?app=appajax&act=login',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							name : telephone,
+							password : '12345678',
+							check_code : '0924'
+						}
+					}
+				}, function(ret, err) {//alert(JSON.stringify(ret))
+					if (ret) {
+						if (!ret[0].error) {
+							//MyToast("登录成功");
+							/*window.localStorage.setItem("loginPwd",password); //密码*/
+							window.localStorage.setItem('UID', ret[0].id);
+							//用户id
+							window.localStorage.setItem("telephone", telephone);
+							//用户手机号码
+							window.localStorage.setItem('real_name', ret[0].real_name);
+							//昵称
+							window.localStorage.setItem('real_name2', ret[0].real_name2);
+							//真实姓名
+							window.localStorage.setItem('ugrade', ret[0].ugrade);
+							//用户等级
+							window.localStorage.setItem('portrait', ret[0].portrait);
+							//用户头像
+							window.localStorage.setItem('level_name', ret[0].level_name);
+							//用户等级对应的名称
+							window.localStorage.setItem('invite_code', ret[0].invite_code);
+							//声明头部
+							//算法真实*20，拆成2份 id4个前混合+真实id1+数字2个+真是id2+后6个
+							var x = 10000000000;
+							var y = 100000;
+							var rand = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+							var rand2 = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+							var rand3 = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+							var muser_id = ret[0].id * 20 + "";
+							var muser_id1 = muser_id.slice(0, 1);
+							var muser_id2 = muser_id.slice(1, muser_id.length);
+							var p_muser_id = rand.slice(0, 4) + muser_id1 + rand2.slice(0, 2) + muser_id2 + rand3.slice(0, 6);
+							window.localStorage.setItem('userId', p_muser_id);
+							//用户id
+							// alert(p_muser_id)
+							api.openWin({
+								name : 'index',
+								url : './index.html',
+								bounces : false,
+								reload : true,
+								animation : {
+									type : "push", //动画类型（详见动画类型常量）
+									subType : "from_right", //动画子类型（详见动画子类型常量）
+									duration : 300 //动画过渡时间，默认300毫秒
+								}
+							});
+						} else {
+							//MyToast(ret[0].error);
+							var user_id = ret[0];
+							api.openWin({//用户第一次登录,跳转填写邀请码
+								name : 'invite.code',
+								url : './invite.code.html',
+								bounces : false,
+								reload : true,
+								animation : {
+									type : "push", //动画类型（详见动画类型常量）
+									subType : "from_right", //动画子类型（详见动画子类型常量）
+									duration : 300 //动画过渡时间，默认300毫秒
+								},
+								pageParam : {
+									user_id : user_id //新注册用户user_id
+								},
+								allowEdit : true,
+							});
+						}
+					} else {
+						MyToast("网络超时，请稍后再试");
+					};
+				});
+			}
+
+			//倒计时
+			function countDown() {
+				var i = 3;
+				$(".time").html(i + "s");
+				var _timer = setInterval(function() {
+					if (i > 0) {
+						i--;
+						$(".time").html(i + "s");
+					} else {
+						clearInterval(_timer);
+						$(".time").html("跳转");
+						goindex();
+					}
+				}, 1000)
+			}
+		</script>
+	</body>
+</html>

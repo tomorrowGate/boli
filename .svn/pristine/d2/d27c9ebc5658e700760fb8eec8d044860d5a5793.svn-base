@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+      <link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+    <style>
+		html, body {
+			background-color: #fff;
+
+		}
+		.top_tab {
+			font-size: 0.8em
+		}
+		.device-header {
+			position: relative;
+			background: url(../image/background1.png) no-repeat ;
+			-webkit-background-size: 100% 160px;
+			background-size: 100% 160px;
+		}
+		.info_l {
+			float: left;
+			padding: 38px 5px 20px 20px;
+		}
+		.info_m {
+			float: left;
+			font-size: 15px;
+			padding: 42px 20px 20px 5px;
+		}
+		.portrait {
+			width: 54px;
+			height: 54px;
+			border-radius: 27px;
+			border: 1px solid #fff;
+		}
+
+		#user_name {
+			font-size: 1.2em;
+			margin-bottom: 0px
+		}
+		.border-w {
+			border: 1px solid #fff;
+			height: 20px;
+			line-height: 20px;
+			border-radius: 10px;
+			background-color: transparent;
+			padding: 0 8px;
+			font-size: 0.8em;
+			margin-right: 10px;
+		}
+		.border-c {
+			border: 1px solid #238bd9;
+			height: 20px;
+			line-height: 20px;
+			border-radius: 10px;
+			background-color: #238bd9;
+			padding: 0 8px;
+			font-size: 0.8em;
+		}
+		#invite_code{
+			text-indent: 5px;
+		}
+		.my_icon1 {
+			position: absolute;
+			right: 20px;
+			top: 10px;
+			font-size: 26px;
+			color: #fff;
+		}
+		.my_info {
+			position: relative;
+			height: 160px;
+			color: #fff;
+		}
+
+		.devices-head{
+			position: absolute;
+			top:8px;
+			width: 100%;
+			height: 40px;
+		}
+		.add-device{
+			/*position: relative;*/
+		}
+		.add-device span{
+		position: absolute;
+			right:98px;
+			top:5px;
+			display: block;
+			width: 40px;
+			height: 40px;
+			background-color: #d0a96f;
+			border-radius: 50%;
+			text-align: center;
+			z-index:2;
+		}
+		.add-device div{
+			position: absolute;
+			right:15px;
+			top:12px;
+			width: 100px;
+			height: 26px;
+			background-color: #d0a96f;
+			color:#FFF;
+			font-size: 15px;
+			line-height: 26px;
+			margin-left: 15px;
+			text-align: center;
+			border-radius:13px;
+			z-index: 1;
+		}
+		.add-dev1{
+			font-size: 15px;
+			color:#FFFFFF;
+			line-height: 40px;
+		}
+		.device-type{
+			width: 100%;
+			font-size: 13px;
+			color: #269ff2;
+			padding:20px 14px;
+		}
+		.type-con{
+			position: relative;
+			height: 40px;
+		}
+		.type-con .icon-qianbi{
+			position: absolute;
+			left:15px;
+			top:5px;
+			font-size: 20px;
+		}
+		.device-type-con{
+			 font-size:1.2em;
+			 margin-left: 45px;
+		}
+		.device-modle {
+			 margin-left: 45px;
+			/*text-indent: 1px;*/
+		}
+		.device-modle span{
+			display: inline-block;
+			height: 16px;
+			line-height: 16px;
+			padding:0 0px;
+			/*border:1px solid #269ff2;
+			border-radius:10px;*/
+		}
+		.type-refresh{
+			position: absolute;
+			font-size: 1.1em;
+			right: 0;
+			top: 0px;
+		}
+		.device-item{
+			display:flex;
+			margin-top:15px;
+			justify-content:flex-start;
+			width: 100%;
+			height: 100px;
+			flex-wrap:wrap;
+			margin-bottom: 15px;
+		}
+		.device-item-i{
+			width: 20%;
+			height: 120px;
+			/*border:1px solid red;*/
+		}
+		.device-item-i img{
+			display: block;
+			width: 48px;
+			/*margin-left:5px;*/
+			margin: 0 auto	;
+			background-color: #fff;
+		}
+		.equip-number{
+			position:relative;
+			left:6px ;
+			
+		    color:#0d0d0d;padding:2px 2px;
+		}
+		.device-mes{
+			width: 55px;
+			height: 18px;
+			line-height: 19px;
+			margin: 0px auto;
+			border-radius:9px;
+			text-align: center;
+			color: #fff;
+		}
+		.dev-close{
+			background-color: #A3A8C1;
+		}
+		.dev-doing{
+			background-color: #33aafc;
+		}
+		.dev-alert{
+			background-color: #ff514b;
+		}
+		.icon-shuaxin{
+			display: inline-block;
+			transition:.5s;
+		}
+    </style>
+</head>
+<body>
+	<!--<div class="top_bg"></div>-->
+	<header>
+		<div class="header">设备管理</div>
+		<div class="DIV_L" onclick="goBack()" tapmode>
+			<i class="iconfont icon-back"></i>
+		</div>
+	</header>
+	<div class='device-header'>
+	  <div class='devices-head'>
+	  	<div class="add-device">
+	  		<span onclick="goDevicesList()" tapmod><i class="iconfont icon-add1 add-dev1"></i></span>
+	  		<div onclick="goDevicesList()" tapmod>设备列表</div>
+	  	</div>
+
+	  </div>
+      <div class="my_info clearfix">
+        <div class="info_l" ><img src="../image/tx.png" id="portrait" class="portrait"></div>
+        <div class="info_m">
+          <div><span id="user_name"></span></div>
+          <div class="devices-con">设备数量: <span class='device_num' id="num">0</span>台</div>
+        </div>
+      </div>
+    </div>
+    <div class="device-type device-type2" id="tt">
+      <div class="type-con">
+    		<i class="iconfont icon-qianbi"></i>
+    			<div class='device-type-con'>
+    				<span class='type-name'>蒸箱</span>
+    				<span class='type-number'> </span>
+    			</div>
+    			<div class="device-modle">
+    				<span>型号：</span>
+    			</div>
+    		<div class="type-refresh" onclick="refresh(window.event)">
+    			<i class="iconfont icon-shuaxin" tapmode></i>
+    			<span>刷新</span>
+    		</div>
+    	</div>
+    	<div class="device-item" onclick = "goOneDevice(window.event)" tapmode>
+    		<div class="device-item-i">
+    			<img src="../image/kitchen.png" alt="" />
+    			<div class="equip-number">1222344<br>q4wda</div>
+    			<p class="device-mes dev-close">已关闭</p>
+    		</div>
+    		<div class="device-item-i">
+    			<img src="../image/kitchen.png" alt="" />
+    			<p class="device-mes dev-doing">运行中</p>
+    		</div>
+    		<div class="device-item-i">
+    			<img src="../image/kitchen.png" alt="" />
+    			<p class="device-mes dev-doing">运行中</p>
+    		</div>
+    		
+    	</div> 
+    	<div class="type-con">
+    		<i class="iconfont icon-qianbi"></i>
+    			<div class='device-type-con'>
+    				<span class='type-name'>蒸箱</span>
+    				<span class='type-number'> </span>
+    			</div>
+    			<div class="device-modle">
+    				<span>型号：</span>
+    			</div>
+    		<div class="type-refresh" onclick="refresh(window.event)">
+    			<i class="iconfont icon-shuaxin" tapmode></i>
+    			<span>刷新</span>
+    		</div>
+    	</div>
+    	<div class="device-item" onclick = "goOneDevice(window.event)" tapmode>
+    		<div class="device-item-i">
+    			<img src="../image/kitchen.png" alt="" />
+    			<div class="equip-number">1222344<br>q4wda</div>
+    			<p class="device-mes dev-close">已关闭</p>
+    		</div>
+    		<div class="device-item-i">
+    			<img src="../image/kitchen.png" alt="" />
+    			<p class="device-mes dev-doing">运行中</p>
+    		</div>
+    		<div class="device-item-i">
+    			<img src="../image/kitchen.png" alt="" />
+    			<p class="device-mes dev-doing">运行中</p>
+    		</div>
+    		
+    	</div> 
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+	apiready = function(){
+
+		var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+		headerH=$api.fixStatusBar(header);
+
+		URL=$api.URL();
+		$api.html( $api.byId("user_name"),
+		window.localStorage.getItem('real_name'));
+        var portrait= window.localStorage.getItem('portrait');//头像
+		if(portrait.substr(0,7).toLowerCase() == "http://"){
+			$api.attr($api.byId('portrait'),'src',portrait);
+			}else{
+				$api.attr($api.byId("portrait"),'src',URL+portrait);
+		}
+
+		//还需要立即获取用户的设备信息
+		getDeviceState();
+	};
+	$(function() {  //消除300ms点击延迟
+    FastClick.attach(document.body);
+  });
+
+	//设备列表
+	function goDevicesList(){
+		api.openWin({
+	        name: 'deviceList',
+	        url: './deviceList.html',
+	        bounces: false,
+          	reload:true,
+          	animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          },
+        });
+	}
+	//设备信息
+	//给每一个子元素注册事件并立即执行一次
+	//如果从告警中的设备通往设备信息这张界面就会改变设备信息的css，但是因为有动画过渡时间，会导致视觉效果有偏差
+		function goOneDevice(m_id){
+				api.openWin({
+					name: 'oneDevice',
+					url: './oneDevice.html',
+					bounces: false,
+					reload:true,
+					animation:{
+						type:"push",                //动画类型（详见动画类型常量）
+						subType:"from_right",       //动画子类型（详见动画子类型常量）
+						duration:300                //动画过渡时间，默认300毫秒
+					},
+					pageParam: {
+ 					  m_id:m_id
+					}
+				});
+
+		}
+
+	//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		//刷新
+		function refresh(e){
+		//window.location.reload();//重绘；刷新
+		if(e.target.classList.contains("icon-shuaxin")){
+			//var oRe = $api.dom(e.target,".icon-shuaxin")
+			e.target.degree==undefined ? e.target.degree=0:e.target.degree+=360;
+			e.target.style.transform=`rotate(${e.target.degree+360}deg)`;
+		}
+		getDeviceState()
+	}
+
+		function getDeviceState(){
+		 console.log(userId);
+			api.ajax({
+				url: URL+'index.php?app=appmachine',
+				method: 'post',
+				timeout: 30,
+				dataType: 'json',
+				returnAll:false,
+                data : {
+                  values : {
+                    user_id:userId
+                 }
+               }
+			},function(ret,err){
+			    console.log("----"+JSON.stringify(ret));
+			    if(ret.done){
+			      var str='';
+			      $("#tt").html("");
+			      if(ret.retval[0].length>0){
+                  $.each(ret.retval[2],function(i,item){
+                    str+='<div class="type-con">';
+         			str+='<i class="iconfont icon-qianbi"></i>';
+         			str+='<div class="device-type-con">';
+         			str+='<span class="type-name">'+item.type_name+'</span>';
+         			str+='<span class="type-number"> </span></div>';
+         			str+='<div class="device-modle">';
+                    str+='<span>型号：'+item.model+'</span></div>';
+         			str+='<div class="type-refresh" onclick="refresh(window.event)">';
+         			str+='<i class="iconfont icon-shuaxin" tapmode></i>';
+         			str+='<span>刷新</span></div>	</div>';
+							var typeId=item.id;
+							str+='<div class="device-item">';
+							$.each(ret.retval[0],function(i1,item1){
+							var addr_id=item1.addr_id;
+							var str1='';
+							var str2='';
+							if(addr_id.length>7){
+								str1=addr_id.substring(0,7);
+								str2=addr_id.substring(7);
+							}else{
+								str1=addr_id;
+							}
+								
+							
+//							console.log(str1);
+//							console.log(str2);
+								console.log(item1.addr_id);
+							if(item1.e_id==typeId){
+		         			str+='<div class="device-item-i" onclick = "goOneDevice('+item1.id+')">';
+		         			
+		         			str+='<img src="../image/kitchen.png" alt="" />';
+		         			str+='<div class="equip-number">'+str1+'<br>'+str2+'</div>'
+		         			if(item1.status=="已关闭"){
+		         			  str+='<p class="device-mes dev-close">'+item1.status+'</p>';
+		         			}else if(item1.status=="运行中"){
+		         			  str+='<p class="device-mes dev-doing">'+item1.status+'</p>';
+		         			}else{
+		         			  str+='<p class="device-mes dev-alert">'+item1.status+'</p>';
+
+		         			}
+
+							str+='</div>';
+								}
+						  	});
+         		  	str+='</div></div>';
+                 });
+                   $("#tt").html(str);
+                }else{
+                //  $("#tt").html("");
+                  $("#tt").html("暂无设备");
+                }
+               $("#num").html(ret.retval[1]);
+              }else{
+              //  $("#tt").html("");
+                $("#tt").html("暂无设备");
+                $("#num").html("0");
+              }
+			});
+		}
+</script>
+</html>

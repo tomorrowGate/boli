@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+  <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+  <link rel="stylesheet" type="text/css" href="../css/chefs/chef.offline.css" />
+  <title>线下教学</title>
+</head>
+<body>
+  <!-- 头部 -->
+  <header class="page-head">
+      <div class="back" onclick="goBack()" tapmode>
+          <i class="iconfont icon-back"></i>
+      </div>
+      <div class="head-center">
+          <span>线下教学</span>
+      </div>
+  </header>
+
+  <!-- 头部搜索 -->
+  <div class="search-head">
+      <div class="search-main">
+          <i class="iconfont icon-search"></i>
+          <input class="search-virtual" placeholder="搜索商品" tapmode>
+          </input>
+      </div>
+      <div class="search-real">搜索</div>
+  </div>
+
+  <!-- 轮播图 -->
+  <div class="swiper">
+      <div class="swiper-container swiper-top">
+          <div class="swiper-wrapper" id="adv">
+              <div class="swiper-slide" tapmode>
+                  <div class="swiper-slide-imgbox">
+                      <img src="" alt="">
+                  </div>
+              </div>
+              <div class="swiper-slide" tapmode>14</div>
+              <div class="swiper-slide" tapmode>153</div>
+          </div>
+          <div class="swiper-pagination"></div>
+      </div>
+  </div>
+  <!-- 名厨介绍 -->
+  <div class="introduce">
+      <div class="history">
+          <div class="history-ball">
+              <i></i>
+          </div>
+          <div class="history-ball-text">播放历史</div>
+      </div>
+      <div class="history">
+          <div class="history-ball">
+              <i></i>
+          </div>
+          <div class="history-ball-text">我的收藏</div>
+      </div>
+      <div class="history">
+          <div class="history-ball">
+              <i></i>
+          </div>
+          <div class="history-ball-text">了解教学</div>
+      </div>
+  </div>
+  <!-- 即将开始 -->
+  <div class="begin">
+    <div class="begin-head">
+      <i></i><span>即将开始</span>
+    </div>
+    <div class="begin-item">
+        <div class="begin-imge"></div>
+        <p class="begin-title">第23期 国宴川菜蓝鳍金大师的麻婆豆腐</p>
+        <p class="begin-text">杭州市，9月21日 15：00-16：20 13720人已预约</p>
+        <button class="begin-btn" type="button" name="button">查看详情</button>
+    </div>
+    <div class="begin-head">
+      <i></i><span>即将开始</span>
+    </div>
+    <div class="begin-item">
+        <div class="begin-imge"></div>
+        <p class="begin-title">第23期 国宴川菜蓝鳍金大师的麻婆豆腐</p>
+        <p class="begin-text">杭州市，9月21日 15：00-16：20 13720人已预约</p>
+        <button class="begin-btn" type="button" name="button">查看详情</button>
+    </div>
+  </div>
+</body>
+</html>

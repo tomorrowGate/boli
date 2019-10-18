@@ -1,0 +1,88 @@
+
+.chef-form-card{
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #eee;
+}
+.chef-form-leftimg{
+    width: 120px;
+    height: 120px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background: skyblue;
+}
+.chef-form-leftimg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+.chef-right-content{
+    position: relative;
+    width: calc(100% - 130px);
+}
+.chef-head1{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: bold;
+}
+.chef-head2{
+    padding: 3px 0;
+}
+.chef-head2, .chef-head3 {
+    font-size: 0.8em;
+    color: #666;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.chef-head4 .chef-head2{
+    padding: 0;
+}
+.forum-foot-bg{
+    background: #d96b6c;
+    padding: 0 5px;
+    margin-right: 2px;
+    color: #fff;
+    font-size: 0.9em;
+    border-radius: 2px;
+}
+.chef-head4{
+    position: absolute;
+    bottom: 0;
+}
+.chef-form-formlist .chef-head1{
+    font-size: 0.9em;
+}
+.chef-form-formlist .chef-busy-footer{
+    border:none;
+}
+.chef-busy-footer{
+    display: flex;
+    padding: 6px 10px 20px 10px;
+    justify-content: space-around;
+    border-bottom: 8px solid #f2f2f2;
+}
+.chef-lookmorechef-left{
+    display: flex;
+    align-items: center;
+    
+}
+.chef-footer-item{
+    width: 48%;
+    padding: 8px 0;
+    font-weight: bold;
+    background: #f7f7f7;
+    text-align: center;
+    font-size: 0.9em;
+}
+.chef-footer-item p{
+    display: flex;
+    justify-content: center;
+}
+.chef-footer-item .iconfont{
+    font-weight: normal;
+    color: #6eb92c;
+    margin-right: 6px;;
+}

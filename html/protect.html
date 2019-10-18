@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>维保进度</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+		<style>
+			html, body {
+				background-color:  #efefef;
+			}
+			.head-center {
+				text-align: center;
+			}
+			.con {
+				background-color: #f9f8f8;
+				padding: 10px 10px 2px 10px;
+			}
+			.devParameter {
+				margin-top: 8px;
+			}
+			.deviceType {
+				display: flex;
+				justify-content: space-around;
+				height: 44px;
+				padding: 3px 13px;
+				padding-right: 10px;
+				line-height: 44px;
+				background-color: #fff;
+				margin-bottom: 2px;
+				font-size: 15px;
+			}
+			.deviceType .iconfont {
+				float: right;
+			}
+			.devItem img {
+				height: 50px;
+				vertical-align: middle;
+			}
+			.deviceType .deviceKey {
+				font-size: 16px;
+			}
+			.blueActive {
+				color: #6eb92c;
+				font-size: 15px;
+			}
+			.deviceState {
+				margin-right: 8px;
+			}
+			.preService {
+				margin: 30px auto;
+				width: 60%;
+				height: 34px;
+				border-radius: 17px;
+				background-color: #6eb92c;
+				color: #fff;
+				text-align: center;
+				line-height: 34px;
+			}
+			.blueActive:after {
+				display: block;
+				content: "";
+				width: 100%;
+				height: 3px;
+				background-color: #6eb92c;
+			}
+			.devItem {
+				display: flex;
+				height: 120px;
+				width: 85%;
+				flex-direction: column;
+				justify-content: space-around;
+				margin: 15px auto;
+				padding: 3px 15px;
+				background-color: #fff;
+				border: 1px solid #fff;
+				border-radius: 10px;
+			}
+			.itemHead {
+				display: flex;
+				justify-content: flex-start;
+				font-size: 16px;
+				font-weight: 600;
+			}
+			.itemCon {
+				font-size: 15px;
+			}
+			.device {
+				color: #6eb92c;
+			}
+			.reason {
+				color: #bbb;
+			}
+			.key {
+				margin-right: 10px;
+			}
+			.btn {
+				display: flex;
+				justify-content: flex-end;
+				font-size: 14px;
+			}
+			.btn > div {
+				width: 60px;
+				height: 20px;
+				padding: 0 10px;
+				line-height: 20px;
+				color: #6eb92c;
+				border: 1px solid #6eb92c;
+				border-radius: 10px;
+				text-align: center;
+			}
+			.lookRate {
+				margin-right: 10px;
+			}
+			.pop {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background-color: rgba(0,0,0,0.5);
+			}
+			.tips {
+				position: fixed;
+				width: 300px;
+				height: 100px;
+				padding: 7px 15px;
+				background-color: #fff;
+				border-radius: 10px;
+				top: calc(50% - 50px);
+				left: calc(50% - 165px);
+			}
+			.tipsHead {
+				text-align: center;
+				height: 30px;
+				line-height: 30px;
+				margin-bottom: 10px;
+				color: #6eb92c;
+			}
+			.null{
+				padding:10px;
+				color:#7f7f7f;
+			}
+			.nav{
+				border:0px solid red;
+				display:flex;
+				width:calc(100% - 20px);
+				padding: 10px 10px 2px 10px;
+				height:40px;
+			}
+			.choose{
+				width:100%;
+				line-height:40px;
+				background:#fff;
+				position: relative;
+			}
+			.choose>span{float:left;width:calc(20% - 8px);line-height:30px;border:1px solid #efefef;text-align:center;margin-top:4px;background: #efefef;margin-left:5px;font-size:14px;}
+			.but{width:calc(25% - 10px);line-height:40px;margin-left:10px;border:0px solid red;text-align:center;border-radius: 5px ;color:white;background:#6eb92c;}
+			.itema{
+				margin-top:10px;
+				width:calc(100% - 20px);
+				margin:10px 10px 0px 10px;
+				padding:15px 0px 15px 0px;
+				height:auto;
+				border:0px solid red;
+				position: relative;background: #fff;border-radius: 8px;
+			}
+			.username{color:#6eb92c;padding-left:12px;}
+			.showdetail{position:absolute;top:15px;right:5px;color:#6eb92c}
+			.protect_time{
+				border-bottom: 1px solid #e9e9e9;padding:8px 0px 8px 12px;
+			}
+			.lixi_tel,.lixi_add{
+				border-bottom: 1px solid #e9e9e9;padding:8px 0px 8px 12px;
+				
+			}
+			.equip_name{padding:8px 0px 0px 12px;}
+			.value{position: absolute;right:10px;color:#a3a3a3;}
+			.ke{color:#6eb92c;}
+			#aa{width:100%;height:auto;}
+			.span_active{
+				color:#fff;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">维保进度</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class="con">
+			<div class="serveState deviceType deviceType1">
+				<div class="doing deviceKey blueActive" onclick="cityXXK('1')" tapmode>
+					维保中
+				</div>
+				<div class="already deviceValue " onclick="cityXXK('2')" tapmode>
+					已完成
+				</div>
+			</div>
+		</div>
+		<div class="nav">
+			<div class="choose" id="dizhi"><span  class="span_active" >杭州市</span><span>杭州市</span></div>
+		</div>
+		<div class=""id="aa">
+		<!-- <div class="itema" >
+			
+				<div class="username">张大锤</div>
+				<div class="showdetail" onclick="">查看详情  <i class="iconfont icon-htbArrowright"></i></div>
+				<div class="protect_time">预约维保时间：2019.01.23</div>
+				<div class="lixi_tel  kk">
+					<span class="key">联系方式</span>
+					<span class="value">12723186</span>
+				</div>
+				<div class="lixi_add"><span class="key">联系地址</span><span class="value">浙江省德清县湖州市武康镇</span></div>
+				<div class="equip_name"><span class="key ">设备名称</span><span class="value ke">广州蛋炒单温</span></div>
+			
+		</div>
+		<div class="itema" >
+			
+				<div class="username">张大锤</div>
+				<div class="showdetail" onclick="">查看详情  <i class="iconfont icon-htbArrowright"></i></div>
+				<div class="protect_time">预约维保时间：2019.01.23</div>
+				<div class="lixi_tel  kk">
+					<span class="key">联系方式</span>
+					<span class="value">12723186</span>
+				</div>
+				<div class="lixi_add"><span class="key">联系地址</span><span class="value">浙江省德清县湖州市武康镇</span></div>
+				<div class="equip_name"><span class="key ">设备名称</span><span class="value ke">广州蛋炒单温</span></div>
+			
+		</div> -->
+		</div>
+		<!--<div class="item" id="tt">
+
+		</div>-->
+		<div class="pop TIP hide"  onclick="keep()">
+			<div class="tips" >
+				<div class="tipsHead">
+					温馨提示
+				</div>
+				<div class="tipsCon">
+					点击完成维修后，将结束本次维修服务~
+				</div>
+			</div>
+		</div>
+		<div class="null hide" >
+			<p>
+				该区域下没有维保的设备信息
+			</p>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		var URL="";
+		var start=0;
+		var data_goods=null;
+		var now_type='1';
+		var region_id=0;
+		var region_index;
+		apiready = function() {
+
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			headerH = $api.fixStatusBar(header);
+			
+			//now_type=orderState;
+			
+			
+
+			 //下拉刷新
+          api.setCustomRefreshHeaderInfo({
+                bgColor: '#238bd9',
+                images: {
+                    pull: 'widget://image/refresh/pulling.png',
+                    transform: [
+                        'widget://image/refresh/transform0.png',
+                        'widget://image/refresh/transform1.png',
+                        'widget://image/refresh/transform2.png',
+                        'widget://image/refresh/transform3.png',
+                        'widget://image/refresh/transform4.png',
+                        'widget://image/refresh/transform5.png',
+                        'widget://image/refresh/transform6.png'
+                    ],
+                    load: [
+                        'widget://image/refresh/loading0.png',
+                        'widget://image/refresh/loading1.png',
+                        'widget://image/refresh/loading2.png',
+                        'widget://image/refresh/loading3.png',
+                        'widget://image/refresh/loading4.png',
+                    ]
+                }
+            }, function(ret, err) {
+              //console.log('loading=================================>');
+               servingOrDone(now_type);
+               setTimeout('api.refreshHeaderLoadDone()', '1000');
+               //get_spike_time();
+
+            });
+
+
+
+
+			//上拉加载
+         api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 50 //距离底部距离
+            }
+        }, function(ret, err) {
+            console.log("上拉加载");
+
+      if(data_goods!=null){
+		console.log(JSON.stringify(data_goods));
+		
+        if(data_goods.length<10){
+        api.toast({
+	                  msg: '没有更多了',
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+              }else{
+                start+=10;
+
+          		setTimeout('servingOrDone('+now_type+','+region_id+')', '3000');
+            }
+         }
+        });
+
+        //servingOrDone(now_type);
+        get_weibao_region();
+		};
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		function goBack() {
+			api.closeWin()
+		}
+		
+		//获取维保人员的地址
+		function get_weibao_region(){
+			api.ajax({
+					url : URL + 'index.php?app=boli_homepage&act=get_weibao_region',
+					method : 'post',
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							userId : userId,
+						}
+					}
+				}, function(ret, err) {
+					console.log('---'+JSON.stringify(ret));
+					if(ret.done){
+						$("#dizhi").html('');
+						var str='';
+						$.each(ret.retval,function(i,item){
+							if(i==0){
+								region_id=item.region_id;
+								region_index=i;
+							}
+							str+='<span onclick="cityClick('+item.region_id+','+i+')">'+item.region_name+'</span>';
+							console.log('-a------'+str);
+						})
+						$("#dizhi").html(str);
+						servingOrDone(now_type,region_id);
+					}else{
+						 api.toast({
+		                    msg:ret.msg,
+		                    duration: 2000,
+		                    location: 'bottom'
+		                  });
+					}
+				});
+		}
+		
+		function servingOrDone(type,region_id) {
+			$("#aa").html("");
+			now_type=type;
+			//alert(region_id);
+			if (type == "1") {
+				$(".doing").addClass("blueActive");
+				$(".already").removeClass("blueActive");
+			}else{
+				$(".doing").removeClass("blueActive");
+				$(".already").addClass("blueActive");
+			}
+				api.ajax({
+					url : URL + 'index.php?app=boli_homepage&act=getweibao',
+					method : 'post',
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							userId : userId,
+							type : type,
+							start:start,
+							region_id:region_id
+						}
+					}
+				}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+					if (ret.done) {
+						// 如果请求成功,且有服务中的或者已完成的,就拼接div
+						//ret.retval.device是用户的设备
+						//value.num是订单编号，value.devname是维修设备的名字，value.reason是维修原因
+						
+						data_goods=ret.retval;	
+						if(data_goods.length==0){
+							$(".null").removeClass("hide");
+							return;
+						}else{
+							$(".null").addClass("hide");
+						}
+						
+						if(type==1){
+							  $.each(data_goods, function(index, value) {
+							  	lbt="";
+								lbt += '<div class="itema" >';
+								lbt += '<div class="username">'+value.company_name+'</div>';
+								lbt += '<div class="showdetail"  onclick ="goDetail('+value.id+')">查看详情  <i class="iconfont icon-htbArrowright"></i></div>';
+								if(!value.add_time){
+									lbt += '<div class="protect_time">上次维保时间：'+formatDateTime(value.factory_time)+'</div>';
+								}else{
+									lbt += '<div class="protect_time">上次维保时间：'+formatDateTime(value.add_time)+'</div>';
+								}
+								
+								lbt += '<div class="lixi_tel  kk"><span class="key">联系方式</span><span class="value">'+value.phone_tel+'</span></div>';
+								lbt += '<div class="lixi_add"><span class="key">联系地址</span><span class="value">'+value.address+'</span></div>';
+								lbt += '<div class="equip_name"><span class="key ">设备名称</span><span class="value ke">'+value.machine_name+'</span></div></div>';
+							 	$("#aa").append(lbt);
+							 })
+						 
+						}else{
+							$.each(data_goods, function(index, value) {
+							  	lbt="";
+								lbt += '<div class="itema" >';
+								lbt += '<div class="username">'+value.company_name+'</div>';
+								lbt += '<div class="showdetail"  onclick ="goDetail('+value.id+')">查看详情  <i class="iconfont icon-htbArrowright"></i></div>';
+								if(!value.add_time){
+									lbt += '<div class="protect_time">上次维保时间：'+formatDateTime(value.factory_time)+'</div>';
+								}else{
+									lbt += '<div class="protect_time">上次维保时间：'+formatDateTime(value.add_time)+'</div>';
+								}
+								lbt += '<div class="lixi_tel  kk"><span class="key">联系方式</span><span class="value">'+value.phone_tel+'</span></div>';
+								lbt += '<div class="lixi_add"><span class="key">联系地址</span><span class="value">'+value.address+'</span></div>';
+								lbt += '<div class="equip_name"><span class="key ">设备名称</span><span class="value ke">'+value.machine_name+'</span></div></div>';
+							 	$("#aa").append(lbt);
+							 })
+						 
+						}
+
+					} else {
+						data_goods=null;
+						$("#aa").html('');
+						$(".null").removeClass("hide");
+					};
+				});
+			}
+
+
+		function goTipsAlert(e) {
+			//let
+			oTip = document.querySelector(".TIP");
+			oTip.classList.remove("hide")
+		}
+
+		function keep() {
+			//document.querySelectorAll(".pop").forEach(value=> {
+				//value.classList.add("hide");
+			//})
+		}
+		
+		
+		
+		//goDetail进入详情页面
+		function goDetail(id){
+		
+			api.openWin({
+	            name: 'protectDetail',
+	            url: './protectDetail.html',
+	            bounces:false,
+	            reload:true,
+	            animation:{
+	            	type:'push',
+	            	subType:'from_right',
+	            	duration : 300 //动画过渡时间，默认300毫秒
+	            },
+	            pageParam : {
+					id : id,
+					now_type:now_type
+				}
+            });
+		}
+
+		function gomaintainNext(id){
+			api.openWin({
+	            name: 'maintainNext',
+	            url: './maintainNext.html',
+	            bounces:false,
+	            reload:true,
+	            animation:{
+	            	type:'push',
+	            	subType:'from_right',
+	            	duration : 300 //动画过渡时间，默认300毫秒
+	            },
+	            pageParam : {
+					id : id
+				}
+            });
+		}
+		//点击城市显示设备
+		function cityClick(region_id,index){
+//			$(this).addClass('span_active').siblings.removeClass('span_active');
+			$('#dizhi span').each(function(i,item){
+				if(index==i){
+				console.log(i);
+					$(this).css('background','#6eb92c');
+					$(this).addClass('span_active').siblings().removeClass('span_active');
+					$(this).siblings().css('background','#efefef');
+				}
+			})
+			region_id=region_id;
+
+			servingOrDone(now_type,region_id);
+		}
+		//点击选项卡
+		function cityXXK(type){
+			//cityClick(region_id,region_index)
+			servingOrDone(type,region_id);
+		}
+				
+		
+		
+		
+
+//时间戳转换
+  function formatDateTime(timeStamp) {
+    var date = new Date();
+    date.setTime(timeStamp * 1000);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    //return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+    return y+"-"+m+"-"+d;
+};
+	</script>
+</html>

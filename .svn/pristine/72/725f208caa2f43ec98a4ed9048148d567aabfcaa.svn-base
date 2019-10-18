@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>我的微信</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #fff;
+      }
+      .wechat{ width:100%;padding:40px 0 20px 0;text-align: center; }
+      .wechat img{ height:60px;width:60px;border-radius: 30px; }
+      .change_btn{ text-align: center;margin-top:150px; }
+      #btn_xg{ color:#888;background-color: #fff ;border:1px solid #888;border-radius: 5px;text-align: center;width:60%;height:40px;line-height: 40px;   }
+
+
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">我的微信</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div class="wechat"><img src="../image/default_portrait.png"  id="wechat_portrait"><p id="wechat_name">微信名：</p></div>
+       <div class="change_btn"><span id="btn_xg">更换微信</div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      var URL="";
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+
+      //加载帮助列表
+
+     //初始加载
+      getInfo();
+      };
+			function getInfo(){
+                api.ajax({
+                    url : URL+'index.php?app=myinfo&act=get_vxinfo',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                        }
+                    }
+                }, function(ret, err) {
+//                  /alert(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+                            var str = "";
+                            $api.append($api.byId("wechat_name"), ret.retval.real_name);
+                            $api.attr($api.byId("wechat_portrait"), 'src', URL+ret.retval.portrait);
+                    }
+                });
+            }
+
+  </script>
+  </html>

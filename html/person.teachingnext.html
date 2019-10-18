@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>上传教学</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/person/person.teachingnext.css" />
+</head>
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span >上传教学</span>
+        </div>
+    </header>
+
+    <!-- 主料 -->
+    <div class="teachnext-items">
+        <div class="teachnext-items-title">
+            <p class="teachnext-title-p">主料</p> 
+            <i class="iconfont">+</i>
+        </div>
+        <div class="teachnext-items-item">
+            <div class="teachnext-item-half">
+                <input type="text" class="teachnext-half-input input-active" placeholder="填写主料">
+            </div>
+            <div class="teachnext-item-half">
+                <input type="text" placeholder="用量">
+            </div>
+        </div>
+        <div class="teachnext-items-item">
+            <div class="teachnext-item-half">
+                <input type="text" placeholder="填写主料">
+            </div>
+            <div class="teachnext-item-half">
+                <input type="text" placeholder="用量">
+            </div>
+        </div>
+    </div>
+    
+    <div class="teachnext-items">
+        <div class="teachnext-items-title">
+            <p class="teachnext-title-p">辅料</p> 
+            <i class="iconfont">+</i>
+        </div>
+        <div class="teachnext-items-item">
+            <div class="teachnext-item-half">
+                <input type="text" class="teachnext-half-input " placeholder="填写辅料">
+            </div>
+            <div class="teachnext-item-half">
+                <input type="text" placeholder="用量">
+            </div>
+        </div>
+    </div>
+
+    <div class="teachnext-items">
+        <div class="teachnext-items-title">
+            <p class="teachnext-title-p">调料</p> 
+            <i class="iconfont">+</i>
+        </div>
+        <div class="teachnext-items-item">
+            <div class="teachnext-item-half">
+                <input type="text" class="teachnext-half-input" placeholder="填写辅料">
+            </div>
+            <div class="teachnext-item-half">
+                <input type="text" placeholder="用量">
+            </div>
+        </div>
+    </div>
+    
+    <div class="teachnext-items">
+        <div class="teachnext-items-title">
+            <p class="teachnext-title-p">做法</p> 
+        </div>
+        <div class="teachnext-items-item">
+            <textarea name="" class="teachnext-items-text" id="" cols="30" rows="10" placeholder="填写做法"></textarea>
+        </div>
+    </div>
+
+    <div class="teaching-cuisine-next">
+        下一步
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+
+</script>
+
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>邀请好友注册</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.register.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部 -->
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>邀请好友注册</span>
+            </div>
+        </header>
+        <!-- 头部图片 -->
+        <div class="headImg">
+           <!--  <img src="../image//invitationDown.png" alt=""> -->
+           <p class="invitat-vip headImg-text">邀请vip会员</p>
+           <p class="invitat-app-down headImg-text">邀请好友下载厨连联APP</p>
+        </div>
+        <!-- 邀请得积分 -->
+        <div class="integral">
+            <P class="getIntegral">邀请得积分</P>
+            <P class="integralText">邀请好友注册得积分奖励</P>
+            <P class="getIntegral">好友下单获得更多奖励</P>
+            <P class="integralText">厨小店用户好友在平台购买商品，获得积分及佣金奖励</P>
+            <button class="integralBtn">邀请好友注册得奖励</button>
+            <p class="recruitName">会员招募令</p>
+            <div class="recruit">
+                <div>
+                    <p class="recruitText">已邀人数</p>
+                    <p>0</p>
+                </div>
+                <div>
+                    <p class="recruitText">总奖励 (元)</p>
+                    <p>0</p>
+                </div>
+                <div>
+                    <p class="recruitText">已发奖励 (元)</p>
+                    <p>0</p>
+                </div>
+            </div>
+        </div>
+        <!-- 分享以下商品邀请好友更有效 -->
+        <h5 class="title">分享以下商品邀请好友更有效</h5>
+        <!-- 全部最新热卖列表 -->
+        <div class="bestSellers">
+            <div 
+            class="bestSellers-item" 
+            v-for="(v,i) in bottomLists.showList" 
+            :key="i"
+            @click="goGoodsDet(v.goods_id)" >
+                <div class="bestSellers-img">
+                    <img :src="URL+v.default_image" alt="">
+                </div>
+                <div class="bestSellers-item-bottom">
+                    <p class="introduce">{{v.goods_name}}</p>
+                    <p class="bestSellers-red introduce">
+                        <span>
+                            <span class="bestSellers-text">￥{{v.price}}</span>
+                            <span class="bestSellers-del">￥{{v.oprice}}</span>
+                        </span>
+                        
+                        <span class="salesVolume">销量{{v.orders}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            defautCateId: 0,
+            bottomLists: {
+                activeIndex: 0,
+                list: [[], [], []],
+                start: [0, 0, 0],
+                end: [false, false, false],
+                showList: []
+            }
+        },
+        methods: {
+            goBack: function () {
+                api.closeWin();
+            },
+            //获取模块名称
+            getAll_category: function getAll_category() {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=get_gcategory_all',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.defautCateId = ret.retval[0].cate_id
+                        ret.retval.forEach(function (v, i) {
+                            if (v.goods_infos.length) {
+                                v.goods_infos.forEach(function (value, index) {
+                                    if (value.tags.length) {
+                                        value.tags = value.tags.split(",")
+                                        //console.log(value.tags)
+                                    }
+                                    value.oprice = value.oprice <= 1 ? value.oprice : parseInt(value.oprice)
+                                    value.price = value.price <= 1 ? value.price : parseInt(value.price)
+                                })
+                            }
+                        })
+                        that.category = ret.retval
+
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //进入商品详情
+            goGoodsDet: function goGoodsDet(id, isKill, endTime) {
+                //console.log(id)
+                api.openWin({
+                    name: 'mall.description',
+                    url: './mall.description.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        goodId: id,
+                        seckill: isKill,
+                        endTime: endTime
+                    }
+                });
+            },
+            changeBottomList: function () {
+                var that = this
+                var i = 0
+                this.bottomLists.activeIndex = i
+                var funcArr = ["get_all_goods_new", "get_new_goods", "get_hot_goods"]
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=' + funcArr[i],
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: { start: that.bottomLists.start[i] }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        if (ret.retval.length <= 0) {
+                            that.bottomLists.end[i] = true
+                        } else {
+                            ret.retval.forEach(function (v, index) {
+                                v.price = v.price <= 1 ? v.price : parseInt(v.price)
+                                v.oprice = v.oprice <= 1 ? v.oprice : parseInt(v.oprice)
+                                that.bottomLists.list[i].push(v)
+                            })
+                            that.bottomLists.start[i] += 6;
+                            that.bottomLists.end[i] = false
+                        }
+                        that.bottomLists.showList = that.bottomLists.list[i]
+
+                    } else if (ret) {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    //上拉加载
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 50 //距离底部距离
+                        }
+                    }, function (ret, err) {
+                        if (that.bottomLists.end[that.bottomLists.activeIndex]) {
+                            api.toast({
+                                msg: '没有更多了',
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        } else {
+
+                            that.changeBottomList(that.bottomLists.activeIndex)
+                        }
+                    });
+                    api.setCustomRefreshHeaderInfo({
+                        bgColor: '#F6F6F6',
+                        images: {
+                            pull: 'widget://image/refresh/pulling.png',
+                            transform: [
+                                'widget://image/refresh/transform0.png',
+                                'widget://image/refresh/transform1.png',
+                                'widget://image/refresh/transform2.png',
+                                'widget://image/refresh/transform3.png',
+                                'widget://image/refresh/transform4.png',
+                                'widget://image/refresh/transform5.png',
+                                'widget://image/refresh/transform6.png'
+                            ],
+                            load: [
+                                'widget://image/refresh/loading0.png',
+                                'widget://image/refresh/loading1.png',
+                                'widget://image/refresh/loading2.png',
+                                'widget://image/refresh/loading3.png',
+                                'widget://image/refresh/loading4.png',
+                            ]
+                        }
+                    }, function (ret, err) {
+                        console.log(1)
+                    });
+                }
+            })
+        },
+        mounted: function mounted() {
+
+            //this.initSwiperTop()
+        },
+    })
+</script>
+
+</html>

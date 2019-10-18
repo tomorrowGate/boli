@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>营销</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<style>
+			html, body {background-color: #f2f2f2;}
+			.hide {display: none;}
+			/* sticky */
+			.sticky {
+				position: -webkit-sticky;
+				position: sticky;
+				top: 0;
+				padding: 5px 3%;
+				background-color: #fff;
+				z-index: 2;
+			}
+			.sticky .list_type {
+				width: 33.33%;
+				text-align: center;
+				float: left;
+				height: 32px;
+				line-height: 30px;
+				font-weight:  bold;
+				/* border-bottom: 1px solid #f2f2f2; */
+			}
+			.sticky .active  span{
+				color: #0b93eb;
+				border-bottom: 2px solid #0b93eb;
+				font-weight: bold;
+				height:30px;
+				line-height: 30px
+			}
+			/*营销*/
+			.part_div{padding:10px 3%;}
+			.nomal_title{ margin-bottom: 10px;border-bottom: 1px solid #f2f2f2;padding: 5px 0; }
+			.my_icon3{ color:#1f9eef; }
+			.content_item{ padding: 10px 0;position: relative;background-color: #fff;border-radius: 5px;box-shadow: 0 0 5px 1px #ccc;margin-bottom: 10px; }
+			.portrait_cooker{ width:60px;height:60px;border-radius: 50px; text-align: center;overflow: hidden}
+	        .cooker_info{ height: 60px;line-height: 22px;padding: 8px; }
+	        .cooker_info .master_name{ font-weight: bold;color: #0b93eb; }
+	        .cooker_info p{ margin:0; }
+	        .img1{ height: 100%; }
+	        .img2{  height:20px;margin-left:5px;}
+	        .name{ font-weight: bold }
+	        .tag{ font-size: 0.9em;color:#f37b1b;background-color: #fce1cc;padding:0 5px;border-radius: 3px;text-align: center }
+	        .bottom_btn{ position: absolute;bottom:18px;right:10px;margin:0; font-size: 0.9em }
+	        .bottom_btn .btn_1{ color:#000000; }
+	        .bottom_btn .btn_2{ color:#f03621; }
+
+
+		</style>
+	</head>
+	<body>
+		<div class="sticky">
+			<div class="list_type" onclick="changeOrder('0')" tapmode>
+				<span>师傅</span>
+			</div>
+			<div class="list_type" onclick="changeOrder('1')" tapmode>
+				<span>徒弟</span>
+			</div>
+			<div class="list_type active" onclick="changeOrder('2')" tapmode>
+				<span>营销</span>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="part_div clearfix">
+		       <div id="my_apprentice">
+			    <div class="content_item flex cross_middle">
+			        <div class="portrait_cooker"><img src="../image/cooker.png" class="img1 master_portrait"></div>
+			        <div class="cooker_info">
+			          <p><span class="master_name">周伯通</span><span class="tag">徒弟</span></p>
+			          <p class="master_style font_c1">购单炒单温灶</p>
+			          <p class="bottom_btn"><span class="btn_1">&yen;18900/</span><span class="btn_2">赚&yen;560</span></p>
+			        </div>
+			    </div>
+			    <div class="content_item flex cross_middle">
+			        <div class="portrait_cooker"><img src="../image/cooker.png" class="img1 master_portrait"></div>
+			        <div class="cooker_info">
+			          <p><span class="master_name">周伯通</span><span class="tag">徒弟</span></p>
+			          <p class="master_style font_c1">购单炒单温灶</p>
+			          <p class="bottom_btn"><span class="btn_1">&yen;18900/</span><span class="btn_2">赚&yen;560</span></p>
+			        </div>
+			    </div><div class="content_item flex cross_middle">
+			        <div class="portrait_cooker"><img src="../image/cooker.png" class="img1 master_portrait"></div>
+			        <div class="cooker_info">
+			          <p><span class="master_name">周伯通</span><span class="tag">徒弟</span></p>
+			          <p class="master_style font_c1">购单炒单温灶</p>
+			          <p class="bottom_btn"><span class="btn_1">&yen;18900/</span><span class="btn_2">赚&yen;560</span></p>
+			        </div>
+			    </div><div class="content_item flex cross_middle">
+			        <div class="portrait_cooker"><img src="../image/cooker.png" class="img1 master_portrait"></div>
+			        <div class="cooker_info">
+			          <p><span class="master_name">周伯通</span><span class="tag">徒弟</span></p>
+			          <p class="master_style font_c1">购单炒单温灶</p>
+			          <p class="bottom_btn"><span class="btn_1">&yen;18900/</span><span class="btn_2">赚&yen;560</span></p>
+			        </div>
+			    </div>
+		    </div>
+		</div>
+
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		var swiper1 = new Swiper('.swiper1', {
+			slidesPerView : 'auto',
+			spaceBetween : 10,
+			loop : false,
+			autoplay : false
+		});
+		var URL = "";
+		apiready = function() {
+			URL = $api.URL();
+			api.refreshHeaderLoading();
+			$('.swiper-wrapper').on('touchstart', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group2',
+					scrollEnabled : false
+				});
+			});
+			$('.swiper-wrapper').on('touchend', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group2',
+					scrollEnabled : true
+				});
+			});
+			//下拉刷新
+	        api.setCustomRefreshHeaderInfo({
+	            bgColor: '#F6F6F6',
+	            images: {
+	                pull: 'widget://image/refresh/pulling.png',
+	                transform: [
+	                    'widget://image/refresh/transform0.png',
+	                    'widget://image/refresh/transform1.png',
+	                    'widget://image/refresh/transform2.png',
+	                    'widget://image/refresh/transform3.png',
+	                    'widget://image/refresh/transform4.png',
+	                    'widget://image/refresh/transform5.png',
+	                    'widget://image/refresh/transform6.png'
+	                ],
+	                load: [
+	                    'widget://image/refresh/loading0.png',
+	                    'widget://image/refresh/loading1.png',
+	                    'widget://image/refresh/loading2.png',
+	                    'widget://image/refresh/loading3.png',
+	                    'widget://image/refresh/loading4.png',
+	                ]
+	            }
+	        }, function(ret, err) {
+	                get_master_info();
+					setTimeout('api.refreshHeaderLoadDone()', '2000');
+	        });
+		};
+		//获取师傅和朋友列表
+		function get_master_info() {
+			var userId = localStorage.getItem("userId");
+			api.ajax({
+				url : URL + 'index.php?app=appfind',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					 $.each(ret.retval.apprentice, function(i, item) {
+                        var str1='';
+                        str1+='<div class="content_item flex cross_middle">';
+				        str1+='<div class="portrait_cooker">';
+				        if(item.portrait){
+				        	str1+='<img src="' + URL +item.portrait+'" class="img1 master_portrait">';
+				        }else{
+				        	str1+='<img src="../image/cooker.png" class="img1 master_portrait">';
+				        }
+				        str1+='</div>';
+				        str1+='<div class="cooker_info">';
+				        str1+='<p><span class="master_name">'+item.real_name+'</span><span class="tag">'+item.cook_type+'</span></p>';
+				        str1+='<p class="master_style font_c1">'+item.log_text+'</p>';
+				        str1+='<p class="bottom_btn"><span class="btn_1">&yen;'+item.money_all+'/</span><span class="btn_2">赚&yen;'+item.money_earn+'</span></p>';
+				        str1+='</div>';
+				       str1+='</div>';
+
+					 $api.append($api.byId("my_apprentice"), str1);
+					 })
+
+				} else {
+					alert(ret.msg);
+				}
+				api.refreshHeaderLoadDone();
+			});
+		}
+
+
+		function changeOrder(order) {
+			$(this).addClass("active").siblings().removeClass("active");
+			api.execScript({
+				frameName : 'connection',
+				script : 'fnsetFrameGroupIndex("group_connection","' + order + '");'
+			});
+		}
+
+	</script>
+</html>

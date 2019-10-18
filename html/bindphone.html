@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>绑定手机</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+      .top{ height:40px;line-height: 40px; background:url(../image/bg_yz1.png) no-repeat;background-size: 100% 100% }
+      .t_l,.t_r{ text-align:center; }
+      .t_r{ color:#fff; }
+      .ip{ width:100%;height:40px;line-height: 40px;border-bottom: 1px solid #ccc; }
+      .ip1{ width:65%;height:40px;line-height: 40px;border-bottom: 1px solid #ccc;margin-right: 5%}
+      .veri_item{ width:90%;margin:20px 5%;height:40px;line-height: 40px; }
+      #get_code{ width:30%;height:40px;line-height: 40px;background-color: #ee3f3f ;color:#fff;font-size: 0.9em;border-radius: 5px;text-align:center;}
+      .sub_btn{ text-align: center;margin-top:80px; }
+      #btn_tj{ width:80%;height:40px;line-height: 40px;border-radius: 15px;padding:0;background-color: #8b8b8b;color:#fff; }
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">绑定手机</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div class="top">
+        <div class="t_l">1.安全验证</div>
+        <div class="t_r">2.绑定新手机</div>
+      </div>
+      <form>
+      <div class="veri_list">
+        <div class="veri_item"><input type="text" name="phone_mob" id="phone_mob" class="ip" placeholder="请输入手机号"></div>
+        <div class="veri_item"><input type="text" name="msg_code" id="msg_code"  class="ip1" placeholder="请输入验证码"><span id="get_code">获取密码</span></div>
+      </div>
+      <div class="sub_btn"><input type="submit" name="btn_tj" id="btn_tj"  value="确认更换"></div>
+      </form>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      var URL="";
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+
+      };
+
+
+
+  </script>
+  </html>

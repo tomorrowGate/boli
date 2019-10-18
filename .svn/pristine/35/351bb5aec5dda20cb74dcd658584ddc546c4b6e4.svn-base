@@ -1,0 +1,43 @@
+/*菜谱列表*/
+
+.detail-teach-videos {
+    padding: 10px;
+}
+
+.detail-teach-videobox {
+    width: calc( 100vw - 20px);
+    height: calc( 50vw - 10px);
+    background: skyblue;
+    margin-bottom: 10px;
+}
+
+.detail-video-name {
+    font-weight: bold;
+}
+
+.video-video-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.video-video-left {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.video-left-text {
+    margin: 10px;
+}
+
+.video-video-right {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+.video-footer-item {
+    margin-left: 10px;
+}

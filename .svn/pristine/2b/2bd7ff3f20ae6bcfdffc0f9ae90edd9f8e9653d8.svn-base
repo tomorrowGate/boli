@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品详情</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.description.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部导航 -->
+        <header class="page-head hide-header" ref="header">
+            <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="200">
+                <div class="page-head-normall" ref="page-head-normall" v-show="isTopShow">
+                    <div class="back" @click="goBack" tapmode>
+                        <i class="iconfont icon-back"></i>
+                    </div>
+                    <a href="">宝贝</a>
+                    <a href="">评价</a>
+                    <a href="">详情</a>
+                    <a href="">须知</a>
+                    <i class=""></i>
+                </div>
+            </transition>
+
+            <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" :duration="200">
+                <div class="fix-head" ref="fix-head" v-show="!isTopShow">
+                    <div class="fix-i-out">
+                        <i class="iconfont icon-back" @click="goBack"></i>
+                    </div>
+                    <div class="fix-i-out">
+                        <i class="detail-video-tag iconfont icon-love"></i>
+                    </div>
+                </div>
+            </transition>
+        </header>
+        <div class="main">
+            <!-- 视频详情 -->
+            <div class="detail-teach-videobox">
+                <div class="swiper-container goods-swiper-recommend">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide swiper-option" v-for="(v,i) in goodsInfo._images" :key="i" tapmode>
+                            <div class="forum-item-imgbox">
+                                <img :src="URL+v.image_url" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="navBtn">
+                    <button class="videoBtn"><i></i>视频</button>
+                    <button class="imgBtn">图片</button>
+                </div>
+
+            </div>
+            <!-- 商品价格 -->
+            <div class="price">
+                <p class="priceDiscount">
+                    <span class="priceNum">￥{{goodsInfo.price}}</span>
+                    <span class="priceDel">￥{{goodsInfo.oprice}}</span>
+                    <span>赚{{(goodsInfo.oprice-goodsInfo.price).toFixed(2)}}</span>
+                </p>
+                <div class="priceMarin" v-if="false">
+                    <span class="priceLogo">厨小店</span>
+                    <span class="priceSmall">￥228</span>
+                </div>
+                <p>{{goodsInfo.goods_name}}</p>
+            </div>
+            <!-- 发货优惠 -->
+
+            <div class="consignment">
+                <span class="tag">发货</span>
+                <i class="iconfont icon-didian"></i>
+                <span class="add">{{goodsAddress}}</span>
+                <!-- <span>快递：0.00</span> -->
+                <span class="salesVolume">销量{{goodsInfo.orders}}</span>
+            </div>
+            <div class="discount">
+                <span class="tag">优惠</span>
+                <span class="coupon">领优惠券</span>
+                <i class="iconfont icon-htbArrowright icon-right"></i>
+            </div>
+            <!-- 保障 -->
+            <div class="guarantee">
+                <span class="tag">保障</span>
+                <div class="guarantee-center">
+                    <!-- <span class="guaranteeEstimate">17：00前付款，预计9月30日(后台送到)</span> -->
+                    <span class="guaranteeText">送货上门 · 免费安装 · 一年包换 · 三年保修</span>
+                </div>
+                <i class="iconfont icon-htbArrowright icon-Location"></i>
+            </div>
+            <!-- 选择参数 -->
+            <div class="consignment" @click="showGoodCards">
+                <span class="tag">选择</span>
+                <span>选择</span>
+                <span>颜色分类</span>
+                <i class="iconfont icon-htbArrowright icon-right"></i>
+            </div>
+            <div class="discount">
+                <span class="tag">参数</span>
+                <span>集成灶品牌</span>
+                <span>型号</span>
+                <i class="iconfont icon-htbArrowright icon-right"></i>
+            </div>
+            <!-- 宝贝评价 -->
+            <div class="evaluate hide">
+                <div class="evaluateHead">
+                    <span>宝贝评价</span>
+                    <span>(889)</span>
+
+                    <span class="whole">查看全部<i class="iconfont icon-htbArrowright icon-left"></i></span>
+                </div>
+                <div class="message">
+                    <div class="flex">
+                        <div class="circle">
+                            <img src="" alt="">
+                        </div>
+                        <span class="circleName">涵(宝宝)</span>
+                    </div>
+                    <p class="circleText">已安装好,很给力,物流很快,服务态度也好。</p>
+                </div>
+                <div class="message">
+                    <div class="flex">
+                        <div class="circle">
+                            <img src="" alt="">
+                        </div>
+                        <span class="circleName">涵(宝宝)</span>
+                    </div>
+                    <p class="circleText">已安装好,很给力,物流很快,服务态度也好。</p>
+                </div>
+            </div>
+            <!-- 商品详情 -->
+            <div class="commodityHead">
+                <p class="commoditySpacing">——————<span class="commodityTitle">商品详情</span>——————</p>
+                <div class="rich-text" ref="rich-text" v-html="goodsInfo.description">
+                </div>
+            </div>
+            
+        <!-- 购物车弹框 -->
+        <div class="dia-shopcard" v-show="isShowCar">
+            <div class="dia-mask" @click="closeDia"></div>
+            <div class="dia-shopcard-real">
+                <div class="dia-shopcard-top">
+                    <div class="dia-shopcard-imgbox">
+                        <img :src="URL+goodsInfo.default_image" alt="">
+                    </div>
+                    <div class="dia-shopcard-topright">
+                        <div class="shopcard-topright-sybol">￥<span class="shopcard-topright-money">{{goodsInfo.price}}</span> </div>
+                        <div class="shopcard-topright-stock">库存{{storkSelect+"件"}}</div>
+                        <div class="shopcard-topright-address">配送至：德清县，选择 {{selectColor+specificationName}}</div>
+                    </div>
+                </div>
+                <div class="dia-shopcard-content">
+                    <div class="shopcard-content-block">
+                        <div class="shopcard-content-head">配送区域</div>
+                        <div class="shopcard-content-items">
+                            <div class="shopcard-content-item">
+                                <div>
+                                    <i class="iconfont icon-didian"></i>
+                                    <span class="">湖州市</span>
+                                </div>
+                                <div class=""><i class="iconfont icon-htbArrowright"></i></div>
+                                
+                            </div>
+                           <!--  <div class="shopcard-content-item">
+                                <span class="">预约配送 30分钟内付款，预计9.20到</span>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="shopcard-content-block">
+                        <div class="shopcard-content-head">颜色分类</div>
+                        <div class="shopcard-content-items">
+                            <div class="shopcard-label-out">
+                                <span 
+                                    :class="['shopcard-content-itemlabel',selectColor==i?'shopcard-content-itemsel':'']" 
+                                    v-for="(v,i) in specificationsArr" 
+                                    @click="changeColors(i,1)"
+                                    :key="i">
+                                    {{i}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shopcard-content-block">
+                        <div class="shopcard-content-head">型号</div>
+                        <div class="shopcard-content-items">
+                            <div class="shopcard-label-out" >
+                                <span 
+                                    :class="['shopcard-content-itemlabel',selectSpecifications==v.spec_id?'shopcard-content-itemsel':'']" 
+                                    v-for="(v,i) in specificationsArr[selectColor]" 
+                                    @click="changeColors(v.spec_id,2,v.price,v.spec_2)"
+                                    :key="i">
+                                    {{v.spec_2}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shopcard-content-block">
+                        <div class="shopcard-content-items">
+                            <div class="shopcard-content-item">
+                                <span class="">购买数量</span>
+                            </div>
+                            <div class="shopcard-content-item">
+                                <span class="shopcard-content-itemlabel" @click="minusNum">-</span>
+                                <span class="shopcard-content-itemlabel">{{buyNum}}</span>
+                                <span class="shopcard-content-itemlabel" @click="addNum">+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dia-shopcard-bottom">
+                    <div class="shopcard-bottom-item shopcard-bottom-left" @click="addShopCard">加入购物车</div>
+                    <div class="shopcard-bottom-item shopcard-bottom-right" @click="buyRightNow">立即购买</div>
+                </div>
+            </div>
+        </div>
+        <!-- 底部导航条 -->
+        <nav class="footNav">
+            <div class="footNav-top footNav-bor"><i>🧡</i>
+                <p> 购物车</p>
+            </div>
+            <div class="footNav-top"><i>🧡</i>
+                <p> 客服</p>
+            </div>
+            <div class="footNav-item footNav-purchase" @click="showGoodCards">自购</div>
+            <div class="footNav-item footNav-share" @click="shareGoods">分享</div>
+        </nav>
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            topBanner: {},
+            imgDefalt: '../image/headimgDef.png',
+            swiperTop: null,
+            isTopShow: false,
+            goodId: 0,
+            goodsInfo: [],
+            storeId:0,
+            goodsAddress:"",
+            isShowCar:false,
+            storkSelect:0,//库存
+            specificationsArr:[],
+            selectColor:'',//被选中的颜色
+            specificationName:"",//被选中的规格的名称
+            selectSpecifications:'',//被选中的规格
+            buyNum:1
+            //goodsInfo._specs[0].stork
+        },
+        computed: {
+
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            checkLogin: function checkLogin() {
+                if (window.localStorage.getItem("ugrade")) {
+                    var ugrade = window.localStorage.getItem("ugrade"); //用户等级
+                } else {
+                    var ugrade = 0; //未登录
+                }
+            },
+            getScroll: function getScroll() {
+                var top = this.$refs['header'].getBoundingClientRect().bottom
+                var scrollTop = document.documentElement.scrollTop || document.body.scrollTop//必须加上|| document.body.scrollTop
+                if (scrollTop >= top) {
+                    this.isTopShow = true
+                } else {
+                    this.isTopShow = false
+                }
+            },
+            //初始化图片视频轮播图
+            initSwiperPic: function () {
+                new Swiper('.goods-swiper-recommend', {
+                    slidesPerView: 'auto',
+                    observer: true,
+                    observeParents: true,
+                    on: {
+                        click: function () {
+                            const realIndex = this.realIndex;
+                            console.log(this.realIndex)
+                        }
+                    },
+                    preventLinksPropagation: false   // 阻止点击事件冒泡
+                });
+            },
+            //根据userid和goodsid获取商品
+            getGoodsInfo: function getGoodsInfo() {
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=goods&id=' + that.goodId + '&ajax=1',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: userId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret.retval));
+                    if (ret && ret.done) {
+                        /* var reg = /<img.*?src=[\"|\']?(.*?)[\"|\']?\s.*?>/ig */
+                        var reg = /<img.*?src=[\"|\']/ig
+                        var replaceImg = "<img src=\""+that.URL
+                        ret.retval.description = ret.retval.description.replace(reg,replaceImg)
+                        that.goodsInfo = ret.retval
+                        that.storeId = ret.retval.store_id
+                        //console.log(ret.retval.description.match(reg))
+                        that.$nextTick(function () {
+                            that.initSwiperPic()
+                        })
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            getDistributorAdd:function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=boli_homepage&act=get_tuijian_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: userId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret.retval));
+                    if (ret && ret.done) {
+                        that.goodsAddress = ret.retval
+                    } else {
+                        console.log(ret)
+                       console.log(err)
+                    }
+                });
+            },
+            closeDia:function(){
+                this.isShowCar = false
+            },
+            shareGoods:function(){
+
+            },
+            changeColors:function(id,type,stork,specificationName){
+                if(type==1){
+                    this.selectColor = id
+                }
+                if(type==2){
+                    this.selectSpecifications = id
+                    this.storkSelect = parseInt(stork) 
+                    this.specificationName = specificationName
+                }
+            },
+            showGoodCards:function(){
+                this.isShowCar = true
+            },
+            addShopCard:function(){
+                var that = this
+                api.ajax({
+                    url : that.URL + 'index.php?app=cart&act=add',
+                    method : 'get',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            spec_id : that.selectSpecifications,
+                            quantity : that.buyNum,
+                            user_id : userId
+                        }
+                    }
+                }, function(ret, err) {
+                    if (ret && ret.done) {
+                        console.log(JSON.stringify(ret));
+                        api.toast({
+                            msg : '加入成功',
+                            duration : 2000,
+                            location : 'bottom'
+                        });
+                    }else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                    /* api.toast({
+                        msg : '已加入购物车',
+                        duration : 2000,
+                        location : 'bottom'
+                    }); */
+                });
+            },
+            buyRightNow:function(){
+                var that = this
+                api.ajax({
+                    url : that.URL + 'index.php?app=cart&act=to_shop',
+                    method : 'get',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            spec_id : that.selectSpecifications,
+                            quantity : that.buyNum,
+                            user_id : userId
+                        }
+                    }
+                }, function(ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    //return;
+                    if (ret && ret.done) {
+                        api.openWin({
+                            name : 'order.confirm',
+                            url : './order.confirm.html',
+                            bounces : false,
+                            pageParam : {
+                                orderId : ret.retval.orderId,
+                                store_id : that.storeId,
+                                goods_id : that.goodId,
+                                spec_id : that.selectSpecifications,
+                            },
+                            animation : {
+                                type : "push", //动画类型（详见动画类型常量）
+                                subType : "from_right", //动画子类型（详见动画子类型常量）
+                                duration : 300 //动画过渡时间，默认300毫秒
+                            }
+                        });
+                    } else {
+                        api.toast({
+                            msg : ret.msg,
+                            duration : 2000,
+                            location : 'bottom'
+                        });
+                    }
+                });
+            },
+            getSpecifications:function Specifications(){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=homepage&act=get_goods_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            goods_id: that.goodId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret.retval));
+                    if (ret && ret.done) {
+                        that.specificationsArr = ret.retval[2]
+                    } else {
+                        console.log(ret)
+                        console.log(err)
+                    }
+                });
+            },
+            addNum:function addNum(){
+                this.buyNum++
+            },
+            minusNum:function minusNum(){
+                this.buyNum = this.buyNum<=1?1:this.buyNum-1
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.goodId = api.pageParam.goodId
+                    console.log(api.pageParam.goodId)
+
+                    that.getGoodsInfo()
+                    that.getDistributorAdd()
+                    that.getSpecifications()
+                    $('.swiper-wrapper').on('touchstart', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: false
+                        });
+                    });
+                    $('.swiper-wrapper').on('touchend', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: true
+                        });
+                    });
+
+                }
+            })
+        },
+        mounted: function mounted() {
+
+            window.addEventListener('scroll', this.getScroll);
+        },
+        destroyed: function destroyed() {
+            window.removeEventListener('scroll', this.getScroll);
+        },
+    })
+</script>
+
+</html>

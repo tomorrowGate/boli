@@ -1,0 +1,96 @@
+
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+/* 评价 */
+.message{
+    padding:12px 10px 25px 10px;
+    border-bottom: 1px solid #f2f2f2;
+    font-size: 14px;
+}
+ .flex{
+     display: flex;
+     align-items: center;
+     
+ }
+ .circle{
+     height: 35px;
+     width: 35px;
+     background: #f2f2f2;
+     border-radius: 50%;
+     margin-right: 10px;
+ }
+ .classifyHead{
+     padding-top: 15px;
+     box-sizing: border-box;
+ }
+ .circleName{
+     font-weight: bold;
+ }
+ .classifyCircle{
+     font-size: 0.4em;
+     color: #b8b8b8;
+ }
+.classifyText{
+    margin: 10px 0;
+    font-weight: bold;
+}
+ .classifyImgBox{
+     display: flex;
+    justify-content: space-between;
+ }
+ .classifyImg{
+     height: 83px;
+     width: 83px;
+     background: #f2f2f2;;
+ }
+ /* 底部导航条 */
+ .footNav{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.9em;
+    height: 50px;
+    position: fixed;
+    bottom:0;
+    background: #fff;
+}
+.footNav-item{
+    width: 25%;
+    height: 100%;
+    text-align: center;
+    
+}
+.footNav-purchase{
+    font-size: 18px;
+    color: #fff;
+    background: #2b2b2b;
+    line-height: 50px;
+}
+.footNav-share{
+   font-size: 18px;
+   color: #fff;
+   background: #6fba2c;
+   line-height: 50px;
+}
+.footNav-top{
+   margin: 5px 0;
+   text-align: center;
+   color: #b8b8b8;
+   width: 25%;
+}
+.footNav-bor{
+   border-right: 1px solid #b8b8b8;
+}
+ 

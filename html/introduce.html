@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>平台介绍</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+    <style>
+    	html, body {
+            background-color: #f9f8f8;
+        }
+        header {
+            height: 50px;
+            line-height: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        .head-center {
+            text-align: center;
+        }
+        .head{
+            height: 40px;
+            line-height: 40px;
+            padding:10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .head h1{
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .con{
+            padding: 10px;
+            color: #aaa;
+            font-size: 15px;
+        }
+        .con p{
+            height: 24px;
+            line-height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="head-center">
+            <span >平台介绍</span>
+        </div>
+        <div class="DIV_L" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+    </header>
+    <div class="head">
+        <h1>博立电商平台介绍</h1>
+    </div>
+    <div class="con">
+        <p>
+            我们是谁？
+        </p>  
+        <p>
+            普通实名认证：购买跨境商品。普通实名认证：
+            购买跨境商品。普通实名认证：购买跨境商品。
+            普通实名认证：购买跨境商品。普通实名认证：
+            购买跨境商品。普通实名认证：购买跨境商品。
+            普通实名认证：购买跨境商品。
+        </p> 
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+        var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+		
+	};
+    function goBack() {
+        api.closeWin();
+    }
+</script>
+</html>

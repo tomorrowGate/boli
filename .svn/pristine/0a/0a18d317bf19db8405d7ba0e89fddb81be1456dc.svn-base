@@ -1,0 +1,122 @@
+/*头部*/
+
+.page-head {
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+
+.head-center {
+    margin: 0 auto;
+}
+
+.back {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%)
+}
+/* 搜索 */
+
+.search-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 10px;
+}
+
+.search-main {
+    position: relative;
+    width: 86%;
+    background: #f2f2f2;
+    border: 1px solid #f2f2f2;
+    border-radius: 15px;
+}
+
+.search-virtual {
+    margin-left: 20px;
+    width: calc( 100% - 32px);
+    height: 20px;
+    padding: 5px;
+}
+
+.icon-search {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-60%)
+}
+/*教学内容*/
+.teaching-recommend-card{
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 8px ;
+}
+.teaching-card-item{
+    width: 50%;
+}
+
+
+.forum-item {
+    width: 176px;
+    /* height: 150px; */
+    padding: 1px 0;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 0 10px #eee;
+}
+
+.forum-item-imgbox {
+    position: relative;
+    width: 180px;
+    height: 90px;
+    border-radius: 6px;
+}
+
+.forum-item-tagtop {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    padding: 1px 8px;
+    border-radius: 8px;
+    font-size: 0.8em;
+}
+
+.forum-item-pay {
+    background: #6eb92c;
+    color: #fff;
+    font-size: 0.8em;
+}
+
+..forum-item-explain {
+    padding: 5px 10px;
+}
+
+.forum-explain-title {
+    padding: 4px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.forum-explain-foot {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.forum-foot-explain {
+    display: flex;
+}
+
+.forum-foot-name {
+    margin-right: 5px;
+}
+
+.forum-foot-level {
+    margin-left: 5px;
+}
+.cheshi{
+  display: flex;
+}

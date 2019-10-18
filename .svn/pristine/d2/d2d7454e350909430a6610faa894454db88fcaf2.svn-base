@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>教学视频</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css" />
+    <!-- <link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css"> -->
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.instructional.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head">
+            <div class="back" onclick="goBack()" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>教学视频</span>
+            </div>
+        </header>
+
+        <!-- 视频详情 -->
+        <div class="chef-detail-teach">
+            <div class="detail-teach-videos">
+                <div class="detail-teach-videobox">
+                    <video src=""></video>
+                    <span class="detail-video-tag video-tag">付费</span>
+                </div>
+                <div class="detail-video-bottom">
+                    <div class="detail-video-name">秘制番茄炒蛋</div>
+                    <div class="video-video-detail">
+                        <div class="video-video-left">
+                            <i class="iconfont"></i>
+                            <span class="video-left-text">李大师</span>|<span class="video-left-text">国家一级厨师</span>
+                            <span class="video-left-tag video-tag">付费</span>
+                        </div>
+                        <div class="video-video-right">
+                            <i class="iconfont"></i>
+                            <span class="video-right-text">1350人已观看</span>
+                        </div>
+                    </div>
+                    <div class="video-detail-pay">
+                        <span class="video-pay-num">4990</span>
+                        <span class="video-pay-normal">积分</span>
+                        <span class="video-pay-num"> / </span>
+                        <span class="video-pay-num">49.9</span>
+                        <span class="video-pay-normal">元</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 厨师名片 -->
+        <div class="chef-detail-info">
+            <div class="chef-main-head">
+                <div class="chef-head-left">
+                    <i class="iconfont icon-qianbi"></i>
+                    <div class="chef-left-text">厨师</div>
+                </div>
+            </div>
+            <div class="chef-trends-head">
+                <div class="trends-head-imgbox">
+                    <img :src="imgDefalt" alt="">
+                </div>
+                <div class="trends-head-center">
+                    <div class="trends-center-top">
+                        <span class="trends-center-name">周伯通</span>
+                    </div>
+                    <div class="trends-center-bottom trends-light">
+                        <span class="trends-center-iden trends-light">国家一级厨师</span>
+                    </div>
+                </div>
+                <div class="trends-head-right" @click="focus">
+                    <div class="trends-head-focus">{{focusText}}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 侧边栏 -->
+        <div class="chef-slide">
+            <div class="chef-detail-suspension chef-detail-backtop hide" onclick="backtop()" v-cloak>
+                <span>回到顶部</span>
+            </div>
+            <div class="chef-detail-suspension" onclick="goChefDetail()">
+                <span>厨师主页</span>
+            </div>
+        </div>
+
+        <!-- 详情、评价 -->
+        <div class="chef-hotslist-head">
+            <p :class="['hotslist-head-item',isDet==1?'hotslist-head-active':'']" @click="changeDis(1)">详情</p>
+            <p :class="['hotslist-head-item',isDet==2?'hotslist-head-active':'']" @click="changeDis(2)">评价</p>
+        </div>
+
+        <transition 
+        enter-active-class="animated fadeInLeft" 
+        leave-active-class="animated fadeOutLeft" 
+        :duration="100">
+            <div class="swiper-slide" v-show="isDet==1" tapmode>
+                <!-- 名师信息-->
+                <div class="instructional-detal">
+                    <div class="instructional-detal-title">
+                        <p class="detal-title-p">课程简介</p>
+                    </div>
+                    <div class="instructional-detal-class">
+                        <div class="instructional-class-item">
+                            <div class="class-item-title">课程分类</div>
+                            <div class="class-item-content">鲁菜</div>
+                        </div>
+                        <div class="instructional-class-item">
+                            <div class="class-item-title">课程难度</div>
+                            <div class="class-item-content">入门级</div>
+                        </div>
+                        <div class="instructional-class-item">
+                            <div class="class-item-title">课程时长</div>
+                            <div class="class-item-content">0：45：00</div>
+                        </div>
+                    </div>
+                    <div class="instructional-detal-maintext">
+                        <p>
+                            该方法用于移动scroller，共五个参数，第一个参数是x偏移量（必填），
+                            第二个是y偏移量（必填），第三个是滑动时间（可选，单位ms)，第四个
+                            是是否允许超出边界（可选，true/false），第五个回调方法（可选）。
+                            如果想获取当前x,y偏移量，可直接输出jroll.x和jroll.y
+                        </p>
+                    </div>
+                    <div class="instructional-detal-title">
+                        <p class="detal-title-p">购买须知</p>
+                    </div>
+                    <div class="instructional-buy-know">
+                        <div class="buy-know-item">
+                            <span class="buy-know-key">发布时间</span>
+                            <span class="buy-know-value">2019-08-29 11：28</span>
+                        </div>
+                        <div class="buy-know-item">
+                            <span class="buy-know-key">权益保障</span>
+                            <span class="buy-know-value">如果老师退休该教学将不影响您付款收藏(如果老师退休该教学将不影响您付款收藏)</span>
+                        </div>
+                        <div class="buy-know-item">
+                            <span class="buy-know-key">版权保护</span>
+                            <span class="buy-know-value">严禁录制与传播课程视频。违法必究</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 教学推荐 -->
+                <div class="chef-teaching-recommend">
+                    <div class="chef-form-in">
+                        <div class="chef-main-head">
+                            <div class="chef-head-left">
+                                <i class="iconfont icon-qianbi"></i>
+                                <div class="chef-left-text">相关课程</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 教学推荐卡片 -->
+                    <div class="teaching-recommend-card" @click="goTeachDet">
+                        <div class="teaching-card-item forum-item">
+                            <div class="forum-item-imgbox">
+                                <span class="forum-item-tagtop forum-item-pay">付费</span>
+                                <img src="" alt="">
+                            </div>
+                            <div class="forum-item-explain">
+                                <p class="forum-explain-title">中国菜肴的八种烹饪方法</p>
+                                <div class="forum-explain-foot">
+                                    <div class="forum-foot-explain">
+                                        <i class="iconfont"></i>
+                                        <span class="forum-foot-name">周伯通</span>
+                                        |
+                                        <span class="forum-foot-level">国家一级厨师</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+        <transition 
+        enter-active-class="animated fadeInRight" 
+        leave-active-class="animated fadeOutRight" 
+        :duration="100">
+            <div class="swiper-slide" tapmode v-show="isDet==2">评价详情</div>
+        </transition>
+
+        <!-- 底部付费 -->
+        <div class="instructional-teaching-foot">
+            <div class="instructional-collect-real" id="collectIt" onclick="collctIt()">
+                <i class="iconfont"></i>
+                <span class="teaching-foot-text">收藏</span>
+            </div>
+            <div class="instructional-collect-style" @click="payStudy">
+                <span class="teaching-foot-text">付费学习</span>
+            </div>
+        </div>
+
+        <!-- 弹框 -->
+        <transition 
+        enter-active-class="animated fadeIn" 
+        leave-active-class="animated fadeOut" 
+        :duration="200">
+            <div 
+            class="ui-dialog ui-dialog-operate ui-dialog-operate-icon show" 
+            v-show="isShowDia">
+                <div class="ui-dialog-cnt">
+                    <div class="dialog-x" @click="closeDia">x</div>
+                    <div class="detail-video-bottom">
+                        <div class="detail-video-name">张带厨：带你辽改佛跳墙的物种烹饪手法</div>
+                        <div class="video-video-detail">
+                            <div class="video-video-left">
+                                <i class="iconfont"></i>
+                                <span class="video-left-text">李大师</span>|<span class="video-left-text">国家一级厨师</span>
+                                <span class="video-left-tag video-tag">付费</span>
+                            </div>
+                        </div>
+                        <div class="video-detail-pay">
+                            <span class="video-pay-num"> ￥ </span>
+                            <span class="video-pay-num">49.9</span>
+                        </div>
+                    </div>
+                    <div class="dialog-foot-pay">
+                        <div class="instructional-detal-title">
+                            <p class="detal-title-p">付款方式</p>
+                        </div>
+                        <div class="ui-form-item ui-form-item-checkbox ui-border-b">
+                            <label for="balance" class="ui-col-90">
+                                <i class="iconfont ui-col ui-col-25"></i>
+                                余额
+                            </label>
+                            <label class="ui-checkbox ui-col ui-col-10">
+                                <input type="radio" name="payType" id="balance">
+                            </label>
+                        </div>
+                        <div class="ui-form-item ui-form-item-checkbox ui-border-b">
+                            <label for="zfb" class="ui-col-90">
+                                <i class="iconfont ui-col ui-col-25"></i>
+                                支付宝
+                            </label>
+                            <label class="ui-checkbox ui-col ui-col-10">
+                                <input type="radio" name="payType" id="zfb">
+                            </label>
+                        </div>
+                        <div class="ui-form-item ui-form-item-checkbox ui-border-b">
+                            <label for="wx" class="ui-col-90">
+                                <i class="iconfont ui-col ui-col-25"></i>
+                                微信
+                            </label>
+                            <label class="ui-checkbox ui-col ui-col-10">
+                                <input type="radio" name="payType" id="wx">
+                            </label>
+                        </div>
+                        <div class="pay-study" @click="payReal">付费学习</div>
+                    </div>
+                    
+                </div>
+            </div>
+        </transition>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+
+    });
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            isDet: 1,
+            imgDefalt:'../image/headimgDef.png',
+            focusText: "关注",
+            isShowDia:false,
+        },
+        methods: {
+            //点击视频详情
+            goTeachDet: function goTeachDet() {
+                api.openWin({
+                    name: 'chef.instructional',
+                    url: './chef.instructional.html',
+                    bounces: false,
+                    pageParam: { key: 'value' }
+                });
+            },
+            changeDis: function changeDis(type) {
+                this.isDet = type
+
+            },
+            focus: function focus() {
+                this.focusText = "已关注"
+            },
+            payStudy:function payStudy(){
+                this.isShowDia = true
+            },
+            closeDia:function closeDia(){
+                this.isShowDia = false
+            },
+            payReal:function payReal(){
+                this.isShowDia = false
+                api.ajax({
+                    url: 'ajax_url',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll:false
+                },function(ret,err){
+                    if (ret) {
+                        // TODO 
+                    } else {
+                        api.alert({
+                            msg:('错误码：'+err.code+'；错误信息：'+err.msg+'网络状态码：'+err.statusCode)
+                        });
+                    };
+                });
+            }
+        },
+        created: function created() {
+
+        },
+        mounted: function mounted() {
+
+        },
+    })
+
+    window.addEventListener('scroll', function handleScroll() {
+        if (window.pageYOffset >= 200) {
+            $(".chef-detail-backtop").fadeIn()
+        } else {
+            $(".chef-detail-backtop").fadeOut()
+        }
+    }, true);
+
+    //返回上一页
+    function goBack() {
+        api.closeWin();
+    }
+
+    //回到顶部
+    function backtop() {
+        $('html').animate({
+            scrollTop: '0'
+        }, 500);
+    }
+
+    //厨师详情
+    function goChefDetail() {
+        api.openWin({
+            name: 'chef.detail',
+            url: './chef.detail.html',
+            bounces: false,
+            pageParam: { key: 'value' }
+        });
+    }
+
+    //收藏
+    function collctIt() {
+        $("#collectIt").toggleClass("collect")
+        api.ajax({
+            url: 'ajax_url',
+            method: 'post',
+            timeout: 30,
+            dataType: 'json',
+            returnAll: false
+        }, function (ret, err) {
+            if (ret) {
+                // TODO 
+            } else {
+                api.alert({
+                    msg: ('错误码：' + err.code + '；错误信息：' + err.msg + '网络状态码：' + err.statusCode)
+                });
+            };
+        });
+    }
+
+    apiready = function () {
+        URL = $api.URL();
+        m_id = api.pageParam.m_id;
+        var header = $api.dom('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        headerH = $api.fixStatusBar(header);
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#F6F6F6',
+            images: {
+                pull: 'widget://image/refresh/pulling.png',
+                transform: [
+                    'widget://image/refresh/transform0.png',
+                    'widget://image/refresh/transform1.png',
+                    'widget://image/refresh/transform2.png',
+                    'widget://image/refresh/transform3.png',
+                    'widget://image/refresh/transform4.png',
+                    'widget://image/refresh/transform5.png',
+                    'widget://image/refresh/transform6.png'
+                ],
+                load: [
+                    'widget://image/refresh/loading0.png',
+                    'widget://image/refresh/loading1.png',
+                    'widget://image/refresh/loading2.png',
+                    'widget://image/refresh/loading3.png',
+                    'widget://image/refresh/loading4.png',
+                ]
+            }
+        }, function (ret, err) {
+
+        });
+    }
+
+</script>
+
+</html>

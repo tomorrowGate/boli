@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的收藏</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.collect.css" />
+</head>
+
+<body>
+    <div id="collect">
+
+        <header class="page-head">
+            <div class="back" onclick="goBack()" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>我的收藏</span>
+            </div>
+        </header>
+
+        <!-- 名厨讲堂-头 -->
+        <div class="chef-hotslist-head">
+            <p class="hotslist-head-item" :class="isChefForum==1 ? 'hotslist-head-active':''" @click="changeCollect(1)">名厨讲堂</p>
+            <p class="hotslist-head-item" :class="isChefForum==1 ? '':'hotslist-head-active'" @click="changeCollect(2)">厨艺教学</p>
+        </div>
+
+        <div class="chef-nocloccet hide">
+            <div class="chef-nocloccet-imgbox">
+                <img src="../image/novideos.png" alt="">
+            </div>
+            <div class="chef-nocloccet-text">
+                暂无视频信息
+            </div>
+        </div>
+
+        <div class="swiper-slide trends-body" id="trends-body" tapmode>
+            <!-- 名厨讲堂-->
+            <div class="chef-collect-timetotal">
+                <div class="chef-collect-time">一周内</div>
+                <div class="chef-form-formlist" v-for="(v,i) in a" :key="i">
+                    <div class="form-formlist-item">
+                        <div class="chef-form-card">
+                            <div class="chef-form-leftimg">
+                                <img src="" alt="">
+                            </div>
+                            <div class="chef-right-content">
+                                <div class="chef-head1">
+                                    <div class="chef-head1-name">中国菜肴的八种烹饪法则</div>
+                                </div>
+                                <div class="chef-head2 chef-forum-light">教你探究中式烹饪的秘诀</div>
+                                <div class="chef-head3 chef-forum-light forum-foot-explain">
+                                    <i class="iconfont"></i>
+                                    <span class="forum-foot-name">周伯通</span>
+                                    |
+                                    <span class="forum-foot-level">国家一级厨师</span>
+                                </div>
+                                <div class="chef-head4 ">
+                                    <i class="iconfont"></i>
+                                    <span class="">14925</span>人已观看
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chef-right-del">
+                            删除
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/jroll.min.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script type="text/javascript">
+    (function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    })();
+
+
+    var collectMain = new Vue({
+        el: "#collect",
+        data: {
+            a: 10,
+            isChefForum:1,
+        },
+        methods: {
+            changeCollect:function changeCollect(type){
+                this.isChefForum = type
+                this.a = this.isChefForum==1 ? 10:3
+                this.$nextTick(function(){
+                    this.slideDel()
+                })
+               
+            },
+            slideDel:function slideDel() {
+                var items = document.querySelectorAll(".chef-form-formlist");
+                console.log(items.length)
+                var current = null; 
+                for (var i = 0, l = items.length; i < l; i++) {
+                    var j = new JRoll(items[i], {
+                        scrollX: true,
+                        bounce: false,
+                        preventDefault:false
+                    });
+                    j.on("scrollStart", function () {
+                        if (current && current !== this) {
+                            current.scrollTo(0, 0, 100);
+                            current = null;
+                        }
+                    });
+                    j.on("scroll", function(e) {
+                        if (this.x === 0 && !current) {
+                            /* this.call(jroll, e); */
+                        } else {
+                            current = this;
+                        }
+                    });
+                    j.on("scrollEnd", function () {
+                        if (this.x > -50) {
+                            this.scrollTo(0, 0, 100);
+                            current = null;
+                        } else {
+                            this.scrollTo(this.maxScrollX, 0, 100);
+                        }
+                    })
+                };
+            }
+        },
+        computed:{
+           /*  a:function(){
+                this.isChefForum?this.active = "hotslist-head-active" :''
+            } */
+           
+        },
+        created:function created() {
+            
+        },
+        mounted:function mounted() {
+            this.slideDel()
+        },
+    });
+
+    apiready = function () {
+        URL = $api.URL();
+        m_id = api.pageParam.m_id;
+        var header = $api.dom('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        headerH = $api.fixStatusBar(header);
+    }
+
+
+</script>
+
+</html>

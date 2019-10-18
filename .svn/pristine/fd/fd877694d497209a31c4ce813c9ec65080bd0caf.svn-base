@@ -1,0 +1,68 @@
+/*菜谱列表*/
+
+.detail-teach-videos {
+    padding: 10px;
+}
+
+.detail-teach-videobox {
+    width: calc( 100vw - 20px);
+    height: calc( 50vw - 10px);
+    background: skyblue;
+    margin-bottom: 10px;
+}
+
+.detail-video-name {
+    font-weight: bold;
+}
+
+.video-video-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.video-video-left {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.video-left-text {
+    margin: 10px;
+}
+
+.video-video-right {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+.video-footer-item {
+    margin-left: 10px;
+}
+
+/* footer */
+.chef-detail-suspension{
+    position: fixed;
+    bottom: 54px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    line-height: 17px;
+    padding:10px;
+    border-radius: 50%;
+    font-size: 0.9em;
+    background: rgba(0,0,0,1);
+    color: #fff;
+    text-align: center;
+    z-index: 3;
+}
+.chef-detail-asteacher{
+    position: fixed;
+    bottom:0;
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    background: #fff;
+}

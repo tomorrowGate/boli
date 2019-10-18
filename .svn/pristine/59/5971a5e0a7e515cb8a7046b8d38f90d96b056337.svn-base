@@ -1,0 +1,160 @@
+/*头部*/
+
+.page-head {
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+
+.head-center {
+    margin: 0 auto;
+}
+
+.back {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%)
+}
+
+
+/* 搜索 */
+
+.search-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 10px;
+}
+
+.search-main {
+    position: relative;
+    width: 86%;
+    background: #f2f2f2;
+    border: 1px solid #f2f2f2;
+    border-radius: 15px;
+}
+
+.search-virtual {
+    margin-left: 20px;
+    width: calc( 100% - 32px);
+    height: 20px;
+    padding: 5px;
+}
+
+.icon-search {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-60%)
+}
+
+
+/* 轮播图 */
+
+.swiper {
+    width: 96vw;
+    height: 48vw;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.swiper-top {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-pagination-bullet {
+    width: 12px;
+    border-radius: 4px;
+}
+
+.swiper-pagination-bullet-active {
+    background: #6eb92c;
+}
+
+.swiper-slide-imgbox {
+    width: 100%;
+    height: 100%;
+    background: skyblue;
+    border-radius: 10px;
+}
+
+.swiper-slide-imgbox img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+
+/*名厨介绍*/
+
+.introduce {
+    width: 85%;
+    height: 90px;
+    margin: 11px auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.history {
+    width: 23%;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.history-ball {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #efdfbd;
+}
+
+.history-ball-text {
+    font-size: 14px;
+}
+/*即将开始*/
+.begin{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 8px solid #f2f2f2;
+}
+.begin-head{
+  font-size: 17px;
+  padding: 10px 0;
+}
+.begin-item{
+  width: 100%;
+  height: 256px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-around;
+  border-bottom: 1px solid #f2f2f2;
+  padding-bottom: 10px;
+}
+.begin-imge{
+  width: 96%;
+  height: 48vw;
+  border-radius: 10px;
+  background: #6eb92c;
+}
+.begin-title{
+  font-size: 17px;
+}
+.begin-text{
+  color: #aaaaaa;
+  font-size: 12px;
+}
+.begin-btn{
+  width: 90%;
+  height: 30px;
+  border: 1px solid #bee1a1;
+  color: #bee1a1;
+  border-radius: 20px;
+}

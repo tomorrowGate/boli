@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>行业资讯</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <style>
+         html, body{}
+         .bg_div{  background: url(../image/bg_top.png) 0 0 no-repeat; background-size: 100% 100%;}
+        .center_div{border-bottom:10px solid #f6f6f6;padding:0 3%;}
+        .swiper_top{max-height:165px;}
+        .my_icon3{ color:#6eb92c; }
+          /*热点资讯*/
+          .part_div{border-top:10px solid #f6f6f6;padding:0 3%;}
+        .nomal_title{ margin-bottom: 10px;border-bottom: 1px solid #f2f2f2;padding: 5px 0; }
+        .nomal_contect{ padding:0;margin-bottom: 10px; }
+        .content_item{ margin-bottom: 20px;padding-bottom:10px;font-size: 0.9em;border-bottom: 1px solid #f2f2f2; }
+         .article_title{ font-weight: bold;margin:5px 0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical; }
+         .article_content video{ width:100%; }
+         .article_content .img_item{ width:32%;height:70px;overflow: hidden;margin-right:2%;}
+         .article_content .img_item img{ height:100%;min-width:100%;  }
+         .article_content .img_item:nth-child(3){ margin-right:0; }
+         .opera{ text-align: right;font-size: 0.9em;margin-top:8px; }
+         .opera i{ font-size: 0.9em;  }
+         .view_icon,.love_icon{ color:#DBDBDB; }
+         .view_icon2,.love_icon2{color:#6eb92c}
+         .opera span{ margin: 0 10px 0 5px; }
+    </style>
+</head>
+<body>
+    <div class="bg_div">
+      <div class="swiper-container swiper_top" >
+          <div class="swiper-wrapper" id="adv">
+             <div class="swiper-slide" onclick="" tapmode>
+                <img src="../image/hyzx.jpg" width="100%" width="100%" class="circle" />
+              </div>
+              <!--<div class="swiper-slide" onclick="" tapmode>
+                <img src="../image/lunbo2.png" width="100%" width="100%" class="circle" />
+              </div>-->
+          </div>
+        </div>
+    </div>
+    <div class="part_div clearfix">
+      <div class="nomal_title clearfix"  onclick="" tapmode>
+        <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;热点资讯</div>
+        <div class="t_r font_c1 font_s2 more"></div>
+      </div>
+      <div id="list">
+        <!-- <div class="nomal_content">
+          <div class="content_item " id="article_1">
+            <p class="article_title">浙菜大厨王大龙展现刀工绝技巴拉巴拉巴拉！</p>
+            <div class="article_content"><video src="" controls="controls">您的手机不支持播放该视频格式。</video></div>
+            <p class="opera"><i class="iconfont icon-view view_icon"></i><span class="view">11</span><i class="iconfont icon-love1 love_icon"></i><span class="love">20</span><i class="iconfont icon-fenxiang"></i><span class="share">分享</span></p>
+          </div>
+          <div class="content_item "  id="article_2">
+            <p class="article_title">做红烧肉要不要油炸？掌握这三点诀窍就可以当大厨</p>
+            <div class="article_content"><img src="../image/ep1.png"><img src="../image/ep2.png"><img src="../image/ep3.png"></div>
+            <p class="opera"><i class="iconfont icon-view view_icon"></i><span class="view">11</span><i class="iconfont icon-love1 love_icon"></i><span class="love">20</span><i class="iconfont icon-fenxiang"></i><span class="share">分享</span></p>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+   $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+  });
+  var URL="";
+  var cate_id;
+  var data;
+    var userId=window.localStorage.getItem("userId"); //用户id
+    apiready = function(){
+         URL=$api.URL();
+         // cate_id=api.pageParam.name;
+         cate_id=1580;
+         //get_image();
+         get_list();
+
+         //上拉加载
+         api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 50 //距离底部距离
+            }
+        }, function(ret, err) {
+            console.log("上拉加载");
+            if(data!=null){
+              if(data.length<10){
+                api.toast({
+                      msg: '没有更多了',
+                      duration: 2000,
+                      location: 'bottom'
+                    });
+              }else{
+                start+=10;
+
+                //alert(xli+"  "+xli2);
+            setTimeout('get_list()', '300');
+           }
+         }
+        });
+
+        //下拉刷新
+          api.setCustomRefreshHeaderInfo({
+                bgColor: '#238bd9',
+                images: {
+                    pull: 'widget://image/refresh/pulling.png',
+                    transform: [
+                        'widget://image/refresh/transform0.png',
+                        'widget://image/refresh/transform1.png',
+                        'widget://image/refresh/transform2.png',
+                        'widget://image/refresh/transform3.png',
+                        'widget://image/refresh/transform4.png',
+                        'widget://image/refresh/transform5.png',
+                        'widget://image/refresh/transform6.png'
+                    ],
+                    load: [
+                        'widget://image/refresh/loading0.png',
+                        'widget://image/refresh/loading1.png',
+                        'widget://image/refresh/loading2.png',
+                        'widget://image/refresh/loading3.png',
+                        'widget://image/refresh/loading4.png',
+                    ]
+                }
+            }, function(ret, err) {
+              //console.log('loading=================================>');
+              get_list();
+               setTimeout('api.refreshHeaderLoadDone()', '3000');
+               //get_spike_time();
+
+            });
+     };
+//获取轮播图
+//function get_image(){
+//  var str='';
+//  if(cate_id==704){
+//     str+='<div class="swiper-slide" onclick="" tapmode>';
+//           str+='<img src="../image/rmfl.png" width="100%" width="100%" class="circle" />';
+//           str+='</div>';
+//     console.log(cate_id);
+//  }else if(cate_id==1580){
+//     str+='<div class="swiper-slide" onclick="" tapmode>';
+//           str+='<img src="../image/jkzq.png" width="100%" width="100%" class="circle" />';
+//           str+='</div>';
+//     console.log(cate_id);
+//  }else if(cate_id==617){
+//     str+='<div class="swiper-slide" onclick="" tapmode>';
+//           str+='<img src="../image/myfl.png" width="100%" width="100%" class="circle" />';
+//           str+='</div>';
+//     console.log(cate_id);
+//  }else if(cate_id==1446){
+//     str+='<div class="swiper-slide" onclick="" tapmode>';
+//           str+='<img src="../image/grhl.png" width="100%" width="100%" class="circle" />';
+//           str+='</div>';
+//     console.log(cate_id);
+//  }else if(cate_id==1611){
+//     str+='<div class="swiper-slide" onclick="" tapmode>';
+//           str+='<img src="../image/nxjk.png" width="100%" width="100%" class="circle" />';
+//           str+='</div>';
+//     console.log(cate_id);
+//  }else if(cate_id==1614){
+//     str+='<div class="swiper-slide" onclick="" tapmode>';
+//           str+='<img src="../image/qsnjk.png" width="100%" width="100%" class="circle" />';
+//           str+='</div>';
+//     console.log(cate_id);
+//  }else if(cate_id==1624){
+//     str+='<div class="swiper-slide" onclick="" tapmode>';
+//           str+='<img src="../image/yybj.png" width="100%" width="100%" class="circle" />';
+//           str+='</div>';
+//     console.log(cate_id);
+//  }else if(cate_id==1627){
+//     str+='<div class="swiper-slide" onclick="" tapmode>';
+//           str+='<img src="../image/zhjk.png" width="100%" width="100%" class="circle" />';
+//           str+='</div>';
+//     console.log(cate_id);
+//  }
+//  console.log(str);
+//  $("#adv").html(str);
+//}
+
+
+     //获得列表
+     function get_list(){
+    // alert(1);
+    api.ajax({
+          url : URL+'/index.php?app=boli_homepage&act=get_news',
+          method : 'post',
+          cache : false,
+          timeout : 30,
+          dataType : 'json',
+          returnAll : false,
+          data : {
+            values:{
+        start:0,
+        userId:userId,
+//      cate_id:23
+      }
+          }
+        }, function(ret, err) {
+      console.log(JSON.stringify(ret));
+       console.log(JSON.stringify(err));
+//      return;
+         if (ret &&ret.done) {
+            var str='';
+            if(ret.retval==''){
+               str+='<p class="null">暂无内容</p>';
+            }else{
+            $.each(ret.retval,function(i,item){
+              if(item.article_videos!=null){
+                var func_str="playVideo('"+item.article_id+"','"+item.is_see+"')";
+                str+='<div class="content_item " id="article_'+item.article_id+'" onClick="'+func_str+'">';
+                str+='<p class="article_title">'+item.title+'</p>';
+                str+='<div class="article_content" ><video src="'+URL+'/'+item.article_videos+'" poster="'+URL+item.article_xct+'" controls="controls" >您的手机不支持播放该视频格式。</video></div>';
+                console.log(URL+'/'+item.article_videos);
+              }else{
+                var func_str="goEssay('"+item.article_id+"','"+item.is_see+"')";
+                str+='<div class="content_item "  id="article_'+item.article_id+'" onClick="'+func_str+'">';
+                str+='<p class="article_title">'+item.title+'</p>';
+                str+='<div class="article_content">';
+                $.each(item.img_url,function(j,item_url){
+                  str+='<span class="img_item"><img src="'+URL+'/'+item_url.file_path+'" class="art_img"></span>';
+                  if(j==2){
+                    return false;
+                  }
+                });
+                str+='</div>';
+              }
+                str+='<p class="opera">';
+                if(item.is_see>0){//判断是否阅读过
+                  str+='<i id="watch_btn'+item.article_id+'" class="iconfont icon-chakan view_icon2"></i><span class="view" id="watch'+item.article_id+'">'+item.watch+'</span>';
+                }else{
+                  str+='<i id="watch_btn'+item.article_id+'" class="iconfont icon-chakan view_icon"></i><span class="view" id="watch'+item.article_id+'">'+item.watch+'</span>';
+                }
+                if(item.is_my>0){//[判断是否点赞过]
+                  str+='<i id="zan_btn'+item.article_id+'" class="iconfont icon-love1 love_icon2" onClick="set_zan('+item.article_id+','+item.is_my+')"></i><span class="love" id="zan'+item.article_id+'">'+item.zan+'</span>';
+                }else{
+                  str+='<i id="zan_btn'+item.article_id+'" class="iconfont icon-love1 love_icon" onClick="set_zan('+item.article_id+','+item.is_my+')"></i><span class="love" id="zan'+item.article_id+'">'+item.zan+'</span>';
+                }
+                str+='<i class="iconfont icon-fenxiang hide" onclick="fnOpendown(' + item.article_id + ')"></i><span class="share hide" onclick="fnOpendown(' + item.article_id + ')">分享</span></p></div>';
+            });
+          }
+              $("#list").html(str);
+          }else if(ret){
+            api.toast({
+              msg : ret.msg
+            });
+          }else {
+            api.toast({
+              msg : "加载失敗！"
+            });
+
+        };
+        api.refreshHeaderLoadDone();
+        });
+  }
+
+     //文章详情
+     function goEssay(Id,is_see){
+          //alert(is_see);
+          if(is_see<=0){
+            Click_To_Watch(Id);
+          }
+             api.openWin({
+                 name: 'essay',
+                 url: './essay.html',
+                 bounces: false,
+                 animation:{
+                     type:"push",                //动画类型（详见动画类型常量）
+                     subType:"from_right",       //动画子类型（详见动画子类型常量）
+                     duration:300                //动画过渡时间，默认300毫秒
+                 },
+                 pageParam: {
+                     articleId: Id, //文章id
+                     articleType:'2'
+
+                 }
+             });
+     }
+     //播放视频
+    function playVideo(Id,is_see){
+      var has_see=$("#watch"+Id).html();
+      console.log(has_see);
+      if(has_see==0&&is_see<=0){
+        Click_To_Watch(Id);
+      }
+
+    }
+     //观看+1
+   function Click_To_Watch(article_id){
+
+      api.ajax({
+             url : URL+'/index.php?app=boli_homepage&act=Click_To_Watch',
+             method : 'post',
+             cache : false,
+             timeout : 30,
+             dataType : 'json',
+             returnAll : false,
+             data : {
+              values:{
+                  article_id:article_id
+                }
+             }
+           }, function(ret, err) {
+              if (ret &&ret.done) {
+              console.log(JSON.stringify(ret.retval));
+               $("#watch"+article_id).html(parseInt($("#watch"+article_id).html())+1);
+               $("#watch_btn"+article_id).addClass("view_icon2").removeClass("view_icon");
+            }
+           });
+    }
+    //点赞
+    function set_zan(article_id,is_my){
+       event.stopPropagation();
+       if(is_my>0){
+        api.toast({
+                    msg: "您赞过了",
+                    duration: 2000,
+                    location: 'bottom'
+                  });
+                  return;
+      }
+
+      api.ajax({
+             url : URL+'/index.php?app=boli_homepage&act=set_zan',
+             method : 'post',
+             cache : false,
+             timeout : 30,
+             dataType : 'json',
+             returnAll : false,
+             data : {
+              values:{
+                  article_id:article_id,
+                  userId:userId
+                }
+             }
+           }, function(ret, err) {
+           console.log(JSON.stringify(ret));
+              if (ret &&ret.done) {
+                api.toast({
+                      msg: ret.retval,
+                      duration: 2000,
+                      location: 'bottom'
+                    });
+                  $("#zan"+article_id).html(parseInt($("#zan"+article_id).html())+1);
+                $("#zan_btn"+article_id).addClass("love_icon2").removeClass("love_icon");
+                $("#zan_btn"+article_id).removeAttr("onclick");
+            }else if(ret){
+              api.toast({
+                    msg: ret.msg,
+                    duration: 2000,
+                    location: 'bottom'
+                  });
+            }else{
+              api.toast({
+                    msg: err.msg,
+                    duration: 2000,
+                    location: 'bottom'
+                  });
+            }
+           });
+    }
+    //下载分享
+    function fnOpendown(aId) {
+      event.stopPropagation();
+      //复制文章文字
+      var content = $("#article_" + aId).find(".article_title").text();
+      console.log(content);
+      var clipBoard = api.require('clipBoard');
+      clipBoard.set({
+        value : content
+      }, function(ret, err) {
+        if (err) {
+          api.toast({
+            msg : err.msg,
+            duration : 2000,
+            location : 'bottom'
+          });
+        }
+      });
+      //下载图片
+      var pic_url = $("#article_" + aId).find(".article_content").find("img");
+      $.each(pic_url, function(i, item) {
+        var path = $(this).attr('src');
+        var myurl = path;
+        console.log(path);
+        api.download({
+          url : path,
+          report : true,
+          cache : true,
+          allowResume : true,
+        }, function(ret, err) {
+          if (ret.state == 1) {
+            //下载成功
+            console.log("下载成功");
+            console.log(ret.savePath);
+            myurl = ret.savePath;
+            api.saveMediaToAlbum({
+              path : myurl
+            }, function(ret, err) {
+              if (ret && ret.status) {
+                console.log('保存成功');
+
+              } else {
+                console.log('保存失败');
+
+              }
+            });
+          } else {
+            console.log("下载失败");
+          }
+        });
+
+      })
+      api.openFrame({
+        name : 'download.share',
+        url : './download.share.html',
+        bounces : false,
+        bgColor : 'rgba(0,0,0,0.5)',
+        animation : {
+          type : "movein", //动画类型（详见动画类型常量）
+          subType : "from_bottom", //动画子类型（详见动画子类型常量）
+          duration : 100 //动画过渡时间，默认300毫秒
+        }
+      });
+    }
+
+
+</script>
+</html>

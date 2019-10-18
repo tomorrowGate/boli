@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+		<style>
+			html, body {
+				background-color: #efefef;
+			}
+			header {
+				height: 50px;
+				line-height: 50px;
+				width: 100%;
+				margin-bottom: 5px;
+			}
+			.head-center {
+				text-align: center;
+			}
+			.con {
+				width: 85%;
+				margin: 15px auto;
+				padding: 3px 15px;
+				background-color: #fff;
+				border-radius: 10px;
+			}
+			.con > div:not(:nth-of-type(2)) {
+				/* box-shadow: 2px 2px 2px #ccc; */
+				border-radius: 5px;
+				padding: 8px 15px;
+				font-size: 15px;
+			}
+			.con .itemNum {
+				height: 30px;
+				line-height: 30px;
+				color: #0b93eb;
+			}
+			.devAlert {
+				height: 86px;
+				background-color: #0b93eb;
+				padding: 15px;
+				color: #fff;
+				box-sizing: border-box;
+			}
+			.alertMsg {
+				font-size: 18px;
+				height: 30px;
+			}
+			.alertAdvice {
+				font-size: 14px;
+				height: 30px;
+				line-height: 30px;
+			}
+			.devItem {
+				display: flex;
+				height: auto;
+				padding: 3px 15px;
+				flex-direction: column;
+				justify-content: space-around;
+				background-color: #fff;
+				border-radius: 10px;
+				margin: 0px auto;
+				font-size: 14px;
+			}
+			.itemHead {
+				display: flex;
+				justify-content: flex-start;
+				font-size: 16px;
+				color: #0b93eb;
+			}
+			.itemCon {
+				font-size: 15px;
+			}
+			.device {
+				color: #0b93eb;
+			}
+			.key {
+				margin-right: 10px;
+			}
+			.devItem .key, .zero tr:nth-child(1) {
+				color: #bbb;
+			}
+			.serPeople {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				height: 60px;
+				margin-bottom: 15px;
+			}
+			.serPeople .key {
+				color: #0b93eb;
+			}
+			.hadSer {
+				height: 20px;
+				width: 50%;
+				line-height: 20px;
+				margin: 30px auto;
+				padding: 5px 10px;
+				border-radius: 15px;
+				background-color: #0b93eb;
+				color: #fff;
+				text-align: center;
+			}
+			.pop {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background-color: rgba(0,0,0,0.5);
+			}
+			.tips {
+				position: fixed;
+				width: 300px;
+				height: 100px;
+				padding: 7px 15px;
+				background-color: #fff;
+				border-radius: 10px;
+				top: calc(50% - 50px);
+				left: calc(50% - 165px);
+			}
+			.tipsHead {
+				text-align: center;
+				height: 30px;
+				line-height: 30px;
+				margin-bottom: 10px;
+				color: #0b93eb;
+			}
+			.zero {
+				font-size: 14px;
+				text-align: center;
+			}
+			.zero tr  td:not(:nth-of-type(1)) {
+				padding-left: 18px;
+			}
+			.zero tr:not(:nth-of-type(1)) {
+				/*border:1px solid red;*/
+				height: 25px;
+				line-height: 25px;
+				/*padding-top:10px;*/
+			}
+			.submit {
+				width: 15%;
+				height: 15px;
+				line-height: 15px;
+				border: 1px solid #0b93eb;
+				color: #fff;
+				background-color: #0b93eb;
+				margin: 0 auto;
+				text-align: center;
+				margin-bottom: 12px;
+			}
+			.c_check {
+				width: 20px;
+				height: 20px;
+				float: left;
+				background: #649f33;
+				color: #fff;
+			}
+			input[type='checkbox'] {
+				vertical-align: middle;
+				width: 20px;
+				height: 40px;
+				-webkit-appearance: none;
+				outline: 0 !important;
+				display: inline-block;
+				background: url("../image/uncheck.png") no-repeat center;
+				background-size: 16px 16px;
+				position: relative;
+				top: -2px;
+			}
+			input[type='checkbox']:checked {
+				background: url("../image/checked.png") no-repeat center;
+				background-size: 16px 16px
+			}
+			.devItem .reason:nth-child(1) span:nth-child(2), .aa {
+				padding-left: 1em;
+			}
+			.reason-hide .reason {
+				margin: 10px 0;
+			}
+			.reason-hide .reason .reasonVal {
+				padding: 4px;
+				vertical-align: top;
+				border: 1px solid #ddd;
+			}
+			.con textarea {
+				padding: 4px;
+				width: 85%;
+				vertical-align: top;
+				border: 1px solid #ddd;
+				margin-left: 15px;
+				margin-bottom: 8px;
+			}
+			.reason-hide .dev-infosub {
+				display: flex;
+				margin: auto;
+				width: 80px;
+				height: 30px;
+				line-height: 20px;
+				justify-content: space-around;
+				color: #fff;
+				background-color: #0b93eb;
+				border-radius: 10px;
+			}
+			.back-bottom {
+				position: relative;
+				left: 30%;
+				width: 40%;
+				padding: 4px;
+				line-height: 20px;
+				margin: 10px auto;
+				border-radius: 8px;
+				background-color: #0b93eb;
+				color: #fff;
+				text-align: center;
+			}
+			/*.devItem:nth-child(2) .reason:nth-child(2) span:nth-child(2){
+			 padding-left:1em;
+			 }*/
+			/*.zero span,.zeronext span{
+			 font-size:14px;
+			 }
+			 .zero span:not(:nth-of-type(1)),.zeronext span:not(:nth-of-type(1)){
+			 padding-left:14px;
+			 } */
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="head-center">
+				<span >完成维修</span>
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class="con">
+			<!--用户信息-->
+			<div class="itemNum">
+				<i class="iconfont icon-qianbi my_icon3"></i>
+				<span class="itemNumKey">用户信息</span>
+			</div>
+			<div class="devItem">
+				<div class="reason">
+					<span class="reasonKey key">用户名</span>
+					<span class="reasonVal" id="user_name">XXXX</span>
+				</div>
+				<div class="reason">
+					<span class="reasonKey key">手机号码</span>
+					<span class="reasonVal" id="tele">1234567889</span>
+				</div>
+				<div class="reason">
+					<span class="reasonKey key">联系地址</span>
+					<span class="reasonVal" id="lixi_address">aaa1234567889</span>
+				</div>
+				<div class="preTime">
+					<span class="preTimeKey key">上门时间</span>
+					<span class="preTimeVal" id="yy_time">2019-03-24 13:00-14:00</span>
+				</div>
+			</div>
+		</div>
+		<div class="con">
+			<!--设备信息-->
+			<div class="itemNum">
+				<i class="iconfont icon-qianbi my_icon3"></i>
+				<span class="itemNumKey">设备信息</span>
+			</div>
+			<div class="devItem">
+				<div class="reason-hide hide" id="sz">
+					<div class="reason">
+						<span class="reasonKey key">设备名</span>
+						<input type="text" name="devName" id="devName" class="reasonVal" placeholder="输入设备名">
+					</div>
+					<div class="reason">
+						<span class="reasonKey key">设备码</span>
+						<input type="text" name="devName" id="devCode" class="reasonVal" placeholder="输入设备码">
+					</div>
+					<button class="dev-infosub" onclick="sz()">
+						设置
+					</button>
+				</div>
+				<div class="reason">
+					<span class="reasonKey key">设备名</span>
+					<span class="reasonVal" id="equip_name">XXXX</span>
+				</div>
+				<div class="reason">
+					<span class="reasonKey key">设备码</span>
+					<span class="reasonVal aa" id="equip_id">1234567889</span>
+				</div>
+				<div class="reason" id="SIM">
+					<span class="reasonKey key">A眼SIM</span>
+					<span class="reasonVal aa" id="sim_id"></span>
+				</div>
+				<div class="reason" id="B_SIM">
+					<span class="reasonKey key">B眼SIM</span>
+					<span class="reasonVal aa" id="b_sim_id"></span>
+				</div>
+				<div class="reason">
+					<span class="reasonKey key">故障编码</span>
+					<span class="reasonVal" id="error_num">aaa1234567889</span>
+				</div>
+				<div class="reason">
+					<span class="reasonKey key">故障原因</span>
+					<span class="reasonVal" id="error_reason">aaa1234567889</span>
+				</div>
+			</div>
+		</div>
+		<div class="con" id="breakreason">
+			<div class="itemNum">
+				<i class="iconfont icon-qianbi my_icon3"></i>
+				<span class="itemNumKey">故障原因</span>
+			</div>
+			<div class="reason">
+				<textarea name="inputReason" id="inputReason" class="reasonVal" cols="30" rows="5" placeholder="输入故障原因" readonly="readonly"></textarea>
+			</div>
+		</div>
+		<div class="con" id="handlecase">
+			<div class="itemNum">
+				<i class="iconfont icon-qianbi my_icon3"></i>
+				<span class="itemNumKey">解决方案</span>
+			</div>
+			<div class="reason">
+				<textarea name="inputcase" id="inputcase" class="reasonVal" cols="30" rows="5" placeholder="输入解决方案" readonly="readonly"></textarea>
+			</div>
+		</div>
+		<div  class="con">
+			<!--零配信息-->
+			<div class="itemNum">
+				<i class="iconfont icon-qianbi my_icon3"></i>
+				<span class="itemNumKey">零配件分类</span>
+			</div>
+			<div class="devItem" id="zero-0">
+				<table class="zero" id="zero-1">
+					<tr>
+						<td>零配件名称</td><td>零配件数量</td><td>零配件种类</td>
+					</tr>
+					<tr>
+						<td>11</td><td>22</td><td>33</td>
+					</tr>
+					<tr>
+						<td>11</td><td>22</td><td>33</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+				<div  class="con">
+			<!--零配信息-->
+				<div class="itemNum">
+					<i class="iconfont icon-qianbi my_icon3"></i>
+					<span class="itemNumKey">其他费用</span>
+				</div>
+				<div class="devItem">
+					<div class="reason">
+						<span class="reasonKey key">零配件费用</span>
+						<span class="reasonVal" id="price"></span>
+					</div>
+					<div class="reason">
+						<span class="reasonKey key">人工费</span>
+						<span class="reasonVal" id="costs_price"></span>
+					</div>
+					<div class="reason">
+						<span class="reasonKey key">车旅费</span>
+						<span class="reasonVal" id="travel_price"></span>
+					</div>
+									<div class="reason">
+						<span class="reasonKey key">总价格</span>
+						<span class="reasonVal" id="all_price"></span>
+					</div>
+				</div>
+		</div>
+		<button class="back-bottom" onclick="gomyinfo()">
+			返回
+		</button>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript" src="../script/lib/template.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		var URL = "";
+		var id = 0;
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		apiready = function() {
+			id = api.pageParam.id;
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			headerH = $api.fixStatusBar(header);
+			var li = $("#tabs");
+			var option = $("#tabs option");
+			var len = option.length;
+			//$("#zero-2").hide();
+			li.change(function() {
+				var t = li.get(0).selectedIndex;
+				for (var i = 0; i < len; i++) {
+					if (t == i) {
+						$("#zero-" + t).show();
+					} else {
+						$("#zero-" + i).hide();
+					}
+					if (t == 0) {
+						$('#zero' + i).show();
+					}
+				}
+			})
+			get_info();
+		};
+		function goBack() {
+			api.closeWin()
+		}
+
+		function get_info() {
+			api.ajax({
+				url : URL + 'index.php?app=appweixiu&act=get_weixiu_info',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						id : id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					var data_weixiu_info = ret.retval[0];
+					var parts = ret.retval[1];
+					//用户信息
+					$("#user_name").html(data_weixiu_info.real_name);
+					$("#tele").html(data_weixiu_info.phone_mob);
+					$("#lixi_address").html(data_weixiu_info.region_name + data_weixiu_info.address);
+					$("#yy_time").html(formatDateTime(data_weixiu_info.yy_time));
+					//设备信息
+					$("#equip_name").html(data_weixiu_info.machine_name);
+					$("#equip_id").html(data_weixiu_info.addr_id);
+					$("#error_num").html(data_weixiu_info.cause_id);
+					$("#error_reason").html(data_weixiu_info.cause);
+					$("#inputReason").val(data_weixiu_info.cause_text);
+					$("#inputcase").val(data_weixiu_info.solution);
+					if (data_weixiu_info.B_SIM == null || data_weixiu_info.B_SIM == "" | data_weixiu_info.B_SIM == undefined) {
+						$("#B_SIM").css('display', 'none');
+						$("#b_sim_id").html(data_weixiu_info.B_SIM);
+					} else {
+						$("#B_SIM").css('display', 'block');
+						$("#b_sim_id").html(data_weixiu_info.B_SIM);
+					}
+					$("#sim_id").html(data_weixiu_info.SIM);
+					var str = '';
+					str += '<table class="zero">';
+					str += '<tr><td>零配件名称</td><td>零配件厂家</td><td>零配件价格</td></tr>';
+					$.each(parts, function(i, item) {
+						str += '<tr><td>' + item.part_name + '</td><td>' + item.factory + '</td><td>&yen;' + item.price + '</td></tr>';
+					});
+					str += '</table>';
+					$("#zero-1").html(str);
+					$("#costs_price").html(data_weixiu_info.costs_price);
+					$("#travel_price").html(data_weixiu_info.travel_price);
+					
+					$("#price").html(data_weixiu_info.price);
+					$("#all_price").html(data_weixiu_info.all_price);
+				} else {
+				   alert(ret.msg);
+				}
+			});
+		}
+
+		//我的维修订单  待维修
+		function gomyinfo() {
+			api.closeToWin({
+				name : 'root'
+			});
+			//		api.openWin({
+			//	        name: 'myinfo',
+			//	        url: './myinfo.html',
+			//	        bounces:false,
+			//	        reload:true,
+			//	        animation:{
+			//	        	type:"push",
+			//	        	subType:"from_right",
+			//	        	duration:300
+			//	        },
+			//
+			//    });
+		}
+
+		//时间戳转换
+		function formatDateTime(timeStamp) {
+			var date = new Date();
+			date.setTime(timeStamp * 1000);
+			var y = date.getFullYear();
+			var m = date.getMonth() + 1;
+			m = m < 10 ? ('0' + m) : m;
+			var d = date.getDate();
+			d = d < 10 ? ('0' + d) : d;
+			var h = date.getHours();
+			h = h < 10 ? ('0' + h) : h;
+			var minute = date.getMinutes();
+			var second = date.getSeconds();
+			minute = minute < 10 ? ('0' + minute) : minute;
+			second = second < 10 ? ('0' + second) : second;
+			//return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+			return y + "-" + m + "-" + d;
+		};
+	</script>
+</html>

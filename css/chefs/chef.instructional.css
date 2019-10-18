@@ -1,0 +1,413 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+    font-weight: bold;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+[v-cloak] {
+    display: none;
+}
+
+/* 视频详情 */
+.detail-teach-videos{
+    padding: 10px;
+ }
+ .detail-teach-videobox{
+     position: relative;
+     width: calc(100vw - 20px);
+     height: calc( 50vw - 10px);
+     background: skyblue;
+     margin-bottom: 10px;
+ }
+ .video-tag{
+    background: #6eb92c;
+    color: #fff;
+    height: 16px;
+    line-height: 17px;
+    padding: 0 10px;
+    border-radius: 8px;
+ }
+ .detail-video-tag {
+     position: absolute;
+     top:6px;
+     right:10px;
+     font-size: 0.8em;
+ }
+ .detail-video-bottom{
+ 
+ }
+ .detail-video-name{
+     font-weight: bold;
+ }
+ .video-video-detail{
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+ }
+ .video-video-left{
+     display: flex;
+     align-items: center;
+     font-size: 0.8em;
+     color: #999;
+ }
+ .video-left-text{
+     margin: 5px;
+ }
+ .video-video-right{
+     display: flex;
+     align-items: center;
+     font-size: 0.9em;
+ }
+ .video-right-text{
+     font-size: 0.9em;
+     color: #999;
+ }
+ .video-footer-item{
+     margin-left: 10px;
+ }
+ .video-detail-pay{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 0.7em;
+    color: #f00;
+ }
+ .video-detail-pay span{
+     display: inline;
+ }
+ .video-pay-num{
+     font-size: 16px;
+     font-weight: bold;
+     margin: 0 4px;
+ }
+ /* 厨师名片 */
+ .chef-detail-info{
+    padding: 10px 0;
+    background: #f2f2f2;
+ }
+ .chef-main-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #dfdfdf;
+    background: #fff;
+}
+.chef-head-left{
+    display: flex;
+    align-items: center;
+}
+.chef-main-head .icon-qianbi{
+    color: #6eb92c;
+}
+.chef-left-text{
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-left: 6px;
+}
+.chef-trends-head{
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: 10px 15px;
+    background: #fff;
+}
+.trends-head-imgbox{
+    width: 50px;
+    height: 50px;
+    background: skyblue;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.trends-head-imgbox img{
+    width: 100%;
+}
+.trends-center-name{
+    font-weight: bold;
+}
+.trends-light{
+    color: #999;
+    font-size: 0.9em;
+}
+.trends-head-right{
+    position: absolute;
+    right:10px;
+    top:50%;
+    height: 16px;
+    line-height: 17px;
+    padding: 0px 8px;
+    border:1px solid #6eb92c;
+    border-radius: 9px;
+    color: #6eb92c;
+    font-size: 0.9em;
+    transform: translateY(-50%);
+}
+
+.chef-detail-suspension{
+    position: fixed;
+    bottom:  124px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 0.9em;
+    background: rgba(0,0,0,1);
+    color: #fff;
+    text-align: center;
+    z-index: 3;
+}
+.chef-detail-backtop{
+    bottom: 54px;
+}
+
+ /* 详情、评价  */
+.chef-hotslist-head{
+    display: flex;
+    background: #fff;
+    font-size: 0.9em;
+}
+.hotslist-head-item{
+    width: 50%;
+    /* padding: 5px 0; */
+    margin: 10px 0;
+    font-size: 1.1em;
+    text-align: center;
+}
+.hotslist-head-active{
+    position: relative;
+    color: #6eb92c;
+}
+.hotslist-head-active::after{
+    position: absolute;
+    display: block;
+    content:"";
+    width: 30%;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    border:1px solid  #6eb92c;
+}
+.instructional-detal{
+    padding: 10px ;
+    font-size: 0.9em;
+}
+.instructional-detal-title{
+}
+.detal-title-p{
+    border-left: 2px solid #6eb92c;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-indent: 4px;
+}
+.instructional-detal-class{
+    display: flex;
+    padding: 10px;
+    margin:10px 0;
+    background: #f2f2f2;
+}
+.instructional-class-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 33.3%;
+}
+.class-item-content{
+    font-weight: bold;
+}
+.instructional-detal-maintext{
+    padding: 10px 0;
+    margin-bottom: 10px;
+}
+.instructional-buy-know{
+    margin: 10px 0;
+}
+.buy-know-item{
+    padding: 5px 0;
+}
+.buy-know-key{
+    max-width: 20%;
+    vertical-align: top;
+    margin-right: 10px;
+}
+.buy-know-value{
+    vertical-align: top;
+    width: calc(80% - 10px);
+}
+
+.chef-teaching-recommend{
+    padding-bottom: 30px;
+}
+/*教学推荐卡片*/
+.teaching-recommend-card{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px ;
+}
+.teaching-card-item{
+    width: 50%;
+}
+
+.chef-form-body{
+    padding: 10px; 
+    background: linear-gradient(to bottom,#fff, #fafafa); 
+}
+.forum-item{
+    width: 180px;
+    /* height: 150px; */
+    padding: 1px 0;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 0 10px #eee ;
+}
+.chef-forum-slide{
+    width: auto;
+    margin-right:15px; 
+}
+.forum-item-imgbox{
+    position: relative;
+    width: 180px;
+    height: 90px;
+    border-radius: 6px;
+}
+.forum-item-tagtop{
+    position: absolute;
+    top:6px;
+    right: 8px;
+    padding:1px 8px;
+    border-radius: 8px;
+    font-size: 0.8em;
+}
+.forum-item-pay{
+    background: #6eb92c;
+    color: #fff;
+    font-size: 0.8em;
+}
+.forum-item-free{
+    background: #fff;
+    color: #666;
+}
+.forum-item-tagbottom{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    text-align: right;
+    padding: 0 5px;
+    background: linear-gradient(to right,#fff, #6b6b6b); 
+    color: #fff;
+    font-size: 0.8em;
+    box-sizing: border-box;
+}
+.forum-item-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+.forum-item-explain{
+    padding: 5px 10px;
+}
+.forum-explain-title{
+    padding: 4px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.forum-explain-foot{
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    color: #999;
+}
+.forum-foot-imgbox{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 4px;
+    background: skyblue;
+}
+.forum-foot-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%
+}
+.forum-foot-explain{
+    display: flex;
+}
+.forum-foot-name{
+    margin-right: 5px;
+}
+.forum-foot-level{
+    margin-left: 5px;
+}
+
+/* 底部付费 */
+.instructional-teaching-foot{
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    background: #fff;
+    font-size: 0.9em;
+    box-shadow:0 0 4px #999;
+    z-index: 3;
+}
+.instructional-collect-real{
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+.instructional-collect-style{
+    flex:2;
+    background: #6eb92c;
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+}
+.collect{
+    color: rgb(228, 225, 42);
+}
+
+/* 弹框 */
+.dialog-x{
+   /*  width: 20px;
+    height: 20px; */
+    text-align: right;
+}
+.ui-checkbox input:checked:before, 
+.ui-checkbox-s input:checked:before{
+    color: #6eb92c;
+}
+.dialog-foot-pay{
+    font-size: 14px;
+}
+.dialog-foot-pay .ui-form-item{
+    font-size: 15px;
+}
+.pay-study{
+    width: 60%;
+    height: 30px;
+    line-height: 30px;
+    background: #6eb92c;
+    border-radius: 15px;
+    margin: 16px auto;
+    text-align: center;
+    color: #fff;
+}
+.ui-dialog-cnt{
+    padding: 10px;
+}

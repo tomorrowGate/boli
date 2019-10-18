@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>名厨</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.index.css" />
+</head>
+
+<body>
+    <div id="wrap" >
+        <!-- 头部搜索 -->
+        <header class="search-head" ref="header">
+            <div class="search-bg"></div>
+            <div class="search-main">
+                <span id="area" class="search-area" @click="selectCity" v-cloak tapmode>
+                    {{selectedCity}}
+                    <i class="iconfont icon-down down_icon"></i>
+                </span>
+                <div class="search-virtual" @click="goSearch" tapmode>
+                    <i class="iconfont icon-search"></i>搜索商品
+                </div>
+                <div class="search-real">搜索</div>
+            </div>
+        </header>
+
+        <!-- 轮播图 -->
+        <div class="swiper">
+            <div class="swiper-container swiper-top">
+                <div class="swiper-wrapper" id="adv">
+                    <div class="swiper-slide" v-for="(v,i) in topBanner" :key="i" tapmode>
+                        <div class="swiper-top-imgbox">
+                            <img :src="URL+v.file_path" alt="">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <!-- 球状列表 -->
+        <div class="chef-ball-list">
+            <div class="swiper-container swiper-ball-list">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide swiper-ball-items" tapmode>
+                        <div class="swiper-ball-item" @click="goChefChild(0)">
+                            <div class="swiper-ball-imgbox">
+                                <img src="../image/chefConverge.png" alt="">
+                            </div>
+                            <div class="swiper-ball-text">名厨汇聚</div>
+                        </div>
+                        <div class="swiper-ball-item" @click="goChefChild(1)">
+                            <div class="swiper-ball-imgbox">
+                                <img src="../image/chefSpeak.png" alt="">
+                            </div>
+                            <div class="swiper-ball-text">名厨讲堂</div>
+                        </div>
+                        <div class="swiper-ball-item" @click="goChefChild(2)">
+                            <div class="swiper-ball-imgbox">
+                                <img src="../image/chefTeaching.png" alt="">
+                            </div>
+                            <div class="swiper-ball-text">厨艺教学</div>
+                        </div>
+                        <div class="swiper-ball-item" @click="goChefChild(3)">
+                            <div class="swiper-ball-imgbox">
+                                <img src="../image/chefUnderLine.png" alt="">
+                            </div>
+                            <div class="swiper-ball-text">线下教学</div>
+                        </div>
+                        <div class="swiper-ball-item" @click="goChefChild(4)">
+                            <div class="swiper-ball-imgbox">
+                                <img src="../image/cehfInfor.png" alt="">
+                            </div>
+                            <div class="swiper-ball-text">行业资讯</div>
+                        </div>
+                        <div class="swiper-ball-item" @click="goChefChild(5)">
+                            <div class="swiper-ball-imgbox">
+                                <img src="../image/chefTrends.png" alt="">
+                            </div>
+                            <div class="swiper-ball-text">名厨动态</div>
+                        </div>
+                        <div class="swiper-ball-item" @click="goChefChild(6)">
+                            <div class="swiper-ball-imgbox">
+                                <img src="../image/chefMyteacher.png" alt="">
+                            </div>
+                            <div class="swiper-ball-text">我的师门</div>
+                        </div>
+                        <div class="swiper-ball-item" @click="goChefChild(7)">
+                            <div class="swiper-ball-imgbox">
+                                <img src="../image/chefSettled.png" alt="">
+                            </div>
+                            <div class="swiper-ball-text">名厨入驻</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 热点头条 -->
+        <div class="swiper-notice-out">
+            <div class="swiper-notice-imgbox"><img src="../image/redian.png"></div>
+            <div class="swiper-notice-content ">
+                <div class="swiper-container swiper-notice" id="swiperNotice">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide swiper-notice-text" v-for="(v,i) in hotList" :key="i">
+                            {{v.title}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 平台须知 -->
+        <div class="platform">
+            <div class="platform-know-out" @click="goPlatform">
+                <div class="platform-bg">
+                    <div class="platform-left">
+                        <div class="platform-top">平台须知</div>
+                        <div class="platform-bottom">名厨的权益是个啥</div>
+                    </div>
+                    <div class="platform-right">
+                        GO
+                        <i class="iconfont icon-htbArrowright"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="chef-main" v-cloak>
+            <!-- 名厨汇聚 -->
+            <div class="chef-main-head">
+                <div class="chef-head-left">
+                    <i class="iconfont icon-qianbi"></i>
+                    <div class="chef-left-text">名厨汇聚</div>
+                </div>
+                <div class="chef-head-more" @click="goChefChild(1)">
+                    更多
+                    <i class="iconfont icon-htbArrowright"></i>
+                </div>
+            </div>
+
+            <div class="chef-cards">
+                <div class="chef-card-out">
+                    <div class="chef-card" @click="goChefDet(v.id)" v-for="(v,i) in recommendRow" :key="i">
+                        <div class="chef-card-bg">
+                            <div class="chef-card-imgbox">
+                                <img :src="URL+v.photo" alt="">
+                            </div>
+                        </div>
+                        <div class="chef-card-detail">
+                            <div class="chef-detail-name">{{v.real_name2}}</div>
+                            <div class="chef-detail-text">{{v.cook_level}}</div>
+                            <div class="chef-detail-follow" @click.self.stop="focusHim">关注</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 厨师列表 -->
+            <div class="chef-busy-out">
+                <div class="chef-busy-card" v-for="(v,i) in recommendColumn" :key="i" @click="goChefDet(v.id)">
+                    <div class="chef-leftimg">
+                        <img :src="URL+v.photo" alt="">
+                    </div>
+                    <div class="chef-right-content">
+                        <div class="chef-head1">
+                            <div class="chef-head1-name">{{v.real_name2}}</div>
+                            <div class="chef-head1-follow">
+                                <span class="chef-follow-num">{{v.gz_coung}}</span>
+                                人关注
+                            </div>
+                        </div>
+                        <div class="chef-head2 chef-light">{{v.cook_level}}</div>
+                        <div class="chef-head3 chef-light">擅长：川菜、湘菜、鲁菜</div>
+                        <div class="chef-head4 ">{{v.remark}}</div>
+                        <div class="chef-foot">
+                            <div class="chef-foot-left">查看详情</div>
+                            <div class="chef-foot-right">
+                                <div class="chef-right-btn">学习</div>
+                                <div class="chef-right-btn" @click="focusHim">{{v.follow==0?'关注':'已关注'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chef-busy-footer">
+                    <div class="chef-lookmorechef chef-footer-item" @click="goChefChild(1)">
+                        <i class="iconfont icon-bofang"></i>
+                        <p> 查看更多名厨</p>
+                    </div>
+                    <div class="chef-lookmorechef chef-footer-item" @click="changeAbatch">
+                        <i class="iconfont icon-shuaxin1"></i>
+                        <p> 换一批</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 名厨讲堂 -->
+            <div class="chef-forum">
+                <div class="chef-form-in">
+                    <div class="chef-main-head">
+                        <div class="chef-head-left">
+                            <i class="iconfont icon-qianbi"></i>
+                            <div class="chef-left-text">名厨讲堂</div>
+                        </div>
+                        <div class="chef-head-more" @click="goChefChild(2)">
+                            更多
+                            <i class="iconfont icon-htbArrowright"></i>
+                        </div>
+                    </div>
+
+                    <!-- 讲堂轮播列表 -->
+                    <div class="swiper-container chef-form-body swiper-forum">
+                        <div class="swiper-wrapper " id="forum">
+                            <div class="swiper-slide chef-forum-slide" v-for="(v,i) in 6" :key="i" tapmode>
+                                <div class="forum-item" @click="oneForumDet">
+                                    <div class="forum-item-imgbox">
+                                        <span class="forum-item-tagtop forum-item-pay">付费</span>
+                                        <img src="" alt="">
+                                        <span class="forum-item-tagbottom">14295人已观看</span>
+                                    </div>
+                                    <div class="forum-item-explain">
+                                        <p class="forum-explain-title">中国菜肴的八种烹饪方法</p>
+                                        <div class="forum-explain-foot">
+                                            <div class="forum-foot-imgbox">
+                                                <img src="" alt="">
+                                            </div>
+                                            <div class="forum-foot-explain">
+                                                <span class="forum-foot-name">周伯通</span>
+                                                |
+                                                <span class="forum-foot-level">国家一级厨师</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 讲堂列表 -->
+                    <div class="chef-form-formlist">
+                        <div class="chef-form-card"  @click="oneForumDet">
+                            <div class="chef-form-leftimg">
+                                <img src="" alt="">
+                            </div>
+                            <div class="chef-right-content">
+                                <div class="chef-head1">
+                                    <div class="chef-head1-name">中国菜肴的八种烹饪法则</div>
+                                </div>
+                                <div class="chef-head2 chef-forum-light">教你探究中式烹饪的秘诀</div>
+                                <div class="chef-head3 chef-forum-light forum-foot-explain">
+                                    <i class="iconfont"></i>
+                                    <span class="forum-foot-name">周伯通</span>
+                                    |
+                                    <span class="forum-foot-level">国家一级厨师</span>
+                                </div>
+                                <div class="chef-head4 ">
+                                    <i class="iconfont"></i>
+                                    <span class="">14925</span>人已观看
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chef-busy-footer">
+                            <div class="chef-lookmorechef chef-footer-item" @click="goChefChild(2)">
+                                <i class="iconfont icon-bofang"></i>
+                                <p> 查看更多讲课</p>
+                            </div>
+                            <div class="chef-lookmorechef chef-footer-item">
+                                <i class="iconfont icon-shuaxin1"></i>
+                                <p> 换一批</p>
+                            </div>
+                        </div>
+
+                        <!-- 底部轮播图 -->
+                        <div class="swiper chef-forum-swiper">
+                            <div class="swiper-container forum-swiper-recommend">
+                                <div class="swiper-wrapper" id="forumRecommend">
+                                    <div class="swiper-slide" tapmode>
+                                        <div class="forum-foot-imgbox">
+                                            <img src="" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide" tapmode>14</div>
+                                    <div class="swiper-slide" tapmode>153</div>
+                                    <div class="swiper-slide" tapmode>14</div>
+                                    <div class="swiper-slide" tapmode>153</div>
+                                </div>
+                                <div class="swiper-pagination chef-forum-recommend"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 教学推荐 -->
+            <div class="chef-teaching-recommend">
+                <div class="chef-form-in">
+                    <div class="chef-main-head">
+                        <div class="chef-head-left">
+                            <i class="iconfont icon-qianbi"></i>
+                            <div class="chef-left-text">教学推荐</div>
+                        </div>
+                        <div class="chef-head-more" @click="goChefChild(3)">
+                            更多
+                            <i class="iconfont icon-htbArrowright"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 教学推荐卡片 -->
+                <div class="teaching-recommend-card">
+                    <div class="teaching-card-item forum-item" v-for="(v,i) in 6" :key="i" @click="goOneTeaching">
+                        <div class="forum-item-imgbox">
+                            <span class="forum-item-tagtop forum-item-pay">付费</span>
+                            <img src="" alt="">
+                        </div>
+                        <div class="forum-item-explain">
+                            <p class="forum-explain-title">中国菜肴的八种烹饪方法</p>
+                            <div class="forum-explain-foot">
+                                <div class="forum-foot-explain">
+                                    <i class="iconfont"></i>
+                                    <span class="forum-foot-name">周伯通</span>
+                                    |
+                                    <span class="forum-foot-level">国家一级厨师</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chef-busy-footer">
+                    <div class="chef-lookmorechef chef-footer-item" @click="goChefChild(3)">
+                        <i class="iconfont  icon-bofang"></i>
+                        <p> 查看更多讲课</p>
+                    </div>
+                    <div class="chef-lookmorechef chef-footer-item">
+                        <i class="iconfont icon-shuaxin1"></i>
+                        <p> 换一批</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 热点资讯、行业动态、最近活动 -->
+            <div class="chef-hotslist">
+                <div class="chef-hotslist-head">
+                    <p class="hotslist-head-item hotslist-head-active">热点资讯</p>
+                    <p class="hotslist-head-item">行业动态</p>
+                    <p class="hotslist-head-item">最新活动</p>
+                </div>
+                <div class="chef-hotslist-body">
+                    <div class="hotslist-body-item" v-for="(v,i) in hotInfomation" :key="i"
+                        @click="goEssay(v.article_id)">
+                        <div class="hotslist-item-title">
+                            {{v.title}}
+                        </div>
+                        <div class="hotslist-item-imgboxs">
+                            <div class="hotslist-imgboxs-imgbox" v-for="(value,index) in v.img_url" :key="index">
+                                <img :src="URL+value.file_path" alt="">
+                            </div>
+                        </div>
+                        <div class="hotslist-item-footer">
+                            <div class="hotslist-footer-item">
+                                <i class="iconfont icon-guankan"></i>
+                                <span class="hotslist-footer-look">{{v.watch}}</span>
+                            </div>
+                            <div class="hotslist-footer-item">
+                                <i class="iconfont icon-pinglun2"></i>
+                                <span class="hotslist-footer-comment">129</span>
+                            </div>
+                            <div class="hotslist-footer-item">
+                                <i class="iconfont icon-zan"></i>
+                                <span class="hotslist-footer-fabulous">{{v.zan}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var URL = "";
+    var userId = window.localStorage.getItem("userId"); //用户id
+    var ugrade = window.localStorage.getItem("ugrade"); //用户等级
+    var wrap
+    apiready = function () {
+        URL = $api.URL();
+
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#F6F6F6',
+            images: {
+                pull: 'widget://image/refresh/pulling.png',
+                transform: [
+                    'widget://image/refresh/transform0.png',
+                    'widget://image/refresh/transform1.png',
+                    'widget://image/refresh/transform2.png',
+                    'widget://image/refresh/transform3.png',
+                    'widget://image/refresh/transform4.png',
+                    'widget://image/refresh/transform5.png',
+                    'widget://image/refresh/transform6.png'
+                ],
+                load: [
+                    'widget://image/refresh/loading0.png',
+                    'widget://image/refresh/loading1.png',
+                    'widget://image/refresh/loading2.png',
+                    'widget://image/refresh/loading3.png',
+                    'widget://image/refresh/loading4.png',
+                ]
+            }
+        }, function (ret, err) {
+            setTimeout('api.refreshHeaderLoadDone()', '3000');
+        });
+
+        wrap = new Vue({
+            el: '#wrap',
+            data: {
+                URL: URL,
+                selectedCity:"湖州",
+                topBanner: {a:1},
+                hotList: [1],
+                hotInfomation: [],
+                imgDefalt: '../image/headimgDef.png',
+
+                /* 名厨汇聚 */
+                start:0,
+                recommendRow:[],//横排推荐
+                recommendColumn:[],//竖排推荐
+
+            },
+            computed: {
+                isTopBannerShow:function isTopBannerShow(){
+                    var arr = Object.keys(this.topBanner); 
+                    console.log(arr.length)
+                        return arr.length>0
+                },
+                isHotListShow:function isHotListShow(){
+                    console.log(this.hotList.length)
+                    return this.hotList.length>0
+                }
+            },
+            methods: {
+                //筛选城市
+                selectCity: function selectCity() {
+                    var that = this
+                    var UIActionSelector = api.require('UIActionSelector');
+                    UIActionSelector.open({
+                        datas: 'widget://res/city.json',
+                        layout: {
+                            row: 5,
+                            col: 3,
+                            height: 30,
+                            size: 12,
+                            sizeActive: 14,
+                            rowSpacing: 5,
+                            colSpacing: 10,
+                            maskBg: 'rgba(0,0,0,0.2)',
+                            bg: '#fff',
+                            color: '#666',
+                            colorActive: '#f00',
+                            colorSelected: '#000'
+                        },
+                        animation: true,
+                        cancel: {
+                            text: '取消',
+                            size: 12,
+                            w: 90,
+                            h: 35,
+                            bg: '#fff',
+                            bgActive: '#ccc',
+                            color: '#888',
+                            colorActive: '#fff'
+                        },
+                        ok: {
+                            text: '确定',
+                            size: 12,
+                            w: 90,
+                            h: 35,
+                            bg: '#fff',
+                            bgActive: '#ccc',
+                            color: '#888',
+                            colorActive: '#fff'
+                        },
+                        title: {
+                            text: '请选择',
+                            size: 12,
+                            h: 44,
+                            bg: '#eee',
+                            color: '#888'
+                        },
+                        fixedOn: api.group1,
+                    }, function (ret, err) {
+                        if (ret) {
+                            //console.log(JSON.stringify(ret.level1));
+                            if (ret.eventType == 'ok') {
+                                if (ret.level2 == '市辖区' || ret.level2 == '县') {
+                                    that.selectedCity = ret.level1
+                                    window.localStorage.setItem("selectedCity",ret.level1)
+                                } else {
+                                    that.selectedCity = ret.level2
+                                    window.localStorage.setItem("selectedCity",ret.level2)
+                                }
+                            }
+                        } else {
+                            console.log(JSON.stringify(err));
+                        }
+                    });
+                },
+                //获得头部轮播
+                getTopBanner: function getTopBanner() {
+                    var that = this
+                    api.ajax({
+                        url: URL + '/index.php?app=homepage&act=home_lunbo',
+                        method: 'post',
+                        cache: false,
+                        timeout: 30,
+                        dataType: 'json',
+                        returnAll: false,
+                        data: {
+
+                        }
+                    }, function (ret, err) {
+                        //console.log(JSON.stringify(ret));
+                        if (ret && ret.done) {
+                            that.topBanner = ret.retval
+                            //巨坑，object.length不能获取到对象的长度
+                            console.log( ret.retval.length)
+                            that.$nextTick(function(){
+                                that.initSwiperTop()
+                            })
+                        } else if (ret) {
+                            api.toast({
+                                msg: ret.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        } else {
+                            api.toast({
+                                msg: err.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        }
+                    });
+                },
+                //获得热点头条
+                getHot: function getHot() {
+                    var that = this
+                    api.ajax({
+                        url: URL + '/index.php?app=boli_homepage&act=get_news',
+                        method: 'post',
+                        cache: false,
+                        timeout: 30,
+                        dataType: 'json',
+                        returnAll: false,
+                        data: {
+                            values: {
+                                start: 0,
+                                userId: userId,
+                                cate_id: 23
+                            }
+                        }
+                    }, function (ret, err) {
+                        //console.log(JSON.stringify(ret));
+                        if (ret && ret.done) {
+                            that.hotList = ret.retval
+                            that.$nextTick(function(){
+                                that.initNotice()
+                            })
+                        } else if (ret) {
+                            api.toast({
+                                msg: ret.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        } else {
+                            api.toast({
+                                msg: err.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        }
+                    });
+                },
+                //初始化头部轮播图
+                initSwiperTop: function swiperNotice() {
+                    var swiperTop = new Swiper('.swiper-top', {
+                        slidesPerView: 1,
+                        spaceBetween: 0,
+                        loop: true,
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        },
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        observer: true,
+                        observeParents: true,
+                        on: {
+                            click: function () {
+                                const realIndex = this.realIndex;
+                                //that.handleClickSlide(realIndex); 
+                            }
+                        },
+                        preventLinksPropagation: false   // 阻止点击事件冒泡
+                    });
+                },
+                //初始化热点头条轮播图
+                initNotice: function swiperNotice() {
+                    var that = this
+                    var swiperNotice = new Swiper('.swiper-notice', {
+                        slidesPerView: 'auto',
+                        spaceBetween: 10,
+                        loop: true,
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        },
+                        direction: 'vertical',
+                        observer: true,
+                        observeParents: true,
+                        on: {
+                            click: function () {
+                                const realIndex = this.realIndex;
+                                //that.handleClickSlide(realIndex); 
+                            }
+                        },
+                        preventLinksPropagation: false   // 阻止点击事件冒泡
+                    });
+                },
+                //获得名厨汇聚--横排
+                getRecommendRow:function getRecommendRow(){
+                    var that = this
+                    api.ajax({
+                        url: that.URL + '/index.php?app=appstaff&act=get_tuijian_sf',
+                        method: 'post',
+                        cache: false,
+                        timeout: 30,
+                        dataType: 'json',
+                        returnAll: false,
+                        data: {
+                            values: {
+                                user_id: userId,
+                            }
+                        }
+                    }, function (ret, err) {
+                        //console.log(JSON.stringify(ret));
+                        if (ret && ret.done) {
+                            that.recommendRow = ret.retval
+                        } else if (ret) {
+                            api.toast({
+                                msg: ret.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        } else {
+                            api.toast({
+                                msg: err.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        }
+                    });
+                },
+                 //获得名厨汇聚--竖排
+                getRecommendColumn:function getRecommendColumn(start){
+                    var that = this
+                    api.ajax({
+                        url: that.URL + 'index.php?app=appstaff&act=get_sf_follow',
+                        method: 'post',
+                        cache: false,
+                        timeout: 30,
+                        dataType: 'json',
+                        returnAll: false,
+                        data: {
+                            values: {
+                                user_id: userId,
+                                start:start
+                            }
+                        }
+                    }, function (ret, err) {
+                        //console.log(JSON.stringify(ret));
+                        if (ret && ret.done) {
+                            if(ret.retval.length<=0){
+                                api.toast({
+                                    msg: '暂无更多名厨了',
+                                    duration: 2000,
+                                    location: 'bottom'
+                                });
+                                return
+                            }
+                            that.recommendColumn = ret.retval
+                        } else if (ret) {
+                            api.toast({
+                                msg: ret.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        } else {
+                            api.toast({
+                                msg: err.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        }
+                    });
+                },
+                //获得热点资讯
+                getHotInfomation: function () {
+                    var that = this
+                    api.ajax({
+                        url: URL + '/index.php?app=boli_homepage&act=get_news',
+                        method: 'post',
+                        cache: false,
+                        timeout: 30,
+                        dataType: 'json',
+                        returnAll: false,
+                        data: {
+                            values: {
+                                start: 0,
+                                userId: userId
+                            }
+                        }
+                    }, function (ret, err) {
+                        //console.log(JSON.stringify(ret));
+                        if (ret && ret.done) {
+                            that.hotInfomation = ret.retval
+                        } else if (ret) {
+                            api.toast({
+                                msg: ret.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        } else {
+                            api.toast({
+                                msg: err.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        }
+                    });
+                },
+                //跳转搜索页面
+                goSearch: function goSearch() {
+                    api.openWin({
+                        name: 'search',
+                        url: './search.html',
+                        bounces: false,
+                        animation: {
+                            type: "push",
+                            subType: "from_right",
+                            duration: 300
+                        },
+                        pageParam: {
+
+                        }
+                    });
+                },
+                //跳转8大子页面
+                goChefChild: function goChefChild(i) {
+                    var nameArr = ['chef.converge', 'chef.forum', 'chef.teaching', 'chef.offline', 'chef.industry', 'chef.trends', '', 'chef.settled']
+                    api.openWin({
+                        name: nameArr[i],
+                        url: './' + nameArr[i] + '.html',
+                        bounces: false,
+                        animation: {
+                            type: "push",
+                            subType: "from_right",
+                            duration: 300
+                        },
+                        pageParam: {
+
+                        }
+                    });
+                },
+                //前往平台须知
+                goPlatform: function goPlatform() {
+                    api.openWin({
+                        name: 'chef.platform',
+                        url: './chef.platform.html',
+                        bounces: false,
+                        animation: {
+                            type: "push",
+                            subType: "from_right",
+                            duration: 300
+                        },
+                        pageParam: {
+
+                        }
+                    });
+                },
+                //跳转名厨详情
+                goChefDet: function goChefDet(id) {
+                    api.openWin({
+                        name: 'chef.detail',
+                        url: './chef.detail.html',
+                        bounces: false,
+                        animation: {
+                            type: "push",
+                            subType: "from_right",
+                            duration: 300
+                        },
+                        pageParam: {
+                            sf_id : id
+                        }
+                    });
+                },
+                //关注
+                focusHim: function focusHim() {
+                    //this.focus = "已关注"
+                },
+                //换一批
+                changeAbatch: function changeAbatch() {
+                    this.start += 5
+                    this.getRecommendColumn(this.start)
+                },
+                //获取名厨讲堂数据
+                getForumData:function getForumData () {
+                    
+                },
+                //初始化名师讲堂轮播图
+                initSwiperForum:function initSwiperForum(){
+                    var swiperForum = new Swiper('.swiper-forum', {
+                        slidesPerView: 'auto',
+                        observer: true,
+                        observeParents: true,
+                        on: {
+                            click: function () {
+                                const realIndex = this.realIndex;
+                                //that.handleClickSlide(realIndex); 
+                            }
+                        },
+                        preventLinksPropagation: false   // 阻止点击事件冒泡
+                    });
+                },
+                oneForumDet:function oneForumDet(){
+                    api.openWin({
+                        name: 'chef.lectureRoom',
+                        url: './chef.lectureRoom.html',
+                        bounces: false,
+                        animation: {
+                            type: "push",
+                            subType: "from_right",
+                            duration: 300
+                        },
+                        pageParam: {
+                           
+                        }
+                    });
+                },
+               //初始化底部轮播图
+               initForumRecommend:function initForumRecommend(){
+                    var forumSwiperRecommend = new Swiper('.forum-swiper-recommend', {
+                        slidesPerView: 'auto',
+                        spaceBetween: 10,
+                        loop: true,
+                        autoplay: {
+                            delay: 4000,
+                            disableOnInteraction: false,
+                        },
+                        pagination: {
+                            el: '.chef-forum-recommend',
+                        },
+                        observer: true,
+                        observeParents: true,
+                        on: {
+                            click: function () {
+                                const realIndex = this.realIndex;
+                                //that.handleClickSlide(realIndex); 
+                            }
+                        },
+                        preventLinksPropagation: false   // 阻止点击事件冒泡
+                    });
+               },
+               //跳转教学页面
+               goOneTeaching:function goOneTeaching(){
+                    api.openWin({
+                        name: 'chef.instructional',
+                        url: './chef.instructional.html',
+                        bounces: false,
+                        animation: {
+                            type: "push",
+                            subType: "from_right",
+                            duration: 300
+                        },
+                        pageParam: {
+                           
+                        }
+                    });
+               },
+                //跳转文章页面
+                goEssay: function goEssay(Id) {
+                    api.openWin({
+                        name: 'essay',
+                        url: './essay.html',
+                        bounces: false,
+                        animation: {
+                            type: "push",
+                            subType: "from_right",
+                            duration: 300
+                        },
+                        pageParam: {
+                            articleId: Id, //文章id
+                            articleType: '1'
+                        }
+                    });
+                },
+
+            },
+            created: function created() {
+
+                this.selectedCity = window.localStorage.getItem("selectedCity")
+                this.getTopBanner()
+                this.getHot();
+                this.getHotInfomation();
+                this.getRecommendRow()
+                this.getRecommendColumn(this.start)
+            },
+            mounted: function mounted() {
+                this.$nextTick(function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    this.initSwiperForum()
+                    this.initForumRecommend()
+
+                    $('.swiper-wrapper').on('touchstart', function (e) {
+                        //console.log(api.setWinAttr)
+                        api.setFrameAttr({
+                            name: 'chef',
+                            bounces: false
+                        });
+                    });
+                    $('.swiper-wrapper').on('touchend', function (e) {
+                        api.setFrameAttr({
+                            name: 'chef',
+                            bounces: true
+                        });
+                    });
+                });
+            },
+        })
+
+
+        /*  //文章详情
+         function goEssay(Id, is_see) {
+             //alert(is_see);
+             if (is_see <= 0) {
+                 Click_To_Watch(Id);
+             }
+             api.openWin({
+                 name: 'essay',
+                 url: './essay.html',
+                 bounces: false,
+                 animation: {
+                     type: "push",                
+                     subType: "from_right",       
+                     duration: 300                
+                 },
+                 pageParam: {
+                     articleId: Id, //文章id
+                     articleType: '1'
+ 
+                 }
+             });
+         } */
+
+    }
+
+</script>
+
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>徒弟</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<style>
+			html, body {background-color: #fff;}
+			.hide {display: none;}
+			/* sticky */
+			.sticky {
+				position: -webkit-sticky;
+				position: sticky;
+				top: 0;
+				padding: 5px 3%;
+				background-color: #fff;
+				z-index: 2;
+			}
+			.sticky .list_type {
+				width: 33.33%;
+				text-align: center;
+				float: left;
+				height: 32px;
+				line-height: 30px;
+				font-weight:  bold;
+				/* border-bottom: 1px solid #f2f2f2; */
+			}
+			.sticky .active  span{
+				color: #6eb92c;
+				border-bottom: 2px solid #6eb92c;
+				font-weight: bold;
+				height:30px;
+				line-height: 30px
+			}
+			/*我的徒弟*/
+			.part_div{padding:10px 3%;}
+			.nomal_title{ margin-bottom: 10px;border-bottom: 1px solid #f2f2f2;padding: 5px 0; }
+			.my_icon3{ color:#6eb92c; }
+			.content_item{ padding: 10px 0;position: relative;border-bottom: 1px solid #bfbfbf; }
+			.portrait_cooker{ width:60px;height:60px;border-radius: 50px; text-align: center;overflow: hidden}
+	        .cooker_info{ height: 60px;line-height: 22px;padding: 8px; }
+	        .cooker_info .master_name{ font-weight: bold }
+	        .cooker_info p{ margin:0; }
+	        .img1{ height: 100%; }
+	        .img2{  height:20px;margin-left:5px;}
+	        .name{ font-weight: bold }
+	        .tag{ font-size: 0.9em;color:#f37b1b;background-color: #fce1cc;padding:0 5px;border-radius: 3px;text-align: center }
+	        .bottom_btn{ position: absolute;top:8px;right:0;margin:0; text-align: right; }
+	        .bottom_btn .btn_1{ color:#8d8d8d; height:35px;line-height:35px;}
+	        .bottom_btn .btn_2,.bottom_btn .btn_3{ text-align:center;color:#ee5e53;border:1px solid #ee5e53;height:22px;line-height:22px;width:4em;margin-left:0.2em;border-radius: 5px;font-size: 0.9em}
+
+
+		</style>
+	</head>
+	<body>
+		<div class="sticky">
+			<div class="list_type" onclick="changeOrder('0')" tapmode>
+				<span>师傅</span>
+			</div>
+			<div class="list_type active" onclick="changeOrder('1')" tapmode>
+				<span>徒弟</span>
+			</div>
+			<div class="list_type" onclick="changeOrder('2')" tapmode>
+				<span>营销</span>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="part_div clearfix">
+		       <div id="my_apprentice">
+		      <!--  <div class="content_item flex cross_middle" >
+				        <div class="portrait_cooker" onclick="goDetail('+item.user_id+')" tapmod>
+				        
+				        	<img src="../image/cooker.png" class="img1 master_portrait">
+				        
+				        </div>
+				        <div class="cooker_info">
+				        <div onclick="goDetail('+item.user_id+')" tapmod>
+				        <p><span class="master_name">'+item.real_name2+'</span></p>
+				        <span class="tag">徒弟</span>
+				        </div>
+				        <p class="bottom_btn"><span class="btn_1" onclick="goDetail('+item.user_id+')" tapmod>查看详情</span>
+                        
+			            	<br/><span class="btn_2" onclick="agree('+item.user_id+')" tapmod>同意</span><span class="btn_3"  onclick="reject('+item.user_id+')" tapmod>拒绝</span>
+			           
+				        </p></div>
+				       </div> -->
+
+		    </div>
+		</div>
+
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		var swiper1 = new Swiper('.swiper1', {
+			slidesPerView : 'auto',
+			spaceBetween : 10,
+			loop : false,
+			autoplay : false
+		});
+		var URL = "";
+		var userId = window.localStorage.getItem("userId");
+		apiready = function() {
+			URL = $api.URL();
+			api.refreshHeaderLoading();
+			$('.swiper-wrapper').on('touchstart', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group2',
+					scrollEnabled : false
+				});
+			});
+			$('.swiper-wrapper').on('touchend', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group2',
+					scrollEnabled : true
+				});
+			});
+			//下拉刷新
+	        api.setCustomRefreshHeaderInfo({
+	            bgColor: '#F6F6F6',
+	            images: {
+	                pull: 'widget://image/refresh/pulling.png',
+	                transform: [
+	                    'widget://image/refresh/transform0.png',
+	                    'widget://image/refresh/transform1.png',
+	                    'widget://image/refresh/transform2.png',
+	                    'widget://image/refresh/transform3.png',
+	                    'widget://image/refresh/transform4.png',
+	                    'widget://image/refresh/transform5.png',
+	                    'widget://image/refresh/transform6.png'
+	                ],
+	                load: [
+	                    'widget://image/refresh/loading0.png',
+	                    'widget://image/refresh/loading1.png',
+	                    'widget://image/refresh/loading2.png',
+	                    'widget://image/refresh/loading3.png',
+	                    'widget://image/refresh/loading4.png',
+	                ]
+	            }
+	        }, function(ret, err) {
+	                get_tudi_info();
+					setTimeout('api.refreshHeaderLoadDone()', '2000');
+	        });
+		};
+		//获取徒弟列表
+		function get_tudi_info() {
+			var userId = localStorage.getItem("userId");
+			console.log("123456");
+			console.log(URL+'index.php?app=appstaff&act=get_tudi');
+			api.ajax({
+				url : URL+'index.php?app=appstaff&act=get_tudi',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+				     $("#my_apprentice").html("");
+				     if(ret.retval!=0){
+				     	$.each(ret.retval, function(i, item) {
+                        var str1='';
+                        str1+='<div class="content_item flex cross_middle" >';
+				        str1+='<div class="portrait_cooker" onclick="goDetail('+item.user_id+')" tapmod>';
+				        if(item.portrait){
+				        	str1+='<img src="' + URL +item.portrait+'" class="img1 master_portrait">';
+				        }else{
+				        	str1+='<img src="../image/cooker.png" class="img1 master_portrait">';
+				        }
+				        str1+='</div>';
+				        str1+='<div class="cooker_info">';
+				        str1+='<div onclick="goDetail('+item.user_id+')" tapmod>';
+				        str1+='<p><span class="master_name">'+item.real_name+'</span></p>';
+				        str1+='<span class="tag">徒弟</span>';
+				        str1+='</div>';
+				        str1+='<p class="bottom_btn"><span class="btn_1" onclick="goDetail('+item.user_id+')" tapmod>查看详情</span>';
+                        if(item.state==0){
+			            	str1+='<br/><span class="btn_2" onclick="agree('+item.user_id+')" tapmod>同意</span><span class="btn_3"  onclick="reject('+item.user_id+')" tapmod>拒绝</span>';
+			            }
+				        str1+='</p></div>';
+				       str1+='</div>';
+
+					 $api.append($api.byId("my_apprentice"), str1);
+					 })
+					}else{
+					  $("#my_apprentice").html("暂无徒弟，赶紧去收徒吧");
+					}
+
+				} else {
+				   api.toast({
+                   msg: ret.msg,
+                   duration: 2000,
+                   location: 'bottom'
+                  });
+                  //还需跳转至厨师认证页面
+
+
+				}
+				api.refreshHeaderLoadDone();
+			});
+		}
+		//同意
+		function agree(changeId){
+           api.ajax({
+                    url : URL+'/index.php?app=appstaff&act=tong_relation',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            tudi_id:changeId
+                        }
+                    }
+          }, function(ret, err) {
+            console.log(JSON.stringify(ret));
+            if (ret&&ret.done) {
+                api.toast({
+                  msg: ret.retval,
+                  duration: 2000,
+                  location: 'middle'
+                });
+            	get_tudi_info();
+                                
+            }else if(ret){
+                api.toast({
+                  msg: ret.msg,
+                  duration: 2000,
+                  location: 'middle'
+                });
+            }
+            if(err){
+              api.toast({
+                msg: err.msg,
+                duration: 2000,
+                location: 'middle'
+              });
+            }
+          });
+		}
+		//拒绝
+		function reject(changeId){
+		  api.ajax({
+                    url : URL+'/index.php?app=appstaff&act=ju_relation',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            tudi_id:changeId
+                        }
+                    }
+          }, function(ret, err) {
+            console.log(JSON.stringify(ret));
+            if (ret&&ret.done) {
+                api.toast({
+                  msg: ret.retval,
+                  duration: 2000,
+                  location: 'middle'
+                });
+            	get_tudi_info();
+                                
+            }else if(ret){
+                api.toast({
+                  msg: ret.msg,
+                  duration: 2000,
+                  location: 'middle'
+                });
+            }
+            if(err){
+              api.toast({
+                msg: err.msg,
+                duration: 2000,
+                location: 'middle'
+              });
+            }
+          });
+		}
+
+        //查看详情
+        function goDetail(tudiId){
+	       api.openWin({
+	        name: 'apprentice.detail',
+	        url: './apprentice.detail.html',
+	        bounces: false,
+	        pageParam: {
+	                  tudiId: tudiId
+	                   },
+	        animation:{
+	          type:"push",                //动画类型（详见动画类型常量）
+	          subType:"from_right",       //动画子类型（详见动画子类型常量）
+	          duration:300                //动画过渡时间，默认300毫秒
+	        }
+	      });
+	    }
+
+		function changeOrder(order) {
+			if(order=='2'){
+			    api.toast({
+				msg: '敬请期待！',
+				duration: 2000,
+			 	location: 'middle'
+			  });
+			}else{
+			$(this).addClass("active").siblings().removeClass("active");
+			api.execScript({
+				frameName : 'connection',
+				script : 'fnsetFrameGroupIndex("group_connection","' + order + '");'
+			});
+		}
+	}
+
+
+	</script>
+</html>

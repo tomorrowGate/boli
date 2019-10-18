@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>活跃值</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/activevalue.css">
+
+</head>
+<body>
+	<div>
+	<!--头部-->
+      <div class="top_header">
+	    <div class="header">活跃值</div>
+        <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+	    <div class="DIV_R" onclick="goArticle()" tapmod>规则</div>
+	  </div>
+	  <div class="case1">
+	    <div class="je">距离<span="must_huoyue">100</span>活跃值还差<span id="left_huoyue"></span></div>
+			<div class="lb clearfix">
+				<span class="active_count" id="active_count">7</span>
+				<div class="progress">
+          <div class="progress-bar" role="progressbar"
+         aria-valuemin="0" aria-valuemax="100">
+              </div>
+          </div>
+					<p class="all_count" id="all_count">100</p>
+			</div>
+
+	    <div class="up_title">-- 完成任务提升活跃值 --</div>
+	    <div class="case2 clearfix">
+	    	<p class="font_s1 font_w1 tt1"><i class="iconfont icon-qianbi my_icon"></i> 活跃值任务</p>
+	    	<div class="part clearfix">
+	          <div class="f_l" onclick="goSign()" tapmod>
+	            <p class="tab_item"><img src="../image/ic_1.png"> <span>签到</span><i class="iconfont icon-htbArrowright"></i></p>
+	            <p class="font_w1 font_s1">每天签到一次</p>
+	            <P class="default_color3">可获得<span class="default_color1">7</span>个活跃值</P>
+	          </div>
+	          <div class="f_r" onclick="fnOpenshare('3')" tapmod>
+	          	<p class="tab_item"><img src="../image/ic_2.png"> <span>分享</span><i class="iconfont icon-htbArrowright"></i></p>
+	            <p class="font_w1 font_s1">分享给好友</p>
+	            <P class="default_color3">可获得<span class="default_color1">7</span>个活跃值</P>
+	          </div>
+	        </div>
+	        <div class="part clearfix">
+	          <div class="f_l" onclick="goBuy()" tapmod>
+	            <p class="tab_item"><img src="../image/ic_3.png"> <span>消费</span><i class="iconfont icon-htbArrowright"></i></p>
+	            <p class="font_w1 font_s1">完成一笔消费</p>
+	            <P class="default_color3">可获得<span class="default_color1">50</span>个活跃值</P>
+	          </div>
+	          <div class="f_r" onclick="goShareMember()" tapmod>
+	          	<p class="tab_item"><img src="../image/ic_4.png"> <span>推荐商界新秀</span><i class="iconfont icon-htbArrowright"></i></p>
+	            <p class="font_w1 font_s1">成功推荐一名商界新秀</p>
+	            <P class="default_color3">可获得<span class="default_color1">25</span>个活跃值</P>
+	          </div>
+	        </div>
+	        <div class="part border_none clearfix">
+	          <div class="f_l" onclick="goShareMember()" tapmod>
+	            <p class="tab_item"><img src="../image/ic_5.png"> <span>推荐商界名流</span><i class="iconfont icon-htbArrowright"></i></p>
+	            <p class="font_w1 font_s1">成功推荐一名商界名流</p>
+	            <P class="default_color3">可获得<span class="default_color1">100</span>个活跃值</P>
+	          </div>
+	        </div>
+	    </div>
+	  </div>
+	</div>
+
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+	//返回上一页
+    var goBack=function(){
+        api.closeWin();
+    }
+		var URL="";
+		var dialogBox;
+		var userId=window.localStorage.getItem('userId');
+	apiready = function(){
+		var header = $api.dom('.top_header'); // 获取 header 标签元素
+		headerH = $api.fixStatusBar(header);
+		dialogBox = api.require('dialogBox');
+		URL=$api.URL();
+    getHuoyue();
+	};
+	//获取活跃值
+function getHuoyue(){
+ api.ajax({
+	 url : URL + 'index.php?app=appajax&act=huoyuzhi',
+					 method : 'post',
+					 cache : false,
+					 timeout : 30,
+					 dataType : 'json',
+					 returnAll : false,
+					 data : {
+									 values : {
+												 user_id:userId
+													}
+									}
+ },function(ret,err){
+ console.log(JSON.stringify(ret));
+ $api.html($api.byId("active_count"), parseInt(ret.retval.all_huoyue));
+ $api.html($api.byId("all_counte"), parseInt(ret.retval.must_huoyue));
+ $api.html($api.byId("must_huoyue"), parseInt(ret.retval.must_huoyue));
+ var left_huoyue=parseInt(ret.retval.must_huoyue-ret.retval.all_huoyue);
+ $api.html($api.byId("left_huoyue"), left_huoyue);
+ var percent=Math.round(ret.retval.all_huoyue*100/ret.retval.must_huoyue);
+ $(".progress-bar").width(percent+"%");
+  $("#active_count").attr('left',percent+"%");
+if(ret.done){
+
+}else{
+ api.toast({
+	 msg: '失败',
+	 duration: 2000,
+	 location: 'bottom'
+ });
+}
+if(err){
+ api.toast({
+	 msg: err.msg,
+	 duration: 2000,
+	 location: 'bottom'
+ });
+}
+ });
+ }
+  //跳转规则
+  function goArticle(){
+        api.openWin({
+          name: 'article.view',
+          url: './article.view.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          },
+          pageParam: {
+             articleId: 'rule' //通过var articleType=api.pageParam.articleType; 调用
+          }
+        });
+      }
+			//跳转签到
+		  function goSign(){
+		        api.closeWin();
+		      }
+			//跳转消费
+		  function goBuy(){
+				        api.openWin({
+				          name: 'index',
+				          url: './index.html',
+				          bounces: false,
+				          reload:true,
+				          animation:{
+				            type:"push",                //动画类型（详见动画类型常量）
+				            subType:"from_right",       //动画子类型（详见动画子类型常量）
+				            duration:300                //动画过渡时间，默认300毫秒
+				          }
+				        });
+				      }
+							//分享好友
+							//分享模块打开
+							function fnOpenshare(goods_id) {
+								dialogBox.actionMenu({
+									rect : {
+										h : 150
+									},
+									texts : {
+										cancel : '取消'
+									},
+									items : [{
+										text : '微信',
+										icon : 'widget://image/wechat.png'
+									}, {
+										text : '微信朋友圈',
+										icon : 'widget://image/wpyq.png'
+									}, {
+										text : 'QQ',
+										icon : 'widget://image/qq.png'
+									}, {
+										text : 'QQ空间',
+										icon : 'widget://image/qzone.png'
+									}, {
+										text : '微博',
+										icon : 'widget://image/weibo.png'
+									}, {
+										text : '商品二维码',
+										icon : 'widget://image/erweima.png'
+									}, {
+										text : '复制链接',
+										icon : 'widget://image/copylink.png'
+									}],
+									styles : {
+										bg : '#FFF',
+										column : 5,
+										itemText : {
+											color : '#000',
+											size : 12,
+											marginT : 8
+										},
+										itemIcon : {
+											size : 60
+										},
+										cancel : {
+											bg : 'fs://icon.png',
+											color : '#000',
+											h : 44,
+											size : 14
+										}
+									},
+									tapClose : true
+								}, function(ret, err) {
+									if (ret) {
+										console.log(JSON.stringify(ret));
+										if (ret.eventType == "cancel") {
+											var dialogBox = api.require('dialogBox');
+											dialogBox.close({
+												dialogName : 'actionMenu'
+											});
+										}
+										if (ret.eventType == "click" && ret.index == 0) {
+											get_goods_info(goods_id, "session");
+											//fnopenWechat("weixin",title,text,url,img);
+											var dialogBox = api.require('dialogBox');
+											var dialogBox = api.require('dialogBox');
+											dialogBox.close({
+												dialogName : 'actionMenu'
+											});
+										}
+										if (ret.eventType == "click" && ret.index == 1) {
+											get_goods_info(goods_id, "timeline");
+											//fnopenWechat("weixin",title,text,url,img);
+											var dialogBox = api.require('dialogBox');
+											var dialogBox = api.require('dialogBox');
+											dialogBox.close({
+												dialogName : 'actionMenu'
+											});
+										}
+										if (ret.eventType == "click" && ret.index == 2) {
+											get_goods_info(goods_id, "QFriend");
+											//fnopenQq(gID);
+											var dialogBox = api.require('dialogBox');
+											dialogBox.close({
+												dialogName : 'actionMenu'
+											});
+										}
+										if (ret.eventType == "click" && ret.index == 3) {
+											get_goods_info(goods_id, "QZone");
+											//fnopenQq(gID);
+											var dialogBox = api.require('dialogBox');
+											dialogBox.close({
+												dialogName : 'actionMenu'
+											});
+										}
+										if (ret.eventType == "click" && ret.index == 4) {
+											get_goods_info(goods_id, "sinaWb");
+											//fnopenWeibo(gID);
+											var dialogBox = api.require('dialogBox');
+											dialogBox.close({
+												dialogName : 'actionMenu'
+											});
+										}
+										if (ret.eventType == "click" && ret.index == 5) {
+											fnopenErweima(gID);
+											var dialogBox = api.require('dialogBox');
+											dialogBox.close({
+												dialogName : 'actionMenu'
+											});
+										}
+										if (ret.eventType == "click" && ret.index == 6) {
+											fnopenCopylink(gID);
+											var dialogBox = api.require('dialogBox');
+											dialogBox.close({
+												dialogName : 'actionMenu'
+											});
+										}
+									} else {
+										alert(JSON.stringify(err));
+									}
+								});
+							}
+							function get_goods_info(goods_id, tag) {
+								api.ajax({
+									url : URL + 'index.php?app=appfind&act=get_goods_info',
+									method : 'post',
+									cache : false,
+									timeout : 30,
+									dataType : 'json',
+									returnAll : false,
+									data : {
+										values : {
+											goods_id : goods_id,
+											//page:0
+										}
+									}
+								}, function(ret, err) {
+									console.log(JSON.stringify(ret));
+									if (ret.done) {
+										var goods_url = URL + "index.php?app=goods&id=";
+										var title = ret.retval.goods_name;
+										var text = ret.retval.extension_content;
+										var url = goods_url + ret.retval.goods_id;
+										var img = URL + ret.retval.default_image;
+										//微信
+										if (tag == "session") {
+											fnopenWechat(tag, title, text, url, img);
+										} else if (tag == "timeline") {//微信朋友圈
+											fnopenWechat(tag, title, text, url, img);
+										} else if (tag == "QFriend") {
+											fnopenQq(tag, title, text, url, img);
+										}else if (tag == "QZone") {
+											fnopenQq(tag, title, text, url, img);
+										}else if (tag == "sinaWb") {
+											fnopenWeibo(tag, title, text, url, img);
+										}
+
+									} else {
+										alert(ret.msg);
+									}
+								});
+							}
+
+							function fnopenWechat(tar, title, text, url, img) {
+								filename = (new Date()).valueOf() + '.' + img.substring(img.lastIndexOf('.') + 1);
+								api.download({
+									url : img,
+									savePath : 'fs://' + filename,
+									report : false,
+									cache : true,
+									allowResume : true
+								}, function(ret, err) {
+									var wx = api.require('wx');
+									wx.isInstalled(function(ret) {
+										if (ret.installed) {
+											api.toast({
+												msg : '分享中，请稍候',
+												duration : 2000,
+												location : "middle"
+											});
+										} else {
+											api.toast({
+												msg : '没有安装微信，无法进行分享',
+												duration : 2000,
+												location : "middle"
+											});
+										}
+									});
+									wx.shareWebpage({
+										apiKey : '',
+										scene : tar,
+										title : title,
+										description : text,
+										thumb : 'fs://' + filename,
+										contentUrl : url
+									}, function(ret, err) {
+										if (ret.status) {
+											api.toast({
+												msg : '分享成功',
+												duration : 2000,
+												location : "middle"
+											});
+										}
+									});
+								});
+							}
+
+							function fnopenWechat2(gID) {
+								api.toast({
+									msg : '敬请期待!',
+									duration : 2000,
+									location : 'bottom'
+								});
+							}
+
+							function fnopenQq(tar, title, text, url, img) {
+								var qq = api.require('QQPlus');
+								qq.installed(function(ret) {
+									if (ret.status) {
+										api.toast({
+											msg : '分享中，请稍候',
+											duration : 2000,
+											location : "middle"
+										});
+									} else {
+										api.toast({
+											msg : '没有安装QQ，无法进行分享',
+											duration : 2000,
+											location : "middle"
+										});
+									}
+								});
+								qq.shareNews({
+									url : url,
+									title : title,
+									description : text,
+									imgUrl : img,
+									type : tar
+								}, function(ret, err) {
+									if (ret.status) {
+										api.toast({
+											msg : '分享成功',
+											duration : 2000,
+											location : "botoom"
+										});
+									}
+								});
+							}
+
+							function fnopenErweima(gID) {
+								api.openWin({
+									name : 'share.ewm',
+									url : './share.ewm.html',
+									bounces : false,
+									pageParam : {
+										goodId : gID
+									},
+									animation : {
+										type : "push", //动画类型（详见动画类型常量）
+										subType : "from_right", //动画子类型（详见动画子类型常量）
+										duration : 300 //动画过渡时间，默认300毫秒
+									}
+								});
+							}
+
+							function fnopenWeibo(tar, title, text, url, img) {
+								filename = (new Date()).valueOf() + '.' + img.substring(img.lastIndexOf('.') + 1);
+								api.download({
+									url : img,
+									savePath : 'fs://' + filename,
+									report : false,
+									cache : true,
+									allowResume : true
+								}, function(ret, err) {
+									var weibo = api.require('weibo');
+									weibo.shareImage({
+										text : title + text + url,
+										imageUrl : 'fs://' + filename
+									}, function(ret, err) {
+										if (ret.status) {
+											api.toast({
+												msg : '分享成功',
+												duration : 2000,
+												location : "middle"
+											});
+										}
+									});
+								});
+							}
+
+							function fnopenCopylink() {
+								api.toast({
+									msg : '敬请期待!',
+									duration : 2000,
+									location : 'bottom'
+								});
+							}
+
+
+							//跳转邀请
+							function goShareMember(){
+												api.openWin({
+													name: 'appshare.ewm',
+													url: './appshare.ewm.html',
+													bounces: false,
+													reload:true,
+													animation:{
+														type:"push",                //动画类型（详见动画类型常量）
+														subType:"from_right",       //动画子类型（详见动画子类型常量）
+														duration:300                //动画过渡时间，默认300毫秒
+													}
+												});
+											}
+</script>
+</html>

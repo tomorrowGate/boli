@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>服务进度</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+		<style>
+			html, body {
+				background-color:  #efefef;
+			}
+			.head-center {
+				text-align: center;
+			}
+			.con {
+				background-color: #f9f8f8;
+				padding: 10px 10px 2px 10px;
+			}
+			.devParameter {
+				margin-top: 8px;
+			}
+			.deviceType {
+				display: flex;
+				justify-content: space-around;
+				height: 44px;
+				padding: 3px 13px;
+				padding-right: 10px;
+				line-height: 44px;
+				background-color: #fff;
+				margin-bottom: 2px;
+				font-size: 15px;
+			}
+			.deviceType .iconfont {
+				float: right;
+			}
+			.devItem img {
+				height: 50px;
+				vertical-align: middle;
+			}
+			.deviceType .deviceKey {
+				font-size: 16px;
+			}
+			.blueActive {
+				color: #0b93eb;
+				font-size: 15px;
+			}
+			.deviceState {
+				margin-right: 8px;
+			}
+			.preService {
+				margin: 30px auto;
+				width: 60%;
+				height: 34px;
+				border-radius: 17px;
+				background-color: #0b93eb;
+				color: #fff;
+				text-align: center;
+				line-height: 34px;
+			}
+			.blueActive:after {
+				display: block;
+				content: "";
+				width: 100%;
+				height: 3px;
+				background-color: #0b93eb;
+			}
+			.devItem {
+				display: flex;
+				height: 120px;
+				width: 85%;
+				flex-direction: column;
+				justify-content: space-around;
+				margin: 15px auto;
+				padding: 3px 15px;
+				background-color: #fff;
+				border: 1px solid #fff;
+				border-radius: 10px;
+			}
+			.itemHead {
+				display: flex;
+				justify-content: flex-start;
+				font-size: 16px;
+				font-weight: 600;
+			}
+			.itemCon {
+				font-size: 15px;
+			}
+			.device {
+				color: #0b93eb;
+			}
+			.reason {
+				color: #bbb;
+			}
+			.key {
+				margin-right: 10px;
+			}
+			.btn {
+				display: flex;
+				justify-content: flex-end;
+				font-size: 14px;
+			}
+			.btn > div {
+				width: 60px;
+				height: 20px;
+				padding: 0 10px;
+				line-height: 20px;
+				color: #0b93eb;
+				border: 1px solid #0b93eb;
+				border-radius: 10px;
+				text-align: center;
+			}
+			.lookRate {
+				margin-right: 10px;
+			}
+			.pop {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background-color: rgba(0,0,0,0.5);
+			}
+			.tips {
+				position: fixed;
+				width: 300px;
+				height: 100px;
+				padding: 7px 15px;
+				background-color: #fff;
+				border-radius: 10px;
+				top: calc(50% - 50px);
+				left: calc(50% - 165px);
+			}
+			.tipsHead {
+				text-align: center;
+				height: 30px;
+				line-height: 30px;
+				margin-bottom: 10px;
+				color: #0b93eb;
+			}
+			.null{
+				padding:10px;
+				color:#7f7f7f;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">服务进度</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class="con">
+			<div class="serveState deviceType deviceType1">
+				<div class="doing deviceKey blueActive" onclick="servingOrDone('0')" tapmode>
+					服务中
+				</div>
+				<div class="already deviceValue " onclick="servingOrDone('1')" tapmode>
+					已完成
+				</div>
+			</div>
+		</div>
+		<div class="item" id="tt">
+			<!--<div class="devItem">
+				<div class="itemHead">
+					<span class="itemKey key">订单编号</span>
+					<span class="itemValue">022645121234</span>
+				</div>
+				<div class="itemCon">
+					<div class="device">
+						<span class="devKey key">维修设备</span>
+						<span class="devVal">广式蛋炒单温-设备1</span>
+					</div>
+					<div class="reason">
+						<span class="reasonKey key">维修原因</span>
+						<span class="reasonVal">点火点不着</span>
+					</div>
+				</div>
+				<div class="btn">
+					<div class="lookRate" onclick ="lookRat()" tapmod>
+						查看进度
+					</div>
+					<div class="overSer" onclick = "goTipsAlert()" tapmod>
+						完成维修
+					</div>
+				</div>
+			</div>
+
+			<div class="devItem">
+				<div class="itemHead">
+					<span class="itemKey key">订单编号</span>
+					<span class="itemValue">022645121234</span>
+				</div>
+				<div class="itemCon">
+					<div class="device">
+						<span class="devKey key">维修设备</span>
+						<span class="devVal">广式蛋炒单温-设备1</span>
+					</div>
+					<div class="reason">
+						<span class="reasonKey key">维修原因</span>
+						<span class="reasonVal">点火点不着</span>
+					</div>
+				</div>
+				<div class="btn">
+					<div class="lookRate" onclick ="lookRat()" tapmod>
+						查看进度
+					</div>
+					<div class="overSer" onclick = "goTipsAlert()" tapmod>
+						完成维修
+					</div>
+				</div>
+			</div>-->
+		</div>
+		<div class="pop TIP hide"  onclick="keep()">
+			<div class="tips" >
+				<div class="tipsHead">
+					温馨提示
+				</div>
+				<div class="tipsCon">
+					点击完成维修后，将结束本次维修服务~
+				</div>
+			</div>
+		</div>
+		<div class="null hide" >
+			<p>
+				您没有设备要维修
+			</p>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		var URL="";
+		var start=0;
+		var data_goods=null;
+		var now_type='0';
+		apiready = function() {
+
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			headerH = $api.fixStatusBar(header);
+			servingOrDone(now_type);
+
+			 //下拉刷新
+          api.setCustomRefreshHeaderInfo({
+                bgColor: '#238bd9',
+                images: {
+                    pull: 'widget://image/refresh/pulling.png',
+                    transform: [
+                        'widget://image/refresh/transform0.png',
+                        'widget://image/refresh/transform1.png',
+                        'widget://image/refresh/transform2.png',
+                        'widget://image/refresh/transform3.png',
+                        'widget://image/refresh/transform4.png',
+                        'widget://image/refresh/transform5.png',
+                        'widget://image/refresh/transform6.png'
+                    ],
+                    load: [
+                        'widget://image/refresh/loading0.png',
+                        'widget://image/refresh/loading1.png',
+                        'widget://image/refresh/loading2.png',
+                        'widget://image/refresh/loading3.png',
+                        'widget://image/refresh/loading4.png',
+                    ]
+                }
+            }, function(ret, err) {
+              //console.log('loading=================================>');
+              
+               setTimeout('api.refreshHeaderLoadDone()', '1000');
+               setTimeout('servingOrDone('+now_type+')', '3000');
+               //get_spike_time();
+
+            });
+
+
+		//上拉加载
+         api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 50 //距离底部距离
+            }
+          }, function(ret, err) {
+            console.log("上拉加载");
+            //console.log("上拉加载");
+          
+           	if(data_goods!=null){
+	               if(data_goods.length<10){
+	               		api.toast({
+		                  	msg: '没有更多了',
+		                  	duration: 2000,
+		                 	location: 'bottom'
+		           		});
+		           		console.log('没有了');
+	               }else{
+		                start+=5;
+		
+		          		setTimeout('servingOrDone('+now_type+')', '3000');
+	               }
+               }
+           
+         });
+
+			//上拉加载
+//       api.addEventListener({
+//          name: 'scrolltobottom',
+//          extra: {
+//              threshold: 50 //距离底部距离
+//          }
+//      }, function(ret, err) {
+//            console.log("上拉加载");
+//
+//		      if(data_goods!=null){
+//
+//		      	if(data_goods.length<5){
+//		        	api.toast({
+//		                  msg: '没有更多了',
+//		                  duration: 2000,
+//		                  location: 'bottom'
+//		                });
+//		          }else{
+//		                start+=5;
+//		
+//		          		setTimeout('servingOrDone('+now_type+')', '3000');
+//		            }
+//		      }
+//		 });
+		
+		        servingOrDone(now_type);
+		};
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		function goBack() {
+			api.closeWin()
+		}
+
+		function servingOrDone(type) {
+			now_type=type;
+			if (type == "0") {
+				$(".doing").addClass("blueActive");
+				$(".already").removeClass("blueActive");
+			}else{
+				$(".doing").removeClass("blueActive");
+				$(".already").addClass("blueActive");
+			}
+				api.ajax({
+					url : URL + 'index.php?app=appmachine&act=get_weixiu_info',
+					method : 'post',
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							userId : userId,
+							type : type,
+							start:start
+						}
+					}
+				}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+					if (ret.done) {
+						// 如果请求成功,且有服务中的或者已完成的,就拼接div
+						//ret.retval.device是用户的设备
+						//value.num是订单编号，value.devname是维修设备的名字，value.reason是维修原因
+						data_goods=ret.retval;
+						$(".null").addClass("hide");
+						var lbt = "";
+						$.each(ret.retval, function(index, value) {
+							lbt += '<div class="devItem">';
+							lbt += '<div class="itemHead">';
+							lbt += '<span class="itemKey key">订单编号</span><span class="itemValue">' + value.wx_sn + '</span></div>';
+							lbt += ' <div class="itemCon"><div class="device"><span class="devKey key">维修设备</span><span class="devVal">' + value.machine_name + '</span></div>';
+							lbt += '<div class="reason"><span class="reasonKey key">维修原因</span><span class="reasonVal">' + value.cause + '</span></div></div>';
+							lbt += '<div class="btn"><div class="lookRate" onclick ="lookRat('+value.id+')" tapmod>查看进度</div>';
+							if(value.state==2||value.state==3||value.state==0){
+								lbt += '';
+							}else{
+								lbt += '<div class="overSer" onclick = "finish_wx('+value.id+')" tapmod>完成维修</div>';
+							}
+							lbt += '</div></div>';
+						})
+						$("#tt").html(lbt);
+					} else {
+						data_goods=null;
+						$("#tt").html('');
+						$(".null").removeClass("hide");
+					};
+				});
+//			}
+//			if (type == "1") {
+//				//发起另一个请求，获取，已完成的设备
+//				var lbt = ""
+//				$(".doing").removeClass("blueActive");
+//				$(".already").addClass("blueActive");
+//				document.querySelector(".item").innerHTML = lbt
+//			}
+		}
+
+		function goTipsAlert(e) {
+			//let
+			oTip = document.querySelector(".TIP");
+			oTip.classList.remove("hide")
+		}
+
+		function keep() {
+			//document.querySelectorAll(".pop").forEach(value=> {
+				//value.classList.add("hide");
+			//})
+		}
+
+		function lookRat(id) {
+			api.openWin({
+				name : 'lookServing',
+				url : './lookServing.html',
+				bounces : false,
+				reload : true,
+				animation : {
+					type : "push", //动画类型（详见动画类型常量）
+					subType : "from_right", //动画子类型（详见动画子类型常量）
+					duration : 300 //动画过渡时间，默认300毫秒
+				},
+			    pageParam : {
+					id : id
+				}
+			});
+		}
+
+	function finish_wx(id){
+		  api.confirm({
+	         msg: '您确定已完成维修吗？',
+	         buttons: ['确定', '取消']
+	        }, function(ret, err) {
+	         var index = ret.buttonIndex;
+	         if(index==1){
+	           api.ajax({
+				url : URL+'index.php?app=appmachine&act=finish_wx',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						id : id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+				  api.toast({
+                    msg: "完成",
+                    duration: 2000,
+                    location: 'bottom'
+                  });
+				  servingOrDone('1');
+
+				} else {
+					console.log("error");
+				}
+			});
+	        }else{
+
+	        }
+	      });
+
+
+		}
+	</script>
+</html>

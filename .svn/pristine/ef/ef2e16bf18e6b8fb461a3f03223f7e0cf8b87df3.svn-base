@@ -1,0 +1,75 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+html,body{
+    background: #f2f2f2;
+}
+/* 个人资料填写完整 */
+.chef-settled-main{
+    padding-bottom: 20px;
+    background: #f2f2f2;
+}
+.settled-main-top{
+    padding: 0 10px;
+    font-size: 0.9em;
+    background: #fff;
+    margin-bottom: 10px;
+}
+
+.settled-form-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #fdfdfd;
+}
+.settled-item-key{
+    width: 15%;
+}
+.settled-item-value{
+    width: 70%;
+}
+.settled-item-name{
+    width: 100%;
+    padding: 5px;
+}
+.input-active{
+    border-bottom: 1px solid #6eb92c;
+    transition:0.5s
+}
+.settled-item-rightarr{
+    width: 10%;
+}
+.settled-form-special{
+    align-items: flex-start;
+}
+.settled-form-special .settled-item-key{
+    width: 20%;
+}
+.settled-form-special  textarea{
+    border: 1px solid #ddd;
+}
+
+.settled-center-form{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    padding: 10px ;
+    color: #999;
+    background: #fff;
+}
+.settled-center-value{
+    font-size: 0.8em;
+}

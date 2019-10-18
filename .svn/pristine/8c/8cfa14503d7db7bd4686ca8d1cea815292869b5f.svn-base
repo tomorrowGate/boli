@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>评价</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.evaluate.css" />
+</head>
+
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>评价</span>
+        </div>
+    </header>
+    <!-- 评价 -->
+    <div class="message">
+        <div class="flex">
+            <div class="circle">
+                <img src="" alt="">
+            </div>
+            <div class="classifyHead">
+                <p class="circleName">涵(宝宝)</p>
+                <p class="classifyCircle"><span> 2019-5-21</span>颜色分类:黑色家庭常用款</p>
+            </div>
+        </div>
+        <div class="classifyText">已安装好，很给力，物流很快，服务态度也好。</div>
+        <div class="classifyImgBox">
+            <div class="classifyImg"><img src="" alt=""></div>
+            <div class="classifyImg"><img src="" alt=""></div>
+            <div class="classifyImg"><img src="" alt=""></div>
+            <div class="classifyImg"><img src="" alt=""></div>
+        </div>
+    </div>
+    <div class="message">
+        <div class="flex">
+            <div class="circle">
+                <img src="" alt="">
+            </div>
+            <div class="classifyHead">
+                <p class="circleName">涵(宝宝)</p>
+                <p class="classifyCircle"><span> 2019-5-21</span>颜色分类:黑色家庭常用款</p>
+            </div>
+        </div>
+        <div class="classifyText">已安装好，很给力，物流很快，服务态度也好。</div>
+        <div class="classifyImgBox">
+            <div class="classifyImg"><img src="" alt=""></div>
+            <div class="classifyImg"><img src="" alt=""></div>
+            <div class="classifyImg"><img src="" alt=""></div>
+            <div class="classifyImg"><img src="" alt=""></div>
+        </div>
+    </div>
+    <!-- 底部导航条 -->
+    <nav class="footNav">
+        <div class="footNav-top footNav-bor"><i>🧡</i>
+            <p> 购物车</p>
+        </div>
+        <div class="footNav-top"><i>🧡</i>
+            <p> 客服</p>
+        </div>
+        <div class="footNav-item footNav-purchase">自购</div>
+        <div class="footNav-item footNav-share">分享</div>
+    </nav>
+</body>
+
+</html>

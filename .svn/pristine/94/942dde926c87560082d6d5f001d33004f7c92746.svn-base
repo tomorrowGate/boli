@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>评论</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<style>
+			html, body {
+				background-color: #f6f6f6;
+			}
+			.hide {
+				display: none;
+			}
+			header{ z-index:999}
+			.main_body {
+
+				background-color: #fff;
+				padding-top:20px;
+			}
+			.find_item {
+				margin-bottom: 10px;
+				background-color: #fff;
+				padding: 10px 5%;
+			}
+			.find_title {
+				height: 44px;
+				line-height: 22px;
+				position: relative;
+				padding-left: 50px;
+				margin-bottom: 10px
+			}
+			.circle {
+				height: 44px;
+				width: 44px;
+				border-radius: 22px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			.find_title p {
+				margin: 0;
+			}
+			.find_content {
+			}
+			.info_title {
+			}
+			.info_content {
+				line-height: 20px;
+				font-size: 14px;
+				margin-bottom: 10px;
+			}
+			.small_height {
+				max-height: 60px;
+				overflow: hidden
+			}
+			.real_height {
+				line-height: 20px;
+			}
+			.show_all, .close_all {
+				color: #576b95;
+				margin-bottom: 10px;
+			}
+			.content_image {
+			}
+			.content_image .image_item img {
+				width: 95%;
+				height: 95%;
+			}
+			.margin_r {
+				margin-right: 10%
+			}
+			.find_foot {
+			}
+			.share {
+				margin-bottom: 10px;
+				background-color:  #f6f6f6;
+				position: relative;
+				height: 50px;
+				line-height: 50px
+			}
+			.share_content {
+				padding: 0 60px;
+			}
+			.share_l {
+				position: absolute;
+				top: 5px;
+				left: 10px;
+				height: 40px;
+				width: 40px;
+			}
+			.share_r {
+				position: absolute;
+				top: 0px;
+				right: 10px;
+				font-size: 24px;
+			}
+			.find_foot i {
+				color: #a3a3a3;
+			}
+			.footer span {
+				padding: 0 8px;
+				height: 18px;
+				line-height: 18px;
+				border-radius: 9px;
+				font-size: 14px;
+				background-color: #eff4f8;
+				text-align: center;
+			}
+          /* 评论 */
+          .comment{
+          	background-color:#fff;
+          	margin-top:10px;
+          	margin-bottom: 80px;
+           }
+          .comment_title{
+
+             padding: 5px 5%;
+						 margin-bottom: 5px;
+             background-color: #fff;
+             z-index: 10;
+             border-top:1px solid #eae9e9;
+             border-bottom:1px solid #eae9e9;
+             font-weight: bold;
+          }
+          .comment_item{
+          	position:relative;
+          	padding: 10px 5%;
+          }
+          .comment_item img{
+             height:40px;
+             width:40px;
+             position:absolute;
+             left:5%;
+             top:10px;
+          }
+          .comment_content{
+          	float:left;
+          	margin-left:50px;
+          	line-height:20px;
+          	padding-right:5%;
+          	padding-bottom: 10px;
+          	border-bottom: 1px solid #eae9e9;
+
+          }
+          .comment_content p{
+          	margin-bottom: 0
+          }
+          .mycomment{
+          	padding:10px 5%;
+          	background-color:#f6f6f6;
+          	position:fixed;
+          	bottom:0;
+          	left:0;
+          	right:0;
+          	border-top:1px solid #eae9e9;
+
+          }
+          .mycomment .myCom{
+             width:75%;
+             background-color:#fff;
+             height:40px;
+             line-height:40px;
+             padding:0 10px;
+
+          }
+          .mycomment .sub{
+          	height:40px;
+          	line-height:40px;
+          	border-radius: 5px;
+          	border:1px solid #eae9e9;
+          	color:#8d8d8d;
+          	width:4em;
+          	float:right;
+          	text-align:center;
+          	background-color:#fff;
+
+          }
+          .mycomment .active{
+          	border:1px solid #0b93eb;
+          	background-color:#0b93eb;
+          	color:#fff;
+          }
+
+		</style>
+	</head>
+	<body>
+		<header>
+		    <div class="header">评论</div>
+        <span class="DIV_L"><i onclick="goBack()" class="iconfont icon-back"></i></span>
+		</header>
+		<div class="main_body">
+			<div class="find_item clearfix" id="div1"></div>
+		</div>
+			<div class="comment clearfix">
+               <div class="comment_title">评论</div>
+               <div id="comment_list">
+
+
+
+
+               </div>
+			</div>
+
+		<div class="mycomment"><input type="text" name="myCom" class="myCom" id="myCom" placeholder="评论" onkeyup="checktext()" tapmod><span class="sub" id="sub_btn" onclick="goSubmit()" tapmod>发送</span></div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+			var mywidth = $(".image_item").width();
+			$(".image_item").height(mywidth);
+		});
+		function setHeight(){
+			var mywidth = $(".image_item").width();
+			$(".image_item").height(mywidth);
+		}
+		function goBack(){
+          api.closeWin();
+      }
+		var dialogBox;
+		var photoBrowser;
+		var URL = "";
+		var articleId;
+		var findType;
+		var user_id;
+		apiready = function() {
+			var header = $api.dom('header');
+           //适配iOS 7+，Android 4.4+状态栏
+            $api.fixStatusBar(header);
+			URL = $api.URL();
+			articleId=api.pageParam.articleId;
+			findType=api.pageParam.findType;
+			//底部分享模块
+			dialogBox = api.require('dialogBox');
+			user_id = localStorage.getItem("userId");
+			//图片查看模块
+			photoBrowser = api.require('photoBrowser');
+			get_friend_info();
+			getComment();
+            //下拉刷新
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#F6F6F6',
+            images: {
+                pull: 'widget://image/refresh/pulling.png',
+                transform: [
+                    'widget://image/refresh/transform0.png',
+                    'widget://image/refresh/transform1.png',
+                    'widget://image/refresh/transform2.png',
+                    'widget://image/refresh/transform3.png',
+                    'widget://image/refresh/transform4.png',
+                    'widget://image/refresh/transform5.png',
+                    'widget://image/refresh/transform6.png'
+                ],
+                load: [
+                    'widget://image/refresh/loading0.png',
+                    'widget://image/refresh/loading1.png',
+                    'widget://image/refresh/loading2.png',
+                    'widget://image/refresh/loading3.png',
+                    'widget://image/refresh/loading4.png',
+                ]
+            }
+        }, function(ret, err) {
+					get_friend_info();
+                    getComment();
+				    setTimeout('api.refreshHeaderLoadDone()', '2000');
+
+        });
+		};
+		//获取拍档信息
+		function get_friend_info() {
+			var userId = localStorage.getItem("userId");
+			console.log("start===>>>" + userId+";"+articleId+";"+findType);
+			api.ajax({
+				url : URL + 'index.php?app=appfind&act='+findType,
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : user_id,
+						//page:0
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					$.each(ret.retval, function(i, item) {
+					  if(item.article_id==articleId){
+						var lbt = '';
+						lbt += '<div class="find_item clearfix" id="article_'+item.article_id+'">';
+						lbt += ' <div class="find_title">';
+						if (item.portrait) {
+							lbt += ' <img src="' + URL + item.portrait + '" class="circle">';
+						} else {
+							lbt += ' <img src="../image/default_portrait.png" class="circle">';
+						}
+						//判断用户是否已填写昵称或者微信登录，否则显示邀请码
+						if (item.real_name) {
+							lbt += ' <p>' + item.real_name + '</p>';
+						} else {
+							lbt += ' <p>' + item.invite_code + '</p>';
+						}
+						lbt += ' <p class="font_c1">' + item.add_time + '</p></div>';
+						lbt += ' <div class="find_content clearfix">';
+						lbt += ' <p class="info_title font_w1 font_s1">' + item.title + '</p>';
+						lbt += '<div class="info_content font_c1 small_height"><div class="real_height">' + item.content + '</div></div>';
+						lbt += ' <span class="show_all show_'+i+'" onclick="showall('+i+')" tapmod >全文</span><span class="close_all hide_'+i+' hide"  onclick="hideall('+i+')" tapmod>收起</span>';
+						lbt += '<div class="content_image imgGroup_'+i+'">';
+						var imgs = item.img_url;
+						for (var k = 0; k < imgs.length; k++) {
+							console.log(URL + imgs[k].file_path);
+							lbt += '<div class="image_item width3" onclick="fnOpenPhoto(\'imgGroup_'+i+'\',\''+k+'\')"><img src="' + URL + imgs[k].file_path + '" class="good_img'+k+'"></div> ';
+							if(k>=8){break;}
+						}
+						lbt += '</div></div>';
+						lbt += '<div class="find_foot clearfix">';
+						lbt += ' <div class="footer font_c3">';
+						lbt += '<div class="width3" ><span><i class="iconfont icon-pinglun1"></i>评论(<span id="pin_count">' + item.pin_count + '</span>)</span></div>';
+						lbt += '<div class="width3" onClick="zan('+item.article_id+')" tapmod><span id="dz_'+item.article_id+'"><i class="iconfont icon-dianzan_active"></i>点赞(' + item.zan_count + ')</span></div>';
+						lbt += '</div>';
+						lbt += '</div>';
+						lbt += '</div>';
+						$api.html($api.byId("div1"), lbt);
+						setHeight();
+					  }
+
+					})
+				}else{
+                api.toast({
+                  msg: '失败',
+                  duration: 2000,
+                  location: 'bottom'
+                });
+            }
+            if(err){
+              api.toast({
+                msg: err.msg,
+                duration: 2000,
+                location: 'bottom'
+              });
+            }
+			});
+		}
+        //获取评论
+		 function getComment(){
+          api.ajax({
+                    url : URL+'/index.php?app=appfind&act=get_comment',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:user_id,
+                            articleId:articleId
+                        }
+                    }
+          }, function(ret, err) {
+            console.log(JSON.stringify(ret));
+            console.log(JSON.stringify(err));
+            
+            if (ret.done) {
+            	if(ret.retval.length==0){
+            	  var str0='<div class="comment_item clearfix">暂无评论</div>'
+            	  $api.html($api.byId("comment_list"), str0);
+            	}else{
+            	$.each(ret.retval, function(i, item) {
+                var str='';
+                var a="aaaaaaaaa";
+            	//alert(item.portrait);
+            	if(item.portrait!=null){
+                 if(item.portrait.substr(0,7).toLowerCase() == "http://"){
+                       str+='<div class="comment_item clearfix"><img src="'+item.portrait+'"><div class="comment_content"><p>'+item.real_name+'</p><p>'+item.content+'</p></div></div>';
+                   }else{
+                     str+='<div class="comment_item clearfix"><img src="'+URL+item.portrait+'"><div class="comment_content"><p>'+item.real_name+'</p><p>'+item.content+'</p></div></div>';
+                  }
+                 }else{
+                 	
+                 	 str+='<div class="comment_item clearfix"><img src="../image/default_portrait.png" ><div class="comment_content"><p>'+item.real_name+'</p><p>'+item.content+'</p></div></div>';
+                 
+                 }
+                   if(i==0){
+                     $api.html($api.byId("comment_list"), str);
+                   }else{
+                   	 $api.append($api.byId("comment_list"), str);
+                   }
+               })
+            	}
+
+            }else{
+                api.toast({
+                  msg: '失败',
+                  duration: 2000,
+                  location: 'bottom'
+                });
+            }
+            if(err){
+              api.toast({
+                msg: err.msg,
+                duration: 2000,
+                location: 'bottom'
+              });
+            }
+          });
+      }
+
+		//点击全文
+         function showall(id){
+        	 $('.show_'+id).parents(".find_item").find(".info_content").removeClass("small_height");
+        	 $('.show_'+id).addClass("hide");
+        	 $('.hide_'+id).removeClass("hide");
+        	 $('.show_'+id).siblings(".close_all").removeClass("hide");
+         }
+         //点击收起
+          function hideall(id){
+         	 $('.hide_'+id).parents(".find_item").find(".info_content").addClass("small_height");
+         	 $('.hide_'+id).addClass("hide");
+        	 $('.show_'+id).removeClass("hide");
+         	 $('.hide_'+id).siblings(".close_all").addClass("hide");
+          }
+					function zan(article_id){
+						var userId = localStorage.getItem("userId");
+						api.ajax({
+							url : URL + 'index.php?app=appfind&act=zan',
+							method : 'post',
+							cache : false,
+							timeout : 30,
+							dataType : 'json',
+							returnAll : false,
+							data : {
+								values : {
+									user_id : userId,
+									article_id:article_id
+									//page:0
+								}
+							}
+						}, function(ret, err) {
+							console.log(JSON.stringify(ret));
+							if (ret.done) {
+							  var zan_count=ret.retval;
+							  $('#dz_'+article_id).html('<i class="iconfont icon-dianzan_active"></i>点赞(' + zan_count + ')');
+
+
+							} else {
+							  api.toast({
+			                     msg: ret.msg,
+			                     duration: 2000,
+			                     location: 'bottom'
+			                  });
+							}
+						});
+
+					}
+
+		//图片查看打开
+		function fnOpenPhoto(Gindex, Pindex) {
+			var imgs = $("." + Gindex).find("img");
+			var srcs;
+			var i = imgs.length;
+			var mysrcs = new Array();
+			imgs.each(function(index, element) {
+				mysrcs[index] = $(this).attr('src');
+			});
+			photoBrowser.open({
+				images : mysrcs,
+				activeIndex : Pindex,
+				placeholderImg : 'widget://image/apicloud.png',
+				bgColor : '#000'
+			}, function(ret) {
+				console.log(ret);
+				if(ret.eventType=='click'){
+					photoBrowser.close();
+				}
+			});
+		}
+
+
+        function checktext(){
+        	if($("#myCom").val()!==''){
+        		$(".sub").addClass('active');
+        	}else{
+        		$(".sub").removeClass('active');
+        	}
+        }
+        function goSubmit(){
+					$("#sub_btn").removeClass('active');
+					$("#sub_btn").attr("disabled",true);
+            var comment=$("#myCom").val();
+            if(!comment){
+                api.toast({
+                  msg: '请输入评论内容',
+                  duration: 2000,
+                  location: 'bottom'
+                });
+                return;
+            }
+            api.ajax({
+                    url : URL+'/index.php?app=appfind&act=fabu_comment',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:user_id,
+                            articleId:articleId,
+                            comment:comment,
+                        }
+                    }
+          }, function(ret, err) {
+            console.log(JSON.stringify(ret));
+            if (ret.done) {
+							$("#myCom").val('');
+							setTimeout(function(){
+								 $("#sub_btn").addClass('active');
+								 $("#sub_btn").attr("disabled",false);
+							 }, 5000);
+            	getComment();
+            }else{
+							$("#sub_btn").removeClass('active');
+							$("#sub_btn").attr("disabled",false);
+                api.toast({
+                  msg: '失败',
+                  duration: 2000,
+                  location: 'bottom'
+                });
+            }
+            if(err){
+              api.toast({
+                msg: err.msg,
+                duration: 2000,
+                location: 'bottom'
+              });
+            }
+          });
+        }
+	</script>
+</html>

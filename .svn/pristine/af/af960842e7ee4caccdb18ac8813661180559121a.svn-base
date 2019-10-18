@@ -1,0 +1,167 @@
+html,
+body {
+    height: 100%;
+    background-color: #fff;
+}
+/* 头部搜索 */
+.search-head {
+    height: 44px;
+    width: 100%;
+    color: #fff;
+    line-height: 44px;
+    font-size: 14px;
+}
+.search-bg {
+    background-color: #6eb92c;
+    height: 44px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.search-main {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+.down_icon {
+    font-size: 1.1em
+}
+.icon-search{
+    margin-right: 4px
+}
+.search-virtual {
+    width: 60%;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    background-color: #fff;
+    border-radius: 15px;
+    font-size: 1.1em;
+    color: #999;
+}
+
+/* 轮播图 */
+.swiper{
+    width: 96vw;
+    height: 48vw;
+    margin:10px auto;
+    border-radius: 10px;
+}
+.swiper-top{
+    width: 100%;
+    height: 100%;
+}
+.swiper-pagination-bullet{
+    width: 12px;
+    border-radius: 4px;
+}
+.swiper-pagination-bullet-active{
+    background: #6eb92c;
+}
+
+/* 球状列表 */
+.chef-ball-list{
+    width: 96vw;
+    margin:10px auto;
+    font-size: 14px;
+    color: #999;
+}
+.swiper-ball-items{
+    display: flex;
+    flex-wrap: wrap;
+}
+.swiper-ball-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    padding:10px 0;
+}
+.swiper-ball-imgbox{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 6px;
+}
+.swiper-ball-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: skyblue;
+}
+.swiper-ball-text{
+    text-align: center;
+}
+
+/* 热点头条 */
+.swiper-notice-out{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 52px;
+    border-top:1px solid #dcdcdc;
+}
+.swiper-notice-imgbox{
+    width: 52px;
+    height: 52px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.swiper-notice-imgbox img{
+    width: 100%;
+    height: 100%;
+}
+.swiper-notice-content{
+    width: calc( 100% - 90px );
+    height: 30px;
+    line-height: 30px;
+    font-size: 0.8em;
+    border-left: 1px solid #666;
+    padding-left: 16px;
+}
+.swiper-notice-text{
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+
+}
+
+/* 平台须知  */
+.platform{
+    padding:15px 0;
+    background: #efefef;
+
+}
+.platform-know-out{
+    padding:10px;
+    background: #fff;
+}
+.platform-bg{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    border-radius: 50px;
+    color: #51948d;
+    background: #dbf5f4;
+}
+.platform-left{
+    margin-left: 40px;
+}
+.platform-top{
+    font-size: 1.1em;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.platform-bottom{
+    font-size: 0.8em;
+    letter-spacing: 1px;
+}
+.platform-right{
+    font-size: 1.5em;
+    margin-right: 20px;
+}

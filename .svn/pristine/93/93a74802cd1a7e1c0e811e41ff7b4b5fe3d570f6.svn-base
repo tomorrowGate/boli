@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>名厨详情</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.instructional.css" />
+</head>
+
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span >教学视频</span>
+        </div>
+    </header>
+
+    <!-- 视频详情 -->
+    <div class="chef-detail-teach">
+        <div class="detail-teach-videos">
+            <div class="detail-teach-videobox">
+                <video src=""></video>
+                <span class="detail-video-tag video-tag">付费</span>
+            </div>
+            <div class="detail-video-bottom">
+                <div class="detail-video-name">秘制番茄炒蛋</div>
+                <div class="video-video-detail">
+                    <div class="video-video-left">
+                        <i class="iconfont"></i>
+                        <span class="video-left-text">李大师</span>|<span class="video-left-text">国家一级厨师</span>
+                        <span class="video-left-tag video-tag">付费</span>
+                    </div>
+                    <div class="video-video-right">
+                        <i class="iconfont"></i>
+                        <span class="video-right-text">1350人已观看</span>
+                    </div>
+                </div>
+                <div class="video-detail-pay">
+                    <span class="video-pay-num">4990</span>
+                    <span class="video-pay-normal">积分</span>
+                    <span class="video-pay-num"> / </span>
+                    <span class="video-pay-num">49.9</span>
+                    <span class="video-pay-normal">元</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 厨师名片 -->
+    <div class="chef-detail-info">
+        <div class="chef-main-head">
+            <div class="chef-head-left">
+                <i class="iconfont icon-qianbi"></i>
+                <div class="chef-left-text">评论</div>
+            </div>
+        </div>
+        <div class="chef-trends-head">
+            <div class="trends-head-imgbox">
+                <img src="" alt="">
+            </div>
+            <div class="trends-head-center">
+                <div class="trends-center-top">
+                    <span class="trends-center-name">周伯通</span>
+                </div>
+                <div class="trends-center-bottom trends-light">
+                    <span class="trends-center-iden trends-light">国家一级厨师</span>
+                </div>
+            </div>
+            <div class="trends-head-right">
+                <div class="trends-head-focus">关注</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 详情、评价 -->
+    <div class="chef-hotslist-head">
+        <p class="hotslist-head-item hotslist-head-active">详情</p>
+        <p class="hotslist-head-item">评价</p>
+    </div>
+
+    <div class="swiper trends-body">
+        <div class="swiper-container swiper-top">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" tapmode>
+                    <!-- 名师信息-->
+                    
+                </div>
+                <div class="swiper-slide" tapmode>详情详情</div>
+                <div class="swiper-slide" tapmode>评价详情</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var swiperTop = new Swiper('.swiper-top', {
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        loop: false,
+    });
+    apiready = function () {
+        URL = $api.URL();
+        m_id = api.pageParam.m_id;
+        var header = $api.dom('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        headerH = $api.fixStatusBar(header);
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#F6F6F6',
+            images: {
+                pull: 'widget://image/refresh/pulling.png',
+                transform: [
+                    'widget://image/refresh/transform0.png',
+                    'widget://image/refresh/transform1.png',
+                    'widget://image/refresh/transform2.png',
+                    'widget://image/refresh/transform3.png',
+                    'widget://image/refresh/transform4.png',
+                    'widget://image/refresh/transform5.png',
+                    'widget://image/refresh/transform6.png'
+                ],
+                load: [
+                    'widget://image/refresh/loading0.png',
+                    'widget://image/refresh/loading1.png',
+                    'widget://image/refresh/loading2.png',
+                    'widget://image/refresh/loading3.png',
+                    'widget://image/refresh/loading4.png',
+                ]
+            }
+        }, function (ret, err) {
+
+        });
+    }
+
+</script>
+
+</html>

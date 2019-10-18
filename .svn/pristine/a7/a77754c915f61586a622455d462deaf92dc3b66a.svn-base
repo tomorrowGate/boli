@@ -1,0 +1,145 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+
+
+/* 轮播图 */
+.swiper{
+    width: 96vw;
+    height: auto;
+    margin:10px auto;
+    border-radius: 10px;
+}
+.swiper-top{
+    width: 100%;
+    height: 100%;
+}
+.swiper-pagination-bullet{
+    width: 12px;
+    border-radius: 4px;
+}
+.swiper-pagination-bullet-active{
+    background: #6eb92c;
+}
+.swiper-slide-imgbox{
+    width: 100%;
+    height: 100%;
+    background: skyblue;
+    border-radius: 10px;
+}
+.swiper-slide-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+.chef-main-recomend1{
+    padding: 10px 0;
+    background-color: #f2f2f2;
+}
+
+/* 名厨动态 */
+.chef-hotslist{
+    background: #fff;
+}
+.chef-hotslist-head{
+    display: flex;
+    border-bottom: 1px solid #ddd;
+}
+.hotslist-head-item{
+    width: 33.3%;
+    /* padding: 5px 0; */
+    margin: 10px 0;
+    font-size: 1.1em;
+    text-align: center;
+}
+.hotslist-head-active{
+    position: relative;
+    color: #6eb92c;
+}
+.hotslist-head-active::after{
+    position: absolute;
+    display: block;
+    content:"";
+    width: 40%;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    border:1px solid  #6eb92c;
+}
+
+/* 真-名厨动态  */
+.chef-trends-head{
+    display: flex;
+    position: relative;
+    align-items: center;
+    font-size: 0.9em;
+}
+.trends-head-imgbox{
+    width: 50px;
+    height: 50px;
+    background: skyblue;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.trends-head-imgbox img{
+    width: 100%;
+}
+.trends-light{
+    color: #999;
+    font-size: 0.8em;
+}
+.trends-head-right{
+    position: absolute;
+    right:10px;
+    top:50%;
+    height: 16px;
+    line-height: 16px;
+    padding: 0px 8px;
+    border:1px solid #6eb92c;
+    border-radius: 9px;
+    color: #6eb92c;
+    transform: translateY(-50%);
+}
+
+.chef-hotslist-body{
+
+}
+.hotslist-body-item{
+    font-size: 0.8em;
+}
+.hotslist-item-title{
+    padding: 10px 0;
+}
+.hotslist-item-imgboxs{
+    display: flex;
+    align-items: center;
+}
+.hotslist-imgboxs-imgbox{
+    width: 33%;
+    height: 30vw;
+    background: skyblue;
+}
+.hotslist-imgboxs-imgbox+.hotslist-imgboxs-imgbox{
+    margin-left: 4px;
+}
+.hotslist-imgboxs-imgbox img{
+    width: 100%;
+}
+.hotslist-item-footer{
+    display: flex;
+    justify-content:  flex-end ;
+}
+.hotslist-footer-item{
+    margin-right: 16px;
+}

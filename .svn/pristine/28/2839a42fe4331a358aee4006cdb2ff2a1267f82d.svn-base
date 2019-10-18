@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>单台设备</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+		<style>
+			html, body {
+				background-color: #f9f8f8;
+			}
+			header {
+				height: 50px;
+				line-height: 50px;
+				left: 0;
+				top: 0;
+				width: 100%;
+				margin-bottom: 5px;
+			}
+			.head-center {
+				text-align: center;
+			}
+			.con {
+				background-color: #f9f8f8;
+				padding: 10px;
+			}
+			.devParameter {
+				margin-top: 8px;
+			}
+			.deviceType {
+				height: 50px;
+				padding-left: 13px;
+				padding-right: 10px;
+				line-height: 50px;
+				background-color: #fff;
+				margin-bottom: 2px;
+			}
+			.deviceType .iconfont {
+				float: right;
+			}
+			.devItem img {
+				height: 50px;
+				vertical-align: middle;
+			}
+			.deviceType .deviceKey {
+				font-size: 16px;
+			}
+			.deviceType .deviceValue {
+				float: right;
+				font-size: 14px;
+				color: #7f7f7f;
+			}
+			.deviceType  .blueActive {
+				color: #6eb92c;
+				font-size: 15px;
+			}
+			.deviceState {
+				margin-right: 8px;
+			}
+			.preService {
+				margin: 30px auto;
+				width: 60%;
+				height: 34px;
+				border-radius: 17px;
+				background-color: #6eb92c;
+				color: #fff;
+				text-align: center;
+				line-height: 34px;
+			}
+			.devAlert {
+				height: 86px;
+				background-color: #6eb92c;
+				border-radius: 8px;
+				padding: 15px;
+				color: #fff;
+				box-sizing: border-box;
+				margin-bottom: 5px;
+			}
+			.alertMsg {
+				font-size: 18px;
+				height: 30px;
+			}
+			.alertAdvice {
+				font-size: 14px;
+				height: 30px;
+				line-height: 30px;
+			}
+			.icon-down {
+				transition: .3s;
+			}
+			.devParContent {
+				height: 260px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="head-center">
+				<span >设备信息</span>
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class="con">
+			<div class="devAlert hide">
+				<p class="alertMsg" id="cause">
+					设备存在告警问题
+				</p>
+				<p class="alertAdvice">
+					建议您关闭设备并联系维修人员
+				</p>
+			</div>
+			<div class="deviceType deviceType1">
+				<span class="deviceKey">设备名称</span>
+				<span class="deviceValue blueActive" id="type_name">广式单炒单温</span>
+			</div>
+			<div class="deviceType deviceType3">
+				<span class="deviceKey">设备型号</span>
+				<span class="deviceValue" id="model">ZCTG1-35G80x90BLB1</span>
+			</div>
+			<div class="deviceType deviceType3">
+				<span class="deviceKey">A眼SIM</span>
+				<span class="deviceValue" id="A_SIM">ZCTG1-35G80x90BLB1</span>
+			</div>
+			<div class="deviceType deviceType3" id="b_sim">
+				<span class="deviceKey">B眼SIM</span>
+				<span class="deviceValue" id="B_SIM">ZCTG1-35G80x90BLB1</span>
+			</div>
+			<div class="deviceType deviceType4">
+				<span class="deviceKey">设备到期</span>
+				<span class="deviceValue" id="weixiu"><span class = "deviceState blueActive"> 维护中 </span>6年</span>
+			</div>
+			<div class="devParameter"  onclick="pullDown(window.event)" tapmode>
+				<div class="deviceType ">
+					<span class="deviceKey">设备参数</span>
+					<i class="iconfont icon-down"></i>
+				</div>
+				<div class="devParContent">
+					<div class="deviceType ">
+						<span class="deviceKey">额定功率</span>
+						<span class="deviceValue" id="power">42W</span>
+					</div>
+					<div class="deviceType">
+						<span class="deviceKey">火力</span>
+						<span class="deviceValue" id="fire">5档</span>
+					</div>
+					<div class="deviceType">
+						<span class="deviceKey">规格</span>
+						<span class="deviceValue" id="size">900*900*800+450</span>
+					</div>
+					<div class="deviceType">
+						<span class="deviceKey">炉膛口径</span>
+						<span class="deviceValue" id="caliber">Φ350</span>
+					</div>
+					<div class="deviceType">
+						<span class="deviceKey">特性</span>
+						<span class="deviceValue" id="parameter">优质SUS304-2B不锈钢板</span>
+					</div>
+				</div>
+			</div>
+			<div class="preService hide" onclick="goPreService()" id="yywx" tapmode>
+				预约维修
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		var m_id = 0;
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		var URL;
+		apiready = function() {
+			URL = $api.URL();
+			m_id = api.pageParam.m_id;
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			headerH = $api.fixStatusBar(header);
+			if (api.pageParam.isAlert) {
+				$api.domAll(".hide").forEach(function(value) {
+					value.classList.remove("hide");
+				})
+				$api.css($api.dom(".icon-down"), 'transform:rotate(-90deg)');
+				$api.dom(".devParContent").classList.add("hide");
+			}
+			get_driver_info();
+			//MyToast(api.pageParam.isAlert)
+		};
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		var weixiu_state = null;
+		function get_driver_info() {
+			api.ajax({
+				url : URL + 'index.php?app=appmachine&act=get_machine_info',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						m_id : m_id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					var data = ret.retval;
+					weixiu_state = data.weixiu_state;
+					if (data.cause > 0) {
+						$(".devAlert").removeClass("hide");
+						$(".preService").removeClass("hide");
+						$("#cause").html(data.error_info);
+					}
+					if (data.weixiu_state != null) {
+						switch(data.weixiu_state) {
+							case "0":
+								$(".preService").html("预约中");
+								break;
+							case "1":
+								$(".preService").html("后台处理等待结果");
+								break;
+							default:
+								$(".preService").html("维修信息异常");
+								break;
+						}
+					}
+					$("#type_name").html(data.machine_name);
+					$("#model").html(data.model);
+					$("#A_SIM").html(data.SIM);
+				   if (data.B_SIM == null || data.B_SIM == "" | data.B_SIM == undefined) {
+					console.log("1223");
+					    $("#b_sim").css('display','none');
+						$("#B_SIM").html(data.B_SIM);
+					}else{
+					console.log("55684");
+					    $("#b_sim").css('display','block');
+						$("#B_SIM").html(data.B_SIM);
+					}
+					
+					if (data.EffectiveDate == "20999999") {
+						$("#weixiu").html("买断");
+					} else {
+						$("#weixiu").html(data.EffectiveDate);
+					}
+					$("#power").html(data.power + "W");
+					$("#fire").html(data.fire + "档");
+					$("#size").html(data.cate_name);
+					$("#caliber").html(data.caliber);
+					$("#parameter").html(data.parameter);
+				} else {
+					console.log("error");
+				}
+			});
+		}
+
+		function pullDown(e) {
+			e.target.addEventListener("click", function() {
+				var oArrow = {}
+				if ($api.closest(e.target, ".devParContent")) {
+					return
+				} else if (e.target.classList.contains("deviceType")) {
+					oArrow = $api.dom(e.target, ".icon-down")
+				} else {
+					oArrow = $api.dom($api.closest(e.target, '.deviceType'), ".icon-down")
+				}
+				if (oArrow.rotateBtn) {
+					oArrow.style.transform = "rotate(0deg)"
+					oArrow.rotateBtn = false;
+				} else {//第一次执行
+					oArrow.style.transform = "rotate(-90deg)"
+					oArrow.rotateBtn = true
+				}
+				deviceHiddenOrNot(oArrow)//是否需要下拉效果
+			}())
+		}
+
+		function deviceHiddenOrNot(e) {
+			if ($api.next($api.closest(e, '.deviceType'))) {//判断是否有需要维修的
+				if (e.rotateBtn)
+					$api.next($api.closest(e, '.deviceType')).style.height = 0
+				else
+					$api.next($api.closest(e, '.deviceType')).style.height = "260px"
+			}
+		}
+
+		function goPreService() {
+			if (weixiu_state != null) {
+				api.toast({
+					msg : "您已预约",
+					duration : 2000,
+					location : 'bottom'
+				});
+			} else {
+				api.openWin({
+					name : 'preService',
+					url : './preService.html',
+					bounces : false,
+					reload : true,
+					animation : {
+						type : "push", //动画类型（详见动画类型常量）
+						subType : "from_right", //动画子类型（详见动画子类型常量）
+						duration : 300 //动画过渡时间，默认300毫秒
+					},
+					pageParam : {
+						m_id : m_id
+					}
+				});
+			}
+		}
+
+		function goBack() {
+			api.closeWin();
+		}
+	</script>
+</html>

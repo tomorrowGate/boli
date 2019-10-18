@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>个人资料</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+       /* 徽章 */
+      .badge-dot {
+       width: 8px;
+       height: 8px;
+       padding: 0;
+       border-radius: 4px;
+       box-shadow: 0 0 1px 1px #bdbdbd;
+       position: relative;
+       top: -10px;
+       left: 0px;
+       display: inline-block;
+       font-size: 12px;
+       text-align: center;
+       background-color: #FF5722;
+       color: #fff;
+      }
+      .out_div{ margin-top:10px; padding:0 10px;}
+      .set_list li{ height:40px;line-height:40px; }
+      .border_b{ border-bottom: 1px solid #f4f4f4 }
+      .t_r{ vertical-align: middle;height:40px; }
+      #portrait{ height:30px;width:30px;border-radius: 15px;position:relative;top:5px; }
+      #autograph{ overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical; }
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">个人信息</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div class="out_div clearfix">
+        <ul class="set_list">
+          <li class="border_b" onclick="goNickname()" tapmode> <span class="t_l">昵称      <!--<span class="badge-dot"></span>--></span>  <span class="t_r font_s2 font_c1"><span id="nickname">未设置</span>&nbsp;<i class="iconfont icon-htbArrowright"></i></span></li>
+          <li class="border_b" onclick="goPortrait()" tapmode> <span class="t_l">头像       <!--<span class="badge-dot"></span>--></span>  <span class="t_r font_s2 font_c1"><img src="../image/default_portrait.png" id="portrait">&nbsp;<i class="iconfont icon-htbArrowright"></i></span></li>
+          <li class="border_b" onclick="goSex()" tapmode>    <span class="t_l">性别       <!--<span class="badge-dot"></span>--></span>  <span class="t_r font_s2 font_c1"><span id="sex">保密</span>&nbsp;<i class="iconfont icon-htbArrowright"></i></span></li>
+          <li class="border_b" onclick="goAddress()" tapmode>  <span class="t_l">常驻地   <!--<span class="badge-dot"></span>--></span>  <span class="t_r font_s2 font_c1"><span id="address"></span>&nbsp;<i class="iconfont icon-htbArrowright"></i></span></li>
+          <li class="border_b" onclick="goAutograph()" tapmode><span class="t_l">个性签名<!--<span class="badge-dot"></span>--></span>  <span class="t_r font_s2 font_c1"><span id="autograph"></span>&nbsp;<i class="iconfont icon-htbArrowright"></i></span></li>
+          <li onclick="goMytags()" tapmode><span class="t_l">我的标签</span><span class="t_r font_s2 font_c1">&nbsp;<i class="iconfont icon-htbArrowright"></i></span></li>
+        </ul>
+      </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    //var real_name=window.localStorage.getItem("real_name");//昵称
+    var portrait=window.localStorage.getItem("portrait");
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+      api.execScript({
+          name:"index",
+        frameName:"myinfo",
+        script:"get_user_info();"
+    });
+          api.closeWin();
+      }
+      function keyback(){
+        api.addEventListener({
+          name: 'keyback'
+      }, function(ret, err) {
+          goBack();
+      });
+    }
+      var URL="";
+      apiready = function(){
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      //$api.html($api.byId("nickname"), real_name);
+      //$api.attr($api.byId("portrait"),'src',portrait);
+     //初始加载列表
+      keyback();
+      getInfo();
+      getInfo2();
+     };
+
+      //加载列表
+      function getInfo(){
+                api.ajax({
+                    url : URL+'index.php?app=myinfo&act=get_info',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                        }
+                    }
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+                      $("#nickname").html(ret.retval.real_name);
+                     // $api.attr($api.byId("portrait"),'src',ret.retval.portrait);
+                      var  portrait=ret.retval.portrait;
+                      if(portrait!=null){
+                        if(portrait.substr(0,7).toLowerCase() == "http://" ){
+                        $api.attr($api.byId('portrait'),'src',portrait);
+                        }else{
+                          $api.attr($api.byId('portrait'),'src',URL+portrait);
+                       }
+                      }
+                      if(ret.retval.gender==1){
+                        $("#sex").html("男");
+                      }else if(ret.retval.gender==2){
+                        $("#sex").html("女");
+                      }else if(ret.retval.gender==0){
+                        $("#sex").html("保密");
+                      }
+
+                      //$("#nickname").html(ret.retval.address);
+                      $("#autograph").html(ret.retval.qm);
+
+                    }
+                });
+            }
+
+       function getInfo2(){
+                api.ajax({
+                    url : URL+'index.php?app=myinfo&act=get_address',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            status:1
+                        }
+                    }
+                }, function(ret, err) {
+                    console.log("11=>"+JSON.stringify(ret));
+                    if (ret &&ret.done) {
+                      $("#address").html(ret.retval.region_name);
+                    }
+                });
+            }
+
+      function goNickname(){
+        api.openWin({
+        name: 'infomation.modify',
+        url: './infomation.modify.html',
+        bounces: false,
+        pageParam: {
+                  infoType: 'nickname'
+                   },
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+      function goPortrait(){
+        api.openWin({
+        name: 'infomation.modify',
+        url: './infomation.modify.html',
+        bounces: false,
+        pageParam: {
+                  infoType: 'portrait'
+                   },
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+      function goSex(){
+        api.openWin({
+        name: 'infomation.modify',
+        url: './infomation.modify.html',
+        bounces: false,
+        pageParam: {
+                  infoType: 'sex'
+                   },
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+      function goAddress(){
+        api.openWin({
+        name: 'infomation.modify',
+        url: './infomation.modify.html',
+        bounces: false,
+        pageParam: {
+                  infoType: 'address'
+                   },
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+      function goAutograph(){
+        api.openWin({
+        name: 'infomation.modify',
+        url: './infomation.modify.html',
+        bounces: false,
+        pageParam: {
+                  infoType: 'autograph'
+                   },
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+      function goMytags(){
+        api.openWin({
+        name: 'infomation.modify',
+        url: './infomation.modify.html',
+        bounces: false,
+        pageParam: {
+                  infoType: 'mytags'
+                   },
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+  </script>
+  </html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>名厨</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.index.css" />
+</head>
+
+<body>
+    <!-- 头部搜索 -->
+    <header class="search-head">
+        <div class="search-bg"></div>
+        <div class="search-main">
+            <span id="area" class="search-area" onclick="selectCity()" tapmode>
+                湖州市
+                <i class="iconfont icon-down down_icon"></i>
+            </span>
+            <div class="search-virtual" onclick="goSearch()" tapmode>
+                <i class="iconfont icon-search"></i>搜索商品
+            </div>
+            <div class="search-real">搜索</div>
+        </div>
+    </header>
+
+    <!-- 轮播图 -->
+    <div class="swiper">
+        <div class="swiper-container swiper-top" >
+            <div class="swiper-wrapper" id="adv">
+                <div class="swiper-slide" tapmode>13</div>
+                <div class="swiper-slide" tapmode>14</div>
+                <div class="swiper-slide" tapmode>153</div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <!-- 球状列表 -->
+    <div class="chef-ball-list">
+        <div class="swiper-container swiper-ball-list" >
+            <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-ball-items" tapmode>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">名厨汇聚</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">名厨讲堂</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">厨艺教学</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">线下教学</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">行业资讯</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">名厨动态</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">我的师门</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">名厨入驻</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 热点头条 -->
+    <div class="swiper-notice-out" >
+        <div class="swiper-notice-imgbox"><img src="../image/redian.png"></div>
+        <div class="swiper-notice-content">
+            <div class="swiper-container swiper-notice" >
+                <div class="swiper-wrapper" id="notice">
+                    <div class=" swiper-notice-text">我们每个人都有罪，犯着不同的罪。关掉你的嘴，唯一的恩惠</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 平台须知 -->
+    <div class="platform">
+        <div class="platform-know-out">
+            <div class="platform-bg">
+                <div class="platform-left">
+                    <div class="platform-top">平台须知</div>
+                    <div class="platform-bottom">名厨的权益是个啥</div>
+                </div>
+                <div class="platform-right">
+                    GO
+                    <i class="iconfont icon-htbArrowright"></i>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="chef-main">
+            <!-- 名厨汇聚 -->
+        <div class="chef-main-head">
+            <div class="chef-head-left">
+                <i class="iconfont icon-qianbi"></i>
+                <div class="chef-left-text">名厨汇聚</div>
+            </div>
+            <div class="chef-head-more">
+                更多
+                <i class="iconfont icon-htbArrowright"></i>
+            </div>
+        </div>
+
+        <div class="chef-cards">
+            <div class="chef-card-out">
+                <div class="chef-card">
+                    <div class="chef-card-bg">
+                        <div class="chef-card-imgbox">
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                    <div class="chef-card-detail">
+                        <div class="chef-detail-name">周伯通</div>
+                        <div class="chef-detail-text">国家一级厨师</div>
+                        <div class="chef-detail-follow">关注</div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+
+        <!-- 厨师列表 -->
+        <div class="chef-busy-out">
+            <div class="chef-busy-card">
+                <div class="chef-leftimg">
+                    <img src="" alt="">
+                </div>
+                <div class="chef-right-content">
+                    <div class="chef-head1">
+                        <div class="chef-head1-name">周伯通</div>
+                        <div class="chef-head1-follow">
+                            <span class="chef-follow-num">1256</span>
+                            人关注
+                        </div>
+                    </div>
+                    <div class="chef-head2 chef-light">国家一级厨师</div>
+                    <div class="chef-head3 chef-light">擅长：川菜、湘菜、鲁菜</div>
+                    <div class="chef-head4 ">前列推荐这款羽绒服，改变了我对羽绒服的定义，都能驾驭得了么么哒。</div>
+                    <div class="chef-foot">
+                        <div class="chef-foot-left">查看详情</div>
+                        <div class="chef-foot-right">
+                            <div class="chef-right-btn">学习</div>
+                            <div class="chef-right-btn">关注</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chef-busy-footer">
+                <div class="chef-lookmorechef chef-footer-item">
+                    <i class="iconfont"></i>
+                    <p> 查看更多名厨</p>  
+                </div>
+                <div class="chef-lookmorechef chef-footer-item">
+                    <i class="iconfont"></i>
+                    <p> 换一批</p>  
+                </div>
+            </div>
+        </div>
+        
+        <!-- 名厨讲堂 -->
+        <div class="chef-forum">
+            <div class="chef-form-in">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">名厨讲堂</div>
+                    </div>
+                    <div class="chef-head-more">
+                        更多
+                        <i class="iconfont icon-htbArrowright"></i>
+                    </div>
+                </div>
+                <!-- 讲堂轮播列表 -->
+                <div class="swiper-container chef-form-body" >
+                    <div class="swiper-wrapper" id="forum">
+                        <div class="swiper-slide chef-forum-slide" tapmode>
+                            <div class="forum-item">
+                                <div class="forum-item-imgbox">
+                                    <span class="forum-item-tagtop forum-item-pay">付费</span>
+                                    <img src="" alt="">
+                                    <span class="forum-item-tagbottom">14295人已观看</span>
+                                </div>
+                                <div class="forum-item-explain">
+                                    <p class="forum-explain-title">中国菜肴的八种烹饪方法</p>
+                                    <div class="forum-explain-foot">
+                                        <div class="forum-foot-imgbox">
+                                            <img src="" alt="">
+                                        </div>
+                                        <div class="forum-foot-explain">
+                                            <span class="forum-foot-name">周伯通</span>
+                                            |
+                                            <span class="forum-foot-level">国家一级厨师</span>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide" tapmode>14</div>
+                        <div class="swiper-slide" tapmode>153</div>
+                    </div>
+                </div>
+
+                <!-- 讲堂列表 -->
+                <div class="chef-form-formlist">
+                    <div class="chef-form-card">
+                        <div class="chef-form-leftimg">
+                            <img src="" alt="">
+                        </div>
+                        <div class="chef-right-content">
+                            <div class="chef-head1">
+                                <div class="chef-head1-name">中国菜肴的八种烹饪法则</div>
+                            </div>
+                            <div class="chef-head2 chef-forum-light">教你探究中式烹饪的秘诀</div>
+                            <div class="chef-head3 chef-forum-light forum-foot-explain">
+                                <i class="iconfont"></i>
+                                <span class="forum-foot-name">周伯通</span>
+                                |
+                                <span class="forum-foot-level">国家一级厨师</span>
+                            </div>
+                            <div class="chef-head4 ">
+                                <i class="iconfont"></i>
+                                <span class="">14925</span>人已观看
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="chef-busy-footer">
+                        <div class="chef-lookmorechef chef-footer-item">
+                            <i class="iconfont"></i>
+                            <p> 查看更多讲课</p>  
+                        </div>
+                        <div class="chef-lookmorechef chef-footer-item">
+                            <i class="iconfont"></i>
+                            <p> 换一批</p>  
+                        </div>
+                    </div>
+
+                    <!-- 底部轮播图 -->
+                    <div class="swiper chef-forum-swiper">
+                        <div class="swiper-container forum-swiper-recommend" >
+                            <div class="swiper-wrapper" id="forumRecommend">
+                                <div class="swiper-slide" tapmode>
+                                    <div class="forum-foot-imgbox">
+                                        <img src="" alt="">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide" tapmode>14</div>
+                                <div class="swiper-slide" tapmode>153</div>
+                                <div class="swiper-slide" tapmode>14</div>
+                                <div class="swiper-slide" tapmode>153</div>
+                            </div>
+                            <div class="swiper-pagination chef-forum-recommend"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!-- 教学推荐 -->
+         <div class="chef-teaching-recommend">
+                <div class="chef-form-in">
+                    <div class="chef-main-head">
+                        <div class="chef-head-left">
+                            <i class="iconfont icon-qianbi"></i>
+                            <div class="chef-left-text">教学推荐</div>
+                        </div>
+                        <div class="chef-head-more">
+                            更多
+                            <i class="iconfont icon-htbArrowright"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 教学推荐卡片 -->
+                <div class="teaching-recommend-card">
+                    <div class="teaching-card-item forum-item">
+                        <div class="forum-item-imgbox">
+                            <span class="forum-item-tagtop forum-item-pay">付费</span>
+                            <img src="" alt="">
+                        </div>
+                        <div class="forum-item-explain">
+                            <p class="forum-explain-title">中国菜肴的八种烹饪方法</p>
+                            <div class="forum-explain-foot">
+                                <div class="forum-foot-explain">
+                                    <i class="iconfont"></i>
+                                    <span class="forum-foot-name">周伯通</span>
+                                    |
+                                    <span class="forum-foot-level">国家一级厨师</span>
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chef-busy-footer">
+                    <div class="chef-lookmorechef chef-footer-item">
+                        <i class="iconfont"></i>
+                        <p> 查看更多讲课</p>  
+                    </div>
+                    <div class="chef-lookmorechef chef-footer-item">
+                        <i class="iconfont"></i>
+                        <p> 换一批</p>  
+                    </div>
+                </div>
+         </div>
+
+         <!-- 热点资讯、行业动态、最近活动 -->
+         <div class="chef-hotslist">
+             <div class="chef-hotslist-head">
+                 <p class="hotslist-head-item hotslist-head-active">热点资讯</p>
+                 <p class="hotslist-head-item">行业动态</p>
+                 <p class="hotslist-head-item">最新活动</p>
+             </div>
+             <div class="chef-hotslist-body">
+                 <div class="hotslist-body-item">
+                     <div class="hotslist-item-title">
+                         红雨漂泊泛起了回忆怎么潜？
+                     </div>
+                     <div class="hotslist-item-imgboxs">
+                        <div class="hotslist-imgboxs-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="hotslist-imgboxs-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="hotslist-imgboxs-imgbox">
+                            <img src="" alt="">
+                        </div>
+                     </div>
+                     <div class="hotslist-item-footer">
+                         <div class="hotslist-footer-item">
+                             <i class="iconfont"></i>
+                             <span class="hotslist-footer-look">129</span>
+                         </div>
+                         <div class="hotslist-footer-item">
+                             <i class="iconfont"></i>
+                             <span class="hotslist-footer-comment">129</span>
+                         </div>
+                         <div class="hotslist-footer-item">
+                             <i class="iconfont"></i>
+                             <span class="hotslist-footer-fabulous">129</span>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var swiperTop = new Swiper('.swiper-top', {
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        loop: false,
+        autoplay: true,
+        pagination: {
+            el: '.swiper-pagination',
+        },
+    });
+    var swiperNotice = new Swiper('.swiper-notice', {
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        loop: false,
+        autoplay: true,
+        direction : 'vertical',
+    });
+    var forumRecommend = new Swiper('.forum-swiper-recommend', {
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        loop: false,
+        autoplay: true,
+        pagination: {
+            el: '.chef-forum-recommend',
+        },
+    });
+    apiready = function () {
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#F6F6F6',
+            images: {
+                pull: 'widget://image/refresh/pulling.png',
+                transform: [
+                    'widget://image/refresh/transform0.png',
+                    'widget://image/refresh/transform1.png',
+                    'widget://image/refresh/transform2.png',
+                    'widget://image/refresh/transform3.png',
+                    'widget://image/refresh/transform4.png',
+                    'widget://image/refresh/transform5.png',
+                    'widget://image/refresh/transform6.png'
+                ],
+                load: [
+                    'widget://image/refresh/loading0.png',
+                    'widget://image/refresh/loading1.png',
+                    'widget://image/refresh/loading2.png',
+                    'widget://image/refresh/loading3.png',
+                    'widget://image/refresh/loading4.png',
+                ]
+            }
+        }, function (ret, err) {
+
+        });
+    }
+
+</script>
+
+</html>

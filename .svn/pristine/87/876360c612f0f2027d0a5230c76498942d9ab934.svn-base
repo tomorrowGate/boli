@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的收藏</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.collect.css" />
+</head>
+
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span >我的收藏</span>
+        </div>
+    </header>
+
+    <!-- 名厨讲堂-头 -->
+    <div class="chef-hotslist-head">
+        <p class="hotslist-head-item hotslist-head-active">名厨讲堂</p>
+        <p class="hotslist-head-item">厨艺教学</p>
+    </div>
+
+    <div class="chef-nocloccet">
+        <img src="" alt="">
+    </div>
+
+    <div class="swiper trends-body">
+        <div class="swiper-container swiper-top">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" tapmode>
+                    <!-- 名厨讲堂-->
+                    <div class="chef-collect-timetotal">
+                        <div class="chef-collect-time">一周内</div>
+                        <div class="chef-form-formlist">
+                            <div class="form-formlist-item">
+                                <div class="chef-form-card">
+                                    <div class="chef-form-leftimg">
+                                        <img src="" alt="">
+                                    </div>
+                                    <div class="chef-right-content">
+                                        <div class="chef-head1">
+                                            <div class="chef-head1-name">中国菜肴的八种烹饪法则</div>
+                                        </div>
+                                        <div class="chef-head2 chef-forum-light">教你探究中式烹饪的秘诀</div>
+                                        <div class="chef-head3 chef-forum-light forum-foot-explain">
+                                            <i class="iconfont"></i>
+                                            <span class="forum-foot-name">周伯通</span>
+                                            |
+                                            <span class="forum-foot-level">国家一级厨师</span>
+                                        </div>
+                                        <div class="chef-head4 ">
+                                            <i class="iconfont"></i>
+                                            <span class="">14925</span>人已观看
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chef-right-del">
+                                    删除
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="swiper-slide" tapmode>详情详情</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/jroll.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var swiperTop = new Swiper('.swiper-top1', {
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        loop: false,
+    });
+
+    (function slideDel(){
+        var items = document.querySelectorAll(".chef-form-formlist");
+        var current = null; //保存当前滑开的item
+        for (var i=0,l=items.length; i<l; i++) {
+            // 每行创建jroll实例
+            var j = new JRoll(items[i], {
+                scrollX:true,
+                bounce:false
+            });
+            j.on("scrollStart", function() {
+                if (current && current !== this) {
+                    current.scrollTo(0, 0, 100);
+                    current = null;
+                }
+            });
+            j.on("scrollEnd", function() {
+                if (this.x > -50) {
+                    this.scrollTo(0, 0, 100);
+                    current = null;
+                } else {
+                    this.scrollTo(this.maxScrollX, 0, 100);
+                }
+            })
+        };
+    })()
+
+    apiready = function () {
+        URL = $api.URL();
+        m_id = api.pageParam.m_id;
+        var header = $api.dom('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        headerH = $api.fixStatusBar(header);
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#F6F6F6',
+            images: {
+                pull: 'widget://image/refresh/pulling.png',
+                transform: [
+                    'widget://image/refresh/transform0.png',
+                    'widget://image/refresh/transform1.png',
+                    'widget://image/refresh/transform2.png',
+                    'widget://image/refresh/transform3.png',
+                    'widget://image/refresh/transform4.png',
+                    'widget://image/refresh/transform5.png',
+                    'widget://image/refresh/transform6.png'
+                ],
+                load: [
+                    'widget://image/refresh/loading0.png',
+                    'widget://image/refresh/loading1.png',
+                    'widget://image/refresh/loading2.png',
+                    'widget://image/refresh/loading3.png',
+                    'widget://image/refresh/loading4.png',
+                ]
+            }
+        }, function (ret, err) {
+
+        }); 
+    }
+    
+
+</script>
+
+</html>

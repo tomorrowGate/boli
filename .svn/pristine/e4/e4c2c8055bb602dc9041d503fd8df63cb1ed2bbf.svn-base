@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>厨店好物</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.goodThing.css" />
+</head>
+
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>厨店好物</span>
+        </div>
+    </header>
+
+    <!-- 轮播图 -->
+    <div class="margin">
+        <div class="swiper">
+            <div class="swiper-container swiper-top">
+                <div class="swiper-wrapper" id="adv">
+                    <div class="swiper-slide" tapmode>
+                        <div class="swiper-slide-imgbox">
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                    <div class="swiper-slide" tapmode>14</div>
+                    <div class="swiper-slide" tapmode>153</div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 全部最新热卖 -->
+    <div class="swiper-container swiper-line">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide swiper-item" tapmode> 节能灶具</div>
+            <div class="swiper-slide swiper-item swiper-item-active" tapmode>冰箱系列</div>
+            <div class="swiper-slide swiper-item" tapmode>制冰机</div>
+            <div class="swiper-slide swiper-item" tapmode>油炸系列</div>
+        </div>
+        <i></i>
+    </div>
+    <!-- 商品展示 -->
+    <div class="chef-form-formlist">
+        <div class="chef-form-card">
+            <div class="chef-form-leftimg">
+                <img src="" alt="">
+            </div>
+            <div class="chef-right-content">
+                <div class="chef-head1">
+                    <div class="chef-head1-name">广式双炒双温节能灶</div>
+                </div>
+                <div class="chef-head2 chef-forum-light">20kw商用电磁炉双头电磁灶炉15kw</div>
+                <div class="chef-head3 chef-forum-light forum-foot-explain">
+                    <!-- <i class="iconfont"></i> -->
+                    <span class="forum-foot-name">九折</span>
+                    <span class="forum-foot-level">上门安装</span>
+                </div>
+                <div class="chef-head4 ">
+                    <span class="price">￥258</span>
+                    <span class="agoPrice">￥536</span>
+                    <p>销量<span>231</span></p>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

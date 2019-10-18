@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>我的收藏</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #fff;
+      }
+      .null{ text-align: center;padding-top:30%;color:#666;}
+      .out_div{ margin-top:60px; }
+      #favorite_list li{ height:90px;line-height:80px; margin-bottom: 3px; padding-left:10px;
+       padding-top:8px; -moz-border-radius: 15px;  -webkit-border-radius: 15px; background-color: #f9f9f9;}
+      .f_img{ float: left;height:80px; }
+      .f_info{ float:left;height:80px; padding:2px 10px;  width: 60%;}
+      .f_info .goods_name{ margin:0;height:30px;line-height: 25px }
+      .f_info .goods_price{ margin:0;height:20px;line-height: 25px; }
+     .title_c{ position: absolute;bottom:0 ;right:10px; }
+     .good_img{ position: absolute;top:0;left:0;padding-bottom:10px }
+     .c_check{ width:20px; height:20px;float:left; margin:35px 5px 35px 0; background:#649f33; color:#fff;}
+     .con_img{width: 100%;  z-index:990;position: fixed;bottom: 0;left:0;right:0;background-color: #fff}
+     .ms11{ color:#ff2369; height:40px; line-height:40px;font-size:1em; width:20%; float:left; padding-left:10px; z-index:999}
+     .color_b{ color:#000;}
+     .ms33{ color:#fff; height:40px; line-height:40px;font-size:1.1em;  width:6em; float:right;  text-align:center; z-index:999}
+      .df{background-color: #ccc;}
+      .checkall{ margin-right:5px; }
+      .red{ background-color: #0b93eb;color:#fff!important;}
+      .dianji { pointer-events: none; }
+      header{ position: fixed; z-index: 15; left: 0; top: 0; width: 100%;height:40px;}
+      .header{ position: absolute; z-index: 15; left: 0; bottom: 0; width: 100%}
+      .ps{ position: absolute; z-index: 15; right: 5px; bottom: 0;width:3em;}
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">我的收藏
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+      <div class="title_c font_s2 top_oprate">
+        <span class="o_edit ps">编辑</span>
+        <span class="o_finish ps hide">完成</span>
+      </div></div>
+    </header>
+      <div class="null">
+        <p><img src="../image/favorite.png" width="60%"  /></p>
+        <p>您还没有收藏商品哦~</p>
+      </div>
+
+      <div class="out_div clearfix">
+        <ul id="favorite_list">
+
+        </ul>
+      </div>
+
+      <div id="fukuan">
+      <div class="con_img  hide">
+        <div class="ms11 color_b"><input type="checkbox" id="all" class="checkall"/>全选</div>
+        <div class="edit_foot">
+          <div class="ms33 df" id="del_cart" >删除所选</div> <!-- class="delete" ectype="batchbutton" name="id" presubmit="confirm('确认删除?')" -->
+        </div>
+      </div>
+      </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+
+          api.closeWin();
+      }
+      var URL="";
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+
+
+     //初始加载列表
+      getFavorite();
+      };
+
+  $(".o_edit").click(function(){
+      $(this).addClass('hide').siblings('span').removeClass('hide');
+      $(".edit_foot").removeClass('hide');
+      $(".price_foot").addClass('hide');
+      $(".c_check").removeClass('hide');
+      $(".con_img").removeClass('hide');
+      $('.lili').addClass('dianji');//去掉标签中的onclick事件
+
+    });
+     $(".o_finish").click(function(){
+      $(this).addClass('hide').siblings('span').removeClass('hide');
+      $(".price_foot").removeClass('hide');
+      $(".edit_foot").addClass('hide');
+      $(".c_check").addClass('hide');
+      $(".con_img").addClass('hide');
+      $('.lili').removeClass('dianji');
+    });
+
+  //加载帮助列表
+      function getFavorite(){
+                api.ajax({
+                    url : URL+'index.php?app=myinfo&act=find_collect_goods',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                        }
+                    }
+                }, function(ret, err) {
+                  //console.log(ret.retval.length);
+                    console.log(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+                        if(ret.retval.length==0){
+                            $("#favorite_list").html("");
+                            $(".null").removeClass("hide");
+                        }else{
+                          $(".null").addClass("hide");
+                            var str = "";
+                            //$api.append($api.byId("favorite_list"), '');
+                            $.each(ret.retval, function(i, item) {
+                            str+='<input type="checkbox" class="c_check hide" name="'+i+'"  value="'+item.goods_id+'" />';
+                            str+='<li class="lili" onclick="goDetail('+item.goods_id+')" tapmode>';
+                            str+='<div class="f_img" ><img src="'+URL+item.default_image+'" height="80" width="80"></div>';
+                            str+='<div class="f_info">';
+                            if((item.goods_name).length>12){
+                                str+='<p class="goods_name">'+item.goods_name.substring(0,12)+'...</p>';
+                            //str+='<P class="sub_title">'+data[i].extension_content.substring(0,10)+'...</P>';
+		                    }else{
+		                        str+='<p class="goods_name">'+item.goods_name+'</p>';
+		                    }
+                            //str+='<p class="goods_name">'+item.goods_name+'</p>';
+                            str+='<p class="goods_price font_c2">&yen;'+item.price+'</p></div></li>';
+                         });
+                         $("#favorite_list").html(str);
+                         $("#all").click(function(){
+                  if ($(this).prop("checked")) {
+                    $('input:checkbox').prop("checked", true);
+                     $("#jiesuan").addClass("red");
+                     $("#del_cart").addClass("red");
+                  }else{
+                    $('input:checkbox').prop("checked", false);
+                    $("#jiesuan").removeClass("red");
+                    $("#del_cart").removeClass("red");
+                  }
+                  get_recid();
+                });
+
+
+            $("#favorite_list").find("input[type='checkbox']").click(function(){
+                  var all_num=$("#favorite_list").find("input[type='checkbox']").length;
+                  var checked_num=$("#favorite_list").find("input[type='checkbox']:checked").length;
+                  if ( all_num == checked_num ){
+                    $('#all').prop("checked", true);
+
+                  }else{
+                    $('#all').prop("checked", false);
+                  }
+
+                  var checked_num=$("#favorite_list").find("input[type='checkbox']:checked").length;
+                  if ( checked_num>0 ){
+                   // $('#all').prop("checked", true);
+                    //$("#jiesuan").addClass("red");
+                    $("#del_cart").addClass("red");
+                  }else{
+                   // $('#all').prop("checked", false);
+                    //$("#jiesuan").removeClass("red");
+                     $("#del_cart").removeClass("red");
+                  }
+
+                 //getnum();
+                 get_recid();
+               });
+
+
+                        }
+                    }
+                });
+            }
+
+
+      //商品详情
+        function goDetail(goodId){
+            api.openWin({
+                name: 'goods.view',
+                url: './goods.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    goodId: goodId //商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                }
+            });
+        }
+
+        var recIds;
+        function get_recid(){
+            var buy_good=$("#favorite_list").find("input[type='checkbox']:checked");
+            //console.log(JSON.stringify(buy_good));
+            var a=new Array();
+            var j=0;
+
+            $.each(buy_good,function(i,item){
+                  var recId = $(this).val();
+                  //console.log(recId);
+                  a[j]=recId;
+                  j++;
+              });
+              recIds=a.join(",");
+             console.log(recIds);
+      }
+
+        $("#del_cart").bind('click',function(){
+          URL=$api.URL();
+          console.log(1);
+          api.ajax({
+          		  url : URL + 'index.php?app=myinfo&act=del_collect',
+                  method : 'post',
+                  cache : false,
+                  timeout : 30,
+                  dataType : 'json',
+                  returnAll : false,
+                  data : {
+                          values : {
+                                user_id:userId,
+                                item_id:recIds
+                                 }
+                         }
+          },function(ret,err){
+            console.log(JSON.stringify(ret));
+            if(ret.done){
+              api.toast({
+			      msg: '取消收藏成功',
+			      duration: 2000,
+			      location: 'middle'
+			  });
+			  getFavorite();
+              $(this).addClass('hide').siblings('span').removeClass('hide');
+		      $(".price_foot").removeClass('hide');
+		      $(".edit_foot").addClass('hide');
+		      $(".c_check").addClass('hide');
+		      $(".con_img").addClass('hide');
+		      $('.lili').removeClass('dianji');
+		      $(".o_finish").addClass('hide');
+		      $(".o_edit").removeClass('hide');
+
+            }
+
+          });
+    });
+  </script>
+  </html>

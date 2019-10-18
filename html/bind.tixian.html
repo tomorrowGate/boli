@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>提现绑定</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+      .out_div{ margin:10px 0;background-color: #fff }
+      .out_div1{ margin:10px;background-color: #f4f4f4 }
+      .item span{height:40px;line-height: 40px;}
+      .ip{ width:60%;padding:0 10px;height:40px;line-height: 40px;font-size: 0.9em; color:#666;}
+      .sub_btn{ width:100%;text-align: center;margin:30px 0; }
+      .sub_btn span{ width:70%;height:40px;line-height: 40px;color:#fff;border-radius: 20px;background-color: #ccc;background-color:#666; }
+      .sub_btn .active{background-color:#292929;}
+
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">绑定</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div class="out_div clearfix">
+        <div class="item"><span class="zfb">账号 </span><span><input type="text" name="zfb_sn" class="zfb_sn ip" placeholder="请输入支付宝账号" ></span></div>
+      </div>
+      <div class="out_div1 clearfix">
+        <div class="item"><span>身份证信息（必填） </span></div>
+      </div>
+      <div class="out_div clearfix">
+        <div class="item"><span id="ID_name">姓名 </span><span><input type="text" name="ID_name" class="ID_name ip" placeholder="请输入您的姓名" ></span></div>
+        <div class="item"><span id="ID_num">身份证号 </span><span><input type="text" name="ID_num" class="ID_num ip" placeholder="请输入身份证号码" ></span></div>
+      </div>
+      <div class="sub_btn"><span class="active">提交</span></div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+    //   api.execScript({
+    //     	  name:"index",
+			 //  frameName:"myinfo",
+			 //  script:"get_msg_status();"
+		  // });
+          api.closeWin();
+      }
+      var URL="";
+      var tixianType;
+      apiready = function(){
+      tixianType=api.pageParam.tixianType
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      if(tixianType=='zfb'){
+        $(".header").html("绑定支付宝");
+        $(".type_no").html("支付宝账号：");
+      }
+      if(tixianType=='wechat'){
+        $(".header").html("绑定微信");
+        $(".type_no").html("微信账号：");
+      }
+      if(tixianType=='bank'){
+        $(".header").html("绑定银行卡");
+        $(".type_no").html("卡号：");
+
+      }
+
+      };
+
+		function getId(){
+                api.ajax({
+                    url : URL+'index.php?app=#',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                        }
+                    }
+                }, function(ret, err) {
+                 if (ret &&ret.done) {
+                 	console.log(JSON.stringify(ret));
+                        $("#ID_name").val(ret.retval.name);
+                        $("#ID_num").val(ret.retval.ID);
+
+                 }else{
+                 	console.log(err);
+                 }
+
+                });
+            }
+
+
+  </script>
+  </html>

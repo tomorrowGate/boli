@@ -1,0 +1,429 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+</head>
+
+<body class="wrap">
+    <header>
+      <div id="main_bg"></div>
+      <div class="main_search cross-middle" ><span id="area" onclick="selectCity()" tapmod>湖州市</span>&nbsp;<i class="iconfont icon-down down_icon"></i><div class="ip_div"  onclick="goSearch()" tapmode><i class="iconfont icon-search" ></i>&nbsp;搜 索</div><i class="iconfont icon-xiaoxi my_icon1" onclick="goMessage()" tapmod></i></div>
+    </header>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+   $(function() {  //消除300ms点击延迟
+     FastClick.attach(document.body);
+  });
+  var goods_info=[];
+  URL=$api.URL();
+  var home_item=[];
+  var home_item2=[];
+  var footerH=window.localStorage.getItem('footerH');
+  var headerH;
+
+    apiready = function() {
+        console.log('first:apiready');
+        var header = $api.dom('header'); // 获取 header 标签元素
+        // 1.修复开启沉浸式效果带来的顶部Header与手机状态栏重合的问题，最新api.js方法已支持适配iPhoneX；
+        // 2.默认已开启了沉浸式效果 config.xml中 <preference name="statusBarAppearance" value="true"/>
+        // 3.沉浸式效果适配支持iOS7+，Android4.4+以上版本
+        headerH = $api.fixStatusBar(header);
+        console.log(api.systemType);
+        // console.log(headerH);
+        // console.log(footerH);
+        console.log('1111111111');
+        getAll_category();
+         //console.log(JSON.stringify(home_item));
+        // api.setStatusBarStyle({
+        //   style: 'light',
+        //   color:'#238bd9'
+        // });
+        //
+
+        api.setFrameGroupIndex({
+          name: 'group1',
+          index: '0',
+          scroll: true
+        });
+        //Get_All_Goods();
+
+    };
+
+    function NVNavigationBar_open(item) {
+    console.log('NVNavigationBar_open');
+    var NVNavigationBar = api.require('NVNavigationBar');
+    NVNavigationBar.close({
+        id:'first'
+    });
+    NVNavigationBar.open({
+        rect: {
+            x: 10,
+            y: headerH+api.safeArea.top,
+            w: api.frameWidth-20,
+            h: 44
+        },
+        styles: {
+            orientation: 'horizontal',
+            bg: 'transparent',
+            bgAlpha: 1,
+            font: {
+                size: 17,
+                sizeSelected: 19,
+                color: '#75b6e7',
+                colorSelected: '#fff',
+                bold:true,
+            },
+
+            itemSize: {
+                w: 100,
+                h: 44
+            }
+        },
+        items: item,
+        selectedIndex: 0,
+        fixedOn: api.frameName,
+        fixed: true,
+        id: 'first'
+    }, function(ret, err) {
+        console.log(JSON.stringify(ret));
+          console.log(JSON.stringify(err));
+
+        if (ret.eventType == 'click') {
+            //alert(ret.title);
+
+            api.setFrameGroupIndex({
+            name: 'group1',
+            index: ret.index,
+            scroll: true
+        });
+        }
+    });
+}
+
+    function fnopenFrameGroup1(item) {
+      console.log('fnopenFrameGroup1');
+
+        api.openFrameGroup({
+            name: 'group1',
+            rect: {
+                marginTop: headerH+api.safeArea.top+44, // frame页面距离win顶部的高度
+                marginBottom: footerH, // frame页面距离win底部的高度
+                w: 'auto' // frame页面的宽度 自适应屏幕宽度
+            },
+            scrollEnabled: true,
+            frames: item
+        }, function(ret, err) {
+            if (ret) {
+                console.log(JSON.stringify(ret));
+                if (ret.index > -1) {
+                    var NVNavigationBar = api.require('NVNavigationBar');
+                    NVNavigationBar.setSelected({
+                    id: 'first',
+                    index: ret.index,
+                    selected: true
+                  }, function(ret) {
+
+                 });
+                }
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+
+    }
+
+    //搜索页面
+        function goSearch(){
+            api.openWin({
+                name: 'search',
+                url: './search.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    searchs:goods_info,
+                }
+            });
+        }
+      //消息中心
+        function goMessage(){
+        api.openWin({
+          name: 'myMessage',
+          url: './myMessage.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          },
+          pageParam: {
+             articleType: 'message' //通过var orderState=api.pageParam.orderState; 调用
+          }
+        });
+      }
+
+//商品搜索
+    function Get_All_Goods(){
+    //alert(URL);
+        api.ajax({
+              url : URL+'index.php?app=homepage&act=Get_All_Goods',
+              method : 'post',
+              cache : false,
+              timeout : 30,
+              dataType : 'json',
+              returnAll : false,
+              data : {
+
+                 }
+            }, function(ret, err) {
+//              if(ret.done){
+                //console.log(ret.retval[0]['cate_id']);
+                    $.each(ret.retval, function(i, item) {
+                        var goods={cate_id:item['cate_id'], goods_name: item['goods_name'], cate_id_2: item['cate_id_2'],cate_id_1: item['cate_id_1'],cate_id_3: item['cate_id_3']};
+                        goods_info.push(goods);
+                    });
+                    //JSON.stringify(goods_info);
+                    //console.log(goods_info.length);
+//              }else{
+//                  alert("a");
+//              }
+
+            });
+    }
+
+//获取全部分类
+//      function getAll_category(){
+//          api.ajax({
+//              url : URL+'/index.php?app=homepage&act=selection_type',
+//              method : 'post',
+//                      cache : false,
+//                      timeout : 30,
+//                      dataType : 'json',
+//                      returnAll : false,
+//                      data : {
+//
+//                      }
+//          },function(ret,err){
+//            console.log(JSON.stringify(ret));
+//            if(ret){
+//              for(var i=0;i<ret.retval[1].length;i++){
+//                  for(var j=0;j<ret.retval[1][i].length;j++){
+//                      for(var a=0;a<ret.retval[2][i][j].length;a++){
+//                          var search={cate_id:ret.retval[2][i][j][a].cate_id, cate_name: ret.retval[2][i][j][a].cate_name, cate_id2: ret.retval[1][i][j].cate_id,cate_parent_id:ret.retval[1][i][j].parent_id}
+//                          goods_info.push(search);
+//                      }
+//                  }
+//              }
+//            }
+//
+//          });
+//       }
+
+         function getAll_category(){
+             console.log('getAll_category');
+             var person0 = {
+               title: '首页',
+             bg: '#fff',
+             bgSelected: 'widget://image/NVTabBar/bottomBar.png',
+             }
+             var person1 = {
+               title: '名厨汇聚',
+             bg: 'transparent',
+             bgSelected: 'widget://image/NVTabBar/bottomBar.png',
+           }
+           var person2 = {
+             title: '行业资讯',
+           bg: 'transparent',
+           bgSelected: 'widget://image/NVTabBar/bottomBar.png',
+           }
+           var person3 = {
+             title: '最新活动',
+           bg: 'transparent',
+           bgSelected: 'widget://image/NVTabBar/bottomBar.png',
+         }
+             home_item.push(person0);
+             home_item.push(person1);
+             home_item.push(person2);
+             home_item.push(person3);
+          //首页iframegroup固定iframe
+              var person_0 = {
+               name: 'frameName1',
+               url: 'framegroupo1.html',
+               pageParam: {
+                   name: 'value'
+               },
+               bounces:true,
+               customRefreshHeader: 'UIPullRefresh'
+             }
+             var person_1 = {
+               name: 'frameName2',
+               url: 'framegroupo2.html',
+               pageParam: {
+                   name: 'value'
+               },
+               bounces:false
+             }
+             var person_3 = {
+               name: 'frameName3',
+               url: 'framegroupo3.html',
+               pageParam: {
+                   name: 'value'
+               },
+               bounces:false
+             }
+             var person_4 = {
+               name: 'frameName4',
+               url: 'framegroupo4.html',
+               pageParam: {
+                   name: 'value'
+               },
+               bounces:false
+             }
+             home_item2.push(person_0);
+             home_item2.push(person_1);
+             home_item2.push(person_3);
+             home_item2.push(person_4);
+             NVNavigationBar_open(home_item);
+             fnopenFrameGroup1(home_item2);
+            api.ajax({
+                url : URL+'/index.php?app=boli_homepage&act=get_gcategory_all',
+                method : 'post',
+                        cache : false,
+                        timeout : 30,
+                        dataType : 'json',
+                        returnAll : false,
+                        data : {
+
+                        }
+            },function(ret,err){
+              console.log('22222');
+              console.log('ret:'+JSON.stringify(ret));
+              console.log('err:'+JSON.stringify(err));
+              //顶部导航固定菜单
+              if(ret && ret.done){
+
+                //动态添加菜单
+              //   $.each(ret.retval,function(i,item){
+              //   	var person = {
+              // 	 	title: item.cate_name,
+              // 	bg: 'transparent'
+              // }
+              // home_item.push(person);
+              //   });
+
+              //    var a=3;
+              //    $.each(ret.retval,function(i,item){
+               //     var person2 = {
+               //   	 	name: 'frameName'+a,
+                //      url: 'framegroupo3.html',
+                 //   pageParam: {
+                 //       name: item.cate_id
+               //     	}
+               // 	}
+               // 	a++;
+               // 	home_item2.push(person2);
+               // });
+              NVNavigationBar_open(home_item);
+              fnopenFrameGroup1(home_item2);
+              }
+
+            });
+         }
+         function setframe1(){
+          console.log('1');
+          api.setFrameGroupIndex({
+          name: 'group1',
+          index: '1',
+          scroll: true
+        });
+         }
+         function setframe2(){
+          console.log('2');
+          api.setFrameGroupIndex({
+          name: 'group1',
+          index: '2',
+          scroll: true
+        });
+         }
+           function selectCity(){
+            var UIActionSelector = api.require('UIActionSelector');
+       UIActionSelector.open({
+            datas: 'widget://res/city.json',
+            layout: {
+                row: 5,
+                col: 3,
+                height: 30,
+                size: 12,
+                sizeActive: 14,
+                rowSpacing: 5,
+                colSpacing: 10,
+                maskBg: 'rgba(0,0,0,0.2)',
+                bg: '#fff',
+                color: '#666',
+                colorActive: '#f00',
+                colorSelected: '#000'
+            },
+            animation: true,
+            cancel: {
+                text: '取消',
+                size: 12,
+                w: 90,
+                h: 35,
+                bg: '#fff',
+                bgActive: '#ccc',
+                color: '#888',
+                colorActive: '#fff'
+            },
+            ok: {
+                text: '确定',
+                size: 12,
+                w: 90,
+                h: 35,
+                bg: '#fff',
+                bgActive: '#ccc',
+                color: '#888',
+                colorActive: '#fff'
+            },
+            title: {
+                text: '请选择',
+                size: 12,
+                h: 44,
+                bg: '#eee',
+                color: '#888'
+            },
+            fixedOn: api.group1,
+        }, function(ret, err) {
+            if (ret) {
+                console.log(JSON.stringify(ret.level1));
+                if (ret.eventType=='ok'){
+                  if(ret.level2=='市辖区'||ret.level2=='县'){
+                    $api.html($api.byId('area'), ret.level1 );
+                  }else{
+                    $api.html($api.byId('area'), ret.level2 );
+                  }
+                  
+                }
+            } else {
+                console.log(JSON.stringify(err));
+            }
+        });
+       }
+</script>
+
+</html>

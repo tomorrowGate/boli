@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>推荐大使信息</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	.con {
+				/*background-color: #f9f8f8;*/
+				padding: 10px;
+			}
+		.devAlert {
+			height: 86px;
+			background-color: #6eb92c;
+			border-radius: 8px;
+			padding: 15px;
+			color: #fff;
+			box-sizing: border-box;
+			margin-bottom: 5px;
+		}
+		.alertMsg {
+			font-size: 18px;
+			height: 30px;
+		}
+		.alertAdvice {
+			font-size: 14px;
+			height: 30px;
+			line-height: 30px;
+		}
+		.content{
+			margin:10px 10px;
+			background:#ffffff;
+			padding:0 10px;box-sizing: border-box;
+			border-radius: 8px;
+		}
+		.name{position:relative;}
+		.store{position: absolute;left:20px;}
+		.icon-qianbi{color:#269ff2;}
+		.content{
+			display: flex;flex-direction:column;
+		}
+		.content-item{
+			display:flex;
+			height:45px;/*border:1px solid red;*/
+			line-height:45px;
+			flex-direction:row;
+			justify-content:space-between;
+			
+		}
+		.valuett{position:relative;width:70%;font-size:14px;color:#666666;}
+		.line{border-bottom: 1px solid #efefef;}
+		.value{background:#ffffff;height:25px;border-radius: 4px;font-size:14px;width:100%;}
+		.content-item1{display:flex;flex-direction:column;}
+		textarea{ width:100%;height:100px; border:1px solid #efefef;border-radius: 8px;margin:5px 0px;padding:5px 4px;}
+		.but{
+			width:100px;height: 30px;line-height: 30px;text-align: center;color:#ffffff; background: #6eb92c;margin:0 auto;border-radius: 8px;
+			margin-top:30px;margin-bottom: 30px;
+		}
+		.tt{
+			margin-top:12px;margin-left:12px;
+		}
+		#upload_img_list{display:flex; flex-direction:row;
+			justify-content:space-between;}
+		#upload_img_list span{ width:33%;text-align: left;}
+      #upload_img_list span img{ width:80px;height:80px; }
+      .add_img{ height:40px;width:40px;border:1px dotted #ddd; }
+      .add_img i{ font-size: 2em;color:#ccc;position: relative;left: 5px; }
+		/*.extend{margin-bottom: 15px;}*/
+		.suggest{
+			width:100%;height:auto;margin:8px 2px;letter-spacing: 1px ;color:#666666;font-size:14px;
+		}
+    </style>
+</head>
+<body>
+	<header>
+      <div class="header">推荐大使</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+    <div class="content">
+		<div class="content-item name">
+			<i class="iconfont icon-qianbi"></i>&nbsp;<span class="store">门店信息</span>
+		</div>
+		<div class="content-item line">
+			<div class="text">名称:</div>
+			<div class="valuett"  id="storename"></div>
+		</div>
+		<div class="content-item line">
+			<div class="text">地址:</div>
+			<div class="valuett" id="storeaddres" ></div>
+		</div>
+		<div class="content-item line">
+			<div class="text">营业执照号:</div>
+			<div class="valuett" id="storelicense"></div>
+		</div>
+		<div class="content-item line">
+			<div class="text">法人名称:</div>
+			<div class="valuett" id="storeperson"></div>
+		</div>
+		<div class="content-item line">
+			<div class="text">厨师长:</div>
+			<div class="valuett" id="chef" ></div>
+		</div>
+		<div class="content-item line">
+			<div class="text">其他联系人:</div>
+			<div class="valuett" id="othercontact" ></div>
+		</div>
+		<div class="content-item1 ">
+			<div class="text" style="margin-top:12px;">其他备注</div>
+			<div class="text  suggest" id="suggestion">
+					jsakbhdkjask黄金时代历史课低功耗官方哈根地方阿卡讲话打瞌睡多哈客户端
+			        <!--<textarea name="suggestion" id="suggestion" placeholder=写下您对我们的建议或发现的系统问题哦~></textarea>-->
+			    
+			</div>
+		</div>
+		<div class="content-item1 extend">
+			<div class="text" style="margin-top:5px;">门牌照、门房签名照</div>
+			<div class="text tt">
+				<div id="upload_img_list">
+					<span><img src="../image/bg_yz.png" /></span>
+					<span><img src="../image/bg_yz.png" /></span>
+					<span><img src="../image/bg_yz.png" /></span>
+        		</div>
+			    <!--<div class="add_img" id="upload_img" onclick="showAction()"><i class="iconfont icon-add1"></i></div> --> 
+			    
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<div class="content-item name">
+			<i class="iconfont icon-qianbi"></i>&nbsp;<span class="store">我的联系方式</span>
+		</div>
+		<div class="content-item line">
+			<div class="text">称呼：</div>
+			<div class="valuett" id="call">nihao</div>
+		</div>
+		<div class="content-item line">
+			<div class="text">联系电话：</div>
+			<div class="valuett" id="cotact">162369126</div>
+		</div>
+		
+	</div>
+	<div class="but" onclick="tijiao()">提交</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+	apiready = function(){
+		FastClick.attach(document.body);
+	};
+	function goBack(){
+          api.closeWin();
+    }
+    var userId=window.localStorage.getItem("userId"); //用户id
+    var URL="";
+    apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      api.ajax({
+	      url:'',
+	      method: 'post',
+		  timeout: 30,
+		  dataType: 'json',
+		  returnAll:false,
+		  data:{
+		  	user_id:userId,
+		  }
+      },function(ret,err){
+      	//coding...
+	      	console.log('---33-'+JSON.stringify(ret));
+	      	if(ret.done){
+	      		$('#storename').html();
+				//门店地址
+				$('#storeaddres').html();
+				//营业
+				$('#storelicense').html();
+				//法人名称
+				$('#storeperson').html();
+				//厨师长
+				$('#chef').val();
+				//其他联系人
+				$('#othercontact').html();
+				//其他备注
+				$('#suggestion').html();
+				//我的称呼
+				$('#call').html();
+				//联系电话
+				$('#cotact').html();
+				//图片
+				
+                $("#upload_img_list").append(str);
+	      	}
+      });
+	}
+</script>
+</html>

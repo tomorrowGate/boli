@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>设置</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+       /* 徽章 */
+      .badge-dot {
+       width: 8px;
+       height: 8px;
+       padding: 0;
+       border-radius: 4px;
+       box-shadow: 0 0 1px 1px #bdbdbd;
+       position: relative;
+       top: -10px;
+       left: 0px;
+       display: inline-block;
+       font-size: 12px;
+       text-align: center;
+       background-color: #FF5722;
+       color: #fff;
+      }
+      .out_div{ margin-top:10px; padding:0 10px;}
+      .set_list li{ height:40px;line-height:40px; }
+      .border_b{ border-bottom: 1px solid #f4f4f4 }
+      .my_btn{ text-align: center;margin-top:80px; }
+      #loginout{ color:#888;background-color: #fff ;border:1px solid #888;border-radius: 5px;text-align: center;width:60%;height:40px;line-height: 40px;   }
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">设置</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div class="out_div clearfix">
+        <ul class="set_list">
+          <li onclick="goInfo()" tapmode><span class="t_l">个人信息<!--<span class="badge-dot"></span>--></span><span class="t_r font_s2 font_c1"><i class="iconfont icon-htbArrowright"></i></span></li>
+        </ul>
+      </div>
+      <div class="out_div clearfix">
+        <ul class="set_list">
+          <li class="border_b"  class="border_b" onclick="goBindphone()" tapmode><span class="t_l">手机绑定</span><span class="t_r font_s2 font_c1"><span id="mobphone">未绑定</span>&nbsp;<i class="iconfont icon-htbArrowright"></i></span></li>
+          <li class="border_b" id="goBindweixin" onclick="is_vx()" tapmode><span class="t_l">微信绑定</span><span class="t_r font_s2 font_c1"><span id="myweixin">未绑定&nbsp;</span><i class="iconfont icon-htbArrowright"></i></span></li>
+          <li  onclick="goAddress()" tapmode><span class="t_l">地址管理</span><span class="t_r font_s2 font_c1"><i class="iconfont icon-htbArrowright"></i></span></li>
+        </ul>
+      </div>
+      <div class="out_div clearfix">
+        <ul class="set_list">
+          <li class="border_b"  onclick="copyWeixin()" tapmode><span class="t_l">微信公众号</span><span class="t_r font_s2 font_c1">微信搜索:<span id="weixin_subscriptio">敬请期待</span>&nbsp;<i class="iconfont icon-htbArrowright"></i></span></li>
+          <li   onclick="goAboutus()" tapmode><span class="t_l">关于我们</span><span class="t_r font_s2 font_c1">V1.0.0&nbsp;<i class="iconfont icon-htbArrowright"></i></span></li>
+        </ul>
+      </div>
+      <div class="my_btn"><span id="loginout" onclick='loginout()' tapmode>退出登录</span></div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      var URL="";
+      apiready = function(){
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+     //初始加载列表
+      getInfo();
+      is_vx();
+     };
+
+      //加载帮助列表
+      function getInfo(){
+                api.ajax({
+                    url : URL+'index.php?app=myinfo&act=get_info',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                        }
+                    }
+                }, function(ret, err) {
+                    //alert(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+                           if(ret.retval.phone_mob!=null){
+                           		$("#mobphone").html("已绑定");
+                           }
+                    }
+                });
+            }
+
+      function is_vx(){
+		 api.ajax({
+                    url : URL+'index.php?app=myinfo&act=is_sjvx',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                        }
+                    }
+                }, function(ret, err) {
+                	console.log(JSON.stringify(ret));
+                	if (ret &&ret.done) {
+	                	if(ret.retval.is_vx){
+	                       $("#myweixin").html("已绑定");
+	                       $("#goBindweixin").bind('click',function(){
+	                       		api.openWin({
+							        name: 'mywechat',
+							        url: './mywechat.html',
+							        bounces: false,
+							        animation:{
+							          type:"push",                //动画类型（详见动画类型常量）
+							          subType:"from_right",       //动画子类型（详见动画子类型常量）
+							          duration:300                //动画过渡时间，默认300毫秒
+							        }
+							      });
+	                       });
+	                    }else{
+                    		$("#myweixin").html("未绑定");
+//                  		api.toast({
+//				                msg: '未绑定',
+//				                duration: 2000,
+//				                location: 'middle'
+//				             });
+                    	}
+                    }
+                });
+	  }
+
+      function loginout(){
+        api.confirm({
+         msg: '您确定要退出登录此账号吗？',
+         buttons: ['确定', '取消']
+        }, function(ret, err) {
+         var index = ret.buttonIndex;
+         if(index==1){
+           window.localStorage.clear();
+          api.sendEvent({  //登录状态改变退出
+              name: 'loginOut'
+          });
+          api.closeToWin({
+              name: 'login'
+          });
+           api.openWin({
+            name : 'login',
+            url : './login.html',
+            slidBackEnabled:false
+          });
+        }else{
+
+        }
+      });
+      }
+
+      function goBindphone(){
+        						api.openWin({
+							        name: 'verification.phone',
+							        url: './verification.phone.html',
+							        bounces: false,
+							        animation:{
+							          type:"push",                //动画类型（详见动画类型常量）
+							          subType:"from_right",       //动画子类型（详见动画子类型常量）
+							          duration:300                //动画过渡时间，默认300毫秒
+							        },
+							        reload: true
+							      });
+      }
+
+      function goBindweixin(){
+
+      }
+      function goAddress(){
+        api.openWin({
+        name: 'address',
+        url: './address.html',
+        bounces: false,
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+      function goAboutus(){
+        api.openWin({
+        name: 'aboutus',
+        url: './aboutus.html',
+        bounces: false,
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+      function goInfo(){
+        api.openWin({
+        name: 'infomation',
+        url: './infomation.html',
+        bounces: false,
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+
+    //复制微信公众号
+    function copyWeixin(){
+      var content=$("#weixin_subscriptio").text();
+      var clipBoard = api.require('clipBoard');
+      clipBoard.set({
+        value: content
+      }, function(ret, err) {
+        if (ret) {
+          api.toast({
+           msg: '复制公众号成功',
+           duration: 2000,
+           location: 'bottom'
+          });
+        }else{
+          api.toast({
+           msg: '复制失败',
+           duration: 2000,
+           location: 'bottom'
+          });
+        }
+      });
+    }
+  </script>
+  </html>

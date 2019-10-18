@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>查看维修</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+		<style>
+			html, body {
+				background-color: #efefef;
+			}
+			input[type='checkbox'] {
+				-webkit-appearance: checkbox;
+			}
+			header {
+				height: 50px;
+				line-height: 50px;
+				width: 100%;
+				margin-bottom: 5px;
+			}
+			.head-center {
+				text-align: center;
+			}
+			.con {
+				width: 85%;
+				margin: 15px auto;
+				padding: 3px 15px;
+				background-color: #fff;
+			}
+			.con > div:not(:nth-of-type(2)) {
+				/* box-shadow: 2px 2px 2px #ccc; */
+				border-radius: 5px;
+				padding: 8px 15px;
+				font-size: 15px;
+			}
+			.con .itemNum {
+				height: 30px;
+				line-height: 30px;
+				color: #0b93eb;
+			}
+			.devAlert {
+				height: 86px;
+				background-color: #0b93eb;
+				padding: 15px;
+				color: #fff;
+				box-sizing: border-box;
+			}
+			.alertMsg {
+				font-size: 18px;
+				height: 30px;
+			}
+			.alertAdvice {
+				font-size: 14px;
+				height: 30px;
+				line-height: 30px;
+			}
+			.devItem {
+				display: flex;
+				height: 120px;
+				padding: 3px 15px;
+				flex-direction: column;
+				justify-content: space-around;
+				background-color: #fff;
+				border-radius: 10px;
+				margin: 15px auto;
+			}
+			.itemHead {
+				display: flex;
+				justify-content: flex-start;
+				font-size: 16px;
+				color: #0b93eb;
+			}
+			.itemCon {
+				font-size: 15px;
+			}
+			.device {
+				color: #0b93eb;
+			}
+			.key {
+				margin-right: 10px;
+			}
+			.devItem .key {
+				color: #bbb;
+			}
+			.serPeople {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				height: 60px;
+				margin-bottom: 15px;
+			}
+			.serPeople .key {
+				color: #0b93eb;
+			}
+			.hadSer {
+				height: 20px;
+				width: 50%;
+				line-height: 20px;
+				margin: 30px auto;
+				padding: 5px 10px;
+				border-radius: 15px;
+				background-color: #0b93eb;
+				color: #fff;
+				text-align: center;
+			}
+			.pop {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background-color: rgba(0,0,0,0.5);
+			}
+			.tips {
+				position: fixed;
+				width: 300px;
+				height: 100px;
+				padding: 7px 15px;
+				background-color: #fff;
+				border-radius: 10px;
+				top: calc(50% - 50px);
+				left: calc(50% - 165px);
+			}
+			.tipsHead {
+				text-align: center;
+				height: 30px;
+				line-height: 30px;
+				margin-bottom: 10px;
+				color: #0b93eb;
+			}
+			.zeroClass {
+				color: #0b93eb;
+			}
+			.zero {
+				font-size: 14px;
+				text-align: center;
+				color: #999;
+			}
+			.zero-item {
+				padding: 0;
+			}
+			.serPeo{position:relative;}
+			.aa2{position: absolute;right:0px;}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="head-center">
+				<span >服务进度</span>
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class="con">
+			<div class="itemNum">
+				<i class="iconfont icon-qianbi my_icon3"></i>
+				<span class="itemNumKey">订单编号</span>
+				<span class="itemNumValue" id="wx_sn">021645121234</span>
+			</div>
+			<div class="devAlert" id="state">
+				<p class="alertMsg">
+					待维修
+				</p>
+				<p class="alertAdvice">
+					请耐心等待维修人员上门维修
+				</p>
+			</div>
+			<div class="devItem">
+				<div class="itemHead">
+					<span class="itemName " id="type_name">广式单炒单温</span>
+				</div>
+				<div class="device">
+					<span class="devName key" id="machine_name">广式单炒单温-设备01</span>
+				</div>
+				<div class="reason">
+					<span class="reasonKey key">故障原因</span>
+					<span class="reasonVal" id="cause">点火点不着</span>
+				</div>
+				<div class="preTime">
+					<span class="preTimeKey key">预约时间</span>
+					<span class="preTimeVal" id="yy_time">2019-03-24 13:00-14:00</span>
+				</div>
+			</div>
+			<div class="serPeople" id="tt1">
+				<div class="serPeo">
+					<span class="serPeoKey key">维修员</span>
+					<span class="serPeoVal val" id="real_name2">张大棕</span>
+				</div>
+				<div class="Tel">
+					<span class="telKey key">联系电话</span>
+					<span class="telVal val" id="phone_mob">18267265620</span>
+				</div>
+			</div>
+			<div class="zeroClass" id="parts">
+				<div class="devItem zero-item" id="zero-0">
+					<div class="zero-title">
+						<i class="iconfont icon-qianbi my_icon3"></i>
+						<span class="itemNumKey">替换零配件</span>
+						<span class="itemNumValue" id="kinds"> </span>
+					</div>
+					<table class="zero" id="zero-1">
+
+					</table>
+				</div>
+
+			</div>
+			<div class="true-pay serPeople" id="price">
+				<div class="serPeo ">
+					<span class="truepayKey key">替换零配件价格</span>
+					<span class="truepayVal val aa2" id="truepayNum"></span>
+				</div>
+				<div class="serPeo">
+					<span class="truepayKey key">人工费</span>
+					<span class="truepayVal val aa2" id="costs_price"></span>
+				</div>
+				<div class="serPeo">
+					<span class="truepayKey key">车旅费</span>
+					<span class="truepayVal val aa2" id="travel_price"></span>
+				</div>
+				<div class="serPeo">
+					<span class="truepayKey key">实付价格</span>
+					<span class="truepayVal val aa2" id="all_price"></span>
+				</div>
+			</div>
+			<div class="hadSer" style="display: none" onclick="cx_wx()" id="wc_wx">
+				撤销维修
+			</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript" src="../script/lib/template.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		var URL = "";
+		var id = 0;
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		apiready = function() {
+			id = api.pageParam.id;
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			headerH = $api.fixStatusBar(header);
+			get_wx_infos();
+		};
+		function goBack() {
+			api.closeWin()
+		}
+
+		function get_wx_infos() {
+			console.log(id);
+			api.ajax({
+				url : URL + 'index.php?app=appmachine&act=get_wx_info',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						id : id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					var weixiu = ret.retval[0];
+					var machine = ret.retval[1];
+					var parts = ret.retval[2];
+					var sf_price = ret.retval[3];
+					$("#wx_sn").html(weixiu.wx_sn);
+					if (weixiu.state == 0) {
+					    $("#wc_wx").attr("style", "display:block;");
+						$("#state").html('<p class="alertMsg">预约中</p><p class="alertAdvice">请耐心等待</p>');
+					} else if (weixiu.state == 1) {
+						
+						$("#state").html('<p class="alertMsg">待维修</p><p class="alertAdvice">请耐心等待维修人员上门维修</p>');
+					} else {
+						$("#state").html('<p class="alertMsg">已完成</p><p class="alertAdvice">故障已维修完成</p>');
+					}
+					$("#type_name").html(machine.tyep_name);
+					$("#machine_name").html(machine.machine_name);
+					$("#cause").html(weixiu.cause);
+					$("#yy_time").html(weixiu.yy_time);
+					if (parts != 0) {
+						var str = '';
+						str += '<table class="zero">';
+						str += '<tr><td>零配件名称</td><td>零配件厂家</td><td>零配件价格</td></tr>';
+						$.each(parts, function(i, item) {
+							str += '<tr><td>' + item.part_name + '</td><td>' + item.factory + '</td><td>&yen;' + item.price + '</td></tr>';
+						});
+						str += '</table>';
+						$("#zero-1").html(str);
+					}else{
+					  $("#parts").css("display","none");
+ 					
+					}
+					if (sf_price != 0) {
+						$("#truepayNum").html("&yen;" + sf_price);
+						$("#costs_price").html("&yen;" + weixiu.costs_price);
+						$("#travel_price").html("&yen;" + weixiu.travel_price);
+						$("#all_price").html("&yen;" + weixiu.all_price);
+					}else{
+					    $("#price").css("display","none"); 
+					}
+					if (weixiu.r_id != 0) {
+						$("#real_name2").html(weixiu.real_name2);
+						$("#phone_mob").html(weixiu.phone_mob);
+					} else {
+						$("#tt1").attr("style", "display:none;");
+					}
+				} else {
+					console.log("error");
+				}
+			});
+		}
+
+		function cx_wx() {
+			api.confirm({
+				msg : '您确定撤销维修吗？',
+				buttons : ['确定', '取消']
+			}, function(ret, err) {
+				var index = ret.buttonIndex;
+				if (index == 1) {
+					api.ajax({
+						url : URL + 'index.php?app=appmachine&act=cx_wx',
+						method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+							values : {
+								id : id
+							}
+						}
+					}, function(ret, err) {
+						console.log(JSON.stringify(ret));
+						if (ret.done) {
+							api.toast({
+								msg : "撤销维修",
+								duration : 2000,
+								location : 'bottom'
+							});
+							get_wx_infos();
+						} else {
+							console.log("error");
+						}
+					});
+				} else {
+				}
+			});
+		}
+	</script>
+</html>

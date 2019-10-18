@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>物品组件</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.goodThing.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 商品展示 -->
+        <div class="chef-form-formlist">
+            <div class="chef-form-card">
+                <div class="chef-form-leftimg">
+                    <img src="" alt="">
+                </div>
+                <div class="chef-right-content">
+                    <div class="chef-head1">
+                        <div class="chef-head1-name">广式双炒双温节能灶</div>
+                    </div>
+                    <div class="chef-head2 chef-forum-light">20kw商用电磁炉双头电磁灶炉15kw</div>
+                    <div class="chef-head3 chef-forum-light forum-foot-explain">
+                        <!-- <i class="iconfont"></i> -->
+                        <span class="forum-foot-name">九折</span>
+                        <span class="forum-foot-level">上门安装</span>
+                    </div>
+                    <div class="chef-head4 ">
+                        <span class="price">￥258</span>
+                        <span class="agoPrice">￥536</span>
+                        <p>销量<span>231</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            goodList:[]
+        },
+        computed: {
+
+        },
+        methods: {
+            getGoodsbyCate: function (id) {
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=get_rand_goods',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            cate_id: id
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret.retval));
+                    if (ret && ret.done) {
+                        ret.retval.forEach(function (value, index) {
+                            if (value.tags.length) {
+                                value.tags = value.tags.split(",")
+                            }
+                        })
+                        that.goodList = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    that.URL = $api.URL()
+                    api.setCustomRefreshHeaderInfo({
+                        bgColor: '#F6F6F6',
+                        images: {
+                            pull: 'widget://image/refresh/pulling.png',
+                            transform: [
+                                'widget://image/refresh/transform0.png',
+                                'widget://image/refresh/transform1.png',
+                                'widget://image/refresh/transform2.png',
+                                'widget://image/refresh/transform3.png',
+                                'widget://image/refresh/transform4.png',
+                                'widget://image/refresh/transform5.png',
+                                'widget://image/refresh/transform6.png'
+                            ],
+                            load: [
+                                'widget://image/refresh/loading0.png',
+                                'widget://image/refresh/loading1.png',
+                                'widget://image/refresh/loading2.png',
+                                'widget://image/refresh/loading3.png',
+                                'widget://image/refresh/loading4.png',
+                            ]
+                        }
+                    }, function (ret, err) {
+                        console.log(1)
+                    });
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

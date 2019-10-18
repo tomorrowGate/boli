@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>师傅</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="../css/swiper.min.css">
+		<style>
+			html, body {
+			}
+			header{ z-index:999; }
+			.center_div {
+				border-bottom: 10px solid #f2f2f2;
+				padding: 0 3%;
+			}
+			.my_icon3 {
+				color: #1f9eef;
+			}
+			.base_info {
+				padding-top: 10px !important;
+			}
+			.portrait_cooker {
+				width: 100px;
+				height: 100px;
+				overflow: hidden;
+				border-radius: 10px;
+				box-shadow: 0 0 10px 1px #f2f2f2;
+				margin-right: 10px;
+			}
+			.cooker_info {
+				height: 100px;
+			}
+			.img1 {
+				width: 95%;
+
+			}
+			.img2 {
+				height: 20px;
+				margin-left: 5px;
+			}
+			.name {
+				font-weight: bold
+			}
+			.cook_style {
+				margin-bottom: 7px;
+				font-size: 0.9em;
+			}
+			.cook_style span{ height:18px;line-height:18px;margin-right:0.3em;border:1px solid #ee5e53;color:#ee5e53;padding:0 0.3em;border-radius: 3px;margin-bottom: 0.3em;}
+			.bottom_btn {
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				margin: 0;
+			}
+			.bottom_btn span {
+				color: #fff;
+				background-color: #ee5e53;
+				font-size: 1.1em;
+				height: 26px;
+				line-height: 26px;
+				border-radius: 13px;
+				text-align: center;
+				width: 5.3em;
+			}
+			.bottom_btn .my_btn3 {
+				width: 6.3em;
+			}
+			/*他的公开课*/
+			.part_div {
+				border-top: 10px solid #f2f2f2;
+				padding: 0 3%;
+			}
+			.nomal_title {
+				margin-bottom: 10px;
+				border-bottom: 1px solid #f2f2f2;
+				padding: 5px 0;
+			}
+			.nomal_contect {
+				padding: 0;
+				margin-bottom: 10px;
+			}
+			.content_item {
+				margin-bottom: 20px;
+				font-size: 0.9em;
+				position: relative;
+			}
+			.article_title {
+				font-weight: bold;
+				margin: 5px 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+			}
+			.article_content video {
+				width: 100%;
+			}
+			.article_content img {
+				width: 32%;
+				margin-right: 2%;
+			}
+			.article_content img:nth-child(3) {
+				margin-right: 0;
+			}
+			.opera {
+				text-align: right;
+				font-size: 0.9em;
+				margin-top: 8px;
+			}
+			.opera i {
+				font-size: 0.9em;
+			}
+			.view_icon, .love_icon {
+				color: #DBDBDB;
+			}
+			.opera span {
+				margin: 0 10px 0 5px;
+			}
+			/*简介*/
+			.intro_item {
+				margin-bottom: 20px;
+				font-size: 0.9em;
+			}
+			.master_intro .intro_part {
+				line-height: 20px;
+				height: 80px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 4;
+				-webkit-box-orient: vertical;
+			}
+			.shrink_icon {
+				margin: 0 0 10px 0;
+				color: #0993eb;
+				text-align: center;
+				font-size: 0.9em;
+			}
+			/*获得荣誉*/
+			.honor .content_item .honor_item {
+				margin-bottom: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				师傅
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class="part_div base_info clearfix">
+			<div class="content_item flex">
+				<div class="portrait_cooker"><img id="portrait" src="../image/cooker.png" class="img1 master_portrait">
+				</div>
+				<div class="cooker_info">
+					<p>
+						<span class="master_name" id="real_name2"></span><img src="../image/ceown_r.png" class="img2">
+					</p>
+					<p class="cook_style font_c1" id="tt">
+					</p>
+					<p class="bottom_btn">
+						<span class="my_btn1 hide" onClick="goMyclasses()" tapmod>我的课程</span><span class="my_btn2"  onClick="goApprentice()" tapmod>我要拜师</span><span class="my_btn3 hide" tapmod>已提交申请</span>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="part_div master_intro clearfix">
+			<div class="nomal_title clearfix"  onclick="" tapmode>
+				<div class="t_l font_s1 font_w1">
+					<i class="iconfont icon-qianbi my_icon3"></i>&nbsp;师傅简介
+				</div>
+				<div class="t_r font_c1 font_s2 more"></div>
+			</div>
+			<div class="nomal_content">
+				<div class="intro_item font_c1 " id="remark">
+					中国著名的川菜大厨，曾经在XXX大赛上获得XX荣耀，获得2015年全国厨师大赛XX沙发是多少放松放松发的所发生的电商法佛山市地方饭店爽肤水对方水电费水电费发给市分公司答复是的冯绍峰是是发放给。
+				</div>
+				<div class="shrink_icon">
+					<span class="show_all" onclick="show_all()" tapmod>查看全部&nbsp;<i class="iconfont icon-double-down1"></i></span><span class="close_all hide"  onclick="close_all()" tapmod>收起&nbsp;<i class="iconfont icon-double-down"></i></span>
+				</div>
+			</div>
+		</div>
+		<div class="part_div honor clearfix">
+			<div class="nomal_title clearfix"  onclick="" tapmode>
+				<div class="t_l font_s1 font_w1">
+					<i class="iconfont icon-qianbi my_icon3"></i>&nbsp;获得荣誉
+				</div>
+				<div class="t_r font_c1 font_s2 more">
+					&nbsp;<i class="iconfont icon-up close_tab1" onclick="close_tab('1')" tapmod></i><i class="iconfont icon-down show_tab1 hide" onclick="show_tab('1')" tapmod></i>
+				</div>
+			</div>
+			<div class="nomal_content " >
+				<div class="content_item font_c1" id="honor_list">
+					<p class="honor_item">
+						1995-10-16   第三届全国厨师大赛金厨荣誉
+					</p>
+					<p class="honor_item">
+						1998-06-16   第三届全国厨师大赛金厨荣誉
+					</p>
+					<p class="honor_item">
+						2001-08-23   第三届全国厨师大赛金厨荣誉
+					</p>
+					<p class="honor_item">
+						2015-05-09   第三届全国厨师大赛金厨荣誉
+					</p>
+					<p class="honor_item">
+						2018-03-24   第三届全国厨师大赛金厨荣誉
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="part_div open_class clearfix">
+			<div class="nomal_title clearfix"  onclick="" tapmode>
+				<div class="t_l font_s1 font_w1">
+					<i class="iconfont icon-qianbi my_icon3"></i>&nbsp;他的公开课
+				</div>
+				<div class="t_r font_c1 font_s2 more">
+					&nbsp;<i class="iconfont icon-up close_tab2" onclick="close_tab('2')" tapmod></i><i class="iconfont icon-down show_tab2 hide" onclick="show_tab('2')" tapmod></i>
+				</div>
+			</div>
+			<div >
+				<div class="nomal_content" id="class_list">
+					<div class="content_item " id="article_1">
+						<p class="article_title">
+							浙菜大厨王大龙展现刀工绝技巴拉巴拉巴拉！
+						</p>
+						<div class="article_content">
+							<video src="" controls="controls">
+								您的手机不支持播放该视频格式。
+							</video>
+						</div>
+						<p class="opera">
+							<i class="iconfont icon-view view_icon"></i><span class="view">11</span><i class="iconfont icon-love1 love_icon"></i><span class="love">20</span><i class="iconfont icon-fenxiang"></i><span class="share">分享</span>
+						</p>
+					</div>
+					<div class="content_item "  id="article_2">
+						<p class="article_title">
+							做红烧肉要不要油炸？掌握这三点诀窍就可以当大厨
+						</p>
+						<div class="article_content"><img src="../image/ep1.png"><img src="../image/ep2.png"><img src="../image/ep3.png">
+						</div>
+						<p class="opera">
+							<i class="iconfont icon-view view_icon"></i><span class="view">11</span><i class="iconfont icon-love1 love_icon"></i><span class="love">20</span><i class="iconfont icon-fenxiang"></i><span class="share">分享</span>
+						</p>
+					</div>
+				</div>
+				<div></div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+			if($(".intro_item").height()<=80){
+				$(".show_all").addClass('hide');
+				$(".intro_item").removeClass('intro_part');
+			}else{
+				$(".show_all").removeClass('hide');
+				$(".intro_item").addClass('intro_part');
+			}
+		});
+		var URL = "";
+		var cate_id;
+		var data;
+		var masterId;
+		var isMaster;
+		var start = 0;
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+			// cate_id=api.pageParam.name;
+			cate_id = 617;
+			masterId = api.pageParam.masterId;
+			isMaster(masterId);
+			//get_staff_info();
+			//get_image();
+			get_list();
+			//获得课程
+			//上拉加载
+			api.addEventListener({
+				name : 'scrolltobottom',
+				extra : {
+					threshold : 50 //距离底部距离
+				}
+			}, function(ret, err) {
+				console.log("上拉加载");
+				if (data != null) {
+					if (data.length < 10) {
+						api.toast({
+							msg : '没有更多了',
+							duration : 2000,
+							location : 'bottom'
+						});
+					} else {
+						start += 5;
+						setTimeout('get_list()', '300');
+					}
+				}
+			});
+			//下拉刷新
+			api.setCustomRefreshHeaderInfo({
+                bgColor: '#f2f2f2',
+                images: {
+                    pull: 'widget://image/refresh/pulling.png',
+                    transform: [
+                        'widget://image/refresh/transform0.png',
+                        'widget://image/refresh/transform1.png',
+                        'widget://image/refresh/transform2.png',
+                        'widget://image/refresh/transform3.png',
+                        'widget://image/refresh/transform4.png',
+                        'widget://image/refresh/transform5.png',
+                        'widget://image/refresh/transform6.png'
+                    ],
+                    load: [
+                        'widget://image/refresh/loading0.png',
+                        'widget://image/refresh/loading1.png',
+                        'widget://image/refresh/loading2.png',
+                        'widget://image/refresh/loading3.png',
+                        'widget://image/refresh/loading4.png',
+                    ]
+                }
+            }, function(ret, err) {
+							isMaster(masterId);
+							get_list();
+	     	    	setTimeout('api.refreshHeaderLoadDone()', '3000');
+
+            });
+		};
+		//判断是否已经是我的师傅
+		function isMaster(masterId) {
+			console.log(masterId);
+			console.log('----------'+userId);
+			console.log(URL + 'index.php?app=appstaff&act=pd_sf');
+			api.ajax({
+				url : URL + 'index.php?app=appstaff&act=pd_sf',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						userId : userId,
+						masterId : masterId
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+
+
+				   if(ret.retval==1){
+				    $(".my_btn2").addClass("hide");
+					$(".my_btn1").removeClass("hide");
+				    $(".my_btn3").addClass("hide");
+				   }else if(ret.retval==0){
+				    $(".my_btn1").addClass("hide");
+					$(".my_btn2").addClass("hide");
+					$(".my_btn3").removeClass("hide");
+
+				   }else{
+				     $(".my_btn1").addClass("hide");
+					 $(".my_btn2").removeClass("hide");
+					 $(".my_btn3").addClass("hide");
+				   }
+
+
+				} else {
+				//ret.msg="myslef";
+				if(ret.msg=="myslef"){
+					$(".my_btn1").addClass("hide");
+					 $(".my_btn2").removeClass("hide");
+					 $(".my_btn2").attr("onclick","myslef();");
+					 $(".my_btn3").addClass("hide");
+				}else{
+					$(".my_btn1").addClass("hide");
+					$(".my_btn2").removeClass("hide");
+					$(".my_btn3").addClass("hide");
+					}
+				};
+			});
+		}
+
+		//获取厨师信息
+		function get_list() {
+			api.ajax({
+				url : URL + 'index.php?app=appstaff&act=get_staff_info',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						master_id : masterId,
+						start : start,
+
+					}
+				}
+			}, function(ret, err) {
+				console.log("1023456");
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					console.log(JSON.stringify(ret.retval[0]));
+					//if()
+					//$(".master_portrait").html(ret.retval[0].portrait);
+					$(".master_portrait").attr("src",URL+"/"+ret.retval[0].portrait);
+
+					if (ret.retval[0].tags_name.length > 0) {
+				    	var str = '';
+						$.each(ret.retval[0].tags_name, function(i, item) {
+							str += '';
+							str += '<span id="cuisine">' + item.name + '</span>';
+						})
+						$("#tt").html(str);
+					} else {
+						$("#cuisine").html("暂无");
+					}
+					//	$("#cuisine").html(ret.retval[0].cuisine);
+					$(".master_name").html(ret.retval[0].real_name2);
+					$(".intro_item").html(ret.retval[0].remark);
+					if($(".intro_item").height()<=80){
+						$(".show_all").addClass('hide');
+						$(".intro_item").removeClass('intro_part');
+					}else{
+						$(".show_all").removeClass('hide');
+						$(".intro_item").addClass('intro_part');
+					}
+					if (ret.retval[1].length > 0) {
+					$("#honor_list").html("");
+						$.each(ret.retval[1], function(i, item) {
+							var lbt = '';
+							lbt += '<p class="honor_item">';
+							lbt += item.hj_time+'&nbsp &nbsp &nbsp &nbsp' + item.winning;
+							lbt += '</p>';
+							$api.append($api.byId("honor_list"), lbt);
+						})
+					} else {
+						$("#honor_list").html("暂无荣誉");
+					}
+					if (ret.retval[2].length > 0) {
+						$.each(ret.retval[2], function(i, item) {
+							if (item.article_videos != null || item.article_videos || item.article_videos != undifend) {
+								str += '<div class="content_item " id="article_1">';
+								str += '<p class="article_title">' + item.title + '</p>';
+								str += '<div class="article_content"><video src="' + URL + '/' + item.videos + '" controls="controls">您的手机不支持播放该视频格式。</video></div>';
+								str += '<p class="opera"><i class="iconfont icon-view view_icon"></i><span class="view">11</span><i class="iconfont icon-love1 love_icon"></i><span class="love">20</span><i class="iconfont icon-fenxiang"></i><span class="share">分享</span></p>';
+								str += '</div>';
+							} else {
+								str += '<div class="content_item " id="article_2">';
+								str += '<p class="article_title">' + item.title + '</p>';
+								str += '<div class="article_content">';
+								$.each(item.img_url, function(j, item_url) {
+									str += '<img src="' + URL + '/' + item_url.img_url + '">';
+									if (j == 2) {
+										return false;
+									}
+								});
+								str += '</div>';
+								str += '<p class="opera"><i class="iconfont icon-view view_icon"></i><span class="view">11</span><i class="iconfont icon-love1 love_icon"></i><span class="love">20</span><i class="iconfont icon-fenxiang"></i><span class="share">分享</span></p>';
+								str += '</div>';
+								str += '</div>';
+							}
+							$api.append($api.byId("class_list"), lbt);
+						});
+					} else {
+						$("#class_list").html("暂无公开课");
+					}
+				} else {
+					api.toast({
+						msg : "加载失敗！"
+					});
+				};
+			});
+			api.refreshHeaderLoadDone();
+		}
+
+		//展开全部简介
+		function show_all() {
+			$(".intro_item").removeClass("intro_part");
+			$(".show_all").addClass("hide");
+			$(".close_all").removeClass("hide");
+		}
+
+		//收起简介
+		function close_all() {
+			$(".intro_item").addClass("intro_part");
+			$(".close_all").addClass("hide");
+			$(".show_all").removeClass("hide");
+		}
+
+		//展开荣誉、课程
+		function show_tab(type) {
+			if (type == 1) {
+				$("#honor_list").removeClass("hide");
+				$(".close_tab1").removeClass("hide");
+				$(".show_tab1").addClass("hide");
+			} else if (type == 2) {
+				$("#class_list").removeClass("hide");
+				$(".close_tab2").removeClass("hide");
+				$(".show_tab2").addClass("hide");
+			}
+		}
+
+		//收起荣誉、课程
+		function close_tab(type) {
+			if (type == 1) {
+				$("#honor_list").addClass("hide");
+				$(".close_tab1").addClass("hide");
+				$(".show_tab1").removeClass("hide");
+			} else if (type == 2) {
+				$("#class_list").addClass("hide");
+				$(".close_tab2").addClass("hide");
+				$(".show_tab2").removeClass("hide");
+			}
+		}
+
+		//跳转我的课程
+		function goMymaster() {
+			api.openWin({
+				name : 'mycurriculum',
+				url : './mycurriculum.html',
+				bounces : false,
+				pageParam : {
+					masterId : masterId
+				},
+				animation : {
+					type : "push",
+					subType : "from_right",
+					duration : 300
+				}
+			});
+		}
+
+		//跳转我要拜师
+		function goApprentice() {
+			api.openWin({
+				name : 'apprentice',
+				url : './apprentice.html',
+				bounces : false,
+				pageParam : {
+					masterId : masterId
+				},
+				animation : {
+					type : "push",
+					subType : "from_right",
+					duration : 300
+				}
+			});
+		}
+		//跳转我要拜师
+		function goMyclasses() {
+			api.toast({
+            msg: '敬请期待!',
+            duration: 2000,
+            location: 'middle'
+          });
+		}
+		//我拜我自己
+		function myslef(){
+			api.toast({
+            msg: '我拜我自己????',
+            duration: 2000,
+            location: 'middle'
+          });
+		}
+
+	</script>
+</html>

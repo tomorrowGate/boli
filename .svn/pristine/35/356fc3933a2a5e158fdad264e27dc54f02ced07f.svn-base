@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>了解教学</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.platform.css" />
+</head>
+
+<body>
+<div id="wrap">
+    <header class="page-head" ref="header">
+        <div class="back" @click="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span >了解教学</span>
+        </div>
+    </header>
+    <!-- 平台须知 -->
+    <div class="chef-platform">
+        <div class="chef-platform-item" tapmode>
+            <div class="platform-item-left">如何进行成为名厨？</div>
+            <div class="platform-item-right"><i class="iconfont"></i></div>
+        </div>
+        <div class="chef-platform-item" tapmode>
+            <div class="platform-item-left">如何发布教学视频？</div>
+            <div class="platform-item-right"><i class="iconfont"></i></div>
+        </div>
+        <div class="chef-platform-item" tapmode>
+            <div class="platform-item-left">成为名厨能给我发来什么？</div>
+            <div class="platform-item-right"><i class="iconfont"></i></div>
+        </div>
+        <div class="chef-platform-item" tapmode>
+            <div class="platform-item-left">厨连营有什么优势？</div>
+            <div class="platform-item-right"><i class="iconfont"></i></div>
+        </div>
+    </div>
+</div>
+    
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var wrap = new Vue({
+        el:"#wrap",
+        data:{
+
+        },
+        methods: {
+            goBack:function goBack(){
+                api.closeWin();
+            }, 
+        },
+        created:function created(){
+            
+        },
+        mounted:function mounted() {
+            var that = this
+            this.$nextTick(function(){
+                apiready = function () {
+                    this.URL = $api.URL();
+                    var header = that.$refs.header;
+                    //适配iOS 7+，Android 4.4+状态栏
+                    headerH = $api.fixStatusBar(header);
+                    api.setCustomRefreshHeaderInfo({
+                        bgColor: '#F6F6F6',
+                        images: {
+                            pull: 'widget://image/refresh/pulling.png',
+                            transform: [
+                                'widget://image/refresh/transform0.png',
+                                'widget://image/refresh/transform1.png',
+                                'widget://image/refresh/transform2.png',
+                                'widget://image/refresh/transform3.png',
+                                'widget://image/refresh/transform4.png',
+                                'widget://image/refresh/transform5.png',
+                                'widget://image/refresh/transform6.png'
+                            ],
+                            load: [
+                                'widget://image/refresh/loading0.png',
+                                'widget://image/refresh/loading1.png',
+                                'widget://image/refresh/loading2.png',
+                                'widget://image/refresh/loading3.png',
+                                'widget://image/refresh/loading4.png',
+                            ]
+                        }
+                    }, function (ret, err) {
+
+                    });
+                }
+            })
+            
+        },
+    })
+
+</script>
+
+</html>

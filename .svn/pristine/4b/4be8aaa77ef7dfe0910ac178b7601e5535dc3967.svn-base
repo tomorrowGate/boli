@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>二级会员</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/vip2.css">
+
+    <style>
+
+    </style>
+</head>
+<body class="body" id="body">
+   <div id="wrap" class="flex-wrap flex-vertical">
+
+<!--  会员栏目-->
+  <div class="case2">
+  <header></header>
+    <div class="my_info clearfix">
+        <div class="info_l"><img src="../image/default_portrait.png"  class="portrait" id="portrait"></div>
+        <div class="info_m">
+          <div><span id="user_name">未登录</span><img src="../image/male.png" class="img2 xb" id="gender"/><span class="jb" id="level">会员等级</span></div>
+          <div><span class="border-w">邀请码:<span id="invite_code"></span></span><span class="border-b" onclick="copyHref()" tapmode>复制</span></div>
+
+        </div>
+        <div class="qd" id="qd" >去签到</div>
+      </div>
+  <div class="clearfix" onclick="goMyassets()" tapmod>
+  <div class="c4" ><span class="sz" id="ddz">2.55</span><br>待到账(元)</div>
+  <div class="c4" ><span class="sz" id="ljsy">8.00</span><br>累计收益(元)</div>
+  <div class="c4" ><span class="sz" id="myasset">5.45</span><br>我的资产(元)</div>
+  </div>
+  <!--我的活跃值盒子-->
+   <div class="active_value case3">
+   <div class="hyz" id="myhyz"><img src="../image/hyz.png" class="img2" /><span>我的活跃值</span></div>
+   <div class="ts" id="tshyz" onclick="goUphyz()" tapmod>提升活跃值  <i class="iconfont icon-htbArrowright my_icon2"></i></div>
+   <div class="active_line clearfix">
+       <!--进度条-->
+       <div class="jdt" id="jdt">
+        <div class="progress">
+          <div class="progress-bar" role="progressbar"
+         aria-valuemin="0" aria-valuemax="100">
+              </div>
+            </div>
+         </div>
+       <div class="hyd" id="active">本周活跃值:&nbsp;<span id="all_huoyue">83</span>/<span id="must_huoyue">100</span></div>
+   </div>
+   <div class="myteam clearfix" onclick="goMyteam()" tapmode>
+      <div class="ybk"><img src="../image/wd.png" class="img2" /><br>我的团队</div>
+      <div class="ybk"><span id="sl_0">0</span><br>商界新秀</div>
+      <div class="ybk"><span id="sl_1">0</span><br>商界名流</div>
+      <div class="ybk"><span id="sl_2">0</span><br>商界领袖</div>
+   </div>
+   </div>
+  </div>
+  <!--签到模态框-->
+
+  <div class="container case7 " id="qdk" style="display: none" >
+  <div class="row r1 ">您已连续签到</div>
+  <div class="row r2">13<span class="r3">天</span></div>
+  <div class="row r4">今日签到可领<span id="hy_money">0</span>活跃值</div>
+  <div class="row" style="margin-top:5%;">
+  <table class="r5">
+  <tr style="width:100%;">
+    <td class="wqd" id="sunday">7</td>
+    <td class="wqd" id="monday">1</td>
+    <td class="wqd" id="tuesday">2</td>
+    <td class="wqd" id="wednesday">3</td>
+    <td class="wqd" id="thursday">4</td>
+    <td class="wqd" id="friday">5</td>
+    <td class="wqd" id="saturday">6</td>
+
+  </tr>
+    <tr style="margin-top:6%;">
+  <td >周日</td>
+  <td class="qdr">周一</td>
+  <td class="qdr">周二</td>
+  <td >周三</td>
+  <td >周四</td>
+    <td >周五</td>
+    <td >周六</td>
+    </tr>
+  </table></div>
+  <div class="row " onclick="sign()" tapmode ><button type="button" class="r6">签到</button></div>
+  </div>
+
+   <!--店铺盒子-->
+   <div class="mystore case4">
+      <div class="scase4">
+      <div class="lb"><img src="../image/tb1.png" class="img2" /><span>我的店铺</span></div>
+    </div>
+   <div class="scase5 clearfix"  onclick="goMystore()" tapmod>
+   <div class="t_l">
+    <img src="../image/jxtm.png" class="img1" />
+    <span class="dp" id="shop">
+      <div class="jx">我的精选<i class="iconfont icon-htbArrowright my_icon2"></i></div>
+          <div class="choice">My&nbsp;Choice</div>
+      </span>
+   </div>
+   <div class="t_r">
+    <img src="../image/wdzg.png" class="img1" />
+    <span class="dp" id="shop">
+      <div class="jx">我的专柜<i class="iconfont icon-htbArrowright my_icon2"></i></div>
+          <div class="choice">My&nbsp;Shop</div>
+      </span>
+   </div>
+   </div>
+   <div class="clearfix">
+       <div class="sl">今天有<span class="cksl" id="cksl">0</span>人查看了您的商品</div>
+       <div class="ckgd" id="ckgd">查看更多<i class="iconfont icon-htbArrowright my_icon2"></i></div>
+   </div>
+   </div>
+   <!--我的服务-->
+   <div class="case5 myservice">
+      <div class="scase4" id="myservice">
+      <div class="lb"><img src="../image/tb1.png" class="img2" /><span>我的服务</span></div>
+    </div>
+      <div class="fw clearfix" >
+          <div class="serve_item" id="invitefriends"><img src="../image/yqhy.png" class="img5" /><br><span class="jj">邀请好友</span></div>
+          <div class="serve_item" id="exclusiveposters" onclick="goPoster()" tapmod><img src="../image/zshb.png" class="img5" /><br><span class="jj">专属海报</span></div>
+          <div class="serve_item" id="materialbank" onclick="goSC()" tapmod><img src="../image/sck.png" class="img5" /><br><span class="jj">素材库</span></div>
+          <div class="serve_item" id="notice"  onclick="goMessage()" tapmod><img src="../image/gg.png"  class="img5" /><br><span class="jj">公告</span></div>
+      </div>
+   </div>
+   <!-- 礼包精选栏目-->
+  <div class="case6">
+    <div class="scase4">
+      <div class="lb"><img src="../image/tb1.png" class="img2" /><span>礼包精选</span></div>
+    </div>
+    <div class="scase10">
+    <div class="scase6" id="kq">
+      <div class="fx">玩主礼包精选</div>
+      <span class="jx1">即刻开启玩主之旅</span>
+    </div>
+    </div>
+<!--    循环体盒子-->
+    <div class="case9" id="goodslist">
+    <!--循环开始-->
+    <!--<div class="gift_pack">
+        <div class="gift_img"><img src="../image/bg2.png" class="img7" /></div>
+      <div class="scase7">
+        <div class=" ms1">韩后</div>
+        <div class=" ms2">植物力量&nbsp;清爽利咽</div>
+        <div class=" ms3">传承日本200年口碑</div>
+        <div class=" ms4">
+          <div class="jg">¥598</div>
+          <div class="dj" id="dj">点击查看</div>
+        </div>
+      </div>
+    </div>
+    <div class="gift_pack">
+        <div class="gift_img"><img src="../image/bg3.png" class="img7" /></div>
+      <div class="scase7">
+        <div class=" ms1">韩后</div>
+        <div class=" ms2">植物力量&nbsp;清爽利咽</div>
+        <div class=" ms3">传承日本200年口碑</div>
+        <div class=" ms4">
+          <div class="jg">¥598</div>
+          <div class="dj" id="dj">点击查看</div>
+        </div>
+      </div>
+    </div>-->
+    </div>
+<!--    循环结束-->
+  </div>
+   <!--遮罩层-->
+   <div class="container shade" id="shade" style="display: none"></div>
+   <!--好友分享-->
+   <div class="container case8" id="share" style="display: none" >
+   <div class="clearfix">
+   <div class="f_l font_w1">分享</div>
+   <div class="f_r" id="gb"><i class="iconfont icon-close"></i></div>
+   </div>
+   <div class="share_type">
+     <div class="serve_item"><img src="../image/weixin.png" class="img6" /><br>微信</div>
+     <div class="serve_item"><img src="../image/pyq.png" class="img6" /><br>朋友圈</div>
+     <div class="serve_item"><img src="../image/qq2.png" class="img6" /><br>QQ</div>
+     <div class="serve_item"><img src="../image/wb.png" class="img6" /><br>微博</div>
+   </div>
+   </div>
+   </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+    var URL="";
+    var userId=window.localStorage.getItem('userId');
+    var headerH;
+  apiready = function(){
+    var header = $api.dom('header'); // 获取 header 标签元素
+         headerH = $api.fixStatusBar(header);
+        URL=$api.URL();
+        if (window.localStorage.getItem('portrait')) {
+         var  portrait=window.localStorage.getItem('portrait');
+          if(portrait.substr(0,7).toLowerCase() == "http://"){
+            $api.attr($api.byId('portrait'),'src',portrait);
+            }else{
+              $api.attr($api.byId('portrait'),'src',URL+portrait);
+           }
+           }
+        $api.html( $api.byId("user_name"),window.localStorage.getItem('real_name'));
+        $api.html( $api.byId("level"),window.localStorage.getItem('level_name'));
+        $api.html( $api.byId("invite_code"),window.localStorage.getItem('invite_code'));
+        $api.attr($api.byId("portrait"),'src',window.localStorage.getItem('portrait'));
+        var gender=window.localStorage.getItem("gender");//性别
+        if(gender==1){
+          $api.attr($api.byId("gender"),'src','../image/female.png');
+        }
+        api.refreshHeaderLoading();
+
+        //下拉刷新
+        api.setCustomRefreshHeaderInfo({
+                bgColor: '#000',
+                images: {
+                    pull: 'widget://image/refresh/pulling.png',
+                    transform: [
+                        'widget://image/refresh/transform0.png',
+                        'widget://image/refresh/transform1.png',
+                        'widget://image/refresh/transform2.png',
+                        'widget://image/refresh/transform3.png',
+                        'widget://image/refresh/transform4.png',
+                        'widget://image/refresh/transform5.png',
+                        'widget://image/refresh/transform6.png'
+                    ],
+                    load: [
+                        'widget://image/refresh/loading0.png',
+                        'widget://image/refresh/loading1.png',
+                        'widget://image/refresh/loading2.png',
+                        'widget://image/refresh/loading3.png',
+                        'widget://image/refresh/loading4.png',
+                    ]
+                }
+            }, function(ret, err) {
+              getSpecinfo();
+              getInfo();
+              getSign();
+              getWeek();
+              getHuoyue();
+               setTimeout('api.refreshHeaderLoadDone()', '5000');
+
+            });
+
+  };
+
+   $("#qd").click(function(){
+        $("#qdk").show();
+        $("#shade").show();
+    });
+     $("#shade").click(function(){
+        $("#qdk").hide();
+        $("#shade").hide();
+
+    });
+     $("#invitefriends").click(function(){
+        $("#share").show();
+           $("#shade").show();
+    });
+     $("#shade").click(function(){
+        $("#share").hide();
+        $("#shade").hide();
+
+    });
+     $("#gb").click(function(){
+        $("#share").hide();
+        $("#shade").hide();
+
+    });
+   //获取用户信息
+     function getInfo(){
+            api.ajax({
+              url : URL + 'index.php?app=myinfo&act=get_info',
+                      method : 'post',
+                      cache : false,
+                      timeout : 30,
+                      dataType : 'json',
+                      returnAll : false,
+                      data : {
+                              values : {
+                                    user_id:userId
+                                     }
+                             }
+            },function(ret,err){
+            console.log(JSON.stringify(ret));
+          if(ret.done){
+             $api.html($api.byId("ddz"), ret.retval.commission);
+             $api.html($api.byId("ljsy"), ret.retval.already_commission);
+             var all_money=parseFloat(ret.retval.money)+parseFloat(ret.retval.commission);
+             $api.html($api.byId("myasset"), all_money);
+             $.each(ret.retval.xjsl, function(i, item) {
+                  $api.html($api.byId("sl_"+item.ugrade), item.counts);
+             });
+          }else{
+            api.toast({
+              msg: '失败',
+              duration: 2000,
+              location: 'middle'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'middle'
+            });
+          }
+            });
+            }
+             //获取活跃值
+     function getHuoyue(){
+            api.ajax({
+              url : URL + 'index.php?app=appajax&act=huoyuzhi',
+                      method : 'post',
+                      cache : false,
+                      timeout : 30,
+                      dataType : 'json',
+                      returnAll : false,
+                      data : {
+                              values : {
+                                    user_id:userId
+                                     }
+                             }
+            },function(ret,err){
+            console.log(JSON.stringify(ret));
+            $api.html($api.byId("all_huoyue"),parseInt(ret.retval.all_huoyue) );
+            $api.html($api.byId("must_huoyue"), parseInt(ret.retval.must_huoyue));
+            var percent=Math.round(ret.retval.all_huoyue*100/ret.retval.must_huoyue);
+            $(".progress-bar").width(percent+"%");
+          if(ret.done){
+
+          }else{
+            api.toast({
+              msg: '失败',
+              duration: 2000,
+              location: 'middle'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'middle'
+            });
+          }
+            });
+            }
+    //获取签到信息
+    function getSign(){
+       api.ajax({
+          url : URL + 'index.php?app=appajax&act=sign',
+                  method : 'get',
+                  cache : false,
+                  timeout : 30,
+                  dataType : 'json',
+                  returnAll : false,
+                  data : {
+                     values : {
+                        user_id: userId,
+                     }
+                  }
+        },function(ret,err){
+        console.log(JSON.stringify(ret));
+          if(ret.done)
+          {
+          if(ret.retval.is_lianxu){
+            $api.html($api.byId("hy_money"), ret.retval.net_lianxu_money);
+          }else{
+            $api.html($api.byId("hy_money"), ret.retval.one_money);
+          }
+
+          $.each(ret.retval.sign_day, function(i, item) {
+               console.log(item);
+               $('.date_'+item).addClass('yqd');
+
+           });
+
+          }else{
+            api.toast({
+              msg: '失败',
+              duration: 2000,
+              location: 'middle'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'middle'
+            });
+          }
+
+      });
+    }
+    //签到
+    function sign(){
+       api.ajax({
+          url : URL + 'index.php?app=appajax&act=sign',
+                  method : 'post',
+                  cache : false,
+                  timeout : 30,
+                  dataType : 'json',
+                  returnAll : false,
+                  data : {
+                     values : {
+                        user_id: userId,
+                     }
+                  }
+        },function(ret,err){
+        console.log(JSON.stringify(ret));
+          if(ret.done)
+          {
+          api.toast({
+              msg: '签到成功',
+              duration: 2000,
+              location: 'middle'
+            });
+            getSign();
+            getHuoyue();
+          }else{
+            api.toast({
+              msg: ret.msg,
+              duration: 2000,
+              location: 'middle'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'middle'
+            });
+          }
+          getSign();
+          getHuoyue();
+      });
+    }
+    //获取上周周日日期
+    function getMonDate(){
+      var d=new Date(),
+      day=d.getDay(),
+      date=d.getDate();
+      if(day==0)
+      {return d;}
+      if(day==1)
+      {d.setDate(date-1);}
+      else
+      {d.setDate(date-day);}
+      return d;
+     }
+     // 0-6转换成英文名称
+     function getDayName(day){
+       var day=parseInt(day);
+       if(isNaN(day) || day<0 || day>6)
+       return false;
+       var weekday=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+       return weekday[day];
+       }
+     //获取签到一周日期
+     function getWeek(){
+      //d是当前星期一的日期对象
+       var d=getMonDate();
+       var arr=[];
+       for(var i=0; i<7; i++)
+       {
+       //arr.push(d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 （'+getDayName(d.getDay())+'）');
+       $("#"+getDayName(d.getDay())).html(d.getDate());
+       $("#"+getDayName(d.getDay())).addClass('date_'+d.getDate());
+       console.log(d.getDate());
+       console.log(getDayName(d.getDay()));
+       d.setDate(d.getDate()+1);
+
+       }
+     }
+
+   //获取商品规格
+    function getSpecinfo(){
+       api.ajax({
+          url : URL + 'index.php?app=store&act=get_gift_goods',
+                  method : 'post',
+                  cache : false,
+                  timeout : 30,
+                  dataType : 'json',
+                  returnAll : false,
+                  data : {
+                     values : {
+
+                     }
+                  }
+        },function(ret,err){
+        console.log(JSON.stringify(ret));
+          if(ret.done)
+          {
+
+          $.each(ret.retval, function(i, item) {
+          	var funct='goDetail('+item.goods_id+')';
+            var str='<div class="gift_pack" onclick="'+funct+'" >';
+            str+='<div class="gift_img"><img src="'+URL+item.default_image+'" class="img7" /></div>';
+          str+='<div class="scase7">';
+        if(item.goods_brand){
+                    str+='<div class=" ms1">'+item.goods_brand+'</div>';
+                 }
+        str+='<div class=" ms2">'+item.goods_name+'</div>';
+        str+='<div class=" ms3">'+item.extension_content+'</div>';
+        str+='<div class=" ms4">';
+        str+='<div class="jg">&yen;'+item.price+'</div>';
+        str+='<div class="dj" id="dj">点击查看</div>';
+        str+='</div>';
+          str+='</div>';
+            str+='</div>';
+           $api.append($api.byId("goodslist"), str);
+           });
+
+          }else{
+            api.toast({
+              msg: '失败',
+              duration: 2000,
+              location: 'middle'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'middle'
+            });
+          }
+          api.refreshHeaderLoadDone();
+
+      });
+    }
+
+    //复制邀请码
+    function copyHref(){
+      var content=$("#invite_code").text();
+      var clipBoard = api.require('clipBoard');
+      clipBoard.set({
+        value: content
+      }, function(ret, err) {
+        if (ret) {
+         api.toast({
+           msg: '复制成功',
+           duration: 2000,
+           location: 'middle'
+         });
+       }else{
+         api.toast({
+           msg: '复制失败',
+           duration: 2000,
+           location: 'middle'
+         });
+       }
+      });
+    }
+    //跳转提升活跃值
+    function goUphyz(){
+       api.openWin({
+        name: 'active.value',
+        url: './active.value.html',
+        bounces: false,
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+    }
+
+    //跳转我的团员页面
+    function goMyteam(){
+       api.openWin({
+        name: 'myteam',
+        url: './myteam.html',
+        bounces: false,
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+    }
+    //跳转我的资产页面
+    function goMyassets(){
+       api.openWin({
+        name: 'myassets',
+        url: './myassets.html',
+        bounces: false,
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+    }
+    //跳转我的店铺
+      function goMystore(){
+        api.toast({
+              msg: '正在开发中',
+              duration: 2000,
+              location: 'middle'
+            });
+        // api.openWin({
+        //   name: 'mystore',
+        //   url: './mystore.html',
+        //   bounces: false,
+        //   reload:true,
+        //   animation:{
+        //     type:"push",                //动画类型（详见动画类型常量）
+        //     subType:"from_right",       //动画子类型（详见动画子类型常量）
+        //     duration:300                //动画过渡时间，默认300毫秒
+        //   }
+        // });
+      }
+     //跳转消息中心
+      function goMessage(){
+        api.openWin({
+          name: 'article',
+          url: './article.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          },
+          pageParam: {
+             articleType: 'notice' //通过var articleType=api.pageParam.articleType; 调用
+          }
+        });
+      }
+      //跳转专属海报
+      function goPoster(){
+        api.openWin({
+          name: 'appshare.ewm',
+          url: './appshare.ewm.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          }
+        });
+      }
+//跳转素材库
+    function goSC(){
+      api.execScript({
+        name:"index",
+        script:"fnOpenFind();"
+      });
+
+    }
+
+      //商品详情
+    function goDetail(goodId){
+      console.log(goodId);
+            api.openWin({
+                name: 'goods.view',
+                url: './goods.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    goodId: goodId, //商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                    member_goods:"1"
+                }
+            });
+    }
+
+</script>
+</html>

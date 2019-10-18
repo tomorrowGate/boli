@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>推荐大使</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	
+    	html,body{
+    		background-color: #efefef;
+    	}
+    	.con {
+				/*background-color: #f9f8f8;*/
+				padding: 10px;
+			}
+		.devAlert {
+			height: 86px;
+			background-color: #0b93eb;
+			border-radius: 8px;
+			padding: 15px;
+			color: #fff;
+			box-sizing: border-box;
+			margin-bottom: 5px;
+		}
+		.alertMsg {
+			font-size: 18px;
+			height: 30px;
+		}
+		.alertAdvice {
+			font-size: 14px;
+			height: 30px;
+			line-height: 30px;
+		}
+		.content{
+			margin:10px 10px;
+			background:#ffffff;
+			padding:0 10px;box-sizing: border-box;
+			border-radius: 8px;
+		}
+		.name{position:relative;}
+		.store{position: absolute;left:20px;}
+		.icon-qianbi{color:#269ff2;}
+		.content{
+			display: flex;flex-direction:column;
+		}
+		.content-item{
+			display:flex;
+			height:45px;/*border:1px solid red;*/
+			line-height:45px;
+			flex-direction:row;
+			justify-content:space-between;
+			
+		}
+		.valuett{position:relative;width:70%;}
+		.line{border-bottom: 1px solid #efefef;}
+		.value{background:#ffffff;height:25px;border-radius: 4px;font-size:14px;width:100%;}
+		.content-item1{display:flex;flex-direction:column;}
+		textarea{ width:100%;height:100px; border:1px solid #efefef;border-radius: 8px;margin:5px 0px;padding:5px 4px;}
+		.but{
+			width:100px;height: 30px;line-height: 30px;text-align: center;color:#ffffff; background: #0b93eb;margin:0 auto;border-radius: 8px;
+			margin-top:30px;margin-bottom: 30px;
+		}
+		.tt{
+			margin-top:12px;margin-left:12px;
+		}
+		#upload_img_list_0 span,#upload_img_list_1 span,#upload_img_list_2 span{ width:33%;text-align: left;margin-bottom: 10px; }
+      	#upload_img_list_0 span img,#upload_img_list_1 span img,#upload_img_list_2 span img{ width:80px;height:80px; }
+      .add_img{ height:40px;width:40px;border:1px dotted #ddd;margin-bottom: 10px; }
+      .add_img i{ font-size: 2em;color:#ccc;position: relative;left: 5px; }
+		.extend{margin-bottom: 8px;}
+		.hide{
+			display:none;
+		}
+    </style>
+</head>
+<body>
+	<header>
+      <div class="header">推荐大使</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+    <div class="con hide">
+		<div class="devAlert">
+			<p class="alertMsg" id="cause">
+				推荐信息问题
+			</p>
+			<p class="alertAdvice">
+				建议您关闭设备并联系维修人员
+			</p>
+		</div>
+	</div>
+	<div class="content">
+		<div class="content-item name">
+			<i class="iconfont icon-qianbi"></i>&nbsp;<span class="store">门店信息</span>
+		</div>
+		<div class="content-item line">
+			<div class="text">名称:</div>
+			<div class="valuett"><input type="text" name="" id="storename" class="value aa1"/></div>
+		</div>
+		<div class="content-item line">
+			<div class="text">地址:</div>
+			<div class="valuett"><input type="text" name="" id="storeaddres" class="value aa1" /></div>
+		</div>
+		<div class="content-item line">
+			<div class="text">营业执照号:</div>
+			<div class="valuett"><input type="text" name="" id="storelicense" class="value aa1" /></div>
+		</div>
+		<div class="content-item line">
+			<div class="text">法人名称:</div>
+			<div class="valuett"><input type="text" name="" id="storeperson" class="value aa1" /></div>
+		</div>
+		<div class="content-item line">
+			<div class="text">厨师长:</div>
+			<div class="valuett"><input type="text" name="" id="chef" class="value aa1" /></div>
+		</div>
+		<div class="content-item line hide" id="stat">
+			<div class="text">状态:</div>
+			<div class="valuett">
+				<!--<input type="radio" value="0" name="status" id="0"/>无效
+				<input type="radio" value="1" name="status" id="1"/>无效
+				<input type="radio" value="2" name="status" id="2"/>无效
+				<input type="radio" value="3" name="status" id="3"/>无效-->
+				<input type="text" name="" id="status" class="value aa1" />
+			
+			</div>
+		</div>
+		<div class="content-item line">
+			<div class="text">其他联系人:</div>
+			<div class="valuett"><input type="text" name="" id="othercontact" class="value aa1" /></div>
+		</div>
+		<div class="content-item1 ">
+			<div class="text" style="margin-top:12px;">其他备注</div>
+			<div class="text"style="margin-right:12px;">
+				
+			        <textarea name="suggestion" id="suggestion" placeholder="写下您对我们的建议或发现的系统问题哦~" class="aa1" style="margin-right:12px;"></textarea>
+			    
+			</div>
+		</div>
+		<div class="content-item1 extend  line">
+			<div class="text" >门牌照</div>
+			<div class="text tt">
+				<div id="upload_img_list_0">
+        		</div>
+			    <div class="add_img" id="upload_img" onclick="showAction('0')"><i class="iconfont icon-add1"></i></div>  
+			    
+			</div>
+		</div>
+		<div class="content-item1 extend line" >
+			<div class="text">厨房内照片  </div>
+			<div class="text tt">
+				<div id="upload_img_list_1">
+        		</div>
+			    <div class="add_img" id="upload_img" onclick="showAction('1')"><i class="iconfont icon-add1"></i></div>  
+			    
+			</div>
+		</div>
+		<div class="content-item1 extend">
+			<div class="text" >营业执照</div>
+			<div class="text tt">
+				<div id="upload_img_list_2">
+        		</div>
+			    <div class="add_img" id="upload_img" onclick="showAction('2')"><i class="iconfont icon-add1"></i></div>  
+			    
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<div class="content-item name">
+			<i class="iconfont icon-qianbi"></i>&nbsp;<span class="store">我的联系方式</span>
+		</div>
+		<div class="content-item line">
+			<div class="text">称呼：</div>
+			<div class="valuett"><input type="text" name="" id="call" class="value aa1"/></div>
+		</div>
+		<div class="content-item line">
+			<div class="text">联系电话：</div>
+			<div class="valuett"><input type="text" name="" id="cotact" class="value aa1"/></div>
+		</div>
+		
+	</div>
+	<div class="but"id="btt" onclick="tijiao()">提交</div>
+</body>
+  <script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+	$(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+	function goBack(){
+          api.closeWin();
+    }
+    var userId=window.localStorage.getItem("userId"); //用户id
+    var p_id='';
+    var index='';
+    var URL="";
+    apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      p_id=api.pageParam.p_id;
+      index=api.pageParam.index;
+      if(index==0){
+      	console.log(p_id);
+      	api.ajax({
+	        url:URL+'index.php?app=popularize&act=add',
+	        method: 'get',
+			timeout: 30,
+			dataType: 'json',
+			returnAll:false,
+			
+            data : {
+              values : {
+                pid:p_id
+             }
+           }
+        },function(ret,err){
+        	
+        	console.log(JSON.stringify(ret));
+        	if(ret.done){
+        		var data=ret.retval;
+        		$('#storename').val(data.store_name);
+				//门店地址
+				$('#storeaddres').val(data.address);
+				//营业
+				$('#storelicense').val(data.bln);
+				//法人名称
+				$('#storeperson').val(data.legal_name);
+				//厨师长
+				$('#chef').val(data.chef_master_name);
+				//其他联系人
+				$('#othercontact').val(data.other_name);
+				//其他备注
+				$('#suggestion').val(data.mark);
+				//我的称呼
+				$('#call').val(data.contact_name);
+				//联系电话
+				$('#cotact').val(data.contact_phone);
+				$("#stat").removeClass("hide");
+				var lbt='';
+				if(data.status==0){
+	      		 		lbt='无效';
+      		 	}
+      		 	if(data.status==1){
+      		 		lbt='审核中';
+      		 	}
+      		 	if(data.status==2){
+      		 		lbt='沟通中';
+      		 	}
+      		 	if(data.status==3){
+      		 		lbt='沟通完成';
+      		 	}
+      		 	$("#status").val(lbt);
+				//图片
+				var str1='<span><img src="'+$api.img_surl+data.store_img+'" class="file_id"></span>';
+                $("#upload_img_list_0").append(str1);
+                var str2='<span><img src="'+$api.img_surl+data.bln_img+'" class="file_id"></span>';
+                $("#upload_img_list_1").append(str2);
+                var str3='<span><img src="'+$api.img_surl+data.kitchen_img+'" class="file_id"></span>';
+                $("#upload_img_list_2").append(str3);
+                
+                $(".aa1").attr("disabled","disabled");
+                $("#btt").addClass("hide");
+        	}else{
+        		api.toast({
+                    msg:'对不起，提交不成功'
+                });
+        	}
+        });
+      }
+	}
+	// 上传图片
+    function showAction(status){
+      var imglength= $("#upload_img_list_"+status).find("img");
+      if(imglength.length<1){
+        api.actionSheet({
+            title: '上传图片',
+            cancelTitle: '取消',
+            buttons: ['拍照','从手机相册选择']
+        }, function(ret, err) {
+            if (ret) {
+                getPicture(ret.buttonIndex,status);
+            }
+        });
+      }else{
+      	api.toast({
+	          msg:'最多上传1张图片!'
+          });
+      }
+    }
+	function tijiao(){
+	
+		//门店名称
+		var storename=$('#storename').val();
+	//门店地址
+		var storeaddres=$('#storeaddres').val();
+		//营业
+		var storelicense=$('#storelicense').val();
+		//法人名称
+		var storeperson=$('#storeperson').val();
+		//厨师长
+		var chef=$('#chef').val();
+		//其他联系人
+		var othercontact=$('#othercontact').val();
+		//其他备注
+		var suggestion=$('#suggestion').val();
+		//我的称呼
+		var call=$('#call').val();
+		//联系电话
+		var cotact=$('#cotact').val();
+		
+		 var status=$("#status").val();
+		//提示框
+		api.alert({
+		    title: '您好',
+		    msg: '提交后您将获得72小时     ，该期间他人将无法报名此用户',
+		}, function(ret, err) {
+			if(storename==''||storename==null||storename==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                 });
+                 return;
+			}
+			if(storeaddres==''||storeaddres==null||storeaddres==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                });
+                 return;
+			}
+			if(storelicense==''||storelicense==null||storelicense==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                });
+                 return;
+			}
+			if(storeperson==''||storeperson==null||storeperson==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                });
+                 return;
+			}
+			if(chef==''||chef==null||chef==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                });
+                 return;
+			}
+			if(othercontact==''||othercontact==null||othercontact==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                });
+                 return;
+			}
+			if(suggestion==''||suggestion==null||suggestion==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                });
+                 return;
+			}
+			if(call==''||call==null||call==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                });
+                 return;
+			}
+			if(cotact==''||cotact==null||cotact==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                });
+                 return;
+			}
+			if(store_img==''||store_img==null||store_img==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                });
+                 return;
+			}
+			if(bln_img==''||bln_img==null||bln_img==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                });
+                 return;
+			}
+			if(kitchen_img==''||kitchen_img==null||kitchen_img==undefined){
+				api.toast({
+	                    msg:'对不起，不能为空'
+                });
+                 return;
+			}
+			console.log('aaa');
+			console.log(store_img);
+			console.log(bln_img);
+			console.log(kitchen_img);
+			
+			api.ajax({
+		        url:URL+'index.php?app=popularize&act=add',
+		        method: 'post',
+				timeout: 30,
+				dataType: 'json',
+				returnAll:false,
+				
+	            data : {
+	              values : {
+	                user_id:userId,
+	                store_name:storename,
+	                address:storeaddres,
+	                bln:storelicense,
+	                legal_name:storeperson,
+	                chef_master_name:chef,
+	                other_name:othercontact,
+	                mark:suggestion,
+	                contact_name:call,
+	                contact_phone:cotact,
+//	                status:status,
+	                store_img:store_img,
+	                bln_img:bln_img,
+	                kitchen_img:kitchen_img
+	             }
+	           }
+	        },function(ret,err){
+	        	console.log(userId+' '+storename);
+	        	console.log(JSON.stringify(ret));
+	        	if(ret.done){
+	        		console.log('提交成功')
+	        		api.openWin({
+						name : 'listMarketing',
+						url : './listMarketing.html',
+						bounces : false,
+						reload : true,
+						animation : {
+							type : "push", //动画类型（详见动画类型常量）
+							subType : "from_right", //动画子类型（详见动画子类型常量）
+							duration : 300 //动画过渡时间，默认300毫秒
+						},
+						
+					});
+	        	}else{
+	        		api.toast({
+	                    msg:'对不起，提交不成功'
+                    });
+	        	}
+	        });
+		});
+	
+		
+	}
+	 var imgdata='';
+	 var store_img='';//店照片
+	 var bln_img='';//营业执照片
+	 var kitchen_img='';//厨房内照片
+    function getPicture(sourceType,status) {
+        if(sourceType==1){ // 拍照
+            api.getPicture({
+                sourceType: 'camera',
+                encodingType: 'jpg',
+                mediaValue: 'pic',
+                allowEdit: false,
+                destinationType: 'base64',
+                quality: 100,
+                saveToPhotoAlbum: true
+            }, function(ret, err) {
+                if (ret) {
+                  var str='<span  ><img src="'+ret.base64Data+'" class="file_id"></span>';
+                  console.log(ret.base64Data);
+                  if(status==0){
+                  		store_img+=ret.base64Data;
+                  	
+                  }else if(status==1){
+                  		bln_img+=ret.base64Data;
+                  }else if(status==2){
+                  		kitchen_img+=ret.base64Data;
+                  }
+//                imgdata+=ret.base64Data+"|";
+                  $("#upload_img_list_"+status).append(str);
+                   /*$("#imgUp").attr('src', ret.base64Data);*/
+                }else {
+                    alert(JSON.stringify(err));
+                }
+            });
+        }
+        else if(sourceType==2){ // 从相机中选择
+            api.getPicture({
+                    sourceType: 'library',
+                    encodingType: 'jpg',
+                    mediaValue: 'pic',
+                    allowEdit: false,
+                    destinationType: 'base64',
+                    quality: 100,
+                   /* targetWidth: 80,
+                    targetHeight: 80*/
+                }, function(ret, err) {
+                    if (ret) {
+                      if (ret) {
+                        var str='<span  ><img src="'+ret.base64Data+'" class="file_id"></span>';
+                        console.log(ret.base64Data);
+                        if(status==0){
+	                  		store_img+=ret.base64Data;
+	                  	
+		                }else if(status==1){
+		                  		bln_img+=ret.base64Data;
+		                }else if(status==2){
+		                  		kitchen_img+=ret.base64Data;
+		                }
+                  		imgdata+=ret.base64Data+"|";
+                        $("#upload_img_list_"+status).append(str);
+                        /*$('#imgUp').attr('src', ret.base64Data);*/
+                      }else {
+                       alert(JSON.stringify(err));
+                     }
+                        // $('#imgUp').attr('src', ret.base64Data)
+                       /* var aa=ret.base64Data;
+                        api.ajax({
+                            type:"post",
+                            url:"http://www.yuechebang.cn/Oauth/Api/index",
+                            data:{base64:aa},
+                            dataType:'json',
+                            async:true,
+                        },function(ret,err){
+                            if(ret){
+                                $('#imgUp').attr('src',aa)
+                            }else{
+                                api.alert(err);
+                            }
+                        })*/
+                    } else {
+                        alert(JSON.stringify(err));
+                    }
+            });
+        }
+    }
+</script>
+</html>

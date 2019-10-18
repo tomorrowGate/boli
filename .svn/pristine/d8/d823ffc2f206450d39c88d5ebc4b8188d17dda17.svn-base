@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.homePages.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <div class="header"></div>
+        <!-- 头部搜索 -->
+        <header class="search-head" ref="header">
+            <div class="search-bg"></div>
+            <div class="search-main">
+                <span id="area" class="search-area" onclick="selectCity()" tapmode>
+                    杭州市
+                    <i class="iconfont icon-down down_icon"></i>
+                </span>
+                <div class="search-virtual" onclick="goSearch()" tapmode>
+                    <i class="iconfont icon-search"></i>搜索商品
+                </div>
+                <div class="search-real">搜索</div>
+            </div>
+        </header>
+        <div class="greenbase"></div>
+        <!-- 轮播图 -->
+        <div class="swiper swiper-first">
+            <div class="swiper-container swiper-top">
+                <div class="swiper-wrapper" id="adv">
+                    <div class="swiper-slide" tapmode>13</div>
+                    <div class="swiper-slide" tapmode>14</div>
+                    <div class="swiper-slide" tapmode>153</div>
+                </div>
+            </div>
+        </div>
+        <!-- 售后标签 -->
+        <div class="service">
+            <span><i>√</i>品牌直发</span>
+            <span>/</span>
+            <span><i>√</i>终身联保</span>
+            <span>/</span>
+            <span><i>√</i>免费换新</span>
+            <span>/</span>
+            <span><i>√</i>售后服务</span>
+        </div>
+        <!-- 球状列表 -->
+        <div class="chef-ball-list">
+            <div class="swiper-container swiper-ball-list">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide swiper-ball-items" tapmode>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">厨店好物</div>
+                        </div>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">新品上架</div>
+                        </div>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">烹饪必备</div>
+                        </div>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">全部商品</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 商店选项 -->
+        <div class="menu">
+            <div class="menu-item">
+                <p>积分商店</p>
+                <p class="menuText">查看详情</p>
+            </div>
+            <div class="menu-item menuNext">
+                <p>邀请好友</p>
+                <p class="menuText">查看详情</p>
+            </div>
+        </div>
+        <!-- 中间轮播图 -->
+        <div class="swiper chef-forum-swiper">
+            <div class="swiper-container forum-swiper-recommend">
+                <div class="swiper-wrapper" id="forumRecommend">
+                    <div class="swiper-slide" tapmode>
+                        <div class="forum-foot-imgbox">
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                    <div class="swiper-slide" tapmode>14</div>
+                    <div class="swiper-slide" tapmode>153</div>
+                </div>
+                <div class="swiper-pagination chef-forum-recommend"></div>
+            </div>
+        </div>
+        <!-- 限时抢购头部 -->
+        <div class="chef-main-head">
+            <div class="chef-head-left">
+                <i class="iconfont icon-qianbi"></i>
+                <div class="chef-left-text">限时抢购</div>
+                <time><span class="timeNub">16</span>:<span class="timeNub">24</span>:<span
+                        class="timeNub">05</span></time>
+            </div>
+            <!-- <div class="chef-head-more">
+            更多
+            <i class="iconfont icon-htbArrowright"></i>
+        </div> -->
+        </div>
+        <!-- 限时抢购 -->
+        <div class="swiper-container swiper-rush ">
+            <div class="swiper-wrapper" id="forum">
+                <div class="swiper-slide swiper-option" tapmode>
+                    <div class="forum-item-imgbox">
+                        <img src="" alt="">
+                    </div>
+                    <div class="forum-item-explain">
+                        <p class="forum-explain-title"><span>TCL</span>电脑温控...</p>
+                        <p class="swiper-red">￥<span>258</span><span class="swiper-del">￥536</span></p>
+                    </div>
+                </div>
+                <div class="swiper-slide swiper-option" tapmode>
+                    <div class="forum-item-imgbox">
+                        <img src="" alt="">
+                    </div>
+                    <div class="forum-item-explain">
+                        <p class="forum-explain-title"><span>TCL</span>电脑温控...</p>
+                        <p class="swiper-red">￥<span>258</span><span class="swiper-del">￥536</span></p>
+                    </div>
+                </div>
+                <div class="swiper-slide swiper-option" tapmode>
+                    <div class="forum-item-imgbox">
+                        <img src="" alt="">
+                    </div>
+                    <div class="forum-item-explain">
+                        <p class="forum-explain-title"><span>TCL</span>电脑温控...</p>
+                        <p class="swiper-red">￥<span>258</span><span class="swiper-del">￥536</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 特惠拼团 -->
+        <div class="preferential ">
+            <div class="preferential-item">
+                <p class="forum-explain-title">品质拼团</p>
+                <p class="preferentialText">好货一起拼</p>
+            </div>
+            <div class="preferential-item">
+                <p class="forum-explain-title">特惠专场</p>
+                <p class="preferentialText">全场特价5折起</p>
+            </div>
+        </div>
+        <!-- 主题板块 -->
+
+        <!-- 节能灶具 -->
+        <div class="chef-main-head">
+            <div class="chef-head-left">
+                <i class="iconfont icon-qianbi"></i>
+                <div class="chef-left-text">节能灶具</div>
+            </div>
+            <div class="chef-head-more">
+                更多
+                <i class="iconfont icon-htbArrowright"></i>
+            </div>
+        </div>
+        <!-- 节能灶具列表 -->
+
+        <div class="chef-form-card">
+            <div class="chef-form-leftimg">
+                <img src="" alt="">
+            </div>
+            <div class="chef-right-content">
+                <p class="chef-head1"> 广式双炒双温节能灶</p>
+                <div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+                <div class="chef-head3">
+                    <span class="forum-foot-bg">九折</span>
+                    <span class="forum-foot-bg">上门安装</span>
+                </div>
+                <div class="chef-head4 ">
+                    <p class="swiper-red">￥<span>258</span><span class="swiper-del">￥536</span></p>
+                    <p class="chef-head2 ">销量231</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="chef-busy-footer">
+            <div class="chef-lookmorechef chef-footer-item">
+                <p><i class="iconfont icon-bofang"></i>查看更多</p>
+            </div>
+            <div class="chef-lookmorechef chef-footer-item">
+                <p><i class="iconfont icon-shuaxin1"></i>换一批</p>
+            </div>
+        </div>
+        <!-- ------------------------------------------------------------- -->
+        <div class="chef-main-head">
+            <div class="chef-head-left">
+                <i class="iconfont icon-qianbi"></i>
+                <div class="chef-left-text">冰箱</div>
+            </div>
+            <div class="chef-head-more">
+                更多
+                <i class="iconfont icon-htbArrowright"></i>
+            </div>
+        </div>
+        <div class="chef-form-card">
+            <div class="chef-form-leftimg">
+                <img src="" alt="">
+            </div>
+            <div class="chef-right-content">
+                <p class="chef-head1"> 广式双炒双温节能灶</p>
+                <div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+                <div class="chef-head3">
+                    <span class="forum-foot-bg">九折</span>
+                    <span class="forum-foot-bg">上门安装</span>
+                </div>
+                <div class="chef-head4 ">
+                    <p class="swiper-red">￥<span>258</span><span class="swiper-del">￥536</span></p>
+                    <p class="chef-head2">销量231</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="chef-busy-footer">
+            <div class="chef-lookmorechef chef-footer-item">
+                <p><i class="iconfont icon-bofang"></i>查看更多</p>
+            </div>
+            <div class="chef-lookmorechef chef-footer-item">
+                <p><i class="iconfont icon-shuaxin1"></i>换一批</p>
+            </div>
+        </div>
+        <!-- ----------------------------------------------------------- -->
+        <div class="chef-main-head">
+            <div class="chef-head-left">
+                <i class="iconfont icon-qianbi"></i>
+                <div class="chef-left-text">制冰机</div>
+            </div>
+            <div class="chef-head-more">
+                更多
+                <i class="iconfont icon-htbArrowright"></i>
+            </div>
+        </div>
+        <div class="chef-form-card">
+            <div class="chef-form-leftimg">
+                <img src="" alt="">
+            </div>
+            <div class="chef-right-content">
+                <p class="chef-head1"> 广式双炒双温节能灶</p>
+                <div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+                <div class="chef-head3">
+                    <span class="forum-foot-bg">九折</span>
+                    <span class="forum-foot-bg">上门安装</span>
+                </div>
+                <div class="chef-head4 ">
+                    <p class="swiper-red">￥<span>258</span><span class="swiper-del">￥536</span></p>
+                    <p class="chef-head2">销量231</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="chef-busy-footer">
+            <div class="chef-lookmorechef chef-footer-item">
+                <p><i class="iconfont icon-bofang"></i>查看更多</p>
+            </div>
+            <div class="chef-lookmorechef chef-footer-item">
+                <p><i class="iconfont icon-shuaxin1"></i>换一批</p>
+            </div>
+        </div>
+        <!-- 中间图片栏 -->
+        <div class="pictureBar"><img src="" alt=""></div>
+        <!-- 全部最新热卖 -->
+        <div class="chef-hotslist-head">
+            <p class="hotslist-head-item hotslist-head-active">全部</p>
+            <p class="hotslist-head-item">最新</p>
+            <p class="hotslist-head-item">热卖</p>
+        </div>
+        <!-- 全部最新热卖列表 -->
+        <div class="bestSellers">
+            <div class="bestSellers-item">
+                <div class="bestSellers-img">
+                    <img src="" alt="">
+                </div>
+                <div class="bestSellers-item-bottom">
+                    <p class="introduce">COMOTOMO/苹果多么硅胶奶瓶...COMOTOMO/苹果多么硅胶奶瓶...COMOTOMO/苹果多么硅胶奶瓶...</p>
+                    <p class="bestSellers-red introduce">
+                        <span class="bestSellers-text">￥</span>
+                        <span class="bestSellers-text">258</span>
+                        <span class="bestSellers-del">￥536</span>
+                        <span class="salesVolume">销量450</span>
+                    </p>
+                </div>
+            </div>
+            <div class="bestSellers-item">
+                <div class="bestSellers-img"><img src="" alt=""></div>
+                <div class="bestSellers-item-bottom">
+                    <p class="introduce">金龙鱼 盘镜大米 蟹稻共生5kg 东北大米 人气爆款 细...</p>
+                    <p class="bestSellers-red introduce">
+                        <span class="bestSellers-text">￥</span>
+                        <span class="bestSellers-text">258</span>
+                        <span class="bestSellers-del">￥536</span>
+                        <span class="salesVolume">销量450</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId"); 
+    
+    var wrap = new Vue({
+            el: "#wrap",
+            data: {
+               URL:"" ,
+            },
+            methods: {
+                goBack:function goBack(){
+                    api.closeWin();
+                }, 
+                
+            },
+            created: function created() {
+                var that = this
+                this.$nextTick(function(){
+                    apiready = function () {
+                       /*  var header = that.$refs.header;
+                        $api.fixStatusBar(header); */
+                        that.URL = $api.URL()
+
+                      
+                        api.setCustomRefreshHeaderInfo({
+                            bgColor: '#F6F6F6',
+                            images: {
+                                pull: 'widget://image/refresh/pulling.png',
+                                transform: [
+                                    'widget://image/refresh/transform0.png',
+                                    'widget://image/refresh/transform1.png',
+                                    'widget://image/refresh/transform2.png',
+                                    'widget://image/refresh/transform3.png',
+                                    'widget://image/refresh/transform4.png',
+                                    'widget://image/refresh/transform5.png',
+                                    'widget://image/refresh/transform6.png'
+                                ],
+                                load: [
+                                    'widget://image/refresh/loading0.png',
+                                    'widget://image/refresh/loading1.png',
+                                    'widget://image/refresh/loading2.png',
+                                    'widget://image/refresh/loading3.png',
+                                    'widget://image/refresh/loading4.png',
+                                ]
+                            }
+                        }, function (ret, err) {
+
+                        });
+                    }
+                })
+            },
+            mounted: function mounted() {
+                var that = this
+               
+            },
+        })
+</script>
+</html>

@@ -1,0 +1,63 @@
+html,body{
+    background: #f2f2f2;
+}
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+/* 新增地址 */
+.formBox{
+    background: #fff;
+    padding: 10px;
+    font-size: 0.9em;
+}
+.formName{
+    border-bottom: 1px solid #f2f2f2;
+    line-height: 45px;
+}
+  .formRegion{
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #f2f2f2;
+      line-height: 45px;
+      
+  }
+  .iconRight{
+      margin-left: 15px;
+  }
+  .inputText{
+      width: 100%;
+      height: 100px;
+      margin-top: 15px;
+  }
+  .formAdd{
+      display: flex;
+      justify-content: space-between;
+      line-height: 25px;
+      padding-right: 10px;
+  }
+  .remarks{
+      line-height: 25px;
+      font-size: 0.9em;
+      margin: 20px 0 0 10px;
+  }
+  /* 底部按钮 */
+  .addFlexd{
+    width: 100%;
+    position: fixed;
+    line-height: 45px;
+    background: #6eb92c;
+    color: #fff;
+    bottom: 0;
+   
+}

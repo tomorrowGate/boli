@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的消息</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+    
+    <style>
+        html, body {
+            background-color: #fff;
+        }
+        header {
+            height: 50px;
+            line-height: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        .head-center {
+            text-align: center;
+        }
+        .head{
+            width: 100%;
+            height: 160px;
+            background-color: #000;
+            color: #fff;
+            padding:20px 10px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+        .headTitle{
+            font-size: 1.3em;
+            font-weight: normal;
+            margin-bottom: 6px;
+        }
+        .msgTotal{
+            font-size: 0.9em;
+            display:none;
+        }
+        nav{
+            position: absolute;
+            display: flex;
+            justify-content: space-around;
+            top:170px;
+            left:calc(5% - 5px);
+            width: 92%;
+            height: 100px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 2px 2px 2px #ddd;
+        }
+        .navItem{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 25%;
+            font-size: 15px;
+        }
+        /* .navItem .imgbox{ */
+        .imgbox{
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: pink;
+            margin-bottom: 5px;
+        }
+        .msgType{
+            font-size: 0.9em;
+        }
+         .dot{
+            position: absolute;
+            top:5px;
+            right:-4px;
+            display: block;
+            height: 12px;
+            line-height: 12px;
+            border-radius:6px;
+            padding:0 6px;
+            background-color: #f00;
+            font-size: 0.8em;
+            color: #fff;
+            display:none;
+        }
+        .message_list{ margin-top: 60px;padding:0 15px; }
+      .message{
+            display: flex;
+            font-size: 16px;
+            height: 50px;
+            padding-top:10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .msgCon{
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            margin-left: 16px;
+        }
+        .msgFrom{
+            display: flex;
+            justify-content: space-between
+        }
+        .time{
+            font-size: 0.8em;
+            color: #999;
+        }
+        .msgSimple{
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+	<header>
+        <div class="head-center">
+            <span >我的消息</span>
+        </div>
+        <div class="DIV_L" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+    </header>
+    <div class="head">
+        <h1 class="headTitle">
+            我的消息
+        </h1>
+        <div class="msgTotal">
+            <span>14条未读消息</span>
+            <i></i>
+        </div>
+    </div>
+    <nav>
+        <div class="navItem" onclick="goMyMsg(1)" tampode>
+            <div class="imgbox">
+                <img src="../image/message1.png" alt="" >
+            <span class="dot">12</span>
+            </div>
+            <p class="msgType">官方消息</p>
+        </div>
+        <div class="navItem" onclick="goMyMsg(2)" tampode>
+            <div class="imgbox">
+                <img src="../image/message2.png" alt="" >
+                <span class="dot">2</span>
+            </div>
+            <p class="msgType">设备维保</p>
+        </div>
+        <div class="navItem" onclick="goMyMsg(3)" tampode>
+            <div class="imgbox">
+                <img src="../image/message3.png" alt="" >
+                <span class="dot"></span>
+            </div>
+            <p class="msgType">交易物流</p>
+        </div>
+        <div class="navItem" onclick="goMyMsg(4)" tampode>
+            <div class="imgbox">
+                <img src="../image/message4.png" alt="" >
+                <span class="dot"></span>
+            </div>
+            <p class="msgType">互动消息</p>
+        </div>
+    </nav>
+    <div class="message_list" id="list">
+      
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    var message=[];
+	apiready = function(){
+		var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+		headerH=$api.fixStatusBar(header);
+
+		URL=$api.URL();
+        goMyMsg(1);
+	};
+    function goBack() {
+        api.closeWin();
+    }
+    function goMyMsg(msgState){
+        var oNav= document.getElementsByTagName("nav")[0];
+        var top = oNav.getBoundingClientRect().top;
+        var height = parseInt(window.getComputedStyle(oNav).height) ;
+        /* alert(top)
+        alert(height) */
+       
+     if(userId==''||userId==null||userId==undefined){
+        api.toast({
+                  msg: '未登录!',
+                  duration: 2000,
+                  location: 'middle'
+                });
+     }else if(msgState=='3'||msgState=='4'){
+         api.toast({
+                msg: '敬请期待！',
+                duration: 2000,
+                location: 'middle'
+              });
+     }else{
+         api.ajax({
+                  url :URL+'/index.php?app=boli_homepage&act=get_message',
+                  method : 'post',
+                  cache : false,
+                  timeout : 30,
+                  dataType : 'json',
+                  returnAll : false,
+                  data : {
+                      values:{
+                            type:msgState,
+                            userId:userId
+                        }
+                  }
+                }, function(ret, err) {
+                console.log(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+                        var str='';
+                        if(ret.retval==''){
+                            str+='<div class="null">暂无消息!</div>';
+                        }
+                         $.each(ret.retval,function(i,item){
+                            str+='<div class="message">';
+                            str+='<div class="imgbox">';
+                            if(msgState=='1'){
+                              str+='<img src="../image/message1.png" alt="">';
+                            }else if(msgState=='2'){
+                              str+='<img src="../image/message2.png" alt="">';
+                            }
+                            str+='<span class="dot"></span>';
+                            str+='</div>';
+                            str+='<div class="msgCon">';
+                            str+='<div class="msgFrom">';
+                            if(msgState=='1'){
+                              str+='<p class="from">官方消息</p>';
+                            }else if(msgState=='2'){
+                              str+='<p class="from">设备维保</p>';
+                            }
+                            str+='<p class="time">'+formatDateTime(item.add_time)+'</p>';
+                            str+=' </div>';
+                            str+='<div class="msgSimple">'+item.content;
+                            str+=' </div>';
+                            str+=' </div>';
+                            str+='</div>';
+                         });
+                         
+                         $("#list").html(str);
+                    }else{
+                        api.toast({
+                        msg: '系统异常,请稍后再试',
+                        duration: 2000,
+                        location: 'middle'
+                      });
+                    }
+                });
+     }     
+        
+        
+        
+    }
+    //时间戳转换
+  function formatDateTime(timeStamp) {
+    var date = new Date();
+    date.setTime(timeStamp * 1000);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+    }
+</script>
+</html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>圈子</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<style>
+			html, body {
+				background-color: #fff;
+			}
+			.hide {
+				display: none;
+			}
+			.material {
+				padding: 10px 10px 0 10px;
+				background-color: #fff;
+			}
+			.my_icon1 {
+				color: #6eb92c;
+			}
+			.swiper1 {
+				height: 100px;
+				padding: 10px 0;
+			}
+			.swiper1 .swiper-slide {
+				height: 80px;
+				width: 120px;
+			}
+			.swiper1 .material_tab {
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+				position: relative;
+			}
+			.swiper1 .circle {
+				height: 100%;
+				width: 100%;
+				border-radius: 12px
+			}
+			.swiper1 .material_type {
+				position: absolute;
+				top: 0;
+				width: 100%;
+				text-align: center;
+				height: 100%;
+				line-height: 80px;
+				/*background-color: rgba(0, 0, 0, 0.45);*/
+				color: #fff;
+				border-radius: 12px
+			}
+			.swiper1 .material_type span{
+				width:5em;
+				border:1px solid #fff;
+				height:24px;
+				line-height:24px;
+				border-radius: 12px;
+			}
+			.main_body {
+				margin-top: 15px;
+				background-color: #f6f6f6;
+			}
+			.find_item {
+				margin-bottom: 10px;
+				background-color: #fff;
+				padding: 10px 5%;
+			}
+			.find_title {
+				height: 44px;
+				line-height: 22px;
+				position: relative;
+				padding-left: 50px;
+				margin-bottom: 10px
+			}
+			.circle {
+				height: 44px;
+				width: 44px;
+				border-radius: 22px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			.find_title p {
+				margin: 0;
+			}
+			.find_content {
+			}
+			.info_title {
+			}
+			.info_content {
+				line-height: 20px;
+				font-size: 14px;
+				margin-bottom: 10px;
+			}
+			.small_height {
+				max-height: 60px;
+				overflow: hidden
+			}
+			.real_height {
+				line-height: 20px;
+			}
+			.show_all, .close_all {
+				color: #576b95;
+				margin-bottom: 10px;
+			}
+			.content_image {
+			}
+			.content_image .image_item{
+					overflow: hidden;
+			}
+			.content_image .image_item img {
+				width: 95%;
+				/*height: 95%;*/
+			}
+			.margin_r {
+				margin-right: 10%
+			}
+			.find_foot {
+			}
+			.share {
+				margin-bottom: 10px;
+				background-color:  #f6f6f6;
+				position: relative;
+				height: 50px;
+				line-height: 50px
+			}
+			.share_content {
+				padding: 0 60px;
+			}
+			.share_l {
+				position: absolute;
+				top: 5px;
+				left: 10px;
+				height: 40px;
+				width: 40px;
+			}
+			.share_r {
+				position: absolute;
+				top: 0px;
+				right: 10px;
+				font-size: 24px;
+			}
+			.footer{
+				padding-top:5px
+			}
+			.find_foot i {
+				color: #a3a3a3;
+			}
+			.footer span {
+				padding: 0 8px;
+				height: 20px;
+				line-height: 20px;
+				border-radius: 9px;
+				font-size: 14px;
+				background-color: #eff4f8;
+				text-align: center;
+			}
+			/* sticky */
+			.sticky {
+				position: -webkit-sticky;
+				position: sticky;
+				top: 0;
+				padding: 5px 3%;
+				background-color: #fff;
+				z-index: 1;
+			}
+			.sticky .list_type {
+				width: 33.33%;
+				text-align: center;
+				float: left;
+				height: 30px;
+				line-height: 30px;
+				font-weight: bold;
+				/* border-bottom:1px solid #f2f2f2 */
+			}
+			.sticky .active span{
+				color: #6eb92c;
+				border-bottom: 2px solid #6eb92c;
+				font-weight: bold;
+				height: 32px;
+				line-height: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="material">
+			<div class="order_all clearfix">
+				<div class="t_l font_s1 font_w1">
+					<i class="iconfont icon-qianbi my_icon1"></i>&nbsp;素材库
+				</div>
+				<div class="t_r font_c1">
+
+				</div>
+			</div>
+			<div class="swiper-container swiper1" >
+				<div class="swiper-wrapper" id="adv">
+					<div class="swiper-slide" onclick="goMaterial('1')" tapmode>
+						<div class="material_tab">
+							<img src="../image/material1.png"  class="circle" />
+							<p class="material_type">
+								<span>菜系</span>
+							</p>
+						</div>
+					</div>
+					<div class="swiper-slide" onclick="goMaterial('2')" tapmode>
+						<div class="material_tab">
+							<img src="../image/material2.png"  class="circle" />
+							<p class="material_type">
+								<span>派系</span>
+							</p>
+						</div>
+					</div>
+					<div class="swiper-slide" onclick="goMaterial('3')" tapmode>
+						<div class="material_tab">
+							<img src="../image/material3.png"  class="circle" />
+							<p class="material_type">
+								<span>西餐</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="sticky">
+			<div class="list_type" onclick="changeOrder('0')" tapmode>
+				<span>热门</span>
+			</div>
+			<div class="list_type active" onclick="changeOrder('1')" tapmode>
+				<span>圈子</span>
+			</div>
+			<div class="list_type" onclick="changeOrder('2')" tapmode>
+				<span>我的</span>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="main_body">
+			<div class="find_item clearfix" id="div1">
+				<div class="find_item">暂无文章</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+			var mywidth = $(".image_item").width();
+			$(".image_item").height(mywidth);
+		});
+		function setHeight(){
+			var mywidth = $(".image_item").width();
+			$(".image_item").height(mywidth);
+		}
+		var swiper1 = new Swiper('.swiper1', {
+			slidesPerView : 'auto',
+			spaceBetween : 10,
+			loop : false,
+			autoplay : false
+		});
+
+		var dialogBox;
+		var photoBrowser;
+		var URL = "";
+		apiready = function() {
+			URL = $api.URL();
+
+			$('.swiper-wrapper').on('touchstart', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group2',
+					scrollEnabled : false
+				});
+				api.setFrameAttr({
+						name: 'group2',
+						bounces: false
+				});
+			});
+			$('.swiper-wrapper').on('touchend', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group2',
+					scrollEnabled : true
+				});
+				api.setFrameAttr({
+						name: 'group2',
+						bounces: true
+				});
+			});
+			//底部分享模块
+			dialogBox = api.require('dialogBox');
+			/*    //横屏
+			api.setScreenOrientation({
+			orientation: 'auto'
+			});*/
+			//图片查看模块
+			photoBrowser = api.require('photoBrowser');
+			get_friend_info();
+			//下拉刷新
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#F6F6F6',
+            images: {
+                pull: 'widget://image/refresh/pulling.png',
+                transform: [
+                    'widget://image/refresh/transform0.png',
+                    'widget://image/refresh/transform1.png',
+                    'widget://image/refresh/transform2.png',
+                    'widget://image/refresh/transform3.png',
+                    'widget://image/refresh/transform4.png',
+                    'widget://image/refresh/transform5.png',
+                    'widget://image/refresh/transform6.png'
+                ],
+                load: [
+                    'widget://image/refresh/loading0.png',
+                    'widget://image/refresh/loading1.png',
+                    'widget://image/refresh/loading2.png',
+                    'widget://image/refresh/loading3.png',
+                    'widget://image/refresh/loading4.png',
+                ]
+            }
+        }, function(ret, err) {
+					console.log('loading=================================>');
+                    get_friend_info();
+				    setTimeout('api.refreshHeaderLoadDone()', '3000');
+
+        });
+
+		};
+		//判断图片是否存在
+		function validateImage(url){    
+    var xmlHttp ;
+    if (window.ActiveXObject){
+         xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+     }else if (window.XMLHttpRequest){
+         xmlHttp = new XMLHttpRequest();
+     } 
+    xmlHttp.open("Get",url,false);
+    xmlHttp.send();
+    return (xmlHttp.status==404)?false:true;
+}
+
+		//获取拍档信息
+		function get_friend_info() {
+			console.log("start===>>>22222");
+			var userId = localStorage.getItem("userId");
+			console.log("start===>>>" + userId);
+			console.log(URL + 'index.php?app=appfind&act=get_partner_article');
+			api.ajax({
+				url : URL + 'index.php?app=appfind&act=get_partner_article',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						//page:0
+					}
+				}
+			}, function(ret, err) {
+				console.log("3333333333");
+				console.log(JSON.stringify(ret));
+				console.log(JSON.stringify(err));
+				if (ret.done) {
+				$("#div1").html("");
+					$.each(ret.retval, function(i, item) {
+					    var id="dz_"+item.article_id;
+						var lbt = '';
+						lbt += '<div class="find_item clearfix" id="article_'+item.article_id+'">';
+						lbt += ' <div class="find_title">';
+						if (item.portrait) {
+                          if(item.portrait.substr(0,7).toLowerCase() == "http://" ){
+                             // $api.attr($api.byId('portrait'),'src',item.portrait);
+                              lbt += ' <img src="'+item.portrait+'" class="circle">';
+                          }else{
+                             console.log(URL+item.portrait);
+                              //$api.attr($api.byId('portrait'),'src',URL+item.portrait);
+                              lbt += ' <img src="'+URL+item.portrait+'" class="circle">';
+                         }
+						} else {
+							lbt += ' <img src="../image/default_portrait.png" class="circle">';
+						}
+						//判断用户是否已填写昵称或者微信登录，否则显示邀请码
+						if (item.real_name) {
+							lbt += ' <p>' + item.real_name + '</p>';
+						} else {
+							lbt += ' <p>' + item.invite_code + '</p>';
+						}
+						lbt += ' <p class="font_c1">' + item.add_time + '</p></div>';
+						lbt += ' <div class="find_content clearfix">';
+						lbt += ' <p class="info_title font_w1 ">' + item.title + '</p>';
+						lbt += '<div class="info_content font_c1 small_height"><div class="real_height">' + item.content + '</div></div>';
+						lbt += ' <span class="show_all show_'+i+'" onclick="showall('+i+')" tapmod >全文</span><span class="close_all hide_'+i+' hide"  onclick="hideall('+i+')" tapmod>收起</span>';
+						lbt += '<div class="content_image imgGroup_'+i+'">';
+						var imgs = item.img_url;
+						for (var k = 0; k < imgs.length; k++) {
+						//	console.log(URL + imgs[k].file_path);
+						lbt += '<div class="image_item width3" onclick="fnOpenPhoto(\'imgGroup_' + i + '\',\'' + k + '\')"><img src="' + URL + imgs[k].file_path + '" class="good_img' + k + '"></div> ';
+
+							if(k>=8){break;}
+						}
+						lbt += '</div></div>';
+						lbt += '<div class="find_foot clearfix">';
+						lbt += ' <div class="footer font_c3">';
+						lbt += '<div class="width3" onClick="goComment('+item.article_id+')" tapmod><span><i class="iconfont icon-pinglun1"></i>评论(' + item.pin_count + ')</span></div>';
+						lbt += '<div class="width3" onClick="zan('+item.article_id+')"><span id="'+id+'"><i class="iconfont icon-dianzan_active"></i>点赞(' + item.zan_count + ')</span></div>';
+						lbt += '</div>';
+						lbt += '</div>';
+						lbt += '</div>';
+						$api.append($api.byId("div1"), lbt);
+						setHeight();
+					})
+				}else if(ret){
+                  // api.toast({
+                  //   msg: ret.msg,
+                  //   duration: 2000,
+                  //   location: 'bottom'
+                  // });
+									console.log(ret.msg);
+                }
+                if(err){
+                  // api.toast({
+                  //   msg: err.msg,
+                  //   duration: 2000,
+                  //   location: 'bottom'
+                  // });
+									console.log(err.msg);
+                }
+                api.refreshHeaderLoadDone();
+			 });
+		}
+		//点击全文
+         function showall(id){
+        	 $('.show_'+id).parents(".find_item").find(".info_content").removeClass("small_height");
+        	 $('.show_'+id).addClass("hide");
+        	 $('.hide_'+id).removeClass("hide");
+        	 $('.show_'+id).siblings(".close_all").removeClass("hide");
+         }
+         //点击收起
+          function hideall(id){
+         	 $('.hide_'+id).parents(".find_item").find(".info_content").addClass("small_height");
+         	 $('.hide_'+id).addClass("hide");
+        	 $('.show_'+id).removeClass("hide");
+         	 $('.hide_'+id).siblings(".close_all").addClass("hide");
+          }
+		function zan(article_id){
+			var userId = localStorage.getItem("userId");
+			api.ajax({
+				url : URL + 'index.php?app=appfind&act=zan',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						article_id:article_id
+						//page:0
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+				  var zan_count=ret.retval;
+				  $('#dz_'+article_id).html('<i class="iconfont icon-dianzan_active"></i>点赞(' + zan_count + ')');
+
+
+				} else {
+				  api.toast({
+                     msg: ret.msg,
+                     duration: 2000,
+                     location: 'bottom'
+                  });
+				}
+			});
+
+		}
+
+		//图片查看打开
+		function fnOpenPhoto(Gindex, Pindex) {
+			var imgs = $("." + Gindex).find("img");
+			var srcs;
+			var i = imgs.length;
+			var mysrcs = new Array();
+			imgs.each(function(index, element) {
+				mysrcs[index] = $(this).attr('src');
+			});
+			photoBrowser.open({
+				images : mysrcs,
+				activeIndex : Pindex,
+				placeholderImg : 'widget://image/apicloud.png',
+				bgColor : '#000'
+			}, function(ret) {
+				console.log(ret);
+				if(ret.eventType=='click'){
+					photoBrowser.close();
+				}
+			});
+		}
+
+		function changeOrder(order) {
+			$(this).addClass("active").siblings().removeClass("active");
+			api.execScript({
+				frameName : 'find',
+				script : 'fnsetFrameGroupIndex("group2","' + order + '");'
+			});
+		}
+		function goComment(aId){
+        api.openWin({
+        name: 'find.comment',
+        url: './find.comment.html',
+        bounces: false,
+        pageParam: {
+                  articleId: aId,
+								  findType: 'get_partner_article'
+                   },
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+      function goMaterial(aId){
+      	if(aId=='1'){
+      		api.openWin({
+	        name: 'cooking.style',
+	        url: './cooking.style.html',
+	        bounces: false,
+	        animation:{
+	          type:"push",                //动画类型（详见动画类型常量）
+	          subType:"from_right",       //动画子类型（详见动画子类型常量）
+	          duration:300                //动画过渡时间，默认300毫秒
+	        }
+        });
+      	}else if(aId=='2'){
+      							api.toast({
+							msg : '敬请期待!',
+							duration : 2000,
+							location : 'bottom'
+						});
+//    		api.openWin({
+//	        name: 'cooking.factions',
+//	        url: './cooking.factions.html',
+//	        bounces: false,
+//	        animation:{
+//	          type:"push",                //动画类型（详见动画类型常量）
+//	          subType:"from_right",       //动画子类型（详见动画子类型常量）
+//	          duration:300                //动画过渡时间，默认300毫秒
+//	        }
+//      });
+      	}else if(aId='3'){
+						api.toast({
+							msg : '敬请期待!',
+							duration : 2000,
+							location : 'bottom'
+						});
+				}
+
+      }
+	</script>
+</html>

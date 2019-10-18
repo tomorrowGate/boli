@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>意见反馈</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #efefef;
+      }
+      p{ margin:10px; }
+      textarea{ width:100%;height:100px; }
+      .out_div{ margin-top:10px; }
+      #upload_img_list span{ width:33%;text-align: left;margin-bottom: 10px; }
+      #upload_img_list span img{ width:80px;height:80px; }
+      .add_img{ height:40px;width:40px;border:1px dotted #ddd; }
+      .add_img i{ font-size: 2em;color:#ccc;position: relative;left: 5px; }
+      .ip1{ width:100%; }
+      .sub_btn{ text-align: center;margin-top:80px; }
+      #btn_tj{ width:80%;height:40px;line-height: 40px;border-radius: 15px;padding:0; }
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">意见反馈</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <p>问题和建议</p>
+      <div class="out_div clearfix">
+        <textarea name="suggestion" id="suggestion" placeholder=写下您对我们的建议或发现的系统问题哦~></textarea>
+      </div>
+      <p>图片(选填,提供问题截图)</p>
+      <div class="out_div clearfix">
+        <div id="upload_img_list">
+        </div>
+        <div class="add_img" id="upload_img" onclick="showAction()"><i class="iconfont icon-add1"></i></div>
+      </div>
+      <p>联系方式(选填)</p>
+      <div class="out_div clearfix">
+        <input type="text" name="contact" id="contact" placeholder="如有需要,请留下微信或电话" class="ip1">
+      </div>
+      <div class="sub_btn"><input type="submit" name="btn_tj" id="btn_tj" class="btn_default2"></div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      var URL="";
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+
+      //图片查看模块
+       photoBrowser = api.require('photoBrowser');
+      };
+
+	$("#btn_tj").bind("click",function(){
+			var content=$("#suggestion").val();
+			var contact=$("#contact").val();
+			console.log(imgdata.length);
+			api.ajax({
+                    url : URL+'index.php?app=myinfo&act=add_feed',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                      values : {
+                          img:imgdata,
+						  content:content,
+						  contact:contact,
+						  user_id:userId
+                        }
+                    }
+            }, function(ret, err) {
+                //console.log(JSON.stringify(ret));
+                if(ret.done){
+                	alert('提交成功');
+                	api.closeWin();
+                }else{
+                	alert(ret.msg);
+                }
+            });
+	});
+
+       // 上传图片
+    function showAction(){
+      var imglength= $("#upload_img_list").find("img");
+      if(imglength.length<=9){
+        api.actionSheet({
+            title: '上传图片',
+            cancelTitle: '取消',
+            buttons: ['拍照','从手机相册选择']
+        }, function(ret, err) {
+            if (ret) {
+                getPicture(ret.buttonIndex);
+            }
+        });
+      }else{
+        MyToast("最多上传9张图片!");
+      }
+    }
+    var imgdata='';
+    function getPicture(sourceType) {
+        if(sourceType==1){ // 拍照
+            api.getPicture({
+                sourceType: 'camera',
+                encodingType: 'jpg',
+                mediaValue: 'pic',
+                allowEdit: false,
+                destinationType: 'base64',
+                quality: 100,
+                saveToPhotoAlbum: true
+            }, function(ret, err) {
+                if (ret) {
+                  var str='<span onclick="edit_img()" ><img src="'+ret.base64Data+'" class="file_id"></span>';
+                  console.log(ret.base64Data);
+                  imgdata+=ret.base64Data+"|";
+                  $("#upload_img_list").append(str);
+                   /*$("#imgUp").attr('src', ret.base64Data);*/
+                }else {
+                    alert(JSON.stringify(err));
+                }
+            });
+        }
+        else if(sourceType==2){ // 从相机中选择
+            api.getPicture({
+                    sourceType: 'library',
+                    encodingType: 'jpg',
+                    mediaValue: 'pic',
+                    allowEdit: false,
+                    destinationType: 'base64',
+                    quality: 100,
+                   /* targetWidth: 80,
+                    targetHeight: 80*/
+                }, function(ret, err) {
+                    if (ret) {
+                      if (ret) {
+                        var str='<span onclick="edit_img()" ><img src="'+ret.base64Data+'" class="file_id"></span>';
+                        console.log(ret.base64Data);
+                  		imgdata+=ret.base64Data+"|";
+                        $("#upload_img_list").append(str);
+                        /*$('#imgUp').attr('src', ret.base64Data);*/
+                      }else {
+                       alert(JSON.stringify(err));
+                     }
+                        // $('#imgUp').attr('src', ret.base64Data)
+                       /* var aa=ret.base64Data;
+                        api.ajax({
+                            type:"post",
+                            url:"http://www.yuechebang.cn/Oauth/Api/index",
+                            data:{base64:aa},
+                            dataType:'json',
+                            async:true,
+                        },function(ret,err){
+                            if(ret){
+                                $('#imgUp').attr('src',aa)
+                            }else{
+                                api.alert(err);
+                            }
+                        })*/
+                    } else {
+                        alert(JSON.stringify(err));
+                    }
+            });
+        }
+    }
+  </script>
+  </html>

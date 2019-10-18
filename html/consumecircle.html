@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>合格消费圈</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/myteam.css">
+
+    <style>
+    	body{
+
+    	}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+    <!--头部-->
+		<header>
+     <div class="header">合格消费圈</div>
+     <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+	 </header>
+    <!--会员-->
+    <div class="case2">
+      <div class="my_info clearfix">
+        <div class="info_l"><img src="../image/default_portrait.png"  class="portrait" id="portrait"></div>
+        <div class="info_m">
+          <div class="info1"><span id="user_name">未登录</span><img src="../image/male.png" class="img2 xb" id="sex" /><span class="jb" id="level">会员等级</span></div>
+          <div><span class="border-w">邀请码:<span id="invite_code">XXXXXXXX</span></span><span class="border-b" onclick="copyHref()" tapmode>复制</span></div>
+          <div class="xfe">我的本月消费额：<span id="xfe">0</span></div>
+        </div>
+      </div>
+	<!--消费圈-->
+	<div class="case1">
+	<div class="r default_bg2 clearfix">
+	<div class="xfq_num">合格的消费圈&nbsp;<span class="consume_numebr" id="consume_numebr">0</span>&nbsp;个</div>
+	<div class="gd" id="gd" >展开&nbsp;<img src="../image/hxjt.png" class="img2" /></div>
+	<div class="gd hide" id="gb">关闭&nbsp;<img src="../image/sjt.png" class="img2" /></div>
+	</div>
+    <div class="r5" id="none"><span>一&nbsp;点击展开查看具体数据&nbsp;一</span></div>
+	<div class="case hide" id="sj">
+	  <div class="r6 clearfix">
+	    <div class="t_l">1000</div>
+	    <div class="t_r">0/20</div>
+      </div>
+      <div class="r6 clearfix">
+        <div class="t_l">5000</div>
+        <div class="t_r">0/5</div>
+      </div>
+	</div>
+	</div>
+
+	</div>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+  //返回上一页
+      var goBack=function(){
+          api.closeWin();
+      }
+    var URL="";
+    var userId=window.localStorage.getItem("userId"); //用户id
+   //展开关闭
+    $("#gd").click(function(){
+      $("#gd").addClass('hide');
+      $("#gb").removeClass('hide');
+      $("#none").addClass('hide');
+      $("#sj").removeClass('hide');
+    });
+    $("#gb").click(function(){
+      $("#gb").addClass('hide');
+      $("#gd").removeClass('hide');
+      $("#none").removeClass('hide');
+      $("#sj").addClass('hide');
+    });
+
+	apiready = function(){
+		var header = $api.dom('header'); // 获取 header 标签元素
+		headerH = $api.fixStatusBar(header);
+    URL=$api.URL();
+	getQualified();
+	//获取我的基本信息
+    if (window.localStorage.getItem('portrait')) {
+   var  portrait=window.localStorage.getItem('portrait');
+    if(portrait.substr(0,7).toLowerCase() == "http://"){
+      $api.attr($api.byId('portrait'),'src',portrait);
+      }else{
+        $api.attr($api.byId('portrait'),'src',URL+portrait);
+     }
+     }
+    $api.html( $api.byId("user_name"),window.localStorage.getItem('real_name'));
+    if(localStorage.getItem('sex')=='female'){
+           $api.attr($api.byId('sex'),'src','../image/female.png');
+  }
+    $api.html( $api.byId("level"),window.localStorage.getItem('level_name'));
+    $api.html( $api.byId("invite_code"),window.localStorage.getItem('invite_code'));
+    //获取我的本月销费额
+    getMy()
+    };
+
+   //获取我的本月销费额
+     function getMy(){
+            api.ajax({
+              url : URL + 'index.php?app=#',
+                      method : 'post',
+                      cache : false,
+                      timeout : 30,
+                      dataType : 'json',
+                      returnAll : false,
+                      data : {
+                              values : {
+                                    user_id:userId
+                                     }
+                             }
+            },function(ret,err){
+            //console.log(JSON.stringify(ret));
+          if(ret.done){
+            $api.html( $api.byId("xfe"),ret.retval.xfe);
+          }else{
+            api.toast({
+              msg: '失败',
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+            });
+            }
+
+    //获取合格消费数据
+     function getQualified(){
+            api.ajax({
+              url : URL + 'index.php?app=#',
+                      method : 'post',
+                      cache : false,
+                      timeout : 30,
+                      dataType : 'json',
+                      returnAll : false,
+                      data : {
+                              values : {
+                                    user_id:userId
+                                     }
+                             }
+            },function(ret,err){
+            //console.log(JSON.stringify(ret));
+          if(ret.done)
+          {
+            if(ret.retval.qualified_num==0){
+                var str0='<span>一&nbsp;没有合格的朋友圈&nbsp;一</span>';
+                $api.html($api.byId("none"), str0);
+            } else{
+             $.each(ret.retval.xfq_list, function(i, item) {
+               var str='<div class="r6 clearfix">';
+                   str+='<div class="t_l">'+item.level+'</div>';
+                   str+='<div class="t_r">'+item.num_finished+'/'+item.num_all+'</div>';
+                   str+='</div>';
+                $api.append($api.byId("sj"), str);
+
+              });
+           }
+          }else{
+            api.toast({
+              msg: '失败',
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+        });
+    }
+</script>
+</html>

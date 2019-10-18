@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品分类</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.classify.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>商品分类</span>
+            </div>
+        </header>
+        <!-- 商品分类 -->
+        <div class="classify">
+            <!-- 商品分类导航 -->
+            <div class="classifyNav">
+                <div class="classifyItem">厨店好物</div>
+                <div class="classifyItem">烹饪必备</div>
+            </div>
+            <!-- 商品展示 -->
+            <div class="commodity">
+                <div class="commodityTop">
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>节能灶具</p>
+                    </div>
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>冰箱系列</p>
+                    </div>
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>制冰机</p>
+                    </div>
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>油烟机</p>
+                    </div>
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>矮仔炉</p>
+                    </div>
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>蒸柜</p>
+                    </div>
+                </div>
+                <div class="commodityNext">
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>调味酱</p>
+                    </div>
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>五谷杂粮</p>
+                    </div>
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>食用油</p>
+                    </div>
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>火锅调料</p>
+                    </div>
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>酒醋酱油</p>
+                    </div>
+                    <div class="commodityItem">
+                        <div class="commodityImg">
+                            <img src="" alt="">
+                        </div>
+                        <p>糖盐</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            goodList: [],
+            url: "",
+            param: "",
+            bottomLists: {
+                activeIndex: 0,
+                list: [],
+                start: 0,
+                end: false,
+                showList: []
+            }
+        },
+        computed: {
+
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            getGoodsbyCate: function (id) {
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=get_rand_goods',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            cate_id: id
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret.retval));
+                    if (ret && ret.done) {
+                        ret.retval.forEach(function (value, index) {
+                            if (value.tags.length) {
+                                value.tags = value.tags.split(",")
+                            }
+                        })
+                        that.goodList = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //进入商品详情
+            goGoodsDet: function goGoodsDet(id, isKill, endTime) {
+                //console.log(id)
+                api.openWin({
+                    name: 'mall.description',
+                    url: './mall.description.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        goodId: id,
+                        seckill: isKill,
+                        endTime: endTime
+                    }
+                });
+            },
+            changeBottomList: function () {
+
+            }
+                
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    //that.changeBottomList()
+                    
+                    api.setCustomRefreshHeaderInfo({
+                        bgColor: '#F6F6F6',
+                        images: {
+                            pull: 'widget://image/refresh/pulling.png',
+                            transform: [
+                                'widget://image/refresh/transform0.png',
+                                'widget://image/refresh/transform1.png',
+                                'widget://image/refresh/transform2.png',
+                                'widget://image/refresh/transform3.png',
+                                'widget://image/refresh/transform4.png',
+                                'widget://image/refresh/transform5.png',
+                                'widget://image/refresh/transform6.png'
+                            ],
+                            load: [
+                                'widget://image/refresh/loading0.png',
+                                'widget://image/refresh/loading1.png',
+                                'widget://image/refresh/loading2.png',
+                                'widget://image/refresh/loading3.png',
+                                'widget://image/refresh/loading4.png',
+                            ]
+                        }
+                    }, function (ret, err) {
+                        console.log(1)
+                    });
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

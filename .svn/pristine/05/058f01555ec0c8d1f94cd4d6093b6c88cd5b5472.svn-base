@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.forum.css" />
+    <title>名厨讲堂</title>
+</head>
+
+<body>
+    <!-- 头部 -->
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>名厨讲堂</span>
+        </div>
+    </header>
+
+    <!-- 头部搜索 -->
+    <div class="search-head">
+        <div class="search-main">
+            <i class="iconfont icon-search"></i>
+            <input class="search-virtual" placeholder="搜索商品" tapmode>
+            </input>
+        </div>
+        <div class="search-real">搜索</div>
+    </div>
+
+    <!-- 轮播图 -->
+    <div class="swiper">
+        <div class="swiper-container swiper-top">
+            <div class="swiper-wrapper" id="adv">
+                <div class="swiper-slide" tapmode>
+                    <div class="swiper-slide-imgbox">
+                        <img src="" alt="">
+                    </div>
+                </div>
+                <div class="swiper-slide" tapmode>14</div>
+                <div class="swiper-slide" tapmode>153</div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <!-- 名厨介绍 -->
+    <div class="introduce">
+        <div class="history">
+            <div class="history-ball">
+                <i></i>
+            </div>
+            <div class="history-ball-text">播放历史</div>
+        </div>
+        <div class="history">
+            <div class="history-ball">
+                <i></i>
+            </div>
+            <div class="history-ball-text">我的收藏</div>
+        </div>
+        <div class="history">
+            <div class="history-ball">
+                <i></i>
+            </div>
+            <div class="history-ball-text">了解教学</div>
+        </div>
+    </div>
+    <!-- 佣金讲堂 -->
+    <!-- <div class="platform"></div> -->
+    <!-- 大师开讲 -->
+    <div class="chef-forum">
+        <div class="chef-form-in">
+            <div class="chef-main-head">
+                <div class="chef-head-left">
+                    <i class="iconfont icon-qianbi"></i>
+                    <div class="chef-left-text">大师开讲</div>
+                </div>
+                <!-- <div class="chef-head-more">
+                    更多
+                    <i class="iconfont icon-htbArrowright"></i>
+                </div> -->
+              </div>
+            <!-- 讲堂轮播列表 -->
+            <div class="swiper-container chef-form-body">
+                <div class="swiper-wrapper" id="forum">
+                    <div class="swiper-slide chef-forum-slide" tapmode>
+                        <div class="forum-item">
+                            <div class="forum-item-imgbox">
+                                <span class="forum-item-tagtop forum-item-pay">付费</span>
+                                <img src="" alt="">
+                                <span class="forum-item-tagbottom">14295人已观看</span>
+                            </div>
+                            <div class="forum-item-explain">
+                                <p class="forum-explain-title">中国菜肴的八种烹饪方法</p>
+                                <div class="forum-explain-foot">
+                                    <div class="forum-foot-imgbox">
+                                        <img src="" alt="">
+                                    </div>
+                                    <div class="forum-foot-explain">
+                                        <span class="forum-foot-name">周伯通</span> |
+                                        <span class="forum-foot-level">国家一级厨师</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide" tapmode>14</div>
+                    <div class="swiper-slide" tapmode>153</div>
+                </div>
+              </div>
+              <!-- 白色条 -->
+            <div class="White"></div>
+            <!-- 精品讲堂 -->
+            <!-- 头部之前chef-forum CSS 样式 -->
+            <div class="chef-forum">
+                <div class="chef-form-in">
+                    <div class="chef-main-head">
+                        <div class="chef-head-left">
+                            <i class="iconfont icon-qianbi"></i>
+                            <div class="chef-left-text">精品讲堂</div>
+                        </div>
+                        <!-- <div class="chef-head-more">
+                            更多
+                            <i class="iconfont icon-htbArrowright"></i>
+                        </div> -->
+                    </div>
+                    <!-- 精品讲堂列表 -->
+                    <div class="chef-busy-out">
+                        <div class="chef-busy-card">
+                            <div class="chef-leftimg">
+                                <img src="" alt="">
+                            </div>
+                            <div class="chef-right-content">
+                                <div class="chef-head1">
+                                    <div class="chef-head1-name">周伯通</div>
+                                    <div class="chef-head1-follow">
+                                        <span class="chef-follow-num">1256</span> 人关注
+                                    </div>
+                                </div>
+                                <div class="chef-head2 chef-light">国家一级厨师</div>
+                                <div class="chef-head3 chef-light">擅长：川菜、湘菜、鲁菜</div>
+                                <div class="chef-head4 ">前列推荐这款羽绒服，改变了我对羽绒服的定义，都能驾驭得了么么哒。</div>
+                                <div class="chef-foot">
+                                    <div class="chef-foot-left">查看详情</div>
+                                    <div class="chef-foot-right">
+                                        <div class="chef-right-btn">学习</div>
+                                        <div class="chef-right-btn">关注</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+</body>
+
+</html>

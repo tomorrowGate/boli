@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+      <title>分享订单</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #fff;
+      }
+      .header {
+				height: 50px;
+				line-height: 50px;
+				position: fixed;
+				z-index: 15;
+				left: 0;
+				top: 0;
+				width: 100%
+			}
+      .top_tab {
+        font-size: 0.8em
+      }
+      .top_tab span {
+        height: 30px;
+        line-height: 30px;
+        width: 5em;
+        border: 1px solid #6eb92c;
+        background-color: #f2f2f2;
+      }
+      .top_tab .active {
+        color: #fff;
+        background-color: #6eb92c
+      }
+      .null{ text-align: center;padding-top:30%;color:#666;}
+      .top_nav{ padding:74px 10px 5px 10px; }
+      .top_nav .nav_item{ float:left; width:20%;text-align: center; }
+      .top_nav .nav_item span{ border:none;height:40px;line-height:40px;padding:0 5px; }
+      .top_nav .active span{ border-bottom:1px solid #6eb92c;color:#6eb92c; }
+      .out_div{ margin-top:10px; }
+      #order_list{ margin:10px 0; }
+      .f_img{ float: left;height:80px; }
+      .table_top{ width:100%;border:none;border-bottom:1px #e4e4e4 solid;border-top:1px #e4e4e4 solid; }
+      .store_logo{ color:#0180ff;padding:0 5px; width:5% }
+      .store_logo img{ padding:5px;height:30px;width:30px; }
+      .store_name{ color:#3d3d3d;  }
+      .order_state{ color:#ffab00; padding-right:20px;text-align: right }
+      .table_middle{ width:100%;border:none;border-bottom:1px #e4e4e4 solid }
+      .table_middle .good_img{ padding:10px; width:20%; text-align:center }
+      .table_middle .good_img img{ width:80px;height:80px; }
+      .table_middle .good_info{ color:#4c4c4c;line-height:20px; width:50% }
+      .table_middle .good_price{ color:#ffab00; padding-right:10px; width:30%;text-align: right }
+      .table_bottom{ width:100%;border:none;border-bottom:1px #e4e4e4 solid; margin-bottom:8px; height:50px; }
+      .table_bottom .operate{ padding:10px; }
+      .table_bottom .operate span{ padding:0 5px; height:24px;line-height: 24px;border-radius: 12px;border:1px solid #666; font-size: 0.9em;}
+      .table_bottom .operate .active{ color:#6eb92c;border:1px solid #6eb92c; }
+
+      </style>
+  </head>
+  <body>
+      <div class="header"><div class="top_tab"><span onclick="chageOrderType('my')" tapmode>我的订单</span><span class="active" onclick="chageOrderType('share')" tapmode>分享订单</span></div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div></div>
+      <div class="top_nav clearfix">
+        <div class="nav_item item_0 active" onclick="chageOrderState('0')" tapmode><span >全部</span></div>
+        <div class="nav_item item_1" onclick="chageOrderState('1')" tapmode><span>待付款</span></div>
+        <div class="nav_item item_2" onclick="chageOrderState('2')" tapmode><span>待发货</span></div>
+        <div class="nav_item item_3" onclick="chageOrderState('3')" tapmode><span>待收货</span></div>
+        <div class="nav_item item_4" onclick="chageOrderState('4')" tapmode><span>已完成</span></div>
+      </div>
+      <div class="null">
+        <p><img src="../image/order.png" width="60%"  /></p>
+        <p>您还没有相关的订单哦~</p>
+      </div>
+
+        <div id="order_list" class="clearfix">
+        </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+      	$('.top_nav').attr('padding-top',headerH);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      var URL="";
+      var headerH;
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('.header');
+      //适配iOS 7+，Android 4.4+状态栏
+      headerH=$api.fixStatusBar(header);
+
+
+     //初始加载列表
+      getOrders('0');
+
+       var _script0='<script id="init0" type="text/html"> '+
+                    '{{each retval as val}}'+
+                    	'<table class="table_top">'+
+            '<tr>'+
+              '<td class="store_logo"><img src="../image/store_img.png" /></td>'+
+              '<td  onclick="goDetail(\'{{val.store_id}}\')" tapmode><span class="store_name">卖家</span></td>'+
+              '<td class="order_state">订单状态</td>'+
+            '</tr>'+
+          '</table>'+
+          '<table class="table_middle"  onclick="goDetail(\'{{val.order_id}}\')" tapmode>'+
+            '<tr >'+
+             '<td class="good_img"><img src="../image/good_img.png"/></td>'+
+              '<td class="good_info"><span>{{val.good_name}}</span><br/><span class="font_s2 default_color2">{{val.good_desc}}</span></td>'+
+              '<td class="good_price">&yen;{{val.good_price}} × {{val.good_num}}</td>'+
+            '</tr>'+
+          '</table>'+
+          '<table class="table_bottom" >'+
+           '<tr>'+
+              '<td align="right" class="operate" >'+
+              	'<span>查物流</span>'+
+              	'<span>付款</span>'+
+              	'<span>取消订单</span>'+
+              	'<span class="active">确认收货</span>'+
+              	'<span>评价</span>'+
+              	'<span>售后</span>'+
+              '</td>'+
+           '</tr>'+
+          '</table>'+
+					'{{/each}}'+
+            '<\/script>';
+
+      };
+
+     //加载列表
+      function getOrders(orderState){
+                api.ajax({
+                    url : URL+'/index.php?app=#',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            order_state:orderState
+                        }
+                    }
+                }, function(ret, err) {
+                    // alert(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+                        if(ret.retval.length==0){
+                            $("#order_list").html("");
+                            $(".null").removeClass("hide");
+
+                        }else{
+                            $(".null").addClass("hide");
+                            $("#order_list").append(_script0);
+							var html0=template("init0",ret);//调用template函数生成模板
+	    					$("#order_list").append(html0);//指定位置添加模板
+                        }
+                    }
+                });
+            }
+
+      //商品详情
+        function goOrder(cId){
+            api.openWin({
+                name: 'order.view',
+                url: './order.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    orderId: cId //商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                }
+            });
+        }
+         //切换订单类型(我的订单\分享订单)
+        function chageOrderType(type){
+          if(type=="my"){
+            api.openWin({
+                name: 'myorder',
+                url: './myorder.html',
+                bounces: false,
+                animation:{
+                    type:"none",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                reload:true
+            });
+
+          }else{
+          	api.openWin({
+                name: 'shareorder',
+                url: './shareorder.html',
+                bounces: false,
+                animation:{
+                    type:"none",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                reload:true
+            });
+          }
+        }
+        //切换订单状态
+        function chageOrderState(cId){
+         $(".nav_item").removeClass("active");
+         $(".item_"+cId).addClass("active");
+         if(cId==0){
+          $(".exchange").removeClass("hide");
+         }else{
+            $(".exchange").addClass("hide");
+         }
+         getOrders(cId);
+        }
+  </script>
+  </html>

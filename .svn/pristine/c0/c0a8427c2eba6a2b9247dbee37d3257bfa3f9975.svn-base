@@ -1,0 +1,42 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+
+ /* 厨师名片 */
+.chef-hotslist-head{
+    display: flex;
+    background: #fff;
+    font-size: 0.9em;
+}
+.hotslist-head-item{
+    width: 50%;
+    /* padding: 5px 0; */
+    margin: 10px 0;
+    font-size: 1.1em;
+    text-align: center;
+}
+.hotslist-head-active{
+    position: relative;
+    color: #6eb92c;
+}
+.hotslist-head-active::after{
+    position: absolute;
+    display: block;
+    content:"";
+    width: 30%;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    border:1px solid  #6eb92c;
+}

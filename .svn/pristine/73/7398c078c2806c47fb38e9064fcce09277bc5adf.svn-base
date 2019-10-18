@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>行业资讯</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.industry.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack()" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span >行业资讯</span>
+            </div>
+        </header>
+
+        <!-- 轮播图 -->
+        <div class="swiper">
+            <div class="swiper-container swiper-top" >
+                <div class="swiper-wrapper" id="adv">
+                    <div class="swiper-slide" tapmode>
+                        <div class="swiper-slide-imgbox">
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                    <div class="swiper-slide" tapmode>14</div>
+                    <div class="swiper-slide" tapmode>153</div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <div class="chef-main-recomend1">
+            <!-- 热点资讯、行业动态、最近活动 -->
+            <div class="chef-hotslist">
+                <div class="chef-hotslist-head">
+                    <p :class="['hotslist-head-item',isDet==1?'hotslist-head-active':'']" @click="changeDis(1)">热点资讯</p>
+                    <p :class="['hotslist-head-item',isDet==2?'hotslist-head-active':'']" @click="changeDis(2)">行业动态</p>
+                    <p :class="['hotslist-head-item',isDet==3?'hotslist-head-active':'']" @click="changeDis(3)">最新活动</p>
+                </div>
+                <div class="chef-hotslist-body">
+                    <div class="hotslist-body-item" @click="goEssay">
+                        <div class="hotslist-item-title">
+                            红雨漂泊泛起了回忆怎么潜？
+                        </div>
+                        <div class="hotslist-item-imgboxs">
+                            <div class="hotslist-imgboxs-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="hotslist-imgboxs-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="hotslist-imgboxs-imgbox">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                        <div class="hotslist-item-footer">
+                            <div class="hotslist-footer-item">
+                                <i class="iconfont"></i>
+                                <span class="hotslist-footer-look">129</span>
+                            </div>
+                            <div class="hotslist-footer-item">
+                                <i class="iconfont"></i>
+                                <span class="hotslist-footer-comment">129</span>
+                            </div>
+                            <div class="hotslist-footer-item">
+                                <i class="iconfont"></i>
+                                <span class="hotslist-footer-fabulous">129</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var wrap = new Vue({
+        el:"#wrap",
+        data:{
+            isDet:1,
+            URL:"",
+        },
+        methods: {
+            goBack:function goBack(){
+                api.closeWin();
+            },
+            //跳转文章页面
+            goEssay: function goEssay(Id) {
+                api.openWin({
+                    name: 'essay',
+                    url: './essay.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        articleId: Id, //文章id
+                        articleType: '1'
+                    }
+                });
+            },
+            //初始化头部轮播图
+            initSwiperTop: function swiperNotice() {
+                var swiperTop = new Swiper('.swiper-top', {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    observer: true,
+                    observeParents: true,
+                    on: {
+                        click: function () {
+                            const realIndex = this.realIndex;
+                            //that.handleClickSlide(realIndex); 
+                        }
+                    },
+                    preventLinksPropagation: false   // 阻止点击事件冒泡
+                });
+            },
+            changeDis: function changeDis(type) {
+                this.isDet = type
+            },
+        },
+        created:function created(){
+            
+        },
+        mounted:function mounted() {
+            var that = this
+            this.$nextTick(function(){
+                apiready = function () {
+                    that.URL = $api.URL();
+                    var header = that.$refs.header;
+                    //适配iOS 7+，Android 4.4+状态栏
+                    headerH = $api.fixStatusBar(header);
+                    api.setCustomRefreshHeaderInfo({
+                        bgColor: '#F6F6F6',
+                        images: {
+                            pull: 'widget://image/refresh/pulling.png',
+                            transform: [
+                                'widget://image/refresh/transform0.png',
+                                'widget://image/refresh/transform1.png',
+                                'widget://image/refresh/transform2.png',
+                                'widget://image/refresh/transform3.png',
+                                'widget://image/refresh/transform4.png',
+                                'widget://image/refresh/transform5.png',
+                                'widget://image/refresh/transform6.png'
+                            ],
+                            load: [
+                                'widget://image/refresh/loading0.png',
+                                'widget://image/refresh/loading1.png',
+                                'widget://image/refresh/loading2.png',
+                                'widget://image/refresh/loading3.png',
+                                'widget://image/refresh/loading4.png',
+                            ]
+                        }
+                    }, function (ret, err) {
+
+                    });
+                }
+                $('.swiper-wrapper').on('touchstart', function (e) {
+                    console.log(api.setWinAttr)
+                    api.setWinAttr({
+                        bounces: false
+                    });
+                });
+                $('.swiper-wrapper').on('touchend', function (e) {
+                    api.setWinAttr({
+                        bounces: true
+                    });
+                });
+                that.initSwiperTop()
+            })
+            
+        },
+    })
+
+</script>
+
+</html>

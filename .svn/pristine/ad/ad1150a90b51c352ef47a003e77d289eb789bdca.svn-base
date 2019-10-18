@@ -1,0 +1,57 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+/* 用户地址 */
+.addressBox{
+    padding: 0 15px;
+    border-bottom: 8px solid #f2f2f2;
+}
+.subscriber{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    line-height: 45px;
+}
+.subscriberAdd{
+    font-size: 0.6em;
+    line-height: 16px;
+    letter-spacing: 1px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f2f2f2;
+
+}
+.default{
+    background: #eff7ea;
+    color: #6eb92c;
+    padding: 0 8px;
+}
+.compile{
+    font-size: 0.9em;
+    line-height: 45px;
+    display: flex;
+    justify-content: flex-end;
+}
+.compileText{
+    margin-right: 35px;
+}
+/* 底部按钮 */
+.addFlexd{
+    width: 100%;
+    position: fixed;
+    line-height: 45px;
+    background: #6eb92c;
+    color: #fff;
+    bottom: 0;
+   
+}

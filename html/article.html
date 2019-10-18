@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>文章</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+      .badge-dot {
+       width: 8px;
+       height: 8px;
+       padding: 0;
+       border-radius: 4px;
+       box-shadow: 0 0 1px 1px #bdbdbd;
+       position: relative;
+       top: -10px;
+       left: 0px;
+       display: inline-block;
+       font-size: 12px;
+       text-align: center;
+       background-color: #FF5722;
+       color: #fff;
+      }
+      .out_div{ margin-top:10px; }
+      #article_list li{ height:40px;line-height:40px;border-bottom: 1px solid #f4f4f4 ;}
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">消息</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div class="out_div clearfix">
+        <ul id="article_list">
+          <li ><span class="t_l">暂无文章</span></li>
+         <!-- <li onclick="goArticleview('1')" tapmode><span class="t_l">文章一</span><span class="t_r font_s2"><i class="iconfont icon-htbArrowright"></i></span></li>
+          <li onclick="goArticleview('2')" tapmode><span class="t_l">文章二</span><span class="t_r font_s2"><i class="iconfont icon-htbArrowright"></i></span></li>
+          <li onclick="goArticleview('3')" tapmode><span class="t_l">文章三</span><span class="t_r font_s2"><i class="iconfont icon-htbArrowright"></i></span></li>
+          <li onclick="goArticleview('4')" tapmode><span class="t_l">文章四</span><span class="t_r font_s2"><i class="iconfont icon-htbArrowright"></i></span></li>
+        --></ul>
+      </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+      api.execScript({
+        	  name:"index",
+			  frameName:"myinfo",
+			  script:"get_msg_status();"
+		  });
+          api.closeWin();
+      }
+
+      function keyback(){
+	      api.addEventListener({
+			    name: 'keyback'
+			}, function(ret, err) {
+			    goBack();
+			});
+		}
+      var URL="";
+      var articleType;
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      articleType=api.pageParam.articleType;
+      if(articleType=='message'){
+        $(".header").html("消息");
+      }else if(articleType=='hotmessage'){
+        $(".header").html("热点头条");
+      }else if(articleType=='help'){
+        $(".header").html("使用帮助");
+      }
+		keyback();
+      //加载帮助列表
+      getArticles();
+      };
+
+		function getArticles(){
+                api.ajax({
+                    url : URL+'index.php?app=myinfo&act=get_msg',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            articleType:articleType
+                        }
+                    }
+                }, function(ret, err) {
+                 if (ret &&ret.done) {
+                 	console.log(JSON.stringify(ret));
+                  if(ret.retval.length==0){
+                        $("#article_list").html("暂无文档");
+                  }else{
+                      	var str_msg='';
+                        $.each(ret.retval, function(i, item) {
+                           if(item.status){
+                           	 	str_msg+='<li onclick="goArticleview('+item.msg_id+')" tapmode><span class="t_l">'+item.title+'<span class="badge-dot"></span></span> <span class="t_r font_s2">'+item.s_time+'<i class="iconfont icon-htbArrowright"></i></span></li>';
+                           }else{//
+                            	str_msg+='<li onclick="goArticleview('+item.msg_id+')" tapmode><span class="t_l">'+item.title+'</span> <span class="t_r font_s2">'+item.s_time+'<i class="iconfont icon-htbArrowright hide"></i></span></li>';
+                           }
+                        });
+                        $("#article_list").html(str_msg);
+                        //$api.append($api.byId("article_list"), str_msg);
+                  }
+                 }else{
+                 	console.log("22"+ret);
+                 }
+
+//                      if(ret.retval.length==0){
+//                          $("#article_list").html("暂无相关文档");
+//                      }else{
+//                          var str = "";
+//                          $api.append($api.byId("article_list"), '');
+//                          $.each(ret.retval, function(i, item) {
+//                          str = '<li><span class="t_l"  onClick="goArticleview('+item.article_id+')" tapmode>'+item.title_name+'</span><span class="t_r font_s2"><i class="iconfont icon-htbArrowright"></i></span></li>';
+//                          $api.append($api.byId("article_list"), str);
+//                       });
+//                      }
+//                  }
+                });
+            }
+
+
+      function goArticleview(aId){
+        api.openWin({
+                name: 'article.view',
+                url: './article.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    articleId: aId //商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                }
+            });
+      }
+
+  </script>
+  </html>

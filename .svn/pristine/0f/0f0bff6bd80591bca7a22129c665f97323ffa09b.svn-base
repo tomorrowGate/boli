@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>我的售后</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+		<style>
+			html, body {
+				background-color: #efefef;
+			}
+			.device-header {
+				position: relative;
+				background: url(../image/background1.png) no-repeat;
+				-webkit-background-size: 100% 160px;
+				background-size: 100% 160px;
+			}
+			.info_l {
+				float: left;
+				padding: 38px 5px 20px 20px;
+			}
+			.info_m {
+				font-size: 14px;
+				padding: 42px 20px 20px 5px;
+			}
+			.portrait {
+				width: 54px;
+				height: 54px;
+				border-radius: 27px;
+				border: 1px solid #fff;
+			}
+			#user_name {
+				font-size: 1.3em;
+				margin-bottom: 0px
+			}
+			.my_info {
+				position: relative;
+				display: flex;
+				/* align-items: center; */
+				height: 160px;
+				color: #fff;
+			}
+			.invite {
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				margin-top: 5px;
+			}
+			.inviteCode {
+				height: 24px;
+				line-height: 24px;
+				padding: 0 8px;
+				border: 1px solid #fff;
+				border-radius: 12px;
+				font-size: 14px;
+			}
+			.copy {
+				height: 24px;
+				line-height: 24px;
+				padding: 0 8px;
+				border: 1px solid #fff;
+				border-radius: 12px;
+				margin-left: 5px;
+				background-color: #d0a96f;
+				font-size: 14px;
+			}
+			.con {
+				position: relative;
+				top: -40px;
+				width: 95%;
+				background-color: #fff;
+				border-radius: 12px;
+				margin: 0 auto;
+			}
+			.userInfo, .devService, .breakReason, .previewTime {
+				border-radius: 5px;
+				box-shadow: 2px 2px 4px #ddd;
+			}
+			.userInfo {
+				display: flex;
+				align-items: center;
+				/* justify-content: space-around; */
+				height: 70px;
+				line-height: 50px;
+				background-color: #fff;
+				font-size: 14px;
+				color: #7f7f7f;
+			}
+			.userInfo+ .userInfo {
+				margin-top: 15px;
+			}
+			.userPic {
+				display: flex;
+				box-sizing: border-box;
+				width: 40px;
+				height: 40px;
+				margin: 0 20px 0px 20px;
+				/*padding-right: 10px;
+				 border-right: 1px solid #ddd; */
+				border-radius: 50%;
+				background-color: #0b93eb;
+			}
+			.userPic img {
+				transform: scale(0.5);
+			}
+			.userConnection {
+				text-indent: 5px;
+			}
+			.icon-htbArrowright {
+				position: absolute;
+				right: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				我的售后
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class='device-header'>
+			<div class="my_info clearfix">
+				<div class="info_l" ><img src="../image/default_portrait.png" id="portrait" class="portrait">
+				</div>
+				<div class="info_m">
+					<div>
+						<span id="user_name"></span>
+					</div>
+					<div class="invite">
+						<div class="inviteCode">
+							<span>邀请码: </span><span class='device_num' id="invite_code"></span>
+						</div>
+						<div class="copy">
+							<span class="border-c" onclick="copyHref()" tapmode>复制</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="con">
+			<div class="userInfo" onclick="goPreSev()" tapmode>
+				<div class="userPic">
+					<img src="../image/personMsg.png" alt="">
+				</div>
+				<div class="userConnection servicePre">
+					预约维修
+				</div>
+				<i class="iconfont icon-htbArrowright" ></i>
+			</div>
+			<div class="userInfo" onclick="goSerRate()" tapmode>
+				<div class="userPic">
+					<img src="../image/personMsg.png" alt="">
+				</div>
+				<div class="userConnection serviceRate">
+					服务进度
+				</div>
+				<i class="iconfont icon-htbArrowright"></i>
+			</div>
+			<div class="userInfo" onclick="goRuleByself()">
+				<div class="userPic">
+					<img src="../image/personMsg.png" alt="">
+				</div>
+				<div class="userConnection ruleByself">
+					自主排查
+				</div>
+				<i class="iconfont icon-htbArrowright"></i>
+			</div>
+			<div class="userInfo" onclick="goNeigbor()">
+				<div class="userPic">
+					<img src="../image/personMsg.png" alt="">
+				</div>
+				<div class="userConnection neigbor">
+					附近售后点
+				</div>
+				<i class="iconfont icon-htbArrowright"></i>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript">
+		var URL = "";
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		apiready = function() {
+			var header = $api.dom('header');
+			// 获取 header 标签元素
+			headerH = $api.fixStatusBar(header);
+			URL = $api.URL();
+			$api.html($api.byId("user_name"), window.localStorage.getItem('real_name'));
+			$api.html($api.byId("invite_code"), window.localStorage.getItem('invite_code'));
+			var portrait = window.localStorage.getItem('portrait');
+			if (portrait==''||portrait==null||portrait==undefined) {
+				$api.attr($api.byId('portrait'), 'src', "../image/default_portrait.png");
+			} else {
+				//头像
+				if (portrait.substr(0, 7).toLowerCase() == "http://") {
+					$api.attr($api.byId('portrait'), 'src', portrait);
+				} else {
+					$api.attr($api.byId("portrait"), 'src', URL + portrait);
+				}
+			}
+			console.log(portrait);
+			if (portrait.substr(0, 7).toLowerCase() == "http://") {
+				$api.attr($api.byId('portrait'), 'src', portrait);
+			} else {
+				$api.attr($api.byId("portrait"), 'src', URL + portrait);
+			}
+			if (portrait == "" || portrait == null) {
+				$api.attr($api.byId('portrait'), 'src', "../image/default_portrait.png");
+			} else {
+				$api.attr($api.byId("portrait"), 'src', URL + portrait);
+			}
+		};
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		function goBack() {
+			api.execScript({
+				name : "index",
+				frameName : "myinfo",
+				script : "get_user_info();"
+			});
+			api.closeWin();
+		}
+
+		function goSerRate() {
+			api.openWin({
+				name : "serRate",
+				url : "./serRate.html"
+			})
+		}
+
+		function goPreSev() {
+			api.openWin({
+				name : "preService",
+				url : "./preService.html"
+			})
+		}
+
+		function goRuleByself() {
+			api.toast({
+				msg : '敬请期待',
+				duration : 2000,
+				location : 'bottom'
+			});
+		}
+
+		function goNeigbor() {
+			api.toast({
+				msg : '敬请期待',
+				duration : 2000,
+				location : 'bottom'
+			});
+		}
+
+		function copyHref() {
+			var content = $("#invite_code").text();
+			var clipBoard = api.require('clipBoard');
+			clipBoard.set({
+				value : content
+			}, function(ret, err) {
+				if (ret) {
+					MyToast('复制成功');
+				} else {
+					MyToast('复制失败');
+				}
+			});
+		}
+	</script>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>确认下单</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/order.css"/>
+
+      <style>
+      html,body {
+        background-color: #f2f2f2;
+      }
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">确认下单</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div class="address" onclick="changeAddress()" tapmod>
+        <div class="address_info address_item selected_address" id="shxx" >
+          <input type="radio" class="radio" checked="checked" name="address_options" value="{$address.addr_id}" id="address_{$address.addr_id}"/>
+          <span class="addr_detail">
+            <p class="addr_info1">收货人:<span id="consignee"><!--consignee--></span>&nbsp;&nbsp;<span id="phone_mob"><!--phone_mob--></span></p>
+            <p class="addr_info2"><span id="region_name"><!--region_name--></span>&nbsp;&nbsp;<span id="address"><!--address--></span></p>
+            <p class="hide"><span id="phone_tel"></span><span id="zipcode"></span><span id="region_id"></span></p>
+          </span>
+          <span class="goaddress"><i class="iconfont icon-htbArrowright"></i></span>
+        </div>
+      </div>
+      <div class="line_img"></div>
+      <div class="identity font_s2"  onclick="changeIdentity()" tapmod>
+        <span class="identity_name">请输入报关实名认证信息(仅用于海关报关)</span>&nbsp;&nbsp;<span class="identity_id"></span>
+      </div>
+      <div class="orderlist">
+        <ul class="goods_info" id="goods_list">
+          <li><i class="iconfont icon-huoche"></i><span onClick="goStore('store_id')" tapmod class="store_name">&nbsp;店铺名</span></li>
+          <li  onClick="goGoods('goods_id')" tapmod>
+            <img src="../image/good_img.png" />
+            <p>商品名称</p>
+            <p class="font_s2">规格</p>
+            <p>&yen;158(税费:&yen;5) <span class="g_num">x1</span></p>
+          </li>
+        </ul>
+        <ul class="postscript">
+          <li ><span class="font_w1 ly">留言</span><textarea  class="com_text font_s2 font_c1" id="postscript" placeholder="关于订单的备注"></textarea></li>
+
+          <li onclick="openCoupon()" tapmod><span class="t_l font_w1">优惠券</span><span class="t_r font_s2 font_c1"><span id="c_discount">暂无优惠券可用</span><span class="hide" id="coupon_amount">0</span><span class="hide" id="coupon_sn">0</span><i class="iconfont icon-htbArrowright"></i></span></li>
+        </ul>
+        <ul class="order_price">
+          <li ><span class="t_l font_w1">商品金额</span><span class="t_r font_s2 font_c1">&yen;<span id="goods_amount">0</span></span></li>
+          <li  onclick="openShippingfee()" tapmod><span class="t_l font_w1">运费<i class="iconfont icon-wenhao2"></i></span><span class="t_r font_s2 font_c1">&yen;<span id="shipping_fee">0</span>(<span id="shipping_type">公司自提</span>)<span class="hide" id="shipping_id">0</span></span></li>
+          <li ><span class="t_l font_w1">税费</span><span class="t_r font_s2 font_c1" >&yen;<span id="taxes">0</span></span></li>
+          <li ><span class="t_l font_w1">小计</span><span class="t_r font_s2 font_c1">&yen;<span id="_order_amount2">0</span></span></li>
+        </ul>
+        <ul class="anonymous">
+          <li><span class="t_l font_w1">匿名购买<i class="iconfont icon-wenhao2"></i></span><span class="t_r font_s2 font_c1"><span  onclick="anonymous('off')" tapmod><i class="iconfont icon-kaiguanguan-copy-copy anony_on"></i></<span><span onclick="anonymous('on')" tapmod><i class="iconfont icon-kaiguanguan-copy  anony_off hide"></i></span><input type="hidden" name="anonymous" value="on"></li>
+        </ul>
+
+      </div>
+      <!-- 优惠券列表 -->
+      <div id="coupon_lists" class="hide">
+        <div class="mask"></div>
+        <div class="coupon_lists" id="coupon_list">
+        <!--<div class="coupon_title"><span>优惠券</span><span class="font_s2 default_color2">(金额门槛仅为商品总价，不含税费和运费哦)</span><span class="close_coupon"><i class="iconfont icon-oms-tubiao-shangchuan-"></i></span></div>
+        <div class="coupon_type clearfix"><span class="t_l c_0 active" onclick="getCoupon('0')" tapmod>可用优惠券(<span class="available">0</span>)</span><span class="t_r c_1" onclick="getCoupon('1')" tapmod>不可用优惠券(<span class="unavailable">0</span>)</span></div>
+        <div id="coupon_content">
+           <div class="coupon_item" id="coupon_01" onclick="checkCoupon('coupon_01')" tapmod>
+             <p class="default_color1 font_s1">&yen;<span class="c_money">10</span><span class="t_r default_color2 font_s2">有效期限</span></p>
+             <p class="default_color2 font_s2">优惠券说明<span class="t_r default_color2 font_s2">2019-05-01</span></p>
+           </div>
+           <div class="coupon_item" id="coupon_02" onclick="checkCoupon('coupon_02')" tapmod>
+             <p class="default_color1 font_s1">&yen;<span class="c_money">5</span><span class="t_r default_color2 font_s2">有效期限</span></p>
+             <p class="default_color2 font_s2">优惠券说明<span class="t_r default_color2 font_s2">2019-05-01</span></p>
+           </div>
+        </div>-->
+        </div>
+      </div>
+      <!-- 运费列表 -->
+      <div id="fee_lists" class="hide">
+        <div class="mask"></div>
+        <div class="fee_lists">
+        <div class="fee_title"><span>选择运费</span><span class="font_s2 default_color2">(按收货方式或地址选择相应运费)</span><span class="close_fee"><i class="iconfont icon-oms-tubiao-shangchuan-"></i></span></div>
+        <div id="fee_content">
+
+        </div>
+        </div>
+      </div>
+      <div class="footer">
+      <div class="actual_price">&nbsp;&nbsp;实付款：&yen;<span id="actual_price">0</span></div>
+      <div id="to_pay" onclick="to_pay()" tapmode>提交订单</div>
+      </div>
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    var ugrade = window.localStorage.getItem("ugrade");
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+
+      var URL="";
+      var orderId;
+      var store_id;
+      var spec_id;
+      var coupon_id;
+      var shipping_id;
+      var goods='cart';
+	var store=2;
+	var good_id='';
+	var quanjuurl='';
+	var zhuan=0;
+    apiready = function(){
+      URL=$api.URL();
+      var header = $api.dom('header'); // 获取 header 标签元素
+      headerH = $api.fixStatusBar(header);
+      orderId=api.pageParam.orderId;
+      store_id=api.pageParam.store_id;
+      goods_id=api.pageParam.goods_id;
+      spec_id=api.pageParam.spec_id;
+      zhuan=api.pageParam.zhuan;
+
+      //alert(spec_id);
+       if(goods_id!=null){
+	      goods='good';
+	     store=store_id;
+	     good_id='&goods_id='+goods_id;
+	     quanjuurl='index.php?app=order&goods='+goods+'&store_id='+store+good_id+'&spec_id='+spec_id;
+	      				//alert(goods_id);
+	      				//alert(store);
+	   }
+		else{
+	   	goods='cart';
+	     store=store_id;
+	     good_id='&goods_id='+goods_id;
+	     quanjuurl='index.php?app=order&goods='+goods;
+	   }
+
+     // alert(goods_id);
+      getCoupon(1);
+
+     //初始加载列表
+
+      getOrder();
+      //get_yhq();
+
+};
+
+
+     //加载订单信息
+      function getOrder(){
+
+                api.ajax({
+                    url : URL+quanjuurl,
+                    method : 'get',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            ajax:1,
+                            spec_id:spec_id
+                        }
+                    }
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret));
+                    //console.log(JSON.stringify(ret.retval[1].my_address));
+                    //console.log(JSON.stringify(ret.retval[1].my_address[43]));
+                    if (ret.done) {
+                    console.log(JSON.stringify(ret.retval[0]));
+                    console.log(JSON.stringify(ret.retval[0].items));
+                    console.log(JSON.stringify(ret.retval[1]));
+                    console.log(JSON.stringify(ret.retval[1].shipping_methods));
+                        //收货地址使用的是最新添加的地址
+                        $.each(ret.retval[1].my_address, function(i, item) {
+                         console.log("i===" + i);
+                         var c='';
+                         getAddressinfo(c);
+                         })
+
+                      $api.html($api.byId("goods_amount"), ret.retval[0].amount);
+                     // $api.html($api.byId("store_name"), ret.retval[0].store_name);
+                        var str0='<li><i class="iconfont icon-huoche"></i><span onClick="goStore('+ret.retval[0].store_id+')" tapmod class="store_name">&nbsp;'+ret.retval[0].store_name+'</span></li>';
+                        $api.html($api.byId("goods_list"), str0);
+                     	$.each(ret.retval[0].items, function(i, item) {
+                        var str='<li onClick="goGoods('+item.goods_id+')" tapmod>';
+                            str+='<img src="'+$api.img_surl+item.goods_image+'" />';
+                            str+='<p>'+item.goods_name+'</p>';
+                            str+='<p class="font_s2">'+item.specification+'</p>';
+                            str+='<p>&yen;'+item.original_price+'<span class="g_num">x'+item.quantity+'</span></p>';
+                            str+='</li>';
+                        $api.append($api.byId("goods_list"), str);
+                      })
+                      $.each(ret.retval[1].shipping_methods, function(i, item) {
+                        if(i==41){
+                          $api.html($api.byId("shipping_fee"), item.first_price);
+                          $api.html($api.byId("shipping_type"), item.shipping_name);
+                          $api.html($api.byId("shipping_id"), item.shipping_id);
+                        }
+                        var str='<div class="fee_item" id="'+item.shipping_id+'" onclick="checkShippingfee('+item.shipping_id+')" tapmod>';
+                            str+='<p class="default_color1 font_s1"><span class="fee_name">'+item.shipping_name+'</span></p>';
+                            str+='<p class="default_color2 font_s2">首重:<span class="first_price">'+item.first_price+'</span>元<span class="t_r">续重:<span class="step_price">'+item.step_price+'</span>元</span></p>';
+                            str+='</div>';
+                        $api.append($api.byId("fee_content"), str);
+                      })
+                      var order_price=ret.retval[0].amount+parseInt($("#shipping_fee").html())+parseInt($("#taxes").html());
+                      if(ugrade>=2){
+                      //alert(ugrade);
+                      	var actual_price=order_price-parseInt($("#coupon_amount").html())-parseInt(zhuan);
+                      }else{
+                      //alert(ugrade+"xx");
+                      	var actual_price=order_price-parseInt($("#coupon_amount").html());
+                      }
+
+                      $api.html($api.byId("_order_amount2"), order_price);
+                      $api.html($api.byId("actual_price"), actual_price);
+
+
+                    }else{
+                       console.log(ret.msg);
+                        api.toast({
+                          msg: '失败',
+                          duration: 2000,
+                          location: 'bottom'
+                        });
+                    }
+                    if(err){
+                      api.toast({
+                        msg: err.msg,
+                        duration: 2000,
+                        location: 'bottom'
+                      });
+                    }
+                });
+            }
+//选择收货地址
+function changeAddress(){
+   api.openWin({
+        name : 'address',
+        url : './address.html',
+        bounces : false,
+        animation : {
+          type : "push", //动画类型（详见动画类型常量）
+          subType : "from_right", //动画子类型（详见动画子类型常量）
+          duration : 300 //动画过渡时间，默认300毫秒
+        },
+        pageParam : {
+          comefrom : 'orderConfirm'
+        }
+      });
+}
+//获取选中的收货信息
+function getAddressinfo(addrId){
+  api.ajax({
+                    url : URL+'index.php?app=myinfo&act=get_address',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            status:2,
+                            addr_id:addrId
+                        }
+                    }
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret.done) {
+                    var str='';
+                    str+='<input type="text" value="'+ret.retval.region_id+'" id="reg" class="hide"/>';
+                    str+='<input type="radio" class="radio" checked="checked" name="address_options" value="{$address.addr_id}" id="address_{$address.addr_id}"/>';
+		          	str+='<span class="addr_detail">';
+		            str+='<p class="addr_info1">收货人:<span id="consignee">'+ret.retval.consignee+'</span>&nbsp;&nbsp;<span id="phone_mob">'+ret.retval.phone_mob+'</span></p>';
+		            str+='<p class="addr_info2"><span id="region_name">'+ret.retval.region_name+'</span>&nbsp;&nbsp;<span id="address">'+ret.retval.address+'</span></p>';
+		            str+='<p class="hide"><span id="phone_tel"></span><span id="zipcode"></span><span id="region_id"></span></p>';
+		          	str+='</span>';
+		          	str+='<span class="goaddress"><i class="iconfont icon-htbArrowright"></i></span>';
+		          	$("#shxx").html(str);
+//                    $.each(ret.retval[1].my_address, function(i, item) {
+//                      if(item.addr_id==addrId){
+//                        $("#consignee").html(item.consignee);
+//                        $("#region_id").html(item.region_id);
+//                        $("#region_name").html(item.region_name);
+//                        $("#address").html(item.address);
+//                        $("#zipcode").html(item.zipcode);
+//                        $("#phone_tel").html(item.phone_tel);
+//                        $("#phone_mob").html(item.phone_mob);
+//
+//                      }
+//
+//                    })
+                    }else{
+                        api.toast({
+                          msg: '失败',
+                          duration: 2000,
+                          location: 'bottom'
+                        });
+                    }
+                    if(err){
+                      api.toast({
+                        msg: err.msg,
+                        duration: 2000,
+                        location: 'bottom'
+                      });
+                    }
+                });
+}
+//选择实名认证信息
+function changeIdentity(){
+  api.openWin({
+        name : 'identity',
+        url : './identity.html',
+        bounces : false,
+        animation : {
+          type : "push", //动画类型（详见动画类型常量）
+          subType : "from_right", //动画子类型（详见动画子类型常量）
+          duration : 300 //动画过渡时间，默认300毫秒
+        },
+        pageParam : {
+          comefrom : 'orderConfirm'
+        }
+      });
+}
+//获取选中的实名认证信息
+function getIdentityinfo(iName,iId){
+  $(".identity_name").html(iName);
+  $(".identity_id").html(iId);
+}
+//匿名购买
+function anonymous(type){
+  if(type=='on'){
+    api.alert({
+        title: '',
+        msg: '如果开启匿名购买，您的服务商将不能获得您的订单信息，为您提供精准服务，请谨慎开启',
+       buttons:['我知道了'],
+    }, function(ret, err) {
+      if(ret){
+        $('.anony_on').removeClass('hide');
+        $('.anony_off').addClass('hide');
+        $("input[name='anonymous']").val('on');
+      }
+    });
+  }else if(type=="off"){
+   $('.anony_on').addClass('hide');
+   $('.anony_off').removeClass('hide');
+   $("input[name='anonymous']").val('off');
+  }
+console.log($("input[name='anonymous']").val());
+}
+//获取优惠券(0:可用,1:不可用)
+function getCoupon(cType){
+   				api.ajax({
+                    url : URL+'index.php?app=order&act=get_mycoupon ',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            ajax:1
+                        }
+                    }
+                }, function(ret, err) {
+                	console.log("============================");
+                	if(ret.done){
+                		console.log(JSON.stringify(ret));
+                		//quan_coupon_sn=ret.retval.coupon_sn;
+                		var ky=0;
+                		var bky=0;
+                		$.each(ret.retval,function(i,item){
+                			if(item.valid==1){
+                				ky++;
+                			}else{
+                				bky++;
+                			}
+                		});
+                		var str='';
+                		var str1='';
+                		str+='<div class="coupon_title"><span>优惠券</span><span class="font_s2 default_color2">(金额门槛仅为商品总价，不含税费和运费哦)</span><span class="close_coupon"><i class="iconfont icon-oms-tubiao-shangchuan-"></i></span></div>';
+				        str+='<div class="coupon_type clearfix"><span class="t_l c_1 active" onclick="getCoupon(1)" tapmod>可用优惠券(<span class="available">'+ky+'</span>)</span><span class="t_r c_0" onclick="getCoupon(0)" tapmod>不可用优惠券(<span class="unavailable">'+bky+'</span>)</span></div>';
+				        str+='<div id="coupon_content">';
+				        $.each(ret.retval,function(i,item){
+					        if(item.valid==cType){
+					        	str+='<div class="coupon_item" id="'+item.coupon_id+'" onclick="checkCoupon('+item.coupon_id+','+item.coupon_sn+')" tapmod>';
+					             str+='<p class="default_color1 font_s1">&yen;<span class="c_money">'+item.coupon_value+'</span><span class="t_r default_color2 font_s2">有效期限</span></p>';
+					             str+='<p class="default_color2 font_s2">'+item.coupon_name+'<span class="t_r default_color2 font_s2">'+item.end_time+'</span></p>';
+					           str+='</div>';
+					        }
+//					        else{
+//					        	str1+='<div class="coupon_item" id="coupon_01" onclick="checkCoupon(coupon_01)" tapmod>';
+//					             str1+='<p class="default_color1 font_s1">&yen;<span class="c_money">'+item.coupon_value+'</span><span class="t_r default_color2 font_s2">有效期限</span></p>';
+//					             str1+='<p class="default_color2 font_s2">优惠券说明<span class="t_r default_color2 font_s2">'+item.end_time+'</span></p>';
+//					           str1+='</div>';
+//					        }
+				        });
+				        str+='</div>';
+				        $("#coupon_list").html(str);
+				          if(cType==0){
+						  	$('.c_0').addClass('active');
+						  	$('.c_1').removeClass('active');
+						  }else{
+						  	$('.c_1').addClass('active');
+						  	$('.c_0').removeClass('active');
+						  }
+						    $(".close_coupon").click(function(){
+							    $("#coupon_lists").addClass('hide');
+							  })
+                	}
+                	if(err){
+                		console.log("err");
+                	}
+                	console.log("============================");
+                });
+}
+
+//打开优惠券列表
+function openCoupon(){
+  $("#coupon_lists").removeClass('hide');
+  $("#coupon_lists").find(".mask").click(function(){
+    $("#coupon_lists").addClass('hide');
+  })
+	getCoupon(1);
+}
+
+//选择优惠券
+function checkCoupon(cId,sid){
+	coupon_id=cId;
+	 $("#coupon_sn").html(sid);
+	 //alert(sid);
+     var c_money=$("#"+cId).find('.c_money ').html();
+     $('#c_discount').html('-&yen;'+c_money);
+     $('#coupon_amount').html(c_money);
+     $("#coupon_lists").addClass('hide');
+     var actual_price=parseInt($("#_order_amount2").html())-parseInt(c_money);
+     //alert(c_money);alert(actual_price);
+     $("#actual_price").html(actual_price);
+
+}
+//打开邮费列表
+function openShippingfee(){
+  $("#fee_lists").removeClass('hide');
+  $("#fee_lists").find(".mask").click(function(){
+    $("#fee_lists").addClass('hide');
+  })
+  $(".close_fee").click(function(){
+    $("#fee_lists").addClass('hide');
+  })
+}
+
+//选择邮费
+function checkShippingfee(cId){
+	shipping_id=cId;
+     var fee_money=$("#"+cId).find('.first_price').html();
+     $('#shipping_fee').html(fee_money);
+     var fee_type=$("#"+cId).find('.fee_name').html();
+     $('#shipping_type').html(fee_type);
+     $("#fee_lists").addClass('hide');
+     var order_price=parseInt($("#goods_amount").html())+parseInt(fee_money)+parseInt($("#taxes").html());
+     var actual_price=order_price-parseInt($("#coupon_amount").html());
+     $("#_order_amount2").html(order_price);
+      $("#actual_price").html(actual_price);
+}
+//提交订单
+function to_pay(){
+     console.log(quanjuurl);
+     var identity_name= $(".identity_name").html();
+     var identity_id=$(".identity_id").html();
+     if(identity_id==""||identity_id==null||identity_id=="undefinded"){
+       api.toast({
+                msg: '请选择实名认证信息！',
+                duration: 2000,
+                location: 'middle'
+              });
+     }else{
+
+
+     var actual_price=$("#actual_price").html();
+     var consignee=$("#consignee").html();
+     var region_id=$("#reg").val();
+     var region_name=$("#region_name").html();
+     var address=$("#address").html();
+     var zipcode=$("#zipcode").html();
+     var phone_tel=$("#phone_tel").html();
+     var phone_mob=$("#phone_mob").html();
+     var coupon_sn=$("#coupon_sn").html();
+     var shipping_id=$("#shipping_id").html();
+     var postscript=$("#postscript").html();
+     console.log("================info==================");
+     console.log(actual_price+"||"+consignee+"||"+region_id+"||"+region_name+"||"+address+"||"+zipcode+"||"+phone_tel+"||"+phone_mob+"||"+coupon_sn+"||"+shipping_id);
+     api.ajax({
+            url : URL+quanjuurl,
+            method : 'post',
+            cache : false,
+            timeout : 30,
+            dataType : 'json',
+            returnAll : false,
+            data : {
+                values : {
+                  identity_name:identity_name,
+                  identity_id:identity_id,
+                  user_id:userId,
+                  consignee:consignee,
+                  region_id:region_id,
+                  region_name:region_name,
+                  address:address,
+                  zipcode:zipcode,
+                  phone_tel:phone_tel,
+                  phone_mob:phone_mob,
+                  coupon_sn:coupon_sn,
+                  shipping_id:shipping_id,
+                  ajax:1
+                }
+            }
+        }, function(ret, err) {
+        console.log("=================to_pay=======================");
+              console.log(JSON.stringify(ret));
+            if (ret.done) {
+
+              var order_id=ret.retval;
+              //alert(order_id);
+              api.openWin({
+                name : 'payment',
+                url : './payment.html',
+                bounces : false,
+                animation : {
+                  type : "push", //动画类型（详见动画类型常量）
+                  subType : "from_right", //动画子类型（详见动画子类型常量）
+                  duration : 300 //动画过渡时间，默认300毫秒
+                },
+                pageParam : {
+                  actual_price : actual_price,
+                  orderId:order_id
+                }
+              });
+
+            }else{
+                api.toast({
+                  msg: '失败',
+                  duration: 2000,
+                  location: 'bottom'
+                });
+            }
+            if(err){
+              api.toast({
+                msg: err.msg,
+                duration: 2000,
+                location: 'bottom'
+              });
+            }
+   });
+   }
+}
+  </script>
+  </html>

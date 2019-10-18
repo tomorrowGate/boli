@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+  <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+  <link rel="stylesheet" type="text/css" href="../css/chefs/chef.whole.css" />
+  <title>全部</title>
+</head>
+<body>
+  <!-- 头部 -->
+  <header class="page-head">
+      <div class="back" onclick="goBack()" tapmode>
+          <i class="iconfont icon-back"></i>
+      </div>
+      <div class="head-center">
+          <span>烘焙</span>
+      </div>
+  </header>
+  <!-- 导航条 -->
+<div class="whole">
+
+
+  <nav class="navigation">
+<div class="navItem navItemFirst">
+  <p class="active">热门</p>
+</div>
+<div class="navItem">
+  <p>菜式</p>
+</div>
+<div class="navItem">
+  <p>菜系</p>
+</div>
+<div class="navItem">
+  <p>特色</p>
+</div>
+<div class="navItem">
+  <p>烘焙</p>
+</div>
+<div class="navItem">
+  <p>主食</p>
+</div>
+<div class="navItem">
+  <p>器具</p>
+</div>
+<div class="navItem">
+  <p>烹饪方式</p>
+</div>
+<div class="navItem">
+  <p>口味</p>
+</div>
+<div class="navItem">
+  <p>场合</p>
+</div>
+  </nav>
+<!-- 菜单选项栏 -->
+<div class="optionBar">
+  <p class="optionBarItem">早餐</p>
+  <p class="optionBarItem">香菜</p>
+  <p class="optionBarItem">烘焙</p>
+  <p class="optionBarItem">饮品</p>
+  <p class="optionBarItem">清淡</p>
+  <p class="optionBarItem">家常菜</p>
+  <p class="optionBarItem">凉菜</p>
+  <p class="optionBarItem">素菜</p>
+  <p class="optionBarItem">下饭菜</p>
+</div>
+</div>
+</body>
+</html>

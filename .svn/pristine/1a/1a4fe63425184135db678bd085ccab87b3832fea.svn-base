@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+    <style>
+    	
+    	html, body {
+				background-color: #fff;
+			}
+			header {
+				height: 50px;
+				line-height: 50px;
+				width: 100%;
+				margin-bottom: 5px;
+			}
+			.head-center {
+				text-align: center;
+			}
+			.main{
+				top:100px;
+				width:60%;
+				padding-top:120px;
+				margin: 0 auto;
+				text-align: center;
+				border:0px solid red;
+			}
+			.submits{
+				width: 20%;
+				height: 25px;
+				line-height: 25px;
+				border: 1px solid #0b93eb;
+				color: #fff;
+				background-color: #0b93eb;
+				margin: 0 auto;
+				text-align: center;
+				margin-top:12px;
+				border-radius: 8px;
+			}
+    </style>
+</head>
+<body>
+		<header>
+			<div class="head-center">
+				<span >请输入</span>
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+	<div class="main">
+		请输入：<input type="text" /><br>
+		<div class="submits" onclick="sub()">提交</div>
+	</div>
+</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript" src="../script/lib/template.js"></script>
+<script type="text/javascript">
+	var userId = window.localStorage.getItem("userId");
+		var URL = "";
+		var id = 0;
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		apiready = function() {
+			id = api.pageParam.id;
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			headerH = $api.fixStatusBar(header);
+		}
+		function goBack() {
+			api.closeWin()
+		}
+		function sub(){
+		}
+</script>
+</html>

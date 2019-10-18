@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.cuisine.css" />
+    <title>菜系标签</title>
+</head>
+
+<body>
+    <!-- 头部 -->
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>菜系标签</span>
+        </div>
+    </header>
+    <!-- 选择菜系 -->
+    <div class="cuisineHead">
+        <p>请选择菜系</p>
+        <div  class="cuisineChoice">
+            <button class="cuisineBtn">融合菜</button>
+            <button class="cuisineBtn">鲁菜</button>
+            <button class="cuisineBtn">川菜</button>
+            <button class="cuisineBtn">淮扬菜</button>
+            <button class="cuisineBtn">粤菜</button>
+            <button class="cuisineBtn">闽菜</button>
+            <button class="cuisineBtn">湘菜</button>
+            <button class="cuisineBtn">浙菜</button>
+            <button class="cuisineBtn">徽菜</button>
+            <button class="cuisineBtn">东北菜</button>
+            <button class="cuisineBtn">饮料</button>
+            <button class="cuisineBtn">鲁菜</button>
+            <button class="cuisineBtn">杭州菜</button>
+            <button class="cuisineBtn">蒙菜</button>
+            <button class="cuisineBtn">粤菜</button>
+        </div>
+    </div>
+    <div class="increase">
+      <input class="increaseIpt" type="text" placeholder="添加自定义菜系">
+      <button class="increaseBtn">添加</button>
+    </div>
+    <button class="preservation" type="button" name="button">保存</button>
+</body>
+
+</html>

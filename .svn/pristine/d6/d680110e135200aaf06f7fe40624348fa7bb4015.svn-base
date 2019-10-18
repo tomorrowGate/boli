@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+      <style>
+      html,body {
+        background-color: #fff;
+      }
+      .material{ padding:10px;background-color: #fff; }
+      .my_icon1{ color:#fa79aa; }
+        .swiper1{ height:100px;padding:10px 0; }
+        .swiper1 .swiper-slide{height:80px;width:120px;}
+        .swiper1 .material_tab{ height:100%;width:100%;overflow: hidden;position:relative; }
+        .swiper1 .circle{ height:100%;width:100%;border-radius: 12px }
+        .swiper1 .material_type{ position:absolute;top: 0;width: 100%;text-align: center; height: 100%;line-height: 80px;background-color: rgba(0, 0, 0, 0.45);color:#fff; border-radius: 12px}
+      </style>
+  </head>
+  <body>
+      <div class="header">社交</div>
+   <!--  <div class="material">
+       <div class="order_all clearfix">
+           <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon1"></i>&nbsp;素材库</div>
+           <div class="t_r font_c1 font_s2">更多&nbsp;<i class="iconfont icon-htbArrowright my_icon4"></i></div>
+       </div>
+       <div class="swiper-container swiper1" >
+           <div class="swiper-wrapper" id="adv">
+              <div class="swiper-slide" onclick="goMaterial()" tapmode>
+                <div class="material_tab">
+                  <img src="../image/lunbo1.png"  class="circle" />
+                  <p class="material_type">爆款推荐</p>
+                </div>
+              </div>
+              <div class="swiper-slide" onclick="goMaterial()" tapmode>
+                <div class="material_tab">
+                  <img src="../image/lunbo2.png"  class="circle" />
+                  <p class="material_type">本周活动</p>
+                </div>
+              </div>
+              <div class="swiper-slide" onclick="goMaterial()" tapmode>
+                <div class="material_tab">
+                  <img src="../image/lunbo1.png"  class="circle" />
+                  <p class="material_type">今日卖点</p>
+                </div>
+              </div>
+           </div>
+       </div>
+   </div> -->
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/layer.js"></script>
+  <script type="text/javascript" src="../script/lib/layer_style.js"></script>
+  <script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var footerH=window.localStorage.getItem('footerH');
+     var headerH;
+      apiready = function(){
+        var header = $api.dom('.header'); // 获取 header 标签元素
+        // 1.修复开启沉浸式效果带来的顶部Header与手机状态栏重合的问题，最新api.js方法已支持适配iPhoneX；
+        // 2.默认已开启了沉浸式效果 config.xml中 <preference name="statusBarAppearance" value="true"/>
+        // 3.沉浸式效果适配支持iOS7+，Android4.4+以上版本
+        headerH = $api.fixStatusBar(header);
+        console.log(api.systemType);
+        if(checkLogin()){
+          fnopenFrameGroup2()
+        }
+        // if(api.systemType=='ios'){
+        //    footerH = 84;
+        // }else{
+        //     footerH = 50;
+        // }
+
+       // fnOpenNvnBar2();
+        
+       // NVNavigationBar_open();
+
+      };
+      function checkLogin(){
+        var userId=window.localStorage.getItem("userId"); //用户id
+        if(userId==''||userId==null||userId==undefined){
+          api.toast({
+                  msg: '请先登录!',
+                  duration: 2000,
+                  location: 'middle'
+                });
+          api.openWin({
+            name : 'login',
+            url : './login.html',
+            slidBackEnabled:false
+          });
+          return false;
+        }else{
+          return true;
+        }
+      }
+      var swiper1 = new Swiper('.swiper1', {
+      slidesPerView: 'auto',
+      spaceBetween:10,
+      loop: false,
+      autoplay:false
+    });
+        function fnOpenNvnBar2() {
+        api.openFrame({
+            name: 'nvnavigationbar2',
+            url: 'nvnavigationbar2.html',
+            bounces: false,
+            rect: { // 推荐使用Margin布局，用于适配屏幕的动态变化
+                marginTop: headerH+150, // main页面距离win顶部的高度
+                w: 'auto', // main页面的宽度 自适应屏幕宽度
+                h: 42
+            }
+        });
+    }
+
+    function NVNavigationBar_open() {
+        var NVNavigationBar = api.require('NVNavigationBar');
+        NVNavigationBar.open({
+            rect: {
+                x: 0,
+                y: 40,
+                w: api.frameWidth,
+                h: 44
+            },
+            styles: {
+                orientation: 'horizontal',
+                bg: '#272727',
+                bgAlpha: 0.5,
+                font: {
+                    size: 16,
+                    sizeSelected: 18,
+                    color: '#FFFFFF',
+                    colorSelected: '#ff0000'
+                },
+                itemSize: {
+                    w: api.winWidth / 3,
+                    h: 40
+                }
+            },
+            items: [{
+                title: '热门',
+                bg: '#272727'
+            }, {
+                title: '拍档',
+                bg: '#272727'
+            }, {
+                title: '我的',
+                bg: '#272727'
+            }],
+            selectedIndex: 0,
+            fixedOn: api.frameName,
+            fixed: true,
+            id: 'two'
+        }, function(ret, err) {
+            console.log(JSON.stringify(ret));
+            if (ret.eventType == 'click') {
+                api.execScript({
+
+                    script: 'fnsetFrameGroupIndex("group2","' + ret.index + '");'
+                });
+            }
+        });
+    }
+
+    function fnNvnsetSelected(index) {
+        var NVNavigationBar = api.require('NVNavigationBar');
+        NVNavigationBar.setSelected({
+            id: 'two',
+            index: index,
+            selected: true
+        }, function(ret) {
+
+        });
+    }
+   function fnsetFrameGroupIndex(name, index) {
+        api.setFrameGroupIndex({
+            name: name,
+            index: index,
+            scroll: false
+        });
+    }
+
+       function fnopenFrameGroup2() {
+        api.openFrameGroup({
+            name: 'group2',
+            rect: {
+                marginTop: headerH,
+                w: 'auto',
+                marginBottom: footerH
+            },
+            scrollEnabled: true,
+            preload:0,
+            frames: [{
+                name: 'find.hot',
+                url: 'find.hot.html',
+                pageParam: {
+                    name: 'value'
+                },
+                bounces:true,
+                customRefreshHeader: 'UIPullRefresh'
+            }, {
+                name: 'find.friend',
+                url: 'find.friend.html',
+                pageParam: {
+                    name: 'value'
+                },
+                bounces:true,
+                customRefreshHeader: 'UIPullRefresh'
+            }, {
+                name: 'find.my',
+                url: 'find.my.html',
+                pageParam: {
+                    name: 'value'
+                },
+                bounces:true,
+                customRefreshHeader: 'UIPullRefresh'
+            }]
+        }, function(ret, err) {
+            if (ret) {
+                console.log(JSON.stringify(ret));
+                if (ret.index > -1) {
+                    api.execScript({
+                        frameName: 'nvnavigationbar2',
+                        script: 'fnNvnsetSelected("' + ret.index + '");'
+                    });
+                }
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+
+    }
+  </script>
+  </html>

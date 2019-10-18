@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>师傅</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<style>
+			html, body {background-color: #fff;}
+			.hide {display: none;}
+			/* sticky */
+			.sticky {
+				position: -webkit-sticky;
+				position: sticky;
+				top: 0;
+				padding: 5px 3%;
+				background-color: #fff;
+				z-index: 2;
+			}
+			.sticky .list_type {
+				width: 33.33%;
+				text-align: center;
+				float: left;
+				height: 32px;
+				line-height: 30px;
+				font-weight:  bold;
+				/* border-bottom: 1px solid #f2f2f2;
+ */
+			}
+			.sticky .active  span{
+				color: #6eb92c;
+				border-bottom: 2px solid #6eb92c;
+				font-weight: bold;
+				height:32px;
+				line-height: 30px
+			}
+			/*轮播图*/
+			.swiper1 {/*height: 180px;*/padding: 10px 0;}
+			.swiper1 .swiper-slide {/*height: 100%;*/width: 7em;/* box-shadow: 0 0 4px 2px #f2f2f2; */margin-left:5px;}
+			.swiper1 .master_portrait{width:100%;height:9em;overflow: hidden;margin-bottom: 10px;}
+			.swiper1 .portrait {min-width: 100%;height:100%;}
+			.swiper1 .master_name,.swiper1 .master_style {padding-left:5px;margin:0;font-size: 0.9em;height:18px;line-height: 18px;}
+			.swiper1 .master_name{ font-weight: bold; }
+			.swiper1 .level_img{ height:20px;margin-left:5px;  }
+			/*我的师傅*/
+			.part_div{padding:10px 3%;}
+			.nomal_title{ margin-bottom: 10px;border-bottom: 1px solid #f2f2f2;padding: 5px 0; }
+			.my_icon3{ color:#6eb92c; }
+			.content_item{ padding: 10px 0;position: relative;/* border-bottom: 1px solid #bfbfbf;  */justify-content: space-between;-webkit-justify-content: space-between;-moz-justify-content: space-between;flex-wrap: nowrap;-webkit-flex-wrap: nowrap;-moz-flex-wrap: nowrap}
+			.portrait_cooker{ width:60px;height:60px;border-radius: 50px; text-align: center;overflow: hidden}
+	        .cooker_info{ /*height: 60px;*/line-height: 20px;padding: 10px; padding: 0px;  width: 8em;}
+	        .cooker_info .master_name{ font-weight: bold ;}
+	        .cooker_info p{ margin:0; }
+	        .img1{ height: 100%; }
+	        .img2{  height:20px;margin-left:5px;}
+	        .name{ font-weight: bold }
+	        .cook_style{ margin-bottom: 7px;font-size: 0.9em; }
+	        .cook_style span{ height:18px;line-height:18px;margin-right:0.3em;border:1px solid #ee5e53;color:#ee5e53;padding:0 0.2em;border-radius: 3px;margin-bottom: 0.3em;}
+	        .bottom_btn{ margin:0;  }
+	        .bottom_btn .btn_1{ color:#ee5e53;background-color: #fff ; border: 1px solid #ee5e53;height:26px;line-height: 26px;border-radius: 13px;text-align: center;width:5.3em; }
+            /*我的好友*/
+	        .bottom_btn .btn_2{ color:#fff;background-color: #ee5e53 ;border: 1px solid #fff;height:26px;line-height: 26px;border-radius: 13px;text-align: center;width:5.3em; }
+	        .null{color:#7f7f7f;}
+
+		</style>
+	</head>
+	<body>
+		<div class="sticky">
+			<div class="list_type active" onclick="changeOrder('0')" tapmode>
+				<span>师傅</span>
+			</div>
+			<div class="list_type" onclick="changeOrder('1')" tapmode>
+				<span>徒弟</span>
+			</div>
+			<div class="list_type" onclick="changeOrder('2')" tapmode>
+				<span>营销</span>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="swiper-container swiper1" >
+				<div class="swiper-wrapper" id="adv">
+
+				</div>
+			</div>
+			<div class="part_div clearfix">
+			    <div class="nomal_title clearfix"  onclick="" tapmode>
+		            <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;我的师傅</div>
+		            <div class="t_r font_c1 font_s2 more"></div>
+		        </div>
+		        <div id="my_master">
+					<p class="null">您还没有师傅</p>
+			    </div>
+			</div>
+			<div class="part_div clearfix">
+			    <div class="nomal_title clearfix"  onclick="" tapmode>
+		            <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;我的朋友</div>
+		            <div class="t_r font_c1 font_s2 more"></div>
+		        </div>
+		        <div id="my_friend">
+		                <p class="null">您还没有朋友</p>
+		                <!-- <div class="content_item flex cross-middle">
+				        <div class="portrait_cooker">
+				        	<img src="../image/cooker.png" class="img1 master_portrait">
+				        </div>
+				        <div class="cooker_info">
+				        <p><span class="master_name">张三</span> <img src="../image/ceown_r.png" class="img2"></p>
+				       	<p class="cook_style font_c1">
+			                <span>闽菜</span>
+			                <span>苏菜</span>
+			           </p>
+			           </div>
+				        <p class="bottom_btn" onClick="goMymaster('+item.user_id+')" tapmod><span class="btn_2">我要拜师</span></p>
+
+				        </div> -->
+
+				        <!-- <div class="content_item flex cross-middle">
+				        <div class="portrait_cooker">
+				        	<img src="../image/cooker.png" class="img1 master_portrait">
+				        </div>
+				        <div class="cooker_info">
+				        <p><span class="master_name">李四</span> <img src="../image/ceown_r.png" class="img2"></p>
+				       	<p class="cook_style font_c1">
+			                <span>闽菜</span>
+			                <span>苏菜</span><br/>
+			                <span>闽菜</span>
+			                <span>苏菜</span>
+			           </p>
+			           </div>
+				        <p class="bottom_btn" onClick="goMymaster('+item.user_id+')" tapmod><span class="btn_2">我要拜师</span></p>
+
+				        </div> -->
+
+			    </div>
+			</div>
+		<div class="main_body" id="div1"></div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		function changeOrder(order) {
+			if(order=='2'){
+				api.toast({
+								msg: '敬请期待！',
+								duration: 2000,
+								location: 'middle'
+							});
+			}else{
+				$(this).addClass("active").siblings().removeClass("active");
+				api.execScript({
+					frameName : 'connection',
+					script : 'fnsetFrameGroupIndex("group_connection","' + order + '");'
+				});
+			}
+		}
+		var swiper1 = new Swiper('.swiper1', {
+			slidesPerView : 'auto',
+			spaceBetween : 10,
+			loop : false,
+			autoplay : false
+		});
+		var URL = "";
+		apiready = function() {
+			URL = $api.URL();
+			api.refreshHeaderLoading();
+			$('.swiper-wrapper').on('touchstart', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group_connection',
+					scrollEnabled : false
+				});
+				api.setFrameAttr({
+                            name: 'frameName1',
+                            bounces: false
+                        });
+			});
+			$('.swiper-wrapper').on('touchend', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group_connection',
+					scrollEnabled : true
+				});
+				api.setFrameAttr({
+                    name: 'frameName1',
+                    bounces: true
+                });
+			});
+			//下拉刷新
+	        api.setCustomRefreshHeaderInfo({
+	            bgColor: '#F6F6F6',
+	            images: {
+	                pull: 'widget://image/refresh/pulling.png',
+	                transform: [
+	                    'widget://image/refresh/transform0.png',
+	                    'widget://image/refresh/transform1.png',
+	                    'widget://image/refresh/transform2.png',
+	                    'widget://image/refresh/transform3.png',
+	                    'widget://image/refresh/transform4.png',
+	                    'widget://image/refresh/transform5.png',
+	                    'widget://image/refresh/transform6.png'
+	                ],
+	                load: [
+	                    'widget://image/refresh/loading0.png',
+	                    'widget://image/refresh/loading1.png',
+	                    'widget://image/refresh/loading2.png',
+	                    'widget://image/refresh/loading3.png',
+	                    'widget://image/refresh/loading4.png',
+	                ]
+	            }
+	        }, function(ret, err) {
+	                get_master_info();
+	                get_master();
+					setTimeout('api.refreshHeaderLoadDone()', '2000');
+	        });
+		};
+
+		//获取推荐大厨信息
+		function get_master() {
+			var userId = localStorage.getItem("userId");
+			api.ajax({
+				url : URL + 'index.php?app=appstaff&act=get_master',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+				      $("#adv").html("");  //用户id
+					 $.each(ret.retval, function(i, item) {
+                        var str1='';
+                        str1+='<div class="swiper-slide" onClick="goMymaster('+item.user_id+')" tapmode>';
+				        str1+='<div class="master_portrait">';
+				        if(item.portrait){
+				        	str1+='<img src="' + URL +item.portrait+'" class="portrait">';
+				        }else{
+				        	str1+='<img src="../image/cooker.png"  class="portrait" />';
+				        }
+				        str1+='</div>';
+				        str1+='<p class="master_name">'+item.real_name2+'<img src="../image/ceown_r.png" class="level_img"></p>';
+				        //str1+='<p class="cook_style font_c1">'+item.cook_type+'</p>';
+				        str1+='</div>';
+					 $api.append($api.byId("adv"), str1);
+					 })
+				} else if(ret){
+					api.toast({
+                  msg: ret.msg,
+                  duration: 2000,
+                  location: 'bottom'
+                });
+				}
+				if(err){
+					api.toast({
+                  msg: err.msg,
+                  duration: 2000,
+                  location: 'bottom'
+                });
+				}
+				api.refreshHeaderLoadDone();
+			});
+		}
+
+
+
+		//获取师傅和朋友列表
+		function get_master_info() {
+			var userId = localStorage.getItem("userId");
+			api.ajax({
+				url : URL + 'index.php?app=appstaff&act=get_my_master',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+			     	 // $("#my_master").html("");
+			     	 // $("#my_friend").html("");
+					 $.each(ret.retval[0], function(i, item) {
+                        var str1='';
+                        str1+='<div class="content_item flex cross-middle">';
+				        str1+='<div class="portrait_cooker">';
+				        if(item.portrait){
+				        	str1+='<img src="' + URL +item.portrait+'" class="img1 master_portrait">';
+				        }else{
+				        	str1+='<img src="../image/cooker.png" class="img1 master_portrait">';
+				        }
+				        str1+='</div>';
+				        str1+='<div class="cooker_info">';
+				        str1+='<p><span class="master_name">'+item.real_name2+'</span> <img src="../image/ceown_r.png" class="img2"></p>';
+				        str1+='<p class="cook_style font_c1">';
+			              if(item.tag_name.length>0){
+			                $.each(item.tag_name,function(i,item1){
+			                str1+='<span>'+item1.name+'</span>';
+			                if(i==2){str1+='<br/>';}
+			               })
+			              }else{
+			                str1+='<span>'+item.tag_name+'</span>';
+			              }
+			            str1+='</p>';
+			            str1+='</div>';
+				        str1+='<p class="bottom_btn" onClick="goMymaster('+item.sf_id+')" tapmod><span class="btn_1">我的师傅</span></p>';
+				        str1+='</div>';
+	                     if(i==0){
+	                     	$api.html($api.byId("my_master"), str1);
+	                     }else{
+	                     	$api.append($api.byId("my_master"), str1);
+	                     }
+
+					 })
+					 $.each(ret.retval[1], function(i, item) {
+					 	var str2='';
+					 	str2+='<div class="content_item flex cross-middle">';
+				        str2+='<div class="portrait_cooker">';
+				        if(item.portrait){
+				        	str2+='<img src="' + URL +item.portrait+'" class="img1 master_portrait">';
+				        }else{
+				        	str2+='<img src="../image/cooker.png" class="img1 master_portrait">';
+				        }
+				        str2+='</div>';
+				        str2+='<div class="cooker_info">';
+				        str2+='<p class="cross-middle"><span class="master_name">'+item.real_name+'</span> <img src="../image/ceown_r.png" class="img2"></p>';
+				       	str2+='<p class="cook_style font_c1">';
+				       	//alert(item.tag_name);
+				       if(item.tag_name!=null){
+			              if(item.tag_name.length>0){
+			                $.each(item.tag_name,function(i,item1){
+			                str2+='<span>'+item1.name+'</span>';
+			                if(i==2){str2+='<br/>';}
+			               })
+			              }else{
+			                str2+='<span>'+item.tag_name+'</span>';
+			              }
+			              }else{
+			                str2+='<span>他没设置标签</span>';
+			              }
+			            str2+='</p>';
+			            str2+='</div>';
+			            if(item.im_aliww==1){
+			              str2+='<p class="bottom_btn" onClick="goMymaster('+item.user_id+')" tapmod><span class="btn_2">我要拜师</span></p>';
+			            }else{
+			             str2+='<p class="bottom_btn" tapmod><span class="btn_2">不可拜师</span></p>';
+			            }
+				        str2+='</div>';
+					    if(i==0){
+                     	$api.html($api.byId("my_friend"), str2);
+                     }else{
+                     	$api.append($api.byId("my_friend"), str2);
+                     }
+					 })
+				} else if(ret) {
+					api.toast({
+                  msg: ret.msg,
+                  duration: 2000,
+                  location: 'bottom'
+                });
+				}
+				if(err){
+					api.toast({
+                  msg: err.msg,
+                  duration: 2000,
+                  location: 'bottom'
+                });
+				}
+				api.refreshHeaderLoadDone();
+			});
+		}
+
+
+
+
+		//跳转我的师傅\我要拜师
+		function goMymaster(masterId){
+			api.openWin({
+	        name: 'master',
+	        url: './master.html',
+	        bounces: false,
+	        pageParam: {
+	                  masterId: masterId,
+	                   },
+	        animation:{
+	          type:"push",
+	          subType:"from_right",
+	          duration:300
+	        }
+	      });
+		}
+
+	</script>
+</html>

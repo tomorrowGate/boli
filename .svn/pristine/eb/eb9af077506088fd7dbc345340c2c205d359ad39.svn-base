@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>拜师</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.apprentice.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head">
+            <div class="back" onclick="goBack()" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>名厨汇聚</span>
+            </div>
+        </header>
+        <!-- 厨师名片 -->
+        <div class="chef-detail-info">
+            <div class="chef-main-head">
+                <div class="chef-head-left">
+                    <i class="iconfont icon-qianbi"></i>
+                    <div class="chef-left-text">厨师</div>
+                </div>
+            </div>
+            <div class="chef-trends-head">
+                <div class="trends-head-imgbox">
+                    <img :src="imgDefalt" alt="">
+                </div>
+                <div class="trends-head-center">
+                    <div class="trends-center-top">
+                        <span class="trends-center-name">周伯通</span>
+                    </div>
+                    <div class="trends-center-bottom trends-light">
+                        <span class="trends-center-iden trends-light">国家一级厨师</span>
+                    </div>
+                </div>
+                <div class="trends-head-right" @click="focus">
+                    <div class="trends-head-focus">{{focusText}}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 拜师理由 -->
+        <div class="apprentice-main">
+            <div class="chef-main-head">
+                <div class="chef-head-left">
+                    <i class="iconfont icon-qianbi"></i>
+                    <div class="chef-left-text">拜师理由</div>
+                </div>
+            </div>
+            <div class="apprentice-textarea">
+                <textarea name="" id="" cols="30" rows="10" placeholder="请输入您的拜师理由"></textarea>
+            </div>
+        </div>
+        <div class="apprentice-submit" @click="apprentice">申请拜师</div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var URL;
+    var headerH
+    
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            focusText: "关注",
+            imgDefalt:'../image/headimgDef.png'
+        },
+        methods: {
+            focus: function focus() {
+                this.focusText = "已关注"
+            },
+            apprentice:function apprentice(){
+                api.ajax({
+                    url: 'ajax_url',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll:false
+                },function(ret,err){
+                    if (ret) {
+                        // TODO 
+                    } else {
+                        api.alert({
+                            msg:('错误码：'+err.code+'；错误信息：'+err.msg+'网络状态码：'+err.statusCode)
+                        });
+                    };
+                });
+            }
+        },
+        created: function created() {
+            
+        },
+        mounted: function mounted() {
+            
+        },
+    })
+        
+    apiready = function () {
+        URL = $api.URL();
+        var header = $api.dom('header');
+        headerH = $api.fixStatusBar(header);
+
+    }
+    //返回上一页
+    function goBack() {
+        api.closeWin();
+    }
+
+</script>
+
+</html>

@@ -1,0 +1,66 @@
+
+/* 名厨动态 */
+.chef-trends{
+    padding: 10px;
+}
+.chef-trends-head{
+    display: flex;
+    position: relative;
+    align-items: center;
+    font-size: 0.9em;
+}
+.trends-head-imgbox{
+    width: 50px;
+    height: 50px;
+    background: skyblue;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.trends-head-imgbox img{
+    width: 100%;
+}
+.trends-light{
+    color: #999;
+    font-size: 0.8em;
+}
+.trends-head-right{
+    position: absolute;
+    right:10px;
+    top:50%;
+    height: 16px;
+    line-height: 16px;
+    padding: 0px 8px;
+    border:1px solid #6eb92c;
+    border-radius: 9px;
+    color: #6eb92c;
+    transform: translateY(-50%);
+}
+
+.hotslist-body-item{
+    font-size: 0.8em;
+}
+.hotslist-item-title{
+    padding: 10px 0;
+}
+.hotslist-item-imgboxs{
+    display: flex;
+    align-items: center;
+}
+.hotslist-imgboxs-imgbox{
+    width: 33%;
+    height: 30vw;
+    background: skyblue;
+}
+.hotslist-imgboxs-imgbox+.hotslist-imgboxs-imgbox{
+    margin-left: 4px;
+}
+.hotslist-imgboxs-imgbox img{
+    width: 100%;
+}
+.hotslist-item-footer{
+    display: flex;
+    justify-content:  flex-end ;
+}
+.hotslist-footer-item{
+    margin-right: 16px;
+}

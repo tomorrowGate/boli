@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>名厨动态评论</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.trendcomponent.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 名厨动态 -->
+        <div class="chef-trends">
+            <div class="chef-trends-head">
+                <div class="trends-head-imgbox">
+                    <img src="" alt="">
+                </div>
+                <div class="trends-head-center">
+                    <div class="trends-center-top">
+                        <span class="trends-center-name">周伯通</span>
+                        <span class="trends-center-iden trends-light">国家一级厨师</span>
+                    </div>
+                    <div class="trends-center-bottom trends-light">
+                        <span class="trends-center-date">09-17</span>
+                        <span class="trends-center-time">13:30</span>
+                    </div>
+                </div>
+                <div class="trends-head-right">
+                    <div class="trends-head-focus">关注</div>
+                </div>
+            </div>
+            <div class="chef-hotslist-body">
+                <div class="hotslist-body-item">
+                    <div class="hotslist-item-title">
+                        茉莉花，别名：茉莉，拉丁文名：Jasminum sambac (L.) Ait，
+                        木犀科、素馨属直立或攀援灌木，高达3米。小枝圆柱形或稍压扁状，
+                        有时中空，疏被柔毛。叶对生，单叶，叶片纸质，圆形、椭圆形、
+                        卵状椭圆形或倒卵形，两端圆或钝，基部有时微心形，在上面稍凹入或凹起
+                        ，下面凸起，细脉在两面常明显，微凸起，除下面脉腋间常具簇毛外，
+                        其余无毛；裂片长圆形至近圆形，先端圆或钝。果球形，呈紫黑色。
+                        花期5-8月，果期7-9月。茉莉的花极香，为著名的花茶原料及重要的香精原料；
+                        花、叶药用治目赤肿痛，并有止咳化痰之效.
+                    </div>
+                    <div class="hotslist-item-imgboxs">
+                        <div class="hotslist-imgboxs-imgbox">
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                    <div class="hotslist-item-footer">
+                        <div class="hotslist-footer-item">
+                            <i class="iconfont"></i>
+                            <span class="hotslist-footer-look">129</span>
+                        </div>
+                        <div class="hotslist-footer-item" @click="goTrendcomment">
+                            <i class="iconfont"></i>
+                            <span class="hotslist-footer-comment">129</span>
+                        </div>
+                        <div class="hotslist-footer-item">
+                            <i class="iconfont"></i>
+                            <span class="hotslist-footer-fabulous">129</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var wrap = new Vue({
+        el: '#wrap',
+        data: {
+            userId:'',
+            sf_id:0,
+            URL:'',
+            staffAtc:[]
+        },
+        methods: {
+            getMasterCircle:function (){
+                var that = this
+                console.log(that.userId)
+                console.log( that.sf_id)
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=get_staff_article',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            sf_id: that.sf_id,
+                            cate_id:35
+                        }
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.staffAtc = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            goTrendcomment:function(){
+                api.openWin({
+                    name: 'chef.trendcomment',
+                    url: 'chef.trendcomment.html',
+                    bounces: false,
+                    pageParam: {key : 'value'}
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function(){
+                apiready = function () {
+                    that.URL = $api.URL();
+                    that.sf_id = api.pageParam.sf_id;
+                    that.userId = window.localStorage.getItem("userId")
+                    that.getMasterCircle()
+                }
+            })
+        },
+        mounted: function mounted() {
+           
+
+        },
+    })
+
+</script>
+
+</html>

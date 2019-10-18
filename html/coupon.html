@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>优惠券</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #fff;
+      }
+      .null{ text-align: center;padding-top:30%;color:#666;}
+      .top_nav{ padding:0 10px 5px 10px; }
+      .top_nav .nav_item{ float:left; width:33.33%;text-align: center; }
+      .top_nav .nav_item span{ border:none;height:40px;line-height:40px;padding:0 5px; }
+      .top_nav .active span{ border-bottom:1px solid #6eb92c;color:#6eb92c; }
+      .exchange{ padding:10px 80px 10px 10px;background-color: #f4f4f4; position:relative;font-size: 0.9em}
+      .exchange .ip{ border:none;background-color: #fff;color:#8d8d8d;height:30px;line-height: 30px;width:90%; padding:0 5%;}
+      .exchange span{ position:absolute;right:10px;width:60px;height:30px;line-height: 30px;padding:0; }
+      .out_div{ margin-top:10px; }
+      .f_img{ float: left;height:80px; }
+      .f_info{ float:left;height:80px; padding:2px 10px;}
+      .f_info .goods_name{ margin:0;height:50px;line-height: 25px }
+      .f_info .goods_price{ margin:0;height:25px;line-height: 25px }
+      .f_info .coupon_name{ margin:0;height:30px;line-height: 30px; font-size: 18px; }
+      #coupon_list li{ height:90px;line-height:80px; background-color: #f9f9f9;  margin-top: 10px;-moz-border-radius: 15px;  -webkit-border-radius: 15px;
+      display: flex; align-items: center;}
+
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">优惠券</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div class="top_nav clearfix">
+        <div class="nav_item item_1 active" onclick="chageOrder(1)" tapmode><span >未使用</span></div>
+        <div class="nav_item item_2" onclick="chageOrder(2)" tapmode><span>已使用</span></div>
+        <div class="nav_item item_3" onclick="chageOrder(3)" tapmode><span>已过期</span></div>
+      </div>
+      <div class="exchange"><input type="text" name="coupon_code" class="ip" placeholder="请输入兑换码"><span class="btn_default2">兑换</span></div>
+      <div class="null">
+        <p><img src="../image/coupon.png" width="60%"  /></p>
+        <p>您还没有优惠券哦~</p>
+      </div>
+      <div class="out_div clearfix">
+        <ul id="coupon_list">
+
+        </ul>
+      </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      var URL="";
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+     //初始加载列表
+      getCoupon(1);
+      };
+
+     //加载优惠券列表
+      function getCoupon(id){
+                api.ajax({
+                    url : URL+'index.php?app=myinfo&act=find_coupon',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            type:id
+                        }
+                    }
+                }, function(ret, err) {
+                	console.log(id);
+                    if (ret &&ret.done) {
+                        //$("#coupon_list").html("");
+                        if(ret.retval.length==0){
+                            $(".null").removeClass("hide");
+                        }else{
+                            $(".null").addClass("hide");
+                            var str = "";
+                            $api.append($api.byId("coupon_list"), '');
+                            if(id==1){
+                            	$.each(ret.retval, function(i, item) {
+	                            str += '<li onclick="goDetail('+item.coupon_id+')" tapmode><div class="f_img" style=" "><img src="'+URL+item.store_logo+'" height="80" width="80"></div><div class="f_info" style="margin-left:5%; padding-top:10%;"><p class="coupon_name ">'+item.coupon_name+'</p><p class="goods_name">'+item.store_name+'</p></div></li>';
+	                            //$api.append($api.byId("coupon_list"), str);
+	                         	});
+                            }else if(id==2){
+                            	$.each(ret.retval, function(i, item) {
+	                            str += '<li onclick="goDetail('+item.coupon_id+')" tapmode><div class="f_img" style=" b"><img src="'+URL+item.store_logo+'" height="80" width="80"></div><div class="f_info" style="margin-left:5%; padding-top:10%;"><p class="coupon_name" style="">'+item.coupon_name+'<span style="margin-right:0; color:red;">&nbsp;&nbsp;&nbsp;&nbsp;已使用</span></p><p class="goods_name">'+item.store_name+'</p></div></li>';
+	                            //$api.append($api.byId("coupon_list"), str);
+	                         	});
+                            }else{
+                            	$.each(ret.retval, function(i, item) {
+	                            str += '<li onclick="goDetail('+item.coupon_id+')" tapmode><div class="f_img" style=" b"><img src="'+URL+item.store_logo+'" height="80" width="80"></div><div class="f_info" style="margin-left:5%; padding-top:10%;"><p class="coupon_name" style="">'+item.coupon_name+'<span style="margin-right:0; color:red;">&nbsp;&nbsp;&nbsp;&nbsp;已过期</span></p><p class="goods_name">'+item.store_name+'</p></div></li>';
+	                            //$api.append($api.byId("coupon_list"), str);
+	                         	});
+                            }
+                            $("#coupon_list").html(str);
+                        }
+                    }
+                });
+            }
+      //商品详情
+        function goCoupon(cId){
+            api.openWin({
+                name: 'goods.view',
+                url: './goods.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    couponId: cId //商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                }
+            });
+        }
+        //切换优惠券类别
+        function chageOrder(cId){
+         $(".nav_item").removeClass("active");
+         $(".item_"+cId).addClass("active");
+         if(cId==1){
+          $(".exchange").removeClass("hide");
+         }else{
+            $(".exchange").addClass("hide");
+         }
+         getCoupon(cId);
+        }
+  </script>
+  </html>

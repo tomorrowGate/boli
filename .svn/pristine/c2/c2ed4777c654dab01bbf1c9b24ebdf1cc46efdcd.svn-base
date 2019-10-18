@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/myassets.css">
+    <style>
+
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+	<!--头部-->
+	<div class="case2">
+		<header>
+	<div class="header font_s1">
+	  	<span id="ljsy" class="ljsy active" onclick="changePeriod('0')" tapmod>累计收益&nbsp;&nbsp;</span><span id="ddz" class="ddz" onclick="changePeriod('1')" tapmod>&nbsp;&nbsp;待到账&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </div>
+	<div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+	<div class="DIV_R" id="xq"><i class="iconfont icon-wenhao2"></i></div>
+</header>
+	<!--问号-->
+	<div class="case hide"  id="know" >
+		<!--遮罩层-->
+	 <div class="mask" id="shade" ></div>
+	 <div class="notice">
+	  <p>过了7天无理由退货期后，待到帐收益才会转入可提现金额中，如果产生退货相应收入将被自动取消。</p>
+      <p>所有收益需要关联订单为完成状态后才会转入可提现金额中。</p>
+      <div class="know" id="know1">知道了</div>
+     </div>
+	</div>
+
+
+	<div class="je" id="xm_sz">48.00</div>
+	<div class="zc" id="xm_name">我的资产（元）<img src="../image/ck.png" class="img2" /></div>
+
+	<div class="case1 no_padding">
+	<div class="r5 clearfix" >
+	<div class="c5 block_a active1" id="profit_a" onClick="getPropfts('profit_a')" tapmod>A类收益<br><span class="sysj">1.20</span></div>
+	<div class="c5" id="profit_b" onClick="getPropfts('profit_b')" tapmod>B类收益 <br><span class="sysj">26.00</span></div>
+	<div class="c5" id="profit_c" onClick="getPropfts('profit_c')" tapmod>C类收益<br><span class="sysj">26.00</span></div>
+	<div class="c5 block_d" id="profit_d" onClick="getPropfts('profit_d')" tapmod>D类收益<br><span class="sysj">26.00</span></div></div>
+	<div class="case3" id="glsy">
+	<!--循环体-->
+	<div class="profit_item">
+	  <div class="r6 xt clearfix" >
+	    <div class="item_l ms" align="left">2017-10-28&nbsp;&nbsp;00:20</div>
+	    <div class="item_r" align="right"><img src="../image/zhou.png" class="img4" /></div>
+	  </div>
+	  <div class="r6 clearfix">
+	    <div class="item_l ms" align="left">状态</div>
+	    <div class="item_r" align="right">待到账</div>
+	  </div>
+	  <div class="r6 clearfix">
+	    <div class="item_l ms" align="left">实际金额</div>
+	    <div class="item_r" align="right">1.20</div>
+	  </div>
+	</div>
+	</div>
+	</div>
+	</div>
+
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+	//返回上一页
+    var goBack=function(){
+        api.closeWin();
+    }
+    //问号点击
+        $("#xq").click(function(){
+           $("#shade").removeClass('hide');
+           $("#know").removeClass('hide');
+        });
+          $("#know1").click(function(){
+           $("#shade").addClass('hide');
+           $("#know").addClass('hide');
+        });
+         $("#shade").click(function(){
+           $("#shade").addClass('hide');
+           $("#know").addClass('hide');
+        });
+	var profit_period=0;//0:累计到账 1:待到账
+	apiready = function(){
+		var header = $api.dom('header'); // 获取 header 标签元素
+		headerH = $api.fixStatusBar(header);
+	   var profitPeriod=api.pageParam.profitPeriod;
+	   changePeriod(profitPeriod);
+	   //初始获取A类收益
+       getPropfts('profit_a');
+
+	};
+	//切换累计收益和未到账
+	function changePeriod(period){
+		profit_period=period;
+		if(period=='0'){
+			$api.addCls($api.byId('ljsy'),'active')
+			$api.removeCls($api.byId('ddz'),'active')
+
+		}else{
+			$api.addCls($api.byId('ddz'),'active')
+			$api.removeCls($api.byId('ljsy'),'active')
+
+		}
+	}
+
+	//获取收益记录
+    function getPropfts(type){
+    	$(".c5").removeClass("active1");
+    	$api.addCls($api.byId(type),'active1')
+
+       api.ajax({
+          url : URL + 'index.php?app=#',
+                  method : 'post',
+                  cache : false,
+                  timeout : 30,
+                  dataType : 'json',
+                  returnAll : false,
+                  data : {
+                     values : {
+                         profit_period:profit_period, //0:累计收益 1:待到账
+                         profit_type:type,  //profit_a:A类收益 profit_b:B类收益 profit_c:C类收益 profit_d:D类收益
+                     }
+                  }
+        },function(ret,err){
+        console.log(JSON.stringify(ret));
+          if(ret.done){
+          $.each(ret.retval, function(i, item) {
+		    var str='<div class="profit_item">';
+	             str+='<div class="r6 xt clearfix" >';
+	               str+='<div class="item_l ms">'+item.add_time+'</div>';
+	               str+='<div class="item_r"><img src="../image/zhou.png" class="img4" /></div>';
+	            str+=' </div>';
+	             str+='<div class="r6 clearfix">';
+	              str+=' <div class="item_l ms">状态</div>';
+	               str+='<div class="item_r">'+item.state+'</div>';
+	             str+='</div>';
+	             str+='<div class="r6 clearfix">';
+	               str+='<div class="item_l ms">实际金额</div>';
+	               str+='<div class="item_r">'+item.profit_money+'</div>';
+	             str+='</div>';
+	           str+='</div>';
+	           if(i==0){
+	           	$api.html($api.byId("goodslist"), str);
+	           }else{
+	           	$api.append($api.byId("goodslist"), str);
+	           }
+           });
+
+          }else{
+            api.toast({
+              msg: '失败',
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+
+      });
+    }
+</script>
+</html>

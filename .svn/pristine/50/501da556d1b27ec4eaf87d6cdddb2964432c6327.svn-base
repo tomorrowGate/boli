@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>厨店好物</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/components/mall.goods.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>厨店好物</span>
+            </div>
+        </header>
+
+        <!-- 轮播图 -->
+        <div class="margin">
+            <div class="swiper">
+                <div class="swiper-container swiper-top">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" tapmode v-for="(v,i) in topBanner" :key="i">
+                            <div class="swiper-slide-imgbox">
+                                <img :src="URL+v.file_path" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 全部最新热卖 -->
+        <div class="swiper-container swiper-line">
+            <div class="swiper-wrapper">
+                <div 
+                    :class="['swiper-slide','swiper-item',activeIndex==v.cate_id?'swiper-item-active':'']" 
+                    v-for="(v,i) in category" 
+                    :key="i" 
+                    @click="changeCate(v.cate_id)"
+                    tapmode>{{v.cate_name}}</div>
+            </div>
+        </div>
+        <!-- 商品展示 -->
+        <div class="chef-form-formlist">
+            <div class="chef-form-card" v-for="(value,index) in showGoodsArr" :key="index">
+                <div class="chef-form-leftimg">
+                    <img :src="URL+value.default_image" alt="">
+                </div>
+                <div class="chef-right-content">
+                    <div class="chef-head1">
+                        <div class="chef-head1-name">{{value.goods_name}}</div>
+                    </div>
+                    <div class="chef-head2 chef-forum-light">{{value.extension_content}}</div>
+                    <div class="chef-head3 chef-forum-light forum-foot-explain">
+                        <!-- <i class="iconfont"></i> -->
+                        <span 
+                        class="forum-foot-name"  
+                        v-for="(item,number) in value.tags" 
+                        :key="number">
+                        {{item}}</span>
+                    </div>
+                    <div class="chef-head4 ">
+                        <span class="price">￥{{value.price}}</span>
+                        <span class="agoPrice">￥{{value.oprice}}</span>
+                        <p>销量<span>{{value.orders}}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            topBanner: {},
+            imgDefalt: '../image/headimgDef.png',
+            swiperTop: null,
+            cate_id: 0,
+            showGoodsArr:[],
+            category:[],
+            activeIndex:0
+        },
+        computed: {
+
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            //初始化头部轮播图
+            initSwiperTop: function swiperNotice() {
+                this.swiperTop = new Swiper('.swiper-top', {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    observer: true,
+                    observeParents: true,
+                    on: {
+                        click: function () {
+                            const realIndex = this.realIndex;
+                            //that.handleClickSlide(realIndex); 
+                        }
+                    },
+                    preventLinksPropagation: false   // 阻止点击事件冒泡
+                });
+            },
+            //获得头部轮播
+            getTopBanner: function getTopBanner() {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=home_lunbo',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.topBanner = ret.retval
+                        that.$nextTick(function () {
+                            that.initSwiperTop()
+                        })
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //初始化分类头部
+            initCateHead:function (){
+                new Swiper('.swiper-line', {
+                    slidesPerView: 'auto',
+                    observer: true,
+                    observeParents: true,
+                    slideToClickedSlide:true,
+                    on: {
+                        click: function () {
+                            const realIndex = this.realIndex;
+                            //that.handleClickSlide(realIndex); 
+                        }
+                    },
+                    preventLinksPropagation: false   // 阻止点击事件冒泡
+                });
+            },
+            //获取头部名称
+            getAll_category: function getAll_category() {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=get_gcategory_all',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        /* ret.retval.forEach(function (v, i) {
+                            if (v.goods_infos.length) {
+                                v.goods_infos.forEach(function (value, index) {
+                                    if (value.tags.length) {
+                                        value.tags = value.tags.split(",")
+                                        //console.log(value.tags)
+                                    }
+                                })
+                            }
+                        }) */
+                        that.category = ret.retval
+                        that.$nextTick(function () {
+                            that.initCateHead()
+                        })
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //加载各种类型的商品
+            addMoreGoods: function addMoreGoods(id) {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=get_rand_goods',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            cate_id: id
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        ret.retval.forEach(function (v, i) {
+                            if (v.tags.length) {
+                                v.tags = v.tags.split(",")
+                                //console.log(value.tags)
+                            }
+                        })
+                        that.showGoodsArr = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            changeCate:function(id){
+                this.addMoreGoods(id)
+                this.activeIndex = id
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.cate_id = api.pageParam.cate_id//只读用的,不能改变
+                    that.activeIndex = api.pageParam.cate_id//点击切换用的
+
+                    that.getTopBanner()
+                    that.getAll_category()
+                    that.addMoreGoods(that.cate_id)
+                    $('.swiper-wrapper').on('touchstart', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: false
+                        });
+                    });
+                    $('.swiper-wrapper').on('touchend', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: true
+                        });
+                    });
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

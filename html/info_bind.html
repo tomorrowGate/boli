@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+	<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+    <title>设备信息</title>
+    <style>
+        .ui-autocomplete-category {
+            font-weight: bold;
+           /* padding: .2em .4em;
+            margin: .8em 0 .2em;*/
+            line-height: 1.5;
+        }
+
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        html,
+        body {
+            background-color: #efefef;
+
+        }
+
+        .content {
+/*            padding: 12px;*/
+            font-size: 17px;
+        }
+
+        input,select,option {
+            height:20px;
+            font-size: 0.9em;
+        }
+
+        .header {
+            font-size: 1.0em;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .dv_form {
+            border: 0px solid #000;
+            height: auto;
+			padding:1% 3%;
+			margin-bottom: 10px;
+			
+        }
+		.tableBg{
+			background-color: #fff;
+			border-radius:8px;
+			padding-bottom: 10px;
+		}
+        h5 {
+            font-weight: bold;
+            padding-left: 10px;
+        }
+        .dv_form .dv_table tr {
+            height: 1.5em;
+            line-height: 1.5em;
+            font-size: 1.0em;
+        }
+		h4{padding-top:15px;padding-left:10px;}
+		table{margin-top:10px;}
+        .dv_form .dv_table tr input,
+        .dv_form .dv_table tr select {
+            border: hidden;
+        }
+
+        .dv_form .dv_table tr td:nth-child(1) {
+            padding-left: 10px;
+        }
+
+        .dv_form .dv_table tr td:nth-child(2) {
+            padding-left: 20px;
+        }
+
+        .tijiao {
+            text-align: center;
+            margin: auto;
+            width: 35%;
+            height: 25px;
+            border: 1px solid #c96565;
+            color: #c96565;
+            border-radius: 12px;
+            line-height: 25px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .customer-type {
+            display: flex;
+        }
+
+        .customer-type label {
+            padding-right: 20px;
+        }
+
+        .hide {
+            display: none;
+        }
+        .icon-qianbi{color:#6eb92c;}
+        .deviceKey {
+				font-size: 16px;
+		}
+		.deviceValue {
+				font-size: 16px;
+				color: #7f7f7f;
+		}
+		input[type="text"]{color:#7f7f7f;font-size: 16px;}
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header">信息详情</div>
+        <div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+		</div>
+    </header>
+    <!--当前显示-->
+    <div class="content">
+        <div class="dv_form" id="table_one">
+			<div class="tableBg">
+            <h4>设备信息</h4>
+            <table class="dv_table">
+                <tr>
+                    <td class="deviceKey">设备编码:</td>
+                    <td class="deviceValue"><input type="text" value="" id="IMEI_name" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td class="deviceKey">SIM:</td>
+                    <td class="deviceValue"><input type="text" value="" id="SIM" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td class="deviceKey">设备名称:</td>
+                    <td class="deviceValue"><input type="text" value="" id="device_name" placeholder="请输入设备名称" readonly="readonly" /></td>
+                </tr>
+                <!-- <tr><td>序列号</td><td><input type="text" value="123456" id="num_name" /></td></tr> -->
+                <tr>
+                    <td class="deviceKey">型号:</td>
+                    <td class="deviceValue">
+                        <select id="m_type" disabled="disabled">
+                        </select>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="deviceKey">保修期:</td>
+                    <td class="deviceValue">2年</td>
+                </tr>
+                <tr id="type_tr" class="hide">
+                    <td class="deviceKey">客户类型:</td>
+                    <td class="deviceValue">
+                        <input type="radio" name="type" value="1" id="agent" checked />
+                        <label for="agent">代理</label>
+                        <input type="radio" name="type" value="0" id="retail" />
+                        <label for="retail">终端用户</label>
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        <div class="dv_form " id="table_two">
+        	<div class="tableBg">
+            <h4 id="dlxx"><i class="iconfont icon-qianbi"></i>&nbsp;一级代理信息</h4>
+            <table class="dv_table">
+                <tbody>
+
+                    <tr id="to_user_tr" class="hide">
+                        <td class="deviceKey">用户id:</td>
+                        <td class="deviceValue"><input type="text" value="" id="to_user_id" /></td>
+                    </tr>
+
+                    <tr>
+                        <td class="deviceKey">名称:</td>
+                        <td class="deviceValue"><input type="text" value="" id="device_name2" placeholder="请输入用户姓名" /></td>
+                    </tr>
+                    <tr>
+                        <td class="deviceKey">电话:</td>
+                        <td class="deviceValue"><input type="text" value="" id="num_name2" placeholder="用户手机号" readonly="readonly" /></td>
+                    </tr>
+                </tbody>
+
+            </table>
+            </div>
+        </div>
+        
+        <div class="dv_form" id="table_four">
+        	<div class="tableBg">
+            <h4><i class="iconfont icon-qianbi"></i>&nbsp;二级代理信息</h4>
+            <table class="dv_table">
+                <tbody>
+
+                    <tr id="to_user_tr" class="hide">
+                        <td class="deviceKey">用户id:</td>
+                        <td class="deviceValue"><input type="text" value="" id="to_user_id2" /></td>
+                    </tr>
+
+                    <tr>
+                        <td class="deviceKey">名称:</td>
+                        <td class="deviceValue"><input type="text" value="" id="device_name22" placeholder="请输入用户姓名" readonly="readonly"/></td>
+                    </tr>
+                    <tr>
+                        <td class="deviceKey">电话:</td>
+                        <td class="deviceValue"><input type="text" value="" id="num_name22" placeholder="用户手机号" readonly="readonly" /></td>
+                    </tr>
+                </tbody>
+
+            </table>
+            </div>
+        </div>
+
+        <!--<div class="tijiao" style="margin-top:10px;" onclick="edit_machine()">提交</div>-->
+
+
+        <!--如果是零售-->
+        <!-- <div class="dv_form hide" id="table_three"> -->
+        <div class="dv_form" id="table_three">
+			<div class="tableBg">
+            <h4><i class="iconfont icon-qianbi"></i>&nbsp;终端用户信息</h4>
+            <table class="dv_table">
+                <tr>
+                    <td class="deviceKey">名称:</td>
+                    <td class="deviceValue"><input type="text" value="" id="to_lsname" placeholder="请输入用户姓名" /></td>
+                </tr>
+                <tr>
+                    <td class="deviceKey">联系方式:</td>
+                    <td class="deviceValue"><input type="text" value="" id="to_lsphone" readonly="readonly" /></td>
+                </tr>
+                <tr>
+                    <td class="deviceKey">出厂日期:</td>
+                    <td class="deviceValue"><span id="cc_time"  readonly="readonly" ></span></td>
+                </tr>
+                <tr class="hide">
+                    <td class="deviceKey"></td>
+                    <td class="deviceValue"><input type="text" value="" id="to_lsid" /></td>
+                </tr>
+                <tr id="work_tr2">
+                    <td class="deviceKey">出售状态:</td>
+                    <td class="deviceValue">
+                        <select id="work_type2">
+                            <!--<option value="0">锁机</option>-->
+                            <option value="1">租用</option>
+                            <option value="2">买断</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="hide" id="end_tr2">
+                    <td class="deviceKey">租用至:</td>
+                    <td class="deviceValue"><input type="date" id="end_name2" /></td>
+                </tr>
+            </table>
+			</div>
+
+        </div>
+        <div class="tijiao hide" style="margin-top:10px;" onclick="bind_user()" id="tj">提交</div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/template.js"></script>
+<script type="text/javascript">
+	var userId = window.localStorage.getItem("userId");
+	var URL = "";
+	var id = 0;
+	$(function() {//消除300ms点击延迟
+		FastClick.attach(document.body);
+		
+		
+	});
+	var addr_id=null;
+    var is_login =null;
+    var is_ls=null;
+	apiready=function(){
+		URL=$api.URL();
+		var header = $api.dom('header');
+		//适配iOS 7+，Android 4.4+状态栏
+		headerH = $api.fixStatusBar(header);
+		addr_id = api.pageParam.addr_id;
+		is_login = api.pageParam.is_login;
+		is_ls = api.pageParam.is_ls;
+//		alert(is_login);
+//		alert(is_ls);
+		
+		
+		if (is_login == 0) {
+        $("#table_two").addClass("hide");
+        $("#table_three").addClass("hide");
+
+	    }
+	    if(is_ls==1){
+	         $("#table_two").addClass("hide");
+	        $("#table_three").addClass("hide");
+	    }
+	
+	    $("#IMEI_name").val(addr_id);
+		
+		get_machine_type();
+    	get_machine_info();
+	}
+	
+    
+//  get_machine_type();
+//  get_machine_info();
+
+
+
+
+    //获得设备类型
+
+
+    function get_machine_type() {
+        //alert("下单信息");
+        
+      api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=get_machine_type',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						addr_id: addr_id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					var data = ret;
+					var m_type_str = '';
+
+	                $.each(data.retval, function (i, item) {
+	                    m_type_str += '<option value ="' + item.id + '">' + item.model + '</option>';
+	                })
+	                $("#m_type").html(m_type_str);
+
+
+                    //零售信息
+
+				} else {
+					api.toast({
+	                  msg: ret.msg,
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+				}
+			});
+
+    };
+
+
+    $("#work_type").change(function () {
+        var selected = $(this).children('option:selected').val()
+        // alert(selected);
+        if (selected == "1") {
+            //document.getElementById("search_content_id").
+            $("#end_tr").removeClass("hide");
+        } else {
+            $("#end_tr").addClass("hide");
+        }
+    });
+	function goBack() {
+			api.closeWin()
+		}
+    //获得设备信息  都为不可编辑
+    function get_machine_info() {
+    
+    	api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=get_machine_info',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						addr_id: addr_id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					var data = ret;
+					$("#device_name").val(data.retval.machine_name);
+					$("#SIM").val(data.retval.SIM);
+					
+                    $("#m_type option[value=" + data.retval.e_id + "]").prop("selected", true);
+
+                    if(data.retval.factory_time){
+                        $("#cc_time").html(formatDateTime(data.retval.factory_time));
+                    }
+
+//					if(data.retval.sgrade==0){
+//						$("#dlxx").html("二级代理信息");
+//					}else{
+//						$("#dlxx").html("一级代理信息");
+//					}
+                    //代理信息
+                    $("#device_name2").val(data.retval.store_name);
+
+                    $("#num_name2").val(data.retval.store_phone);
+
+                    $("#to_user_id").val(data.retval.store_id);
+                    
+                    
+                    //二级代理信息
+					$("#device_name22").val(data.retval.store_name2);
+
+                    $("#num_name22").val(data.retval.store_phone2);
+
+                    $("#to_user_id2").val(data.retval.store_id2);
+
+                    //零售信息
+                    $("#to_lsname").val(data.retval.real_name);
+
+                    $("#to_lsphone").val(data.retval.phone_mob);
+
+                    $("#to_lsid").val(data.retval.user_id);
+
+                    $("#work_type2 option[value=" + data.retval.WorkType + "]").prop("selected", true);
+
+                    if (data.retval.WorkType == 1) {
+                        $("#end_tr2").removeClass("hide");
+                        $("#end_name2").val(formatDateTime(data.retval.EffectiveDate));
+                    }
+
+                    $("#tj").attr("onclick", "bind_lsuser()");
+                    $("#m_type").attr("disabled", "disabled");
+                    $("#work_type2").attr("disabled", "disabled");
+                    $("#end_name2").attr("disabled", "disabled");
+                    $("#cc_time").attr("disabled", "disabled");
+                    $("#device_name2").attr("readonly", "readonly");
+                    $("#device_name").attr("readonly", "readonly");
+                    $("#to_lsname").attr("readonly", "readonly");
+
+                    $('input[type=radio][name=type]').attr("disabled", "disabled");
+
+				} else {
+					api.toast({
+	                  msg: ret.msg,
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+				}
+			});
+
+    };
+
+    $("#work_type2").change(function () {
+        var selected = $(this).children('option:selected').val()
+        // alert(selected);
+        if (selected == "1") {
+            //document.getElementById("search_content_id").
+            $("#end_tr2").removeClass("hide");
+        } else {
+            $("#end_tr2").addClass("hide");
+        }
+    });
+    //时间戳转换
+    function formatDateTime(timeStamp) {
+        var date = new Date();
+        date.setTime(timeStamp * 1000);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        second = second < 10 ? ('0' + second) : second;
+
+        return y + '-' + m + '-' + d;
+    };
+</script>
+</html>

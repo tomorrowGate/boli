@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>编辑资料</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/person/person.set.css" />
+</head>
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span >编辑资料</span>
+        </div>
+    </header>
+
+    <div class="chef-settled-main">
+            <!-- 个人资料填写完整 -->
+        <div class="settled-main-top">
+            <div class="settled-top-form">
+                <div class="settled-form-item">
+                    <div class="settled-item-key">头像</div>
+                    <div class="settled-item-value"></div>
+                    <div class="settled-item-rightarr"> <i class="iconfont">></i> </div>
+                </div>
+                <div class="settled-form-item">
+                    <div class="settled-item-key">姓名</div>
+                    <div class="settled-item-value">
+                        <input type="text" class="settled-item-name input-active" placeholder="请填写姓名">
+                    </div>
+                    <div class="settled-item-rightarr"> <i class="iconfont"></i> </div>
+                </div>
+                <div class="settled-form-item">
+                    <div class="settled-item-key">性别</div>
+                    <div class="settled-item-value">男</div>
+                    <div class="settled-item-rightarr"> <i class="iconfont"></i> </div>
+                </div>
+                <div class="settled-form-item">
+                    <div class="settled-item-key">菜系</div>
+                    <div class="settled-item-value">融合菜、中国甜点</div>
+                    <div class="settled-item-rightarr"> <i class="iconfont">></i> </div>
+                </div>
+                <div class="settled-form-item">
+                    <div class="settled-item-key">单位</div>
+                    <div class="settled-item-value">
+                        <input type="text" class="settled-item-name input-active" placeholder="请填写单位">
+                    </div>
+                    <div class="settled-item-rightarr"> <i class="iconfont"></i> </div>
+                </div>
+                <div class="settled-form-item">
+                    <div class="settled-item-key">职位</div>
+                    <div class="settled-item-value">
+                        <input type="text" class="settled-item-name input-active" placeholder="请填写职位">
+                    </div>
+                    <div class="settled-item-rightarr"> <i class="iconfont"></i> </div>
+                </div>
+                <div class="settled-form-item settled-form-special">
+                    <div class="settled-item-key">个性签名</div>
+                    <div class="settled-item-value">
+                        <textarea class="settled-item-name" name="" id="" cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="settled-item-rightarr"> <i class="iconfont"></i> </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settled-center-form">
+            <div class="settled-center-value">感兴趣的内容</div>
+            <div class="settled-item-rightarr"> <i class="iconfont">></i> </div> 
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+
+</script>
+
+</html>

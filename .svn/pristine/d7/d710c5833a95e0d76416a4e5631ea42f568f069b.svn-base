@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品详情</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.description.css" />
+</head>
+
+<body>
+    <!-- 头部导航 -->
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <a>宝贝</a>
+            <a>评价</a>
+            <a>详情</a>
+            <a>须知</a>
+            <i>🧡</i>
+        </div>
+    </header>
+    <!-- 视频详情 -->
+    <div class="detail-teach-videobox">
+        <video src=""></video>
+        <i class="iconfont icon-back icon-back"></i>
+        <i class="detail-video-tag video-tag">标签</i>
+        <div class="navBtn">
+            <button class="videoBtn"><i></i>视频</button>
+            <button class="imgBtn">图片</button>
+        </div>
+
+    </div>
+    <!-- 商品价格 -->
+    <div class="price">
+        <p class="priceDiscount">￥
+            <span class="priceNum">258</span>
+            <span class="priceDel">￥536</span>赚
+            <span>8</span>
+        </p>
+        <div class="priceMarin">
+            <span class="priceLogo">厨小店</span>
+            <span class="priceSmall">￥228</span>
+        </div>
+        <p>英国YUKIDA集成灶一体灶家用下排侧吸自动清洗蒸烤箱油烟机环保灶</p>
+    </div>
+    <!-- 发货优惠 -->
+
+    <div class="consignment">
+        <span class="tag">发货</span>
+        <i>🧡</i>
+        <span class="add">浙江湖州</span>
+        <span>快递：</span><span>0.00</span>
+        <span class="salesVolume">销量1141</span>
+    </div>
+    <div class="discount">
+        <span class="tag">优惠</span>
+        <span class="coupon">领优惠券</span>
+        <i class="iconfont icon-htbArrowright icon-right"></i>
+    </div>
+    <!-- 保障 -->
+    <div class="guarantee">
+        <span class="tag">保障</span>
+        <span class="guaranteeEstimate">17：00前付款，预计9月30日(后台送到)</span>
+        <p class="guaranteeText">送货上门·免费安装·一年包换·三年保修</p>
+        <i class="iconfont icon-htbArrowright icon-Location"></i>
+    </div>
+    <!-- 选择参数 -->
+    <div class="consignment">
+        <span class="tag">选择</span>
+
+        <span>选择</span>
+        <span>颜色分类</span>
+        <i class="iconfont icon-htbArrowright icon-right"></i>
+    </div>
+    <div class="discount">
+        <span class="tag">参数</span>
+        <span>集成灶品牌</span>
+        <span>型号</span>
+        <i class="iconfont icon-htbArrowright icon-right"></i>
+    </div>
+    <!-- 宝贝评价 -->
+    <div class="evaluate">
+        <div class="evaluateHead">
+            <span>宝贝评价</span>
+            <span>(889)</span>
+
+            <span class="whole">查看全部<i class="iconfont icon-htbArrowright icon-left"></i></span>
+        </div>
+        <div class="message">
+            <div class="flex">
+                <div class="circle">
+                    <img src="" alt="">
+                </div>
+                <span class="circleName">涵(宝宝)</span>
+            </div>
+            <p class="circleText">已安装好,很给力,物流很快,服务态度也好。</p>
+        </div>
+        <div class="message">
+            <div class="flex">
+                <div class="circle">
+                    <img src="" alt="">
+                </div>
+                <span class="circleName">涵(宝宝)</span>
+            </div>
+            <p class="circleText">已安装好,很给力,物流很快,服务态度也好。</p>
+        </div>
+    </div>
+    <!-- 商品详情 -->
+    <div class="commodityHead">
+        <p class="commoditySpacing">——————<span class="commodityTitle">商品详情</span>——————</p>
+    </div>
+    <!-- 底部导航条 -->
+    <nav class="footNav">
+         <div class="footNav-top footNav-bor"><i>🧡</i>
+                <p> 购物车</p>
+            </div>
+            <div class="footNav-top"><i>🧡</i>
+                <p> 客服</p>
+            </div>
+            <div class="footNav-item footNav-purchase">自购</div>
+            <div class="footNav-item footNav-share">分享</div>
+    </nav>
+</body>
+
+</html>

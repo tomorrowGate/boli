@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.cuisine.css" />
+    <title>菜系标签</title>
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部 -->
+        <header class="page-head">
+            <div class="back" onclick="goBack()" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>菜系标签</span>
+            </div>
+        </header>
+        <!-- 选择菜系 -->
+        <div class="cuisineHead">
+            <p>请选择菜系</p>
+            <div class="cuisineChoice">
+                <div class="cuisineChoiceItem">
+                    <input type="radio" id="checkbox_a1" name="checkbox_a1" class="chk_1" value="checkbox_a1" v-model="checkedNames"/> 
+                    <label for="checkbox_a1" class="cuisineBtn">融合菜</label> 
+                </div> 
+                <div class="cuisineChoiceItem">
+                    <input type="radio" id="checkbox_a2" name="checkbox_a2" class="chk_1" value="checkbox_a2"  v-model="checkedNames" /> 
+                    <label for="checkbox_a2" class="cuisineBtn">鲁菜</label> 
+                </div> 
+                <div class="cuisineChoiceItem">
+                    <input type="radio" id="checkbox_a3" name="checkbox_a3" class="chk_1" value="checkbox_a3"  v-model="checkedNames" /> 
+                    <label for="checkbox_a3" class="cuisineBtn">川菜</label> 
+                </div> 
+                <div class="cuisineChoiceItem">
+                    <input type="radio" id="checkbox_a4" name="checkbox_a4" class="chk_1" value="checkbox_a4"  v-model="checkedNames" /> 
+                    <label for="checkbox_a4" class="cuisineBtn">淮扬菜</label> 
+                </div> 
+                <div class="cuisineChoiceItem">
+                    <input type="radio" id="checkbox_a5" name="checkbox_a5" class="chk_1" value="checkbox_a5"  v-model="checkedNames" /> 
+                    <label for="checkbox_a5" class="cuisineBtn">粤菜</label> 
+                </div> 
+                <div class="cuisineChoiceItem">
+                    <input type="radio" id="checkbox_a6" name="checkbox_a6" class="chk_1" value="checkbox_a6" v-model="checkedNames" /> 
+                    <label for="checkbox_a6" class="cuisineBtn">闽菜</label> 
+                </div> 
+            </div>
+        </div>
+        <div class="increase">
+            <input class="increaseIpt" type="text" placeholder="添加自定义菜系">
+            <button class="increaseBtn" @click="addCustom">添加</button>
+        </div>
+        <div class="cuisine-head-bottom cuisineHead" v-if="false">
+            <p>自定义菜系：</p>
+            <div class="cuisineChoice">
+                <div class="cuisineChoiceItem">
+                    <input 
+                    type="radio" 
+                    id="checkbox_a7" 
+                    class="chk_1" 
+                    value="checkbox_a7"  
+                    v-model="checkedNames"
+                    /> 
+                    <label for="checkbox_a1" class="cuisineBtn">融合菜</label> 
+                </div> 
+            </div>
+        </div>
+        <button class="preservation" type="button" name="button" @click="saveCuisine">保存</button>
+    </div>
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var swiperTop = new Swiper('.swiper-top', {
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        loop: false,
+        autoplay: true,
+        pagination: {
+            el: '.swiper-pagination',
+        },
+    });
+    apiready = function () {
+        URL = $api.URL();
+        m_id = api.pageParam.m_id;
+        var header = $api.dom('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        headerH = $api.fixStatusBar(header);
+    }
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            checkedNames:[]
+        },
+        methods: {
+            addCustom:function addCustom(){
+
+            },
+            saveCuisine:function saveCuisine(){
+                console.log(this.checkedNames)
+                api.ajax({
+                    url: 'ajax_url',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll:false
+                },function(ret,err){
+                    if (ret) {
+                        // TODO 
+                    } else {
+                        api.alert({
+                            msg:('错误码：'+err.code+'；错误信息：'+err.msg+'网络状态码：'+err.statusCode)
+                        });
+                    };
+                });
+            },
+        },
+        created: function created() {
+
+        },
+        mounted: function mounted() {
+
+        },
+    })
+
+    //返回上一页
+    function goBack() {
+        api.closeWin();
+    }
+
+</script>
+
+</html>

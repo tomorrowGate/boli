@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>使用帮助</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+      .out_div{ margin-top:10px; }
+      #help_list li{ height:40px;line-height:40px;border-bottom: 1px solid #f4f4f4 }
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">使用帮助</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div class="out_div clearfix">
+        <ul id="help_list">
+          <li><span class="t_l">跨境介绍</span><span class="t_r font_s2"><i class="iconfont icon-htbArrowright"></i></span></li>
+          <li><span class="t_l">常见问题</span><span class="t_r font_s2"><i class="iconfont icon-htbArrowright"></i></span></li>
+          <li><span class="t_l">优惠券说明</span><span class="t_r font_s2"><i class="iconfont icon-htbArrowright"></i></span></li>
+          <li><span class="t_l">售后说明</span><span class="t_r font_s2"><i class="iconfont icon-htbArrowright"></i></span></li>
+
+        </ul>
+      </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      var URL="";
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+
+      //加载帮助列表
+      function getHelps(){
+                api.ajax({
+                    url : URL+'/index.php?app=#',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                        }
+                    }
+                }, function(ret, err) {
+                    // alert(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+                        if(ret.retval.length==0){
+                            $("#help_list").html("暂无帮助文档");
+                        }else{
+                            var str = "";
+                            $api.append($api.byId("help_list"), '');
+                            $.each(ret.retval, function(i, item) {
+                            str = '<li><span class="t_l"  onClick="goArticleview('+item.article_id+')" tapmode>'+item.title_name+'</span><span class="t_r font_s2"><i class="iconfont icon-htbArrowright"></i></span></li>';
+                            $api.append($api.byId("cates_id"), str);
+                         });
+                        }
+                    }
+                });
+            }
+     //初始加载列表
+      getHelps();
+      };
+
+      function goArticleview(){
+        api.toast({
+            msg: '敬请期待!',
+           duration: 2000,
+          location: 'bottom'
+        });
+      }
+
+  </script>
+  </html>

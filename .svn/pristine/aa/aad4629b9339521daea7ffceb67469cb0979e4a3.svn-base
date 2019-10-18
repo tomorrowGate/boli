@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+  <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+  <link rel="stylesheet" type="text/css" href="../css/chefs/chef.baking.css" />
+  <title>烘焙</title>
+</head>
+<body>
+  <!-- 头部 -->
+  <header class="page-head">
+      <div class="back" onclick="goBack()" tapmode>
+          <i class="iconfont icon-back"></i>
+      </div>
+      <div class="head-center">
+          <span>烘焙</span>
+      </div>
+  </header>
+  <!-- 头部搜索 -->
+  <div class="search-head">
+      <div class="search-main">
+          <i class="iconfont icon-search"></i>
+          <input class="search-virtual" placeholder="搜索教学、用户、内容" tapmode>
+          </input>
+      </div>
+      <div class="search-real">搜索</div>
+  </div>
+  <!-- 教学内容 -->
+  <div class="teaching-recommend-card">
+      <div class="teaching-card-item forum-item">
+          <div class="forum-item-imgbox">
+              <span class="forum-item-tagtop forum-item-pay">付费</span>
+              <img src="" alt="">
+          </div>
+          <div class="forum-item-explain">
+              <p class="forum-explain-title">中国菜肴的八种烹饪方法</p>
+              <div class="forum-explain-foot">
+                  <div class="forum-foot-explain">
+                      <i class="iconfont"></i>
+                      <span class="forum-foot-name">周伯通</span>
+                      |
+                      <span class="forum-foot-level">国家一级厨师</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</body>
+</html>

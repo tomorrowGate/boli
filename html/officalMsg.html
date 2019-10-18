@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>官方消息</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+    <style>
+        .imgbox{
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: pink;
+            margin-bottom: 5px;
+        }
+        .dot{
+            position: absolute;
+            top:5px;
+            right:-4px;
+            display: block;
+            height: 12px;
+            line-height: 12px;
+            border-radius:6px;
+            padding:0 6px;
+            background-color: #f00;
+            font-size: 0.8em;
+            color: #fff;
+        }
+        .con{
+            position: relative;
+            /* top:50px; */
+            padding:10px;
+        }
+        .from{
+            font-size: 0.9em;
+        }
+        .message{
+            display: flex;
+            font-size: 16px;
+            height: 50px;
+            padding-top:10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .msgCon{
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            margin-left: 16px;
+        }
+        .msgFrom{
+            display: flex;
+            justify-content: space-between
+        }
+        .time{
+            font-size: 0.8em;
+            color: #999;
+        }
+        .msgSimple{
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+    <body>
+    <div class="con" id="message_list">
+            <div class="message">
+                <div class="imgbox">
+                    <img src="" alt="">
+                    <span class="dot"></span>
+                </div>
+                <div class="msgCon">
+                    <div class="msgFrom">
+                        <p class="from">官方消息</p>
+                        <p class="time">18:25</p>
+                    </div>
+                    <div class="msgSimple">
+                        啊是大师啊的话晒嗲嗲hi大hi卡和尚嗲花啊是大师啊的话晒嗲嗲hi大hi卡和尚嗲花
+                    </div>
+                </div>
+            </div>
+            <div class="message">
+                <div class="imgbox">
+                    <img src="" alt="">
+                    <span class="dot"></span>
+                </div>
+                <div class="msgCon">
+                    <div class="msgFrom">
+                        <p class="from">官方消息</p>
+                        <p class="time">18:25</p>
+                    </div>
+                    <div class="msgSimple">
+                        啊是大师啊的话晒嗲嗲hi大hi卡和尚嗲花啊是大师啊的话晒嗲嗲hi大hi卡和尚嗲花
+                    </div>
+                </div>
+            </div>
+            <div class="message">
+                <div class="imgbox">
+                    <img src="" alt="">
+                    <span class="dot"></span>
+                </div>
+                <div class="msgCon">
+                    <div class="msgFrom">
+                        <p class="from">官方消息</p>
+                        <p class="time">星期三</p>
+                    </div>
+                    <div class="msgSimple">
+                        啊是大师啊的话晒嗲嗲hi大hi卡和尚嗲花啊是大师啊的话晒嗲嗲hi大hi卡和尚嗲花
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+   var message;
+   apiready = function(){
+	 URL=$api.URL();
+	 message=api.pageParam.message;
+	 console.log(JSON.stringify(message));
+	 var str='';
+	 $("#message_list").html("");
+	 $.each(message,function(i,item){
+	 //alert(item.content);
+	 	str+='<div class="message">';
+	 	str+='<div class="imgbox">';
+	 	str+='<img src="../image/message1.png" alt="">';
+	 	str+='<span class="dot"></span>';
+	 	str+='</div>';
+	 	str+='<div class="msgCon">';
+	 	str+='<div class="msgFrom">';
+	 	str+='<p class="from">官方消息</p>';
+	 	str+='<p class="time">'+formatDateTime(item.add_time)+'</p>';
+	 	str+=' </div>';
+	 	str+='<div class="msgSimple">'+item.content;
+	 	str+=' </div>';
+	 	str+=' </div>';
+	 	str+='</div>';
+	 });
+	 
+	 $("#message_list").html(str);
+
+	}
+	
+			        //时间戳转换
+  function formatDateTime(timeStamp) {
+    var date = new Date();
+    date.setTime(timeStamp * 1000);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+    }
+    
+</script>

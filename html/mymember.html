@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>团员信息</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/myteam.css">
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+	<!--头部-->
+	<header>
+	 <div class="header">团员昵称</div>
+     <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+	 </header>
+	<!--会员-->
+	<div class="case2">
+	  <div class="my_info clearfix">
+        <div class="info_l"><img src="../image/default_portrait.png"  class="portrait"></div>
+        <div class="info_m">
+          <div class="info2"><span id="user_name">未登录</span><img src="../image/male.png" class="img2 xb" id="sex" /><span class="jb" id="level">会员等级</span></div>
+          <div class="xfe">TA的本月消费额：<span id="xfe">0</span></div>
+        </div>
+      </div>
+
+
+	<div class="case3 clearfix" >
+	<div class=" r7">
+	<div class="xg" ><p>本月新增直属一级会员</p><span class="number" id="zsvip1">0</span></div>
+	<div class="xg" ><p>累计直属一级会员</p><span class="number" id="ljzsvip1">0</span></div>
+	</div>
+	<div class=" r7">
+	<div class="xg" ><p>本月新增直属二级会员</p><span class="number" id="zsvip2">0</span></div>
+	<div class="xg" ><p>累计直属二级会员</p><span class="number" id="ljzsvip2">0</span></div>
+	</div>
+	<div class=" r7">
+	<div class="xg" ><p>本月新增一级会员</p><span class="number" id="xzvip1">0</span></div>
+	<div class="xg" ><p>累计一级会员</p><span class="number" id="ljvip1">0</span></div>
+	</div>
+	<div class=" r7">
+	<div class="xg" ><p>本月新增二级会员</p><span class="number" id="xzvip2">0</span></div>
+	<div class="xg" ><p>累计二级会员</p><span class="number" id="ljvip2">0</span></div>
+	</div>
+	<div class=" r7">
+	<div class="xg" ><p>本日订单数</p><span class="number" id="order_numeber">0</span></div>
+	<div class="xg" ><p>本日订单金额</p><span class="number" id="order_money">0</span></div>
+	</div>
+	<div class=" r7">
+	<div class="xg" ><p>本月销售额</p><span class="number" id="xse">0</span></div>
+	<div class="xg" ><p>累计销售额</p><span class="number" id="ljxse">0</span></div>
+	</div>
+	</div>
+	</div>
+
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+    var member_id;
+	var URL="";
+	apiready = function(){
+		var header = $api.dom('header'); // 获取 header 标签元素
+		headerH = $api.fixStatusBar(header);
+		URL=$api.URL();
+	    member_id=api.pageParam.member_id;
+
+	};
+	 //获取团员的信息
+     function getMy(){
+            api.ajax({
+              url : URL + 'index.php?app=#',
+                      method : 'post',
+                      cache : false,
+                      timeout : 30,
+                      dataType : 'json',
+                      returnAll : false,
+                      data : {
+                              values : {
+                                    member_id:member_id
+                                     }
+                             }
+            },function(ret,err){
+            //console.log(JSON.stringify(ret));
+          if(ret.done){
+            $api.attr($api.byId('portrait'),'src',ret.retval.portrait);
+	        $api.html( $api.byId("user_name"),ret.retval.real_name);
+	        if(ret.retval.sex=='female'){
+	         $api.attr($api.byId('sex'),'src','../image/female.png');
+	        }
+	        $api.html( $api.byId("level"),ret.retval.level_name);
+	        $api.html( $api.byId("xfe"),ret.retval.xfe);
+	        $api.html( $api.byId("zsvip1"),ret.retval.zsvip1);
+	        $api.html( $api.byId("ljzsvip1"),ret.retval.ljzsvip1);
+	        $api.html( $api.byId("zsvip2"),ret.retval.zsvip2);
+	        $api.html( $api.byId("ljzsvip2"),ret.retval.ljzsvip2);
+	        $api.html( $api.byId("xzvip1"),ret.retval.xzvip1);
+	        $api.html( $api.byId("ljvip1"),ret.retval.ljvip1);
+	        $api.html( $api.byId("xzvip2"),ret.retval.xzvip2);
+	        $api.html( $api.byId("ljvip2"),ret.retval.ljvip2);
+	        $api.html( $api.byId("order_numeber"),ret.retval.order_numeber);
+	        $api.html( $api.byId("order_money"),ret.retval.order_money);
+	        $api.html( $api.byId("xse"),ret.retval.xse);
+	        $api.html( $api.byId("ljxse"),ret.retval.ljxse);
+          }else{
+            api.toast({
+              msg: '失败',
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+            });
+            }
+</script>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的店铺</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/mystore.css">
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+	<!--店铺头部-->
+	<div class="case">
+		<div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+
+	</div>
+	<!--会员栏-->
+	<div class="case1">
+         <div class="my_info clearfix">
+          <div class="info_l"><img src="../image/default_portrait.png"  class="portrait" id="portrait"></div>
+          <div class="info_m">
+            <div><span id="user_name">未登录</span><img src="../image/xb.png" class="img1 xb" /><span class="jb" id="level">会员等级</span></div>
+            <div><span class="border-w">邀请码:<span id="invite_code">XXXXXXXX</span></span></div>
+          </div>
+         </div>
+    </div>
+<!--商品精选栏-->
+	<div class="dpjx">店铺精选</div>
+	<!--循环盒子-->
+	<div id="goods_list" class="clearfix">
+<!--循环开始-->
+      <div class="good_item relative clearfix">
+        <div class="good_img">
+          <img src="../image/good_img.png" width="90" height="90" >
+        </div>
+        <div class="good_info">
+          <P class="good_title">汤臣倍健胶原蛋白粉固体饮料水蜜桃味90g</P>
+                    <P class="sub_title">商品介绍,商品介绍,商品介绍</P>
+                    <P class="tags">
+                        <span class="tag">新品</span>
+                        <span class="tag_odd">假一赔十</span>
+                        <span class="tag">国内</span>
+                        <span class="tag_odd">包邮</span>
+                    </P>
+                    <p class="sales"><span >销量:36</span></p>
+                    <p class="relative" ><span class="col_good_price">&yen;&nbsp;258</span><del class="col_old_price">&yen;&nbsp;536</del><span class="item_val buy_btn">立即购买</span></p>
+        </div>
+      </div>
+      <div class="good_item relative clearfix">
+        <div class="good_img">
+          <img src="../image/good_img.png" width="90" height="90" >
+        </div>
+        <div class="good_info">
+          <P class="good_title">汤臣倍健胶原蛋白粉固体饮料水蜜桃味90g</P>
+                    <P class="sub_title">商品介绍,商品介绍,商品介绍</P>
+                    <P class="tags">
+                        <span class="tag">新品</span>
+                        <span class="tag_odd">假一赔十</span>
+                        <span class="tag">国内</span>
+                        <span class="tag_odd">包邮</span>
+                    </P>
+                    <p class="sales"><span >销量:36</span></p>
+                    <p class="relative" ><span class="col_good_price">&yen;&nbsp;258</span><del class="col_old_price">&yen;&nbsp;536</del><span class="item_val buy_btn">立即购买</span></p>
+        </div>
+      </div>
+
+
+<!--循环结束-->
+
+	</div>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+	//返回上一页
+    var goBack=function(){
+        api.closeWin();
+    }
+    var URL="";
+
+    var user_id=window.localStorage.getItem("user_id"); //用户id
+	apiready = function(){
+		var header = $api.dom('.case'); // 获取 header 标签元素
+		headerH = $api.fixStatusBar(header);
+		 URL=$api.URL();
+	     if (window.localStorage.getItem('portrait')) {
+	 var  portrait=window.localStorage.getItem('portrait');
+	  if(portrait.substr(0,7).toLowerCase() == "http://"){
+	    $api.attr($api.byId('portrait'),'src',portrait);
+      }else{
+        $api.attr($api.byId('portrait'),'src',URL+portrait);
+     }
+     }
+	     $api.html( $api.byId("user_name"),localStorage.getItem('real_name'));
+	     $api.html( $api.byId("level"),localStorage.getItem('level_name'));
+	     $api.html( $api.byId("invite_code"),localStorage.getItem('invite_code'));
+	     getMystore();
+
+	};
+	//获得商品
+         function getMystore(){
+	        	api.ajax({
+	                    url : URL+'/index.php?app=#',
+	                    method : 'post',
+	                    cache : false,
+	                    timeout : 30,
+	                    dataType : 'json',
+	                    returnAll : false,
+	                    data : {
+	                    	values : {
+	                        	user_id:user_id
+	                        }
+	                    }
+	                }, function(ret, err) {
+	                	if (ret.done) {
+	                		$.each(ret.retval, function(i, item) {
+                        var str='<div class="good_item relative clearfix"  onclick="goDetail('+item.goods_id+')" tapmode>';
+                             str+='<div class="good_img">';
+                               str+='<img src="../image/good_img.png" width="90" height="90" >';
+                             str+='</div>';
+                             str+='<div class="good_info">';
+                               str+='<P class="good_title">'+item.goods_name+'</P>';
+                                         str+='<P class="sub_title">'+item.extension_content+'</P>';
+                                         str+='<P class="tags">';
+                                             str+='<span class="tag">新品</span>';
+                                             str+='<span class="tag_odd">假一赔十</span>';
+                                             str+='<span class="tag">国内</span>';
+                                             str+='<span class="tag_odd">包邮</span>';
+                                         str+='</P>';
+                                         str+='<p class="sales"><span >销量:'+item.orders+'</span></p>';
+                                         str+='<p class="relative" ><span class="col_good_price">&yen;&nbsp;'+item.oods_price+'</span><del class="col_old_price">&yen;&nbsp;'+item.oprice+'</del><span class="item_val buy_btn">立即购买</span></p>';
+                             str+='</div>';
+                           str+='</div>';
+                        $api.append($api.byId("goods_list"), str);
+               })
+
+	                	}else{
+                            api.toast({
+                              msg: '失败',
+                              duration: 2000,
+                              location: 'bottom'
+                            });
+                        }
+                        if(err){
+                          api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'bottom'
+                          });
+                        }
+	                });
+        }
+
+
+
+</script>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name = "format-detection" content = "telephone=no">
+		<title>邀请码列表</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<style>
+			html, body {
+				background-color: #f4f4f4;
+			}
+			.out_div {
+				margin-top: 10px;
+			}
+			#help_list li {
+				height: 40px;
+				line-height: 40px;
+				border-bottom: 1px solid #f4f4f4
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				邀请码列表
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class="out_div clearfix">
+			<ul id="help_list"></ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		//用户id
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		var URL = "";
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+			//初始加载列表
+			getHelps();
+		};
+		//加载帮助列表 热门邀请码列表
+		function getHelps() {
+			api.ajax({
+				url : URL + '/index.php?app=appinvite',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				console.log(JSON.stringify(err));
+				if (ret.done) {
+					var str = "";
+					$api.append($api.byId("help_list"), '');
+					$.each(ret.retval, function(i, item) {
+						str = '<li><span class="t_l"  onClick="copyCode(' + item.invite_code + ')" tapmode>' + item.real_name + '</span><span class="t_r font_s2" onClick="copyCode(' + item.invite_code + ')">' + item.invite_code + '</span></li>';
+						$api.append($api.byId("help_list"), str);
+					});
+				}
+			});
+		}
+
+		function copyCode(cid) {
+			//var content = $("#" + cid).text();
+			api.execScript({
+				name : 'invite.code',
+				script : 'selectInvitecode("' + cid + '");'
+			});
+			var clipBoard = api.require('clipBoard');
+			clipBoard.set({
+				value : cid
+			}, function(ret, err) {
+				if (ret) {
+					api.toast({
+						msg : '复制成功',
+						duration : 2000,
+						location : 'bottom'
+					});
+					api.closeWin();
+				} else {
+					api.toast({
+						msg : '复制失败',
+						duration : 2000,
+						location : 'bottom'
+					});
+				}
+			});
+		}
+	</script>
+</html>

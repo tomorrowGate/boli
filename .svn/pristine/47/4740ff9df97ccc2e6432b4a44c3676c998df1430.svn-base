@@ -1,0 +1,25 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+
+/* 平台须知 */
+.chef-platform{
+    padding: 0 10px;
+
+}
+.chef-platform-item{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}

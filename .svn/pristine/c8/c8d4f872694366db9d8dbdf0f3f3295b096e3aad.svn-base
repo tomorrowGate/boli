@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>消息</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+      .out_div{ margin-top:10px; }
+      #article_list li{ height:40px;line-height:40px;border-bottom: 1px solid #f4f4f4 }
+      .rules{ display: none;padding:10px; }
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">消息</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div id="article" class="out_div clearfix">
+          <div class="rules">
+            <p>赚积分规则正在完善中，敬请期待！</p>
+          </div>
+      </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+		   api.execScript({
+			  name:"article",
+			  script:"getArticles();"
+			});
+			api.closeWin();
+      }
+      function keyback(){
+	      api.addEventListener({
+			    name: 'keyback'
+			}, function(ret, err) {
+			    goBack();
+			});
+		}
+      var URL="";
+      var articleId;
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      articleId=api.pageParam.articleId;
+	  //console.log(articleId);
+      //加载帮助列表
+      keyback();
+      getArticle(articleId);
+      updateNew(articleId);
+      };
+
+
+		function getArticle(articleId){
+      if(articleId=='help'){
+        $(".header").html('积分规则');
+          $(".rules").show();
+          return;
+      }else{
+            api.ajax({
+                    url : URL+'index.php?app=myinfo&act=get_msg',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            msg_id:articleId
+                        }
+                    }
+                }, function(ret, err) {
+                    // alert(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+                      var data=ret.retval;
+            var str_msg='';
+            $("#article").html("");
+            str_msg+='<p class="article_name">'+data[0].title+'</p>';
+                str_msg+='<p class="add_time">'+data[0].s_time+'</p>';
+                str_msg+='<div class="article_content">'+data[0].content+'</div>';
+                $api.append($api.byId("article"), str_msg);
+                    }else{
+                      console.log("error");
+                    }
+                });
+      }
+                
+            }
+     	function updateNew(articleId){
+                api.ajax({
+                    url : URL+'index.php?app=myinfo&act=update_msg_new',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            msg_id:articleId
+                        }
+                    }
+                }, function(ret, err) {
+                    // alert(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+						console.log("success");
+                    }else{
+                    	console.log("error");
+                    }
+                });
+            }
+
+  </script>
+  </html>

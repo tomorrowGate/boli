@@ -1,0 +1,84 @@
+@charset "utf-8";
+/* CSS Document */
+strong{ color:#d20005; float:right;}
+.address_info,.orderlist{ position:relative;  overflow:hidden; color:#6b6b6b; margin:0; padding:0; font-size:14px;}
+.orderlist{ border-radius:5px;}
+.address_info .radio{ display:inline-block; margin-right:10px;margin-left:10px; margin-bottom: 4px;}
+.address_info a{ display:inline-block; width:90%;}
+.address_info span{ line-height:24px; display:inline-block;}
+.address_info .addr_detail{ width:80%;}
+.address_info .dt{}
+.address_info b{ display:block; float:right; font-size:20px; font-weight:bold; position:absolute; right:10px; top:35%;}
+.address .new{ margin:0 10px 1px; border-radius:0 0 5px 5px; border-top:0;}
+.address{ background-color:#fff;margin:0px;padding:10px 0 5px 0;}
+input[type='radio']{
+       width: 20px;
+       height: 40px;
+      -webkit-appearance: none;
+      outline: 0 !important;
+      display: inline-block;
+      background: url("../image/uncheck.png") no-repeat center;
+      background-size: 16px 16px;
+}
+input[type='radio']:checked{
+      background: url("../image/checked.png") no-repeat center;
+      background-size: 16px 16px
+}
+.addr_info2{ overflow: hidden; text-overflow:ellipsis; white-space: nowrap; }
+.goaddress{position:absolute;right:10px;top:10px; }
+.line_img{ height:5px;width:100%;background:url('../image/line.png') no-repeat; background-size: 100% 100%}
+.identity{ margin: 10px 0;padding:0 10px;background-color:#fff;color:#8d8d8d;padding-bottom: 7px }
+.identity span{ height:30px;line-height:30px; }
+
+.orderlist{ margin:0; padding:0;}
+.orderlist ul{ margin-bottom: 10px;background-color: #fff }
+.orderlist li{ border-bottom:#e8e8e8 solid 1px; padding:10px; overflow:hidden;}
+.orderlist li img{ width:90px; height:90px; float:left; margin-right:10px;}
+.orderlist li  p{height:30px; line-height:30px; overflow:hidden; }
+.orderlist li span{ color:#333; }
+.orderlist li:last-child{ border-bottom:none;}
+.orderlist select{ border:#aaa solid 1px; padding:3px; color:#333;}
+.total_price{ text-align:right; margin:0 10px 10px; padding:5px 10px; font-size:16px; overflow:hidden;}
+
+.goods_info{ margin-top:0; background:#fff; padding:10px 10px 0; overflow:hidden;}
+.goods_info .goods{ border-bottom:#ccc dashed 1px; padding:10px;}
+.goods_info .goods:last-child{ border-bottom:none;margin-bottom:none;}
+.goods_info .goods img{ width:90px; height:90px; padding:5px;margin-right:10px;box-shadow:rgba(0,0,0,0.4) 0 0 3px;float:left;}
+.goods_info .goods p{ height:30px; line-height:30px; color:#666;}
+.goods_info .goods p.title{ height:40px; line-height:20px;overflow:hidden; color:#333;}
+.goods_info strong{ float:none; margin-right:10px;}
+.goods_info .cancel{ float:right;}
+.goods_info .pay{ width:100%; overflow:hidden; margin:10px 0;}
+.goods_info .pay a{ display:inline-block; padding:10px 5%; width:38%; text-align:center;}
+.goods_line{background:url(../images/pp_2.png) repeat-x; display:block; height:14px;}
+
+.orderinfo b{ width:60px; text-align:right; display:inline-block; margin-right:20px; height:20px;font-weight:normal; vertical-align:top;}
+.orderinfo span{  text-align:left; display:inline-block; height:20px; width:68%;}
+
+.ly{ width:30%; height:20px;line-height:20px;vertical-align: middle;}
+.postscript textarea{ width:70%; height:20px;line-height:20px;vertical-align: middle;text-align:right;}
+.g_num{ float:right;color:#6b6b6b; }
+.anonymous{ margin-bottom: 100px!important }
+.anonymous li{ height:20px; }
+.anonymous .icon-kaiguanguan-copy-copy,.anonymous .icon-kaiguanguan-copy{font-size: 2.5em; position: relative;top: -8px;color:#ccc; }
+.anonymous .icon-kaiguanguan-copy-copy{ color:#4CAF50; }
+.footer{ height:40px;background-color:#fff;position:fixed;bottom:0;left:0;right:0; }
+.actual_price{ width:69%;height:40px;line-height:40px;float:left; }
+#to_pay{ width:31%;float:right;line-height:40px;line-height:40px ;text-align: center;background-color:#6eb92c;color:#fff;}
+
+/* 优惠券 */
+.coupon_lists{ z-index:13;height:60%;position:fixed;bottom:0;left:0;right:0; padding:20px 10px 10px 10px;background-color:#fff;}
+.close_coupon{ position:absolute;top:5px;right:10px; width:40px;height:40px;text-align: right}
+.coupon_title{ margin-bottom: 20px }
+.coupon_type span{ padding:5px 0; }
+.coupon_type .active{ border-bottom: 1px solid #000 }
+.c_0,.c_1{ text-align:center; }
+.coupon_item{ padding:10px;width:70%;margin:0 auto;margin-top:10px; border-radius:5px;border:1px solid #c5aab4;}
+/* 运费 */
+.fee_lists{ z-index:13;height:60%;position:fixed;bottom:0;left:0;right:0; padding:20px 10px 10px 10px;background-color:#fff;}
+.close_fee{ position:absolute;top:5px;right:10px; width:40px;height:40px;text-align: right}
+.fee_title{ margin-bottom: 20px }
+.fee_type span{ padding:5px 0; }
+.fee_type .active{ border-bottom: 1px solid #000 }
+.c_0,.c_1{ text-align:center; }
+.fee_item{ padding:10px;width:70%;margin:0 auto;margin-top:10px; border-radius:5px;border:1px solid #c5aab4;}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>邀请好友注册</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.register.css" />
+</head>
+
+<body>
+    <!-- 头部 -->
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>邀请好友注册</span>
+        </div>
+    </header>
+    <!-- 头部图片 -->
+    <div class="headImg">
+        <img src="" alt="">
+    </div>
+    <!-- 邀请得积分 -->
+    <div class="integral">
+        <P class="getIntegral">邀请得积分</P>
+        <P class="integralText">邀请好友注册得积分奖励</P>
+        <P class="getIntegral">好友下单获得更多奖励</P>
+        <P class="integralText">厨小店用户好友在平台购买商品，获得积分及佣金奖励</P>
+        <button class="integralBtn">邀请好友注册得奖励</button>
+        <p class="recruitName">会员招募令</p>
+        <div class="recruit">
+            <div>
+                <p class="recruitText">已邀人数</p>
+                <p>0</p>
+            </div>
+            <div>
+                <p class="recruitText">总奖励 (元)</p>
+                <p>0</p>
+            </div>
+            <div>
+                <p class="recruitText">已发奖励 (元)</p>
+                <p>0</p>
+            </div>
+        </div>
+    </div>
+    <!-- 分享以下商品邀请好友更有效 -->
+    <h5 class="title">分享以下商品邀请好友更有效</h5>
+     <!-- 全部最新热卖列表 -->
+     <div class="bestSellers">
+        <div class="bestSellers-item">
+            <div class="bestSellers-img"><img src="" alt=""></div>
+            <p class="introduce">COMOTOMO/苹果多么硅胶奶瓶...</p>
+            <p class="bestSellers-red introduce">
+                <span class="bestSellers-text">￥</span>
+                <span class="bestSellers-text">258</span>
+                <span class="bestSellers-del">￥536</span>
+                <span class="salesVolume">销量450</span>
+            </p>
+        </div>
+        <div class="bestSellers-item">
+            <div class="bestSellers-img"><img src="" alt=""></div>
+            <p class="introduce">金龙鱼 盘镜大米 蟹稻共生5kg 东北大米 人气爆款 细...</p>
+            <p class="bestSellers-red introduce">
+                    <span class="bestSellers-text">￥</span>
+                <span class="bestSellers-text">258</span>
+                <span class="bestSellers-del">￥536</span>
+                <span class="salesVolume">销量450</span>
+            </p>
+        </div>
+    </div>
+
+</body>
+
+</html>

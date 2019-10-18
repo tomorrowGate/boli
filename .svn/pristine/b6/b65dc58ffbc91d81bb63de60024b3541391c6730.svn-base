@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	html,body{
+    		background-color: #efefef;
+    	}
+    	.icon-add1{
+    		font-size:24px;
+    	}
+    	.icon-qianbi{color:#269ff2;}
+    	.con{
+    		display: flex;flex-direction:column;box-sizing: border-box;
+    	}
+    	.con-item{display:flex;flex-direction:column;height:190px;background:#ffffff;padding-bottom: 0px;
+    	}
+    	.item{
+    		margin:8px 10px 0px 10px;
+    	}
+    	.itemtt{
+    		display:flex;flex-direction:row;justify-content:flex-start;margin:10px 10px;box-sizing: border-box;padding-bottom:8px;
+    		 border-bottom: 1px solid #efefef;
+    	}
+    	.item-value1{display:flex;flex-direction:column;margin-left:10px;height:90px;width:calc(100% - 90px);}
+    	.value{position: relative;height:30px;line-height: 30px;display:flex;flex-direction:row;justify-content:space-between;}
+    	.butt{display:flex;flex-direction:row;justify-content:flex-end;margin:0px 10px 4px;}
+    	.detail{
+    		color:#ffffff;background-color: #269ff2;border-radius: 8px;width:80px;height:30px;line-height: 30px;text-align: center;font-size:14px;margin-right:10px;
+    	}
+    	.cancel{
+    		color:#269ff2;border:1px solid #269ff2;border-radius: 8px;width:80px;height:30px;line-height: 30px;text-align: center;font-size:14px;
+    	}
+    </style>
+</head>
+<body>
+	<header>
+      <div class="header">推荐大使</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+      <div class="DIV_R" onclick="goAdd()" tapmode><i class="iconfont icon-add1"></i></div>
+    </header>
+    <div class="con" id="content">
+    	<div class="con-item ">
+    		<div class="item">
+    			<span><i class="iconfont icon-qianbi"></i></span>&nbsp;<span>推荐信息</span>
+    		</div>
+    		<div class="itemtt">
+    			<div class="item-value">
+    				<img src="../image/bg_yz.png" style="width:80px;height:90px;"/>
+    			</div>
+    			<div class="item-value1">
+    				<div class="value">
+    					<span>门店名称</span><span class="text">asdnbjs</span>
+    				</div>
+    				<div class="value">
+    					<span>门店地址</span><span class="text">asdnbjs</span>
+    				</div>
+    				<div class="value">
+    					<span>营业执账号</span><span class="text">asdnbjs</span>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="butt" >
+    			<span class="detail">查看详情</span><span class="cancel">取消报备</span>
+    		</div>
+    		
+    	</div>
+    	
+    	
+    	
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+	 $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+	function goBack(){
+          api.closeWin();
+    }
+    var userId=window.localStorage.getItem("userId"); //用户id
+
+    var URL="";
+    apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      
+      api.ajax({
+	      url:URL+'index.php?app=popularize',
+	      method: 'get',
+		  timeout: 30,
+		  dataType: 'json',
+		  returnAll:false,
+		  data:{
+		   	values:{
+		   		user_id:userId,
+		   	} 
+		  
+		  }
+      },function(ret,err){
+      	//coding...
+	      	console.log('---33-'+JSON.stringify(ret));
+	      	if(ret.done){
+	      		$("#content").html('');
+	      		var data=ret.retval;
+	      		var str='';
+
+	      		 $.each(ret.retval,function(i,item){
+	      		 	str+='<div class="con-item ">';
+	      		 	str+='<div class="item"><span><i class="iconfont icon-qianbi"></i></span>&nbsp;<span>推荐信息</span></div>';
+	      		 	str+='<div class="itemtt">';
+	      		 	str+='<div class="item-value"><img src="'+$api.img_surl+item.store_img+'" style="width:80px;height:90px;"/></div>';
+	      		 	str+='<div class="item-value1">';
+	      		 	str+='<div class="value"><span>门店名称</span><span class="text">'+item.store_name+'</span></div>';
+	      		 	str+='<div class="value"><span>门店地址</span><span class="text">'+item.address+'</span></div>';
+	      		 	str+='<div class="value"><span>营业执账号</span><span class="text">'+item.bln+'</span></div>';
+	      		 	var lbt='';
+	      		 	if(item.status==0){
+	      		 		lbt='无效';
+	      		 	}
+	      		 	if(item.status==1){
+	      		 		lbt='审核中';
+	      		 	}
+	      		 	if(item.status==2){
+	      		 		lbt='沟通中';
+	      		 	}
+	      		 	if(item.status==3){
+	      		 		lbt='沟通完成';
+	      		 	}
+	      		 	str+='<div class="value"><span>状态</span><span class="text">'+lbt+'</span></div>';
+	      		 	str+='</div></div>';
+//	      		 	str+='<div class="cot">'
+//
+//	      		 	str+='<div class="left">';
+//	      		 	str+='<img src="'+$api.img_surl+item.store_img+'" /></div>';
+//	      		 	str+='<div class="right">';
+//	      		 	
+//	      		 	str+='<div class="item-value"><span>门店名称</span><span class="value">'+item.store_name+'</span></div>';
+//	      		 	str+='<div  class="item-value"><span>门店地址</span><span class="value">'+item.address+'</span></div>';
+//	      		 	str+='<div  class="item-value"><span>营业执账号</span><span class="value">'+item.bln+'</span></div>';
+//	      		 	var lbt='';
+//	      		 	if(item.status==0){
+//	      		 		lbt='无效';
+//	      		 	}
+//	      		 	if(item.status==1){
+//	      		 		lbt='审核中';
+//	      		 	}
+//	      		 	if(item.status==2){
+//	      		 		lbt='沟通中';
+//	      		 	}
+//	      		 	if(item.status==3){
+//	      		 		lbt='沟通完成';
+//	      		 	}
+//	      		 	str+='<div  class="item-value line"><span>状态</span><span class="value">'+lbt+'</span></div></div>	';
+	      		 	str+='<div class="butt" >';
+	      		 	str+='<span class="detail"onclick="goDetail('+item.id+')">查看详情</span><span class="cancel">取消报备</span>';
+	      		 	str+='</div></div>';
+	      		 })
+	      		 $("#content").html(str);
+	      	}
+      });
+	}
+	function goAdd(){
+		api.openWin({
+			name : 'myMarketing',
+			url : './myMarketing.html',
+			bounces : false,
+			reload : true,
+			animation : {
+				type : "push", //动画类型（详见动画类型常量）
+				subType : "from_right", //动画子类型（详见动画子类型常量）
+				duration : 300 //动画过渡时间，默认300毫秒
+			},
+			
+		});
+	}
+	function goDetail(id){
+		api.openWin({
+			name : 'myMarketing',
+			url : './myMarketing.html',
+			bounces : false,
+			reload : true,
+			animation : {
+				type : "push", //动画类型（详见动画类型常量）
+				subType : "from_right", //动画子类型（详见动画子类型常量）
+				duration : 300 //动画过渡时间，默认300毫秒
+			},
+			pageParam: {
+				p_id:id,
+		        index: 0,
+		    }
+		});
+	}
+</script>
+</html>

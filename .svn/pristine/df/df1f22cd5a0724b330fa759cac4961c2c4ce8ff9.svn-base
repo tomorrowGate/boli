@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>设备列表</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+		<style>
+			html, body {
+				background-color: #efefef;
+			}
+
+			.con {
+				background-color: #f9f8f8;
+				padding: 10px;
+			}
+			.device-num {
+				height: 40px;
+				padding-left: 13px;
+				line-height: 40px;
+				background-color: #fff;
+				color: #6eb92c;
+			}
+			.addDevice {
+				float: right;
+				margin-top: 10px;
+				width: 80px;
+				height: 20px;
+				line-height: 20px;
+				border: 1px solid #6eb92c;
+				border-radius: 11px;
+				font-size: 14px;
+				text-align: center;
+			}
+			.deviceType {
+				/*height: 40px;*/
+				padding-left: 13px;
+				padding-right: 10px;
+				line-height: 40px;
+				background-color: #fff;
+			}
+			.deviceType i {
+				float: right;
+				transition: .3s;
+			}
+			.icon-iconfontxuanzhong1 {
+				/* display: inline-block;
+				 width: 14px;
+				 height: 14px;
+				 vertical-align: middle;
+				 border:1px solid #269FF2;
+				 border-radius: 50%; */
+				color: #000;
+				margin-right: 10px;
+			}
+			.devItemBox {
+				overflow: hidden;
+				padding: 1px;/*用来显示隐藏的*/
+				display:none
+			}
+			.devItem {
+				height: 60px;
+				line-height: 60px;
+				transition: .2s;
+			}
+			.img-box {
+				display: inline-block;
+				width: 60px;
+				height: 60px;
+			}
+			.devItem img {
+				height: 50px;
+				vertical-align: middle;
+			}
+			.item-description {
+				/*vertical-align:top;*/
+				font-size: 15px;
+				color: #ccc;
+			}
+			.blueActive {
+				color: #6eb92c;
+			}
+			.submitNow {
+				width: 60%;
+				height: 30px;
+				background-color: #6eb92c;
+				color: #fff;
+				text-align: center;
+				line-height: 30px;
+				border-radius: 15px;
+				margin: 25px auto;
+			}
+			.state{
+				float: right;
+				font-size: 14px;
+			}
+			.alert{
+				color: #f00;
+			}
+			.working{
+				color: #6eb92c;
+			}
+			.nowork{
+				color: #ddd;
+			}
+			.open_icon{
+              transform:rotate(180deg);
+              -ms-transform:rotate(180deg); /* Internet Explorer */
+              -moz-transform:rotate(180deg); /* Firefox */
+              -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+              -o-transform:rotate(180deg); /* Opera */
+        }
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">设备列表</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class="con">
+			<div class="device-num">
+				<i class="iconfont icon-qianbi"></i>
+				<span>设备数量： <span class="dev-num" id="num"></span>台</span>
+				</span> <span class="addDevice hide">添加设备</span>
+			</div>
+			<div class="deviceType" id="tt">
+				<!-- <div class="device_type" onclick="changeshow('1')" tapmode>
+					<span class="devKey">广式单炒单温</span>
+					<i class="iconfont icon-htbArrowright changeicon_1"></i>
+			  </div>
+				<ul class="devItemBox item_1">
+					<li class="devItem" onclick="goDevInfo(window.event)" tapmode>
+						<div class="img-box"><img src="../image/kitchen.png" alt="" />
+						</div>
+						<span class="item-description">广式单炒单温-设备01</span>
+						<span class="state working">使用中</span>
+					</li>
+					<li class="devItem" onclick="goDevInfo(window.event)" tapmode>
+						<div class="img-box"><img src="../image/kitchen.png" alt="" />
+						</div>
+						<span class="item-description">广式单炒单温-设备01</span>
+						<span class="state alert">告警中</span>
+					</li>
+				</ul> -->
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		var URL;
+		apiready = function() {
+		    URL=$api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			headerH = $api.fixStatusBar(header);
+			get_machine_list();
+
+		};
+		function get_machine_list(){
+					api.ajax({
+				url: URL+'index.php?app=appmachine',
+				method: 'post',
+				timeout: 30,
+				dataType: 'json',
+				returnAll:false,
+                data : {
+                  values : {
+                    user_id:userId
+                 }
+               }
+			},function(ret,err){
+			    console.log(JSON.stringify(ret));
+			    if(ret.done){
+						var str='';
+			      if(ret.retval[0].length>0){
+                  $.each(ret.retval[2],function(i,item){
+										str+='<div class="device_type" onclick="changeshow('+item.id+')" tapmode>';
+                    str+='<span class="devKey" >'+item.type_name+'</span>';
+         		      	str+='<i class="iconfont icon-down changeicon_'+item.id+'"></i>';
+						      	str+='</div>';
+										var typeId=item.id;
+										str+='<ul class="devItemBox item_'+item.id+'">';
+										$.each(ret.retval[0],function(i1,item1){
+										  if(item1.e_id==typeId){
+											if(item1.status=="告警中"){
+												 str+='<li class="devItem" onclick = "goPreService('+item1.id+')" tapmode>';
+											}else{
+												 str+='<li class="devItem" onclick = "goPreService('+item1.id+')" tapmode>';
+											 }
+							         			str+='<div class="img-box"><img src="../image/kitchen.png" alt="" /></div>';
+							         			str+='<span class="item-description">'+item1.machine_name+'</span>';
+							         			if(item1.status=="已关闭"){
+							         			  str+='<span class="state nowork">'+item1.status+'</span>';
+							         			}else if(item1.status=="运行中"){
+							         			  str+='<span class="state working">'+item1.status+'</span>';
+							         			}else{
+							         			  str+='<span class="state alert">'+item1.status+'</span>';
+
+							         			}
+							         			str+='</li>';
+											}
+										});
+								    str+='</ul>';
+				         		  	str+='</div>';
+				                 });
+				                   $("#tt").html(str);
+				                }else{
+				                  $("#tt").html("暂无设备");
+				                }
+				               $("#num").html(ret.retval[1]);
+
+				              }else{
+				                $("#tt").html("暂无设备");
+				                $("#num").html("0");
+				              }
+		       	});
+	      	}
+
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		function goDevInfo(m_id) {
+			//e.target.addEventListener("onclick",open,e.target)
+			api.openWin({
+				name : 'oneDevice',
+				url : './oneDevice.html',
+				bounces : false,
+				reload : true,
+				animation : {
+					type : "push", //动画类型（详见动画类型常量）
+					subType : "from_right", //动画子类型（详见动画子类型常量）
+					duration : 300 //动画过渡时间，默认300毫秒
+				},
+				pageParam : {
+					m_id : m_id
+				}
+			});
+			/* else{
+			 e.target.click()
+			 } */
+		}
+
+
+	// 	function pullDown(e) {
+	// 		e.target.addEventListener("click", function() {
+	// 			var oArrow = {}
+	// 			if (e.target.classList.contains("deviceType")) {
+	// 				oArrow = $api.dom(e.target, ".icon-htbArrowright")
+	// 			} else if (!$api.closest(e.target, ".devItemBox") && !e.target.classList.contains("icon-iconfontxuanzhong1")) {//判断是否点击到了.devItemBox下的元素
+	// 				oArrow = $api.dom($api.closest(e.target, '.deviceType'), ".icon-htbArrowright")
+	// 			} else {
+	// 				return
+	// 			}
+	// 			if(!oArrow){ return}
+	// 			else if (oArrow.rotateBtn) {
+	// 				oArrow.style.transform = "rotate(0deg)"
+	// 				oArrow.rotateBtn = false;
+	// 			} else {//第一次执行
+	// 				oArrow.style.transform = "rotate(90deg)"
+	// 				oArrow.rotateBtn = true
+	// 			}
+	// 			deviceHiddenOrNot(oArrow)//是否需要下拉效果
+	// 		}())
+	// 	}
+	//
+	//
+	// 	function deviceHiddenOrNot(e) {
+	// 		if ($(e).next()) {//判断是否有需要维修的
+	// 			if (e.rotateBtn)
+	// 			{
+	// 					$(e).next().children().each(function(index,value){
+	// 					value.style.height = 0
+	// 				});
+	// 			}
+	// 			else
+	// 			{
+	// 				$(e).next().children().each(function(index,value){
+	// 					value.style.height = "60px"
+	// 				});
+	// 			}
+	// 	}
+	// }
+	function changeshow(dId){
+		$(".item_"+dId).toggle();
+		$(".changeicon_"+dId).toggleClass("open_icon");
+
+	}
+		function goBack() {
+			api.closeWin();
+		}
+		function goPreService(m_id) {
+			api.openWin({
+				name : 'preService',
+				url : './preService.html',
+				bounces : false,
+				reload : true,
+				animation : {
+					type : "push", //动画类型（详见动画类型常量）
+					subType : "from_right", //动画子类型（详见动画子类型常量）
+					duration : 300 //动画过渡时间，默认300毫秒
+				},
+				pageParam : {
+					m_id : m_id
+				}
+			});
+		}
+	</script>
+</html>

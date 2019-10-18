@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>搜索</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <style>
+         html,body {
+        background-color: #f4f4f4;
+      }
+        .header_1 .icon-search{ position:absolute;left:50px;bottom: 2px;;}
+        .ip{ padding:0 10px 0 30px;height:30px;line-height: 30px;font-size:1em;border-radius: 15px;background-color: #fff;border:none;position:absolute;left: 40px;right: 50px;bottom: 10px;width:55%;}
+        .DIV_L{ bottom:5px; }
+        .DIV_R1{ font-weight: bold;text-align: left;}
+        .center_div{border-bottom:10px solid #f6f6f6;padding:0 3%;}
+        .swiper_top{height:165px;}
+         /* 分类列表middle_nav*/
+         .middle_nav{padding:15px 0 10px 0;width:100%}
+        .nav_item{ width:25%;float:left;color:#8d8d8d;text-align:center;font-size: 0.8em; }
+        .nav_item .sub_category{ height:40px;width:40px; border-radius:20px; box-shadow: 0 0 1px 2px #f6f4f4;margin: 5px 0; }
+        .nav_item img.category_img{height:40px;width:40px;border-radius:20px;margin-bottom: 5px;}
+        .nav_item .all_c{ font-size: 2em; position: relative;top: 5px; }
+        /* sticky */
+        .sticky {position: -webkit-sticky;position: sticky;top: 0;padding: 5px 3%; background-color: #fff;z-index: 1;}
+        .sticky .list_type{ width:33.33%;text-align:center;float:left;height:30px;line-height: 30px;font-weight: bold; }
+         .sticky .active{ color:#6eb92c;border-bottom: 1px solid #6eb92c }
+         /* 商品列表goods_list */
+          #goods_list{ padding:0 3%;width:94%; }
+          .good_item{ margin:10px 0;padding:10px 0; }
+          .relative{position: relative;}
+          .good_img{ padding:0 10px 0 0;float:left }
+         .good_info{ position:absolute;top:7px;left:100px;right:0 }
+         .tags{ font-size: 0.8em; }
+         .tag{ padding:0 0.5em;border-radius: 3px;color:#ff0000;background-color: #ffe1ec;margin-right:0.5em;font-size:0.7em; }
+         .tag_odd{ padding:0 0.5em;border-radius: 3px;color:#a17fff;background-color: #f4f0ff;margin-right:0.5em;font-size:0.7em;  }
+         .sales{ color:#8d8d8d; font-size: 0.9em;}
+         .item_val{position: absolute;right:0;top:-11px;}
+         .item_val1{position: absolute;right:3.8em;top:-11px;}
+         .buy_btn{ padding:2px 0.5em;color:#fff;background-color: #6eb92c ;border-radius: 5px;font-size:1.1em;}
+         .buy_btn1,.buy_btn2{ padding:2px;color:#fff;background-color: #fff;color: #6eb92c ;border:1px solid #6eb92c ; border-radius: 5px;font-size:1.1em;}
+         .buy_btn2{ color:#fff;background-color: #6eb92c ; }
+         .good_desc{ color:#8d8d8d;font-size: 0.8em }
+         .relative{position: relative;}
+         .col_good_price{ color:#ff0000;padding-right: 5px }
+         .col_old_price{ color:#8d8d8d; }
+         .good_title,.sales{ margin-bottom:0 }
+         .tags{ margin-bottom:2px }
+         .sub_title{ color:#8d8d8d;font-size: 0.9em;margin-bottom: 2px }
+         .good_title{white-space:nowrap;text-overflow:ellipsis; overflow: hidden;font-weight: bold}
+    </style>
+</head>
+<body>
+    <!--<div class="center_div clearfix">
+      <div class="swiper-container swiper_top" >
+        <div class="swiper-wrapper" id="adv">
+           <div class="swiper-slide" onclick="fun.goAdv()" tapmode>
+              <img src="../image/lunbo1.png" height="100%" width="100%" class="circle" />
+            </div>
+            <div class="swiper-slide" onclick="fun.goAdv()" tapmode>
+              <img src="../image/lunbo2.png" height="100%" width="100%" class="circle" />
+            </div>
+        </div>
+      </div>-->
+     <!-- <div class="middle_nav clearfix" id="cates_list">-->
+        <!--<div class="nav_item"><span class="sub_category"><img src="../image/c01.png" class="category_img cate_img1"></span><br/><span class="cate_name1">面膜</span></div>
+        <div class="nav_item"><span class="sub_category"><img src="../image/c02.png" class="category_img cate_img2"></span><br/><span class="cate_name2">彩妆</span></div>
+        <div class="nav_item"><span class="sub_category"><img src="../image/c03.png" class="category_img cate_img3"></span><br/><span class="cate_name3">护肤</span></div>
+        <div class="nav_item"><span class="sub_category"><img src="../image/c04.png" class="category_img cate_img4"></span><br/><span class="cate_name4">洁面</span></div>
+        <div class="nav_item"><span class="sub_category"><img src="../image/c05.png" class="category_img cate_img5"></span><br/><span class="cate_name5">眼影</span></div>
+        <div class="nav_item"><span class="sub_category"><img src="../image/c06.png" class="category_img cate_img6"></span><br/><span class="cate_name6">化妆水</span></div>
+        <div class="nav_item"><span class="sub_category"><img src="../image/c07.png" class="category_img cate_img7"></span><br/><span class="cate_name7">底妆</span></div>-->
+        <!--<div class="nav_item"><span class="sub_category"><i class="iconfont icon-liebiao all_c"></i></span><br/><span class="cate_name8">全部</span></div>-->
+
+      <!--</div>-->
+    <!--</div>-->
+    <header>
+      <form method="post" onclick="goSearch()" tapmode>
+      <div class="header_1" onclick="goSearch()" tapmode><input type="text" name="search" placeholder="搜索" class="ip" id="search" ><i class="iconfont icon-search"></i></div><div class="box"></div>
+      </form>
+      <div class="DIV_L"  onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+      <div class="DIV_R1"  onclick="goSearch()" tapmode>搜索</div>
+    </header>
+    <div class="sticky">
+      <div class="list_type active" onclick="fun.changeOrder(this,1)" id="zh" tapmode>综合</div>
+      <div class="list_type" onclick="fun.changeOrder(this,2)" tapmode>热销</div>
+      <div class="list_type" onclick="fun.changeOrder(this,3)" tapmode>价格
+      <span class="show_all"><i class="iconfont icon-zhankai"></i></span></div>
+      <div style="clear:both"></div>
+    </div>
+    <div id="goods_list" class="clearfix">
+
+
+
+
+    </div>
+
+
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+	var price_type=1;//价格排序变量
+	$(function() {  //消除300ms点击延迟
+    	FastClick.attach(document.body);
+  	});
+	var swiper_top = new Swiper('.swiper_top', {
+  		slidesPerView: 1,
+	    spaceBetween:0,
+	    loop: true,
+	    autoplay:true
+	});
+	 //返回上一页
+    var goBack=function(){
+        api.closeWin();
+    }
+    //搜索页面
+    function goSearch(){
+    	api.closeWin();
+//          api.openWin({
+//              name: 'search',
+//              url: './search.html',
+//              bounces: false,
+//              animation:{
+//                  type:"push",                //动画类型（详见动画类型常量）
+//                  subType:"from_right",       //动画子类型（详见动画子类型常量）
+//                  duration:300                //动画过渡时间，默认300毫秒
+//              },
+//              pageParam: {
+//                  searchs:goods_info,
+//              }
+//          });
+        }
+	var ugrade=window.localStorage.getItem("ugrade"); //用户等级
+	var URL="";
+	var fun={};
+	URL=$api.URL();
+	var goods_info;
+	var search_name="";
+	var start=0;
+    var end=10;
+    var data_goods=null;
+    apiready = function(){
+      var header = $api.dom('header'); // 获取 header 标签元素
+  		headerH = $api.fixStatusBar(header);
+        //goods_info=api.pageParam.goods_info;//总分类ID
+        search_name=api.pageParam.goods_name;
+        //alert(api.pageParam.goods_name);
+        $("#search").val(search_name);
+        //加载商品
+        comprehensive_list(1);
+        //SplicingGoods(goods_info);
+		//console.log(JSON.stringify(goods_info));
+        //下拉刷新
+        api.setRefreshHeaderInfo({
+	    //loadingImg: 'widget://image/refresh.png',
+	    visible: true,
+	    bgColor: '#f2f2f2',
+	    textColor: '#fff',
+	    textDown: '下拉刷新...',
+	    textUp: '松开刷新...',
+	    showTime: true
+	},  function(ret, err) {
+		$("#goods_list").html("");
+        comprehensive_list(1);
+	    setTimeout('api.refreshHeaderLoadDone()', '300');
+	});
+
+
+        //上拉加载
+    api.addEventListener({
+    	name: 'scrolltobottom',
+        extra: {
+        	threshold: 50 //距离底部距离
+        }
+    }, function(ret, err) {
+    		console.log("上拉加载");
+            if(data_goods!=null){
+	            if(data_goods.length<10){
+	            //alert(data_goods.length);
+	            	api.toast({
+		                  msg: '没有更多了',
+		                  duration: 2000,
+		                  location: 'bottom'
+		                });
+	            }else{
+	            //alert("50了");
+	            	start+=10;
+
+			          //alert(xli+"  "+xli2);
+			    	setTimeout('comprehensive_list(1)', '3000');
+		       }
+	       }
+
+        });
+     };
+
+
+     //切换
+      fun.changeOrder=function(objThis,cid){
+          $(objThis).addClass("active").siblings().removeClass("active");
+          cidType=cid;
+          $("#wrapperScroll0 .moreLoad p").text("加载中...");
+          $("#goods_list").html("");
+          //listLoad(cid);
+          if(cid==3){
+ 		  	if(price_type==1){
+ 		  		price_type=2;
+ 		  	}else if(price_type==2){
+ 		  		price_type=1;
+ 		  	}
+ 		  }
+ 		  start=0;
+			console.log(price_type);
+          comprehensive_list(cid);
+      }
+
+        //商品详情
+        fun.goDetail=function(goodId){
+        	//alert(goodId);
+            api.openWin({
+                name: 'goods.view',
+                url: './goods.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    goodId: goodId //商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                }
+            });
+        }
+
+
+
+        //获得商品
+         function comprehensive_list(cid){
+         //alert(search_name);
+	         console.log(cid);
+	        	api.ajax({
+	                    url : URL+'/index.php?app=homepage&act=Search_goods',
+	                    method : 'post',
+	                    cache : false,
+	                    timeout : 30,
+	                    dataType : 'json',
+	                    returnAll : false,
+	                    data : {
+	                    	values : {
+	                    		goods_name:search_name,
+	                        	type:cid,
+	                        	price_type:price_type,
+	                        	start:start,
+	                        	end:end
+	                        }
+	                    }
+	                }, function(ret, err) {
+	                	if (ret &&ret.done) {
+	                		//alert(act);
+	                		data_goods=ret.retval;
+	                		//if(ret.retval.length<50||ret.retval==null){
+	                			//SplicingGoods(data_goods);
+	                		//}else{
+
+
+	                		SplicingGoods(data_goods);
+
+	                		//}
+	                	}
+	                });
+        }
+
+
+        //拼接商品
+     function SplicingGoods(data_goods){
+     //data_goods=goods_info_c;
+     //alert(data_goods.length);
+     console.log(JSON.stringify(data_goods));
+     //alert(data_goods.length);
+     var str_comprehensive="";
+//   if(data_goods.length>10){
+//		xli2=10;
+//	}else{
+//		xli2=data_goods.length;
+//	}
+    for(var i=0;i<data_goods.length;i++){
+                			str_comprehensive+='<div class="good_item relative clearfix"  onclick="fun.goDetail('+data_goods[i].goods_id+')">';
+                			str_comprehensive+='<div class="good_img">';
+                			str_comprehensive+='<img src="'+$api.img_surl+'/'+data_goods[i].default_image+'" width="90" height="90" >';
+                			str_comprehensive+='</div>';
+                			str_comprehensive+='<div class="good_info">';
+                			str_comprehensive+='<P class="good_title">'+data_goods[i].goods_name+'</P>';
+                			if(data_goods[i].extension_content!=null&&data_goods[i].extension_content!=""){
+			                    if((data_goods[i].extension_content).length>10){
+			                    	str_comprehensive+='<P class="sub_title">'+data_goods[i].extension_content.substring(0,10)+'...</P>';
+			                    }else{
+			                    	str_comprehensive+='<P class="sub_title">'+data_goods[i].extension_content+'</P>';
+			                    }
+		                    }else{
+		                    	str_comprehensive+='<P class="sub_title">'+" "+'</P>';
+		                    }
+                			str_comprehensive+='<P class="tags">';
+                			str_comprehensive+='<span class="tag">新品</span>';
+                			str_comprehensive+='<span class="tag_odd">假一赔十</span>';
+                			str_comprehensive+='<span class="tag">国内</span>';
+                			if(data_goods[i].orders==null){
+	                    		//$("#goods_list").append('<p class="sales"><span >销量:0</span></p>');
+	                    		str_comprehensive+='<p class="sales"><span >销量:0</span></p>';
+		                    }else{
+		                    	//$("#goods_list").append('<p class="sales"><span >销量:'+ret.retval[i].orders+'</span></p>');
+		                    	str_comprehensive+='<p class="sales"><span >销量:'+data_goods[i].orders+'</span></p>';
+		                    }
+
+		                    var now_time = Date.parse(new Date()) / 1000;
+							if (data_goods[i].sp_goods_id != null && data_goods[i].start_time < now_time && data_goods[i].end_time > now_time) {
+								if (ugrade == 0 || ugrade == 1) {
+									str_comprehensive += '<p class="relative" ><span class="col_good_price">&yen;&nbsp;' + data_goods[i].sp_goods_price + '</span><del class="col_old_price">&yen;' + data_goods[i].oprice + '</del><span class="item_val buy_btn">立即购买</span></p>';
+								} else {
+									//var member_price=data_goods[i].member_price.split("-");
+									//var zhuan=member_price[0]-member_price[ugrade];
+									str_comprehensive += '<p class="relative" ><span class="col_good_price">&yen;&nbsp;' + data_goods[i].sp_goods_price + '</span><span class="col_old_price">赚&yen;' + zhuan + '</span><span class="item_val buy_btn2">省钱购</span></p>';
+								}
+							} else {
+								if (ugrade == 0 || ugrade == 1) {
+									str_comprehensive += '<p class="relative" ><span class="col_good_price">&yen;&nbsp;' + data_goods[i].price + '</span><del class="col_old_price">&yen;' + data_goods[i].oprice + '</del><span class="item_val buy_btn">立即购买</span></p>';
+								} else {
+									var member_price = data_goods[i].member_price.split("-");
+									var zhuan = member_price[0] - member_price[ugrade];
+									str_comprehensive += '<p class="relative" ><span class="col_good_price">&yen;&nbsp;' + member_price[ugrade] + '</span><span class="col_old_price">赚&yen;' + zhuan + '</span><span class="item_val1 buy_btn1">省钱购</span><span class="item_val buy_btn2" onclick="fun.goShare()" tapmode>分享赚</span></p>';
+								}
+							}
+
+
+
+
+//		                    if(ugrade==0){
+//	                    	//$("#goods_list").append('<span class="col_good_price">&yen;&nbsp;'+ret.retval[i].price+'</span><del class="col_old_price">&yen;'+ret.retval[i].oprice+'</del><span >立即购买</span></p>');
+//	                    	str_comprehensive+='<p class="relative" ><span class="col_good_price">&yen;&nbsp;'+data_goods[i].price+'</span><del class="col_old_price">&yen;'+data_goods[i].oprice+'</del><span >立即购买</span></p>';
+//	                    }else{
+//	                    	// $("#goods_list").append('<span class="col_good_price">&yen;&nbsp;'+ret.retval[i].price+'</span><span class="col_old_price">赚&yen;36</span><span class="item_val buy_btn1">省钱购</span><span >分享赚</span></p>');
+//	                    	//$api.append($api.byId("goods_list"), '<span class="col_good_price">&yen;&nbsp;'+ret.retval[i].price+'</span><span class="col_old_price">赚&yen;36</span><span class="item_val buy_btn1">省钱购</span><span >分享赚</span></p>');
+//	                    	str_comprehensive+='<p class="relative" ><span class="col_good_price">&yen;&nbsp;'+data_goods[i].price+'</span><span class="col_old_price">赚&yen;36</span><span class="item_val1 buy_btn1">省钱购</span><span class="item_val buy_btn2" onclick="fun.goShare()" tapmode>分享赚</span></p>';
+//	                    }
+                			str_comprehensive+='</div></div>';
+                		}
+                		$api.append($api.byId("goods_list"), str_comprehensive);
+                		//$("#goods_list").html(str_comprehensive);
+     }
+
+
+     //点击类型栏
+     function Category(cate_id){
+     	//alert(cate_id);
+     	$("#zh").addClass("active").siblings().removeClass("active");
+     }
+</script>
+</html>

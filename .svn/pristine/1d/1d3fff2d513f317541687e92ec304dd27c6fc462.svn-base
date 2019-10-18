@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+      .DIV_L{ bottom:5px; }
+      .header_1 .icon-search{ position:absolute;left:50px; bottom: 2px;}
+      .ip{ padding:0 10px 0 30px;height:30px;line-height: 30px;font-size:1em;border-radius: 15px;background-color: #fff;border:none;position:absolute;left: 40px;right: 50px;bottom: 10px;width:55%;}
+      .hot_search{ padding:10px;margin-bottom:10px;background-color: #fff; }
+      #hot_search{ padding:10px 0; }
+      .hot_search .tags{ padding:0 8px;margin:5px 10px 5px 0;background-color: #ededed;color:#858585;height:24px;line-height:24px;border-radius: 12px }
+      .history_search{ padding:10px;margin-bottom:10px;background-color: #fff; }
+      #history_search{ padding:10px 0; color:#666;}
+      .history_search .history_item{ position: relative;border-bottom: 1px solid #f6f6f6;height:24px;line-height:24px; }
+      .history_search .history_item i{ position: absolute;right:10px;color:#ccc; }
+      .history_clear{ text-align: center;margin:20px 0; }
+      .clear_btn{ padding:0 10px;border:1px solid #666;color:#666;height:30px;line-height: 30px;border-radius: 15px; }
+
+      /* #search {
+            width: 300px;
+        }*/
+
+        .box {
+            position: absolute;
+            z-index: 1;
+            /* border: 1px solid #ccc; */
+            width: 300px;
+            /* height: 200px; */
+            overflow-y: auto;
+            background: #fff;
+
+        }
+
+        .box::-webkit-scrollbar { /*滚动条整体样式*/
+            width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+            height: 4px;
+        }
+
+        .box::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
+            border-radius: 5px;
+            -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .box::-webkit-scrollbar-track { /*滚动条里面轨道*/
+            -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            border-radius: 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .box p {
+            border: 1px solid #ccc;
+            margin: 0;
+            padding: 2px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            transition: .4s;
+            letter-spacing: .5em;
+            height: 22px;
+            line-height: 22px;
+
+        }
+
+        .box p:last-child {
+            display: none;
+        }
+
+        .box p a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        .box p:hover {
+            background: #ddd;
+        }
+        .DIV_R1{ font-weight: bold;text-align: left;}
+      </style>
+  </head>
+  <body>
+  <header>
+  	<form method="post" onsubmit="submitInputContent()">
+    <div class="header_1"><input type="text" name="search" placeholder="搜索" class="ip" id="search" ><i class="iconfont icon-search"></i></div>
+    <!--<input id='searchNameName' type='text' placeholder='请输入关键字'/>-->
+	  <div class="box"></div>
+    </form>
+    <div class="DIV_L"  onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    <div class="DIV_R1"  onclick="submitInputContent()" tapmode>搜索</div>
+    </header>
+    <div id="search_tab">
+      <div class="hot_search">
+        <p class="font_w1">热门搜索</p>
+        <div id="hot_search">
+         <!-- <span class="tags">身体乳</span>
+          <span class="tags">护手霜</span>
+          <span class="tags">水乳</span>
+          <span class="tags">美可卓</span>
+          <span class="tags">资生堂</span>
+          <span class="tags">唇膏</span>
+          <span class="tags">童年时光</span>-->
+        </div>
+      </div>
+      <div class="history_search">
+        <p class="font_w1">搜索历史</p>
+        <div id="history_search">
+
+        </div>
+
+      </div>
+      <div class="history_clear">
+        <span class="clear_btn" id="clear_btn"  onclick="clearHistory()" tapmode>清除历史记录</span>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      var goBack=function(){
+          api.closeWin();
+      }
+      var searchs=[];
+      var URL="";
+      apiready = function(){
+        var header = $api.dom('header'); // 获取 header 标签元素
+    		headerH = $api.fixStatusBar(header);
+      $("#search").focus();
+      URL=$api.URL();
+      searchs=api.pageParam.searchs;//总分类ID
+      Get_Search_history();
+      Get_Hot_Search();
+
+
+    	//alert(searchs.length);
+	}
+
+    function submitInputContent(){
+  		//alert("提交");
+
+		Search_goods($("#search").val());
+	}
+	//搜索商品
+	function Search_goods(search_name){
+
+		//var goods_name=search_name;
+		//alert(search_name);
+//		api.ajax({
+//		        url : URL+'/index.php?app=homepage&act=Search_goods',
+//		        method : 'post',
+//						cache : false,
+//						timeout : 30,
+//						dataType : 'json',
+//						returnAll : false,
+//						data : {
+//							values : {
+//								goods_name:goods_name,
+//								type:1
+//							}
+//						}
+//	        },function(ret,err){
+//	        console.log(JSON.stringify(ret.retval));
+//	        	if(ret.done){
+//	        		console.log(JSON.stringify(ret.retval));
+	        		Save_Search_history(search_name);//保存搜索记录
+	        		goSearch_view(search_name);
+
+	        	//}else{
+//	        		//alert("a");
+//	        	}
+//	        	if(err){
+//	        		//alert("err");
+//	        	}
+//	        });
+//	       alert(goods_name);
+	}
+	//跳转搜索页面
+	function goSearch_view(goods_name){
+	//alert(goods_name);
+		api.openWin({
+                name: 'search.view',
+                url: './search.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    //goods_info:goods_info,
+                    goods_name:goods_name
+                }
+            });
+	}
+
+
+
+
+	//跳转商品详情
+    function goCategory(parent_id,cate_id,cate_id2,all_flag){
+            api.openWin({
+                name: 'category.view',
+                url: './category.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    parent_id: parent_id,//商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                    cate_id: cate_id,//商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                	cate_id2:cate_id2,
+                	all_flag:all_flag
+                }
+            });
+        }
+
+	//保存搜索记录
+	function Save_Search_history(search_name){
+		//alert("aaa");
+
+		api.ajax({
+		        url : URL+'/index.php?app=homepage&act=Save_Search_history',
+		        method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+							values : {
+								user_id:userId,
+								search_name:search_name,
+								//cate_id:cate_id,
+								//parent_id:parent_id,
+								//cate_id2:cate_id2
+							}
+						}
+	        },function(ret,err){
+	        	if(ret.done){
+	        		//alert(JSON.stringify(ret.retval));
+	        	}else{
+	        		//alert("a");
+	        	}
+	        });
+	}
+	//查询历史记录
+	function Get_Search_history(){
+	//alert("a");
+		api.ajax({
+		        url : URL+'/index.php?app=homepage&act=Get_Search_history',
+		        method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+							values : {
+								user_id:userId,
+							}
+						}
+	        },function(ret,err){
+	        	if(ret.done){
+	        		//alert(JSON.stringify(ret.retval));
+	        		var str="";
+	        		var onclick_str='';
+	        		var onclick_str2='';
+
+	        		$.each(ret.retval, function(i, item) {
+	        			onclick_str="Search_goods('"+item["search_name"]+"')";
+	        			onclick_str2='Del_History('+item["id"]+')';
+
+	        			str+='<div class="history_item" onclick="'+onclick_str+'">'+item["search_name"]+'<i class="iconfont icon-close1 close_one" onclick="'+onclick_str2+'"></i></div>';
+
+	        		});
+	        		$("#history_search").html(str);
+	        		//alert($("#history_search").html().length);
+				      if($("#history_search").html().length==0){
+				      	 var str='<p class="history_item">暂无搜索历史!</p>';
+				       	$("#history_search").html(str);
+				      }
+	        	}else{
+	        		//alert("a");
+	        	}
+	        });
+    }
+    //热门搜索
+    function Get_Hot_Search(){
+    	api.ajax({
+		        url : URL+'/index.php?app=homepage&act=Get_Hot_Search',
+		        method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+
+						}
+	        },function(ret,err){
+	        	if(ret.done){
+	        		//alert(JSON.stringify(ret.retval));
+	        		var str="";
+	        		var onclick_str='';
+	        		$.each(ret.retval, function(i, item) {
+	        			onclick_str="Search_goods('"+item["search_name"]+"')";
+	        			str+='<span class="tags" onclick="'+onclick_str+'">'+item["search_name"]+'</span>';
+					});
+	        		$("#hot_search").html(str);
+
+	        	}else{
+	        		//alert("a");
+	        	}
+	        });
+    }
+
+    //清除历史记录
+      function clearHistory(){
+      if($("#history_search").html()=='<p class="history_item">暂无搜索历史!</p>'){
+      }else{
+      	api.ajax({
+		        url : URL+'/index.php?app=homepage&act=clearHistory',
+		        method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+							values : {
+								user_id:userId,
+							}
+						}
+	        },function(ret,err){
+	        	//if(ret.done){
+	        		//alert(JSON.stringify(ret.retval));
+	        		var str='<p class="history_item">暂无搜索历史!</p>'
+       				$("#history_search").html(str);
+       				Get_Hot_Search();
+	        	//}else{
+	        		//alert("a");
+	        	//}
+	        });
+        }
+      }
+    //删除一条记录
+      function Del_History(id){
+      	//alert(id)
+      	api.ajax({
+		        url : URL+'/index.php?app=homepage&act=Del_History',
+		        method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+							values : {
+								user_id:userId,
+								id:id
+							}
+						}
+	        },function(ret,err){
+	        	//if(ret.done){
+	        		//alert(JSON.stringify(ret.retval));
+	        		Get_Search_history();
+	        		Get_Hot_Search();
+	        	//}else{
+	        		//alert("a");
+	        	//}
+	        });
+
+      }
+  </script>
+  </html>

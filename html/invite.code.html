@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>邀请码</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/login.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css"/>
+		<style type="text/css">
+			#form1 {
+				margin-top: 120px;
+			}
+			.btn_code {
+				background-color: #fff;
+				border: 1px solid #000;
+				height: 34px;
+				line-height: 34px !important;
+				border-radius: 17px !important;
+				padding: 0 !important;
+				margin-top: 20px;
+				width: 100%;
+			}
+			.btn_login {
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				请输入邀请码
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div id="wrap">
+			<div class="content">
+				<form  id="form1" role="form" class="form-horizontal">
+					<div class="list_item border-b">
+						<i class="iconfont icon-mima"></i>
+						<input type="text" name="nvite_code" id="invite_code" class="ip" placeholder="请输入邀请码">
+					</div>
+					<div class="sub_botton clearfix">
+						<input type="button" class="btn  btn_login" value="绑定"  onclick="bind()" tapmode />
+						<input type="button" class="btn  btn_code" value="其他推荐人邀请码"  onclick="inviteCodeList()" tapmode />
+					</div>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript" src="../script/api.js"></script>
+		<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+		<script type="text/javascript">
+			var URL = "";
+			var telephone = "";
+			var openid;
+			$(function() {//消除300ms点击延迟
+				FastClick.attach(document.body);
+			});
+			apiready = function() {
+				telephone = api.pageParam.telephone;
+				openid = api.pageParam.openid;
+				var header = $api.dom('header');
+				//适配iOS 7+，Android 4.4+状态栏
+				$api.fixStatusBar(header);
+				URL = $api.URL();
+			}
+			//返回上一页
+			var goBack = function() {
+				api.closeWin();
+			}
+			function bind() {
+			   console.log(telephone);
+				var invite_code = $("#invite_code").val();
+				console.log(invite_code);
+				if (invite_code == "" || invite_code == null || invite_code == undefined) {
+					api.toast({
+						msg : '请输入邀请码',
+						duration : 2000,
+						location : 'bottom'
+					});
+				} else {
+					api.ajax({
+						url : URL + 'index.php?app=appinvite&act=bind',
+						method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+							values : {
+								telephone : telephone,
+								invite_code : invite_code,
+								password:12345678,
+								openid:openid
+							}
+						}
+					}, function(ret, err) {//alert(JSON.stringify(ret))
+						if (ret.done) {
+							api.toast({
+								msg : '绑定成功',
+								duration : 2000,
+								location : 'bottom'
+							});
+							//window.localStorage.setItem("invite_code", invite_code);
+							//用户手机号码
+							var tuijian_id = ret.retval[1];
+							var userId= ret.retval[0];
+							api.openWin({
+								name : 'inviter',
+								url : './inviter.html',
+								bounces : false,
+								reload : true,
+								animation : {
+									type : "push", //动画类型（详见动画类型常量）
+									subType : "from_right", //动画子类型（详见动画子类型常量）
+									duration : 300 //动画过渡时间，默认300毫秒
+								},
+								pageParam : {
+									userId : userId,
+									tuijian_id : tuijian_id,
+									telephone : telephone,
+									openid : openid,
+								}
+							});
+						} else {
+							api.toast({
+								msg : ret.msg,
+								duration : 2000,
+								location : 'bottom'
+							});
+						};
+					});
+				}
+			}
+
+			function inviteCodeList() {
+			//console.log(userId);
+				api.openWin({
+					name : 'invite.codelist',
+					url : './invite.codelist.html',
+					bounces : false,
+					reload : true,
+					animation : {
+						type : "push", //动画类型（详见动画类型常量）
+						subType : "from_right", //动画子类型（详见动画子类型常量）
+						duration : 300 //动画过渡时间，默认300毫秒
+					}
+				});
+			}
+
+			//黏贴选中的邀请码
+			function selectInvitecode(cid) {
+				$('#invite_code').val(cid);
+			}
+		</script>
+	</body>
+</html>

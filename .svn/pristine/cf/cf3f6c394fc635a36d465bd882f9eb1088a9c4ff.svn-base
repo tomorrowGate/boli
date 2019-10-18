@@ -1,0 +1,55 @@
+header{ height:40px;background-color: transparent }
+.content{width:80%;margin:0 auto;}
+.logo{ text-align: center;padding:50px 0 30px 0; }
+.logo img{ width:60px;height:60px;border-radius: 30px;}
+.logo p{ margin:5px 0; }
+.country,.register{ text-align: center;color:#3f4e62; }
+.list_item{ position:relative; padding:10px 10px;margin:10px 0;}
+.list_item .item_val{ position: absolute;right:20px;font-weight: normal; }
+.ip{ width:80%;height: 30px; line-height: 30px;outline:none; }
+.ip1{ width:110px; height: 30px;line-height: 30px;outline:none;}
+.forgot{ float:right; }
+.btn_login{ background-color:#666;color:#fff!important;height:34px;line-height: 34px!important;border-radius: 17px!important;padding:0!important; }
+.login_active{ background-color:#292929; }
+.register{ margin:20px 0;font-size: 0.9em;text-align:right; }
+.sub_botton{ margin:40px 0 20px 0; }
+.btn{ font-weight: bold  !important;}
+.wechat{ padding-top:10px;color:#8d8d8d;text-align: center;font-size: 0.8em }
+.wechat .or{ position:relative;top:-28px; display: inline-block}
+.wechat img{ height:40px;width:40px;margin-top:10px; }
+.footer{ position: fixed;bottom: 0;left:0;right:0;height:30px;line-height:30px;color:#8d8d8d; font-size: 0.7em;text-align:center;}
+/* 验证码 */
+.Captcha{ float:right;font-size:0.9em;height:30px;line-height:30px;width:80px;border-radius: 20px;border:1px solid #666;color:#666; }
+ul, ol { list-style-type: none; }
+a { color: #333; text-decoration: none; outline: none; }
+a:link, a:visited, a:hover, a:active { color: #333; outline: none; }
+
+.iphone { width: 384px; height: 799px; padding: 182px 32px 157px; margin: 10px auto; }
+.browser { position: relative; width: 320px; height: 460px; overflow: hidden; }
+@media (min-width: 721px) and (max-width: 1300px) {
+	.iphone { width: 270px; height: 562px; padding: 128px 23px 111px; margin: 20px auto; background-size: 270px 562px; }
+	.browser { width: 224px; height: 323px; }
+}
+@media (max-width: 720px) {
+	.iphone { width: 100%; height: 100%; padding: 0; background: none; }
+	.browser { width: 100%; height: 100%; }
+}
+/*遮罩层*/
+.mask { display: none; position: absolute; top: 0; left: 0; z-index: 12; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); }
+@media (max-width: 720px) {
+	.mask { position: fixed; }
+}
+
+input::-webkit-input-placeholder{
+    color:#A8B2C8;
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+    color:#A8B2C8;
+ }
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+    color:#A8B2C8;
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+    color:#A8B2C8;
+}
+

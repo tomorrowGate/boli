@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>店铺精选</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/mystore.css">
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+	<!--店铺头部-->
+	<header>
+	  <div class="header">店铺精选</div>
+      <div class="DIV_L back_b" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+		</header>
+	<div id="goods_list" class="clearfix">
+    <!--循环开始-->
+      <div class="good_item relative clearfix">
+        <div class="good_img">
+          <img src="../image/good_img.png" width="90" height="90" >
+        </div>
+        <div class="good_info">
+          <P class="good_title">汤臣倍健胶原蛋白粉固体饮料水蜜桃味90g</P>
+                    <P class="sub_title">商品介绍,商品介绍,商品介绍</P>
+                    <P class="tags">
+                        <span class="tag">新品</span>
+                        <span class="tag_odd">假一赔十</span>
+                        <span class="tag">国内</span>
+                        <span class="tag_odd">包邮</span>
+                    </P>
+                    <p class="sales"><span >销量:36</span></p>
+                    <p class="relative" ><span class="col_good_price">&yen;&nbsp;258</span><del class="col_old_price">&yen;&nbsp;536</del><span class="drop" onclick="dropGoods('1')" tapmod><i class="iconfont icon-shanchu"></i></span></p>
+        </div>
+      </div>
+
+
+<!--循环结束-->
+	</div>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+	//返回上一页
+    function goBack(){
+        api.closeWin();
+    }
+    var URL="";
+    URL=$api.URL();
+    var user_id=window.localStorage.getItem("user_id"); //用户id
+	apiready = function(){
+		var header = $api.dom('header'); // 获取 header 标签元素
+		headerH = $api.fixStatusBar(header);
+	getMystore();
+	};
+	//获得商品
+         function getMystore(){
+	        	api.ajax({
+	                    url : URL+'/index.php?app=#',
+	                    method : 'post',
+	                    cache : false,
+	                    timeout : 30,
+	                    dataType : 'json',
+	                    returnAll : false,
+	                    data : {
+	                    	values : {
+	                        	user_id:user_id
+	                        }
+	                    }
+	                }, function(ret, err) {
+	                	if (ret.done) {
+	                		$.each(ret.retval, function(i, item) {
+                        var str='<div class="good_item relative clearfix"  onclick="goDetail('+item.goods_id+')" tapmode>';
+                             str+='<div class="good_img">';
+                               str+='<img src="../image/good_img.png" width="90" height="90" >';
+                             str+='</div>';
+                             str+='<div class="good_info">';
+                               str+='<P class="good_title">'+item.goods_name+'</P>';
+                                         str+='<P class="sub_title">'+item.extension_content+'</P>';
+                                         str+='<P class="tags">';
+                                             str+='<span class="tag">新品</span>';
+                                             str+='<span class="tag_odd">假一赔十</span>';
+                                             str+='<span class="tag">国内</span>';
+                                             str+='<span class="tag_odd">包邮</span>';
+                                         str+='</P>';
+                                         str+='<p class="sales"><span >销量:'+item.orders+'</span></p>';
+                                         str+='<p class="relative" ><span class="col_good_price">&yen;&nbsp;'+item.oods_price+'</span><del class="col_old_price">&yen;&nbsp;'+item.oprice+'</del><span class="drop" onclick="dropGoods('+item.goods_id+')" tapmod><i class="iconfont icon-shanchu"></i></span></p>';
+                             str+='</div>';
+                           str+='</div>';
+                        $api.append($api.byId("goods_list"), str);
+               })
+
+	                	}else{
+                            api.toast({
+                              msg: '失败',
+                              duration: 2000,
+                              location: 'bottom'
+                            });
+                        }
+                        if(err){
+                          api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'bottom'
+                          });
+                        }
+	                });
+        }
+
+//删除
+ function dropGoods(gId){
+          api.ajax({
+                    url : URL+'/index.php?app=#',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            goods_id:gId,
+                        }
+                    }
+          }, function(ret, err) {
+                    // alert(JSON.stringify(ret));
+            if (ret.done) {
+                getMystore()
+            }else{
+                api.toast({
+                  msg: '失败',
+                  duration: 2000,
+                  location: 'bottom'
+                });
+            }
+            if(err){
+              api.toast({
+                msg: err.msg,
+                duration: 2000,
+                location: 'bottom'
+              });
+            }
+          });
+      }
+</script>
+</html>

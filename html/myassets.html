@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/myassets.css">
+
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+	<!--头部-->
+	<header>
+      <div class="top_header">
+	    <div class="header">我的资产</div>
+        <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+	    <div class="DIV_R" onclick="goMoneyDetail()" tapmod>收益明细</div>
+	  </div>
+	</header>
+	  <div class="case2">
+	    <div class="je" id="myasset">48.00</div>
+	    <div class="zc">我的资产（元）<img src="../image/ck.png" class="img2" /></div>
+	    <div class="lb clearfix">
+	      <div class="c4" onclick="goAssetsDetail('1')" tapmod><span class="sz" id="ddz">2.55</span><br>待到账(元)</div>
+	      <div class="c4" onclick="goAssetsDetail('0')" tapmod><span class="sz" id="ljsy">8.00</span><br>累计收益(元)</div>
+	      <div class="c4"><span class="sz" id="tx">5.45</span><br>可提现(元)</div>
+	    </div>
+	    <div class="case1 clearfix">
+	      <div class="f_l">
+	          <div class="sy">您的12月收益月报已出</div>
+	          <div class="jl">了解资产收益&nbsp;&nbsp;乐享财富积累</div>
+	          <div class="look" >去看看</div>
+	      </div>
+	      <div class="f_r"><img src="../image/sybb.png" class="img3" /></div>
+
+	    </div>
+	  </div>
+	</div>
+	<div class="case5">
+	<div class="r1">
+	<button type="button" class="btn1" onclick="goBuy()" tapmod>去消费</button>
+	<button type="button" class="btn2" onclick="goTixian()" tapmod>去提现</button>
+	</div>
+
+	</div>
+
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+		var URL="";
+		var userId=window.localStorage.getItem('userId');
+	//返回上一页
+    var goBack=function(){
+        api.closeWin();
+    }
+	apiready = function(){
+		var header = $api.dom('header'); // 获取 header 标签元素
+		headerH = $api.fixStatusBar(header);
+   URL=$api.URL();
+	 getInfo()
+	};
+	//获取用户信息
+		function getInfo(){
+					 api.ajax({
+						 url : URL + 'index.php?app=myinfo&act=get_info',
+										 method : 'post',
+										 cache : false,
+										 timeout : 30,
+										 dataType : 'json',
+										 returnAll : false,
+										 data : {
+														 values : {
+																	 user_id:userId
+																		}
+														}
+					 },function(ret,err){
+					 console.log(JSON.stringify(ret));
+				 if(ret.done){
+						$api.html($api.byId("ddz"), ret.retval.commission);
+						$api.html($api.byId("ljsy"), ret.retval.already_commission);
+						$api.html($api.byId("tx"), ret.retval.money);
+						var all_money=parseFloat(ret.retval.money)+parseFloat(ret.retval.commission);
+						$api.html($api.byId("myasset"), all_money);
+				 }else{
+					 api.toast({
+						 msg: '失败',
+						 duration: 2000,
+						 location: 'middle'
+					 });
+				 }
+				 if(err){
+					 api.toast({
+						 msg: err.msg,
+						 duration: 2000,
+						 location: 'middle'
+					 });
+				 }
+					 });
+					 }
+	//跳转明细
+      function goMoneyDetail(){
+        api.openWin({
+          name: 'money.list',
+          url: './money.list.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          }
+        });
+      }
+			//跳转
+			function goAssetsDetail(type){
+								api.openWin({
+									name: 'myassets.details',
+									url: './myassets.details.html',
+									bounces: false,
+									reload:true,
+									animation:{
+										type:"push",                //动画类型（详见动画类型常量）
+										subType:"from_right",       //动画子类型（详见动画子类型常量）
+										duration:300                //动画过渡时间，默认300毫秒
+									},
+									pageParam:{
+										profitPeriod:type
+									}
+								});
+							}
+			//跳转消费
+			function goBuy(){
+								api.openWin({
+									name: 'index',
+									url: './index.html',
+									bounces: false,
+									reload:true,
+									animation:{
+										type:"push",                //动画类型（详见动画类型常量）
+										subType:"from_right",       //动画子类型（详见动画子类型常量）
+										duration:300                //动画过渡时间，默认300毫秒
+									}
+								});
+							}
+					//跳转提现
+				      function goTixian(){
+				        api.openWin({
+				          name: 'cash.tixian',
+				          url: './cash.tixian.html',
+				          bounces: false,
+				          reload:true,
+				          animation:{
+				            type:"push",                //动画类型（详见动画类型常量）
+				            subType:"from_right",       //动画子类型（详见动画子类型常量）
+				            duration:300                //动画过渡时间，默认300毫秒
+				          }
+				        });
+				      }
+</script>
+</html>

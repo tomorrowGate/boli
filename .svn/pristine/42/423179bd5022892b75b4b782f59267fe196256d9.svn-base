@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/effeckt.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.attestation.css" />
+    <title>实名认证</title>
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部 -->
+        <header class="page-head">
+            <div class="back" onclick="goBack()" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>实名认证</span>
+            </div>
+        </header>
+        <div class="ui-tooltips ui-tooltips-warn">
+            <div class="ui-tooltips-cnt ui-border-b">
+                <i></i>无法连接服务器，请检查你的网络设置。<a class="ui-icon-close"></a>
+            </div>
+        </div>
+        <!-- 信息栏 -->
+        <div class="infobar">
+            <p class="inforbarText">您的身份信息仅用于实名认证<br/> 我们保证您的信息安全不会被泄露
+                <br/> 并且不会用于任何其用途
+            </p>
+        </div>
+        <div class="profile effeckt-list" data-effeckt-type="from-above">
+            <label class="profile-data" for="">姓  名</label>
+            <div class="profile-out-input">
+                <transition 
+                    enter-active-class="new-item" 
+                    leave-active-class="remove-item" 
+                    :duration="[400,400]">
+                    <div class="isNameErr" v-show="isNameErr" ></div>
+                </transition>
+                <input type="text" name="" value="" placeholder="请填写证件上的真实姓名" v-model="idName">
+            </div>
+            
+            
+        </div>
+        <div class="profile">
+            <label  class="profile-data" for="">身份证</label>
+            <input  type="text" name="" value="" placeholder="请填写身份证号" v-model="idCard">
+        </div>
+        <button class="profileBtn" type="button" name="button" @click="attestation">申请认证</button>
+    </div>
+   
+    <script type="text/javascript" src="../script/api.js"></script>
+    <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+    <script type="text/javascript" src="../script/lib/vue.min.js"></script>
+    <script type="text/javascript">
+        $(function () {//消除300ms点击延迟
+            FastClick.attach(document.body);
+        });
+        apiready = function () {
+            URL = $api.URL();
+            m_id = api.pageParam.m_id;
+            var header = $api.dom('header');
+            //适配iOS 7+，Android 4.4+状态栏
+            headerH = $api.fixStatusBar(header);
+        }
+        var wrap = new Vue({
+            el:"#wrap",
+            data:{
+                idName:"",
+                idCard:"",
+                isNameErr:false,
+            },
+            methods: {
+                attestation:function attestation(){
+                    this.verifyName(this.idName);
+                    this.verifyCard(this.idCard);
+                },
+                verifyName: function VerifyName(string){
+                    this.isNameErr = !this.isNameErr
+                    var regName =/^[\u4e00-\u9fa5]{2,4}$/;  
+                    console.log(regName.test(string))
+                },
+                verifyCard: function VerifyName(string){
+                    var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+
+                    console.log( regIdNo.test(string))
+                }
+            },
+            created: function created() {
+                
+            },
+            mounted: function mounted() {
+
+            },
+        })
+        
+        //返回上一页
+        function goBack() {
+            api.closeWin();
+        }
+    </script>
+</body>
+
+</html>

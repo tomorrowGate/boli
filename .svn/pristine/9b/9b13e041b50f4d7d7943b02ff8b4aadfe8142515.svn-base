@@ -1,0 +1,70 @@
+.tab_box {
+	width: 100%;
+	margin: 0px auto;
+}
+.lyz_tab_left {
+	float: left;
+	width: 27%;
+	height:90%;
+	margin-right:3%;
+	background-color:#fff;
+
+}
+.pro_con111{
+	overflow-y: auto;
+}
+.pro_con111 UL {
+	padding: 0px;
+	width: 100%;
+
+
+}
+.pro_con111 UL LI {
+
+	display: inline;
+	font-size: 1em;
+	float: left;
+	cursor: pointer;
+	color: #595957;
+	text-align: center;
+	width: 100%;
+	height: auto;
+	line-height:50px;
+
+	border-bottom:1px solid #f4f4f4;
+}
+.pro_con111 UL LI.hover {
+	display: inline;
+	font-weight: bold;
+	font-size: 1em;
+	float: left;
+	width: 100%;
+	cursor: pointer;
+	color: #0b93eb;
+	text-align: center;
+	height: auto;
+	line-height:50px;
+	background-color: #fff;
+	/*background:url(../images/dise200.png) no-repeat left 50%;*/
+	border-left:4px solid #0b93eb
+
+}
+.lyz_tab_right {
+	display: inline;
+	float: right;
+	width: 70%;
+	min-height: 100%;
+	/*margin-top:75px;*/
+}
+.lyz_tab_right ul{
+	background-color: #fff;
+	margin-bottom: 10px;
+
+}
+.lyz_tab_right li{ color:#8f8f8f; font-size:0.9em;}
+
+.con_right{ display: none; }
+.active{ display: block }
+.clear {
+	clear:both
+}

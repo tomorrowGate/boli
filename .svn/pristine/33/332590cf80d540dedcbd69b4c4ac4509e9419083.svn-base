@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css" />
+      <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+  <!--     <link rel="stylesheet" type="text/css" href="../css/shipping.css" /> -->
+      <style>
+      html,body {
+        height: 100%;
+        background: rgba(0,0,0,.3);
+      }
+      p{ margin:0; }
+      .swiper-container{ overflow: visible; }
+      .swiper-slide{  width:70%;height: 90%; font-size: 0.7em;margin-top:5%; }
+      .swiper-slide-active{ width:70%;height: 100%; font-size: 0.8em;margin-top:0 }
+      .share_top{ width:100%;position: relative;height:10%;color:#fff; }
+      .share_top .check_box1{ position: absolute;bottom: 0;left:15% ;height:30px;line-height: 30px;}
+      .check_box1 input{ margin:0; position:relative;top:2px;margin-right:5px;}
+      .share_top .close_all{ position: absolute;right:15px;top:15px; }
+      .rotate-swiper{height: 70%;}
+      .swiper-slide{ background-color: #fff; position: relative;}
+      .Sheader { height:20%; }
+      .Sbody { height:55%; }
+      .Sfooter { height:25%; }
+      .Sheader .tags,.Sheader .title,.Sbody,.Sfooter{ padding:0 5%; }
+      .Sheader .tags{ padding-top:10px; padding-bottom: 15px; background: url(../image/bg_share.png ) 0 0 no-repeat;background-size: 100% 100%; }
+      .Sheader span{ color:#fff;display: inline-block;text-align:center; }
+      .title{ font-weight: bold;font-size: 1.1em; margin:10px 0;}
+      .Sbody{ vertical-align: middle;overflow: hidden;}
+      .Sbody img{ width:100%; }
+      .Sfooter .info{ float:left; }
+      .Sfooter .price{ font-size: 1.1em;color:#ff0c67; }
+      .Sfooter .b_1{ height:18px;line-height: 18px; background-color: #0b93eb;border:1px solid #0b93eb;border-top-left-radius:10px;border-bottom-left-radius:10px;color:#fff;  }
+      .Sfooter .b_2{ height:18px;line-height: 18px; background-color: #fff;border:1px solid #0b93eb;border-top-right-radius:10px;border-bottom-right-radius:10px; color:#0b93eb; }
+      .Sfooter .code_img{ float:right; }
+      .b_foot{ margin-top:10px; }
+      .check_box{ position: absolute;bottom: -15px;left:0;right:0; text-align:center }
+      .check_box span{ display: inline-block;width:30px;height:30px;line-height:38px; border-radius: 15px;}
+      .sharecheck{ border:none; }
+      #rotate-pagination{ position: fixed;bottom:10px; }
+      .share_type{ text-align:center;margin-top:25px; }
+      .share_type span{ width:19%;text-align:center; }
+      .share_type span img{ height:40px;width:40px;border-radius:5px; }
+      /* 选择框样式 */
+      input[type='checkbox']{
+      vertical-align: middle;
+      width: 30px;
+      height: 30px;
+      -webkit-appearance: none;
+      outline: 0 !important;
+      display: inline-block;
+      background: url("../image/uncheck1.png") no-repeat center;
+      background-size: 30px 30px;
+      position: relative;
+      top:-5px;
+      }
+      input[type='checkbox']:checked{
+      background: url("../image/checked1.png") no-repeat center;
+      background-size: 30px 30px
+      }
+      input[name='checkall']{
+      vertical-align: middle;
+      width: 20px;
+      height: 20px;
+      -webkit-appearance: none;
+      outline: 0 !important;
+      display: inline-block;
+      background: url("../image/uncheck1.png") no-repeat center;
+      background-size: 16px 16px;
+      position: relative;
+      top:0;
+      }
+      input[name='checkall']:checked{
+      background: url("../image/checked1.png") no-repeat center;
+      background-size: 16px 16px
+      }
+
+      </style>
+
+  </head>
+  <body>
+
+  <div class="share_top clearfix"><span class="check_box1"><input type="checkbox" name="checkall" id="all">全部商品图片</span><span class="close_all"  onclick="hideEwm()" tapmode><i class="iconfont icon-close"></i></span></div>
+
+<!-- 物流弹出滑动层  -->
+<div class="swiper-container rotate-swiper clearfix">
+      <div class="swiper-wrapper" id="ewm-wrapper">
+        <div class="swiper-slide">
+          <div class="Sheader">
+            <div class="tags">
+              <span class="font_w1 font_s1">Friendlies</span>
+              <span><i></i>&nbsp;全球精品</span>
+              <span><i></i>&nbsp;正品保证</span>
+              <span><i></i>&nbsp;售后无忧</span>
+            </div>
+            <div class="title">汤臣倍健胶原蛋白粉固体饮料水蜜桃味90g</div>
+          </div>
+          <div class="Sbody"><img src="../image/share_ewm.png"></div>
+          <div class="Sfooter">
+            <div class="clearfix">
+            <div class="info">
+              <p>商品介绍,商品介绍,商品介绍</p>
+              <p class="price">&yen;100</p>
+              <p class="font_s2"><span class="b_1">限时特卖</span><span class="b_2">12月21日 15:00开抢</span></p>
+            </div>
+            <div class="code_img"><img src="../image/ewm.png"></div>
+            </div>
+            <div class="font_c1 font_s2 b_foot"><div class="t_l">来自谁谁的Friendlies分享</div><div class="t_r">扫码立享批发价</div></div>
+          </div>
+          <div class="check_box"><span><input type="checkbox" name="sharecheck"></span></div>
+        </div>
+        <div class="swiper-slide">
+          <div class="Sheader">
+            <div class="tags">
+              <span class="font_w1 font_s1">Friendlies</span>
+              <span><i></i>&nbsp;全球精品</span>
+              <span><i></i>&nbsp;正品保证</span>
+              <span><i></i>&nbsp;售后无忧</span>
+            </div>
+            <div class="title">汤臣倍健胶原蛋白粉固体饮料水蜜桃味90g</div>
+          </div>
+          <div class="Sbody"><img src="../image/share_ewm.png"></div>
+          <div class="Sfooter">
+            <div class="clearfix">
+            <div class="info">
+              <p>商品介绍,商品介绍,商品介绍</p>
+              <p class="price">&yen;100</p>
+              <p class="font_s2"><span class="b_1">限时特卖</span><span class="b_2">12月21日 15:00开抢</span></p>
+            </div>
+            <div class="code_img"><img src="../image/ewm.png"></div>
+            </div>
+            <div class="font_c1 font_s2 b_foot"><div class="t_l">来自谁谁的Friendlies分享</div><div class="t_r">扫码立享批发价</div></div>
+          </div>
+          <div class="check_box"><span><input type="checkbox" name="sharecheck"></span></div>
+        </div>
+        <div class="swiper-slide">
+          <div class="Sheader">
+            <div class="tags">
+              <span class="font_w1 font_s1">Friendlies</span>
+              <span><i></i>&nbsp;全球精品</span>
+              <span><i></i>&nbsp;正品保证</span>
+              <span><i></i>&nbsp;售后无忧</span>
+            </div>
+            <div class="title">汤臣倍健胶原蛋白粉固体饮料水蜜桃味90g</div>
+          </div>
+          <div class="Sbody"><img src="../image/share_ewm.png"></div>
+          <div class="Sfooter">
+            <div class="clearfix">
+            <div class="info">
+              <p>商品介绍,商品介绍,商品介绍</p>
+              <p class="price">&yen;100</p>
+              <p class="font_s2"><span class="b_1">限时特卖</span><span class="b_2">12月21日 15:00开抢</span></p>
+            </div>
+            <div class="code_img"><img src="../image/ewm.png"></div>
+            </div>
+            <div class="font_c1 font_s2 b_foot"><div class="t_l">来自谁谁的Friendlies分享</div><div class="t_r">扫码立享批发价</div></div>
+          </div>
+          <div class="check_box"><span><input type="checkbox" name="sharecheck"></span></div>
+        </div>
+        <div class="swiper-slide">
+          <div class="Sheader">
+            <div class="tags">
+              <span class="font_w1 font_s1">Friendlies</span>
+              <span><i></i>&nbsp;全球精品</span>
+              <span><i></i>&nbsp;正品保证</span>
+              <span><i></i>&nbsp;售后无忧</span>
+            </div>
+            <div class="title">汤臣倍健胶原蛋白粉固体饮料水蜜桃味90g</div>
+          </div>
+          <div class="Sbody"><img src="../image/share_ewm.png"></div>
+          <div class="Sfooter">
+            <div class="clearfix">
+            <div class="info">
+              <p>商品介绍,商品介绍,商品介绍</p>
+              <p class="price">&yen;100</p>
+              <p class="font_s2"><span class="b_1">限时特卖</span><span class="b_2">12月21日 15:00开抢</span></p>
+            </div>
+            <div class="code_img"><img src="../image/ewm.png"></div>
+            </div>
+            <div class="font_c1 font_s2 b_foot"><div class="t_l">来自谁谁的Friendlies分享</div><div class="t_r">扫码立享批发价</div></div>
+          </div>
+          <div class="check_box"><span><input type="checkbox" name="sharecheck"></span></div>
+        </div>
+      </div>
+      <div class="swiper-pagination" id="rotate-pagination"></div>
+    </div>
+    <div class="share_type">
+      <span><img src="../image/download.png"></span>
+      <span><img src="../image/wechat.png"></span>
+      <span><img src="../image/friend.png"></span>
+      <span><img src="../image/qq.png"></span>
+      <span><img src="../image/weibo.png"></span>
+
+    </div>
+
+<!-- 物流弹出滑动层结束  -->
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script>
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+      $(".code_img").each(function(){
+        var myheight=$(this).siblings(".info").height();
+        $(this).find("img").height(myheight);
+
+      })
+    });
+    //全选按钮
+    $("#all").click(function(){
+          if ($(this).prop("checked")) {
+            $('input:checkbox').prop("checked", true);
+          }else{
+            $('input:checkbox').prop("checked", false);
+          }
+        });
+    //所有选择按钮(不包括全选按钮)
+       $("#ewm-wrapper").find("input[type='checkbox']").click(function(){
+        var all_num=$("#ewm-wrapper").find("input[type='checkbox']").length;
+        var checked_num=$("#ewm-wrapper").find("input[type='checkbox']:checked").length;
+        if ( all_num == checked_num ){
+          $('#all').prop("checked", true);
+        }else{
+          $('#all').prop("checked", false);
+        }
+
+     });
+
+
+    var swiper = new Swiper('.rotate-swiper', {
+      slidesPerView: 'auto',
+      centeredSlides : true,
+      spaceBetween:10,
+      freeMode :false,
+      autoplay:false,
+      pagination: {
+        el: '#rotate-pagination',
+      },
+      observer:true,/*启动动态检查器，当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。*/
+      observeParents:true,/*将observe应用于Swiper的父元素。当Swiper的父元素变化时，例如window.resize，Swiper更新。*/
+    });
+
+
+    var URL="";
+    var userId=window.localStorage.getItem("userId"); //用户id
+    var goodId;
+    apiready = function(){
+      var header = $api.dom('.share_top'); // 获取 header 标签元素
+  		headerH = $api.fixStatusBar(header);
+        goodId=api.pageParam.goodId;
+         URL=$api.URL();
+       //获取所有分享图片
+          api.ajax({
+          url : URL + 'index.php?app=#',
+          method : 'post',
+          cache : false,
+          timeout : 30,
+          dataType : 'json',
+          returnAll : false,
+          data : {
+                  values : {
+                        userId: userId,
+                        goodId: goodId
+                         }
+                 }
+        }, function(ret, err) {
+          if (ret.done) {
+            if(ret.retval.length>0){
+              var str2 = "";
+              $api.append($api.byId("ewm-wrapper"), '');
+              $.each(ret.retval, function(i, item) {
+                str2 ='<div class="swiper-slide">';
+                  str2 +='<div class="block">';
+                    str2 +='<div class="header">';
+                      str2 +='<h3>'+item.last_states+'</h3>';
+                      str2 +='<div class="top-info clearfix"><div class="img"><img src="'+item.good_img+'"></div>';
+                        str2 +='<div class="txt"><p>'+item.good_name+'</p><p>'+item.express_name+':'+item.express_id+'</p><p class="last">'+item.Expect_time+'</p></div>';
+                        str2 +='<div class="icon"><i class="iconfont icon-xiayiyeqianjinchakangengduo"></i></div>';
+                      str2 +='</div>';
+                    str2 +='</div>';
+                    str2 +='<div class="body"><div class="swiper-container detail-swiper">';
+                        str2 +='<div class="swiper-wrapper">';
+                          str2 +='<div class="swiper-slide">';
+                            str2 +='<ul><li class="big-icon"><div><span></span></div><div><i class="iconfont icon-shou"></i></div><div>'+item.address+'</div></li>';
+                            $.each(ret.retval.logistics, function(i, item) {
+                              if(i=='0'){
+                                str2 +='<li class="big-icon"><div>'+item.track_time+'<span>'+item.track_date+'</span></div><div><i class="iconfont icon-yunshuzhongwuliu"></i></div><div>'+item.track+'</div></li>';
+                              }else if(item.finished=='1'){
+                                str2 +='<li class="finish-icon"><div>'+item.track_time+'<span>'+item.track_date+'</span></div><div><i  class="iconfont icon-wancheng1"></i></div><div>'+item.track+'</div></li>';
+                              }else{
+                                str2 +='<li><div>'+item.track_time+'<span>'+item.track_date+'</span></div><div><i  class="iconfont icon-up"></i></div><div>'+item.track+'</div></li>';
+                              }
+
+                            });
+                            str2 += '</ul>';
+                          str2 +='</div>';
+                        str2 +='</div>';
+                      str2 +='</div></div>';
+                    str2 +='<div class="footer">本数据由xxx提供</div>';
+                  str2 +='</div>';
+                str2 +='</div>';
+
+                $api.append($api.byId("ewm-wrapper"), str2);
+            })
+
+            }
+        } else {
+            api.toast({
+              msg : "不可分享！"
+            });
+          };
+        })
+
+      };
+
+
+      function hideEwm(){
+       api.closeWin({
+        name: 'share.ewm'
+       });
+    }
+
+
+  </script>
+  </html>

@@ -1,0 +1,49 @@
+/*头部*/
+
+.page-head {
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+
+.head-center {
+    margin: 0 auto;
+    font-weight: bold;
+}
+
+.back {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%)
+}
+/*信息栏*/
+.infobar{
+  height: 150px;
+  border-bottom: 1px solid #f2f2f2;
+  padding-top:6%;
+  box-sizing: border-box;
+    text-align: center;
+}
+.profile{
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid #f2f2f2;
+  line-height: 40px;
+}
+.profile-data{
+ width: 15%;
+ padding: 0 16px;
+}
+
+.profileBtn{
+   width: 75%;
+   height: 30px;
+   background: #a8a8a8;
+   color: #ffffff;
+   border-radius: 30px;
+   position: absolute;
+   bottom: 45px;
+   left: 13%;
+   font-weight: bold;
+}

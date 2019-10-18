@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+    <style>
+    	html,body{
+            background-color: #f9f8f8;
+        }
+        header {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        .head-center{
+            text-align: center;
+        }
+				.con{ width:100%}
+        .artHeader h1{
+            font-size: 22px;
+            line-height: 32px;
+            font-weight: normal;
+            text-align: center;
+        }
+        .artAuthor{
+            display: flex;
+            justify-content: flex-end;
+            padding-right:15px;
+        }
+        .artCon{
+        	  width:90%;
+            padding:10px 5%;
+						text-align: center
+        }
+        .artCon img{
+            display: block;
+        }
+        .opera{
+            text-align: right;
+            font-size: 0.9em;
+            margin-top:8px;
+            padding:1px 15px;
+            margin-bottom: 20px;
+        }
+        .icon-dianzan_active{
+            font-size: 20px;
+        }
+        .opera span{
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+	<header>
+        <div class="header">资讯</div>
+        <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+    <div class="con">
+        <div class="artHeader">
+            <h1 id="title1"></h1>
+            <div class="artAuthor">
+                <span id="art_user"></span>
+            </div>
+        </div>
+        <div class="artCon" id="text1">
+
+        </div>
+        <div class="andSoOn opera">
+            <i class="iconfont icon-view view_icon" id="watch_btn"></i>
+            <span class="view" id="view">11</span>
+            <i class="iconfont icon-dianzan_active" id="zan_btn"></i>
+            <span class="zan" id="zan" >20</span>
+            <!--<i class="iconfont icon-fenxiang" onclick="fnOpendown()"></i>
+            <span class="share"  onclick="fnOpendown()">分享</span>-->
+        </div>
+      </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+ var articleId;
+ var articleType;
+ var userId=window.localStorage.getItem("userId"); //用户id
+ var URL="";
+ var is_my=0;
+	apiready = function(){
+	 URL=$api.URL();
+        var header = $api.dom('header');
+        headerH = $api.fixStatusBar(header);
+		articleId=api.pageParam.articleId;
+    articleType=api.pageParam.articleType;
+    if(articleType==1){
+      $(".header").html("热点资讯");
+    }else if(articleType==2){
+      $(".header").html("行业资讯");
+    }else if(articleType==3){
+      $(".header").html("最新活动");
+    }else if(articleType==4){
+      $(".header").html("菜系");
+    }
+		//alert(articleId);
+		getArticle_info(articleId);
+	};
+	  //观看+1
+function getArticle_info(articleId){
+
+		api.ajax({
+          url :URL+'/index.php?app=boli_homepage&act=getArticle_info',
+          method : 'post',
+          cache : false,
+          timeout : 30,
+          dataType : 'json',
+          returnAll : false,
+          data : {
+	          values:{
+	          		article_id:articleId,
+	          		userId:userId
+	          	}
+          }
+        }, function(ret, err) {
+        console.log(JSON.stringify(ret));
+         	if (ret &&ret.done) {
+         		$("#art_user").html(ret.retval['real_name']);
+        		$("#title1").html(ret.retval['title']);
+						console.log(unescape(ret.retval['content']));
+        		$("#text1").html(unescape(ret.retval['content']));
+      			$("#view").html(ret.retval['watch']);
+        		$("#zan").html(ret.retval['zan']);
+        		if(ret.retval['is_my']>0){
+        			is_my=ret.retval['is_my'];
+        			$("#zan_btn").css("color","#238BD9");
+        		}
+        		$("#watch_btn").css("color","#238BD9");
+        		$("#zan_btn").attr("onclick","set_zan("+articleId+");");
+//      		$("#title1").html(ret.retval['title']);
+
+
+        	}
+        });
+	}
+	 function goBack() {
+		// api.sendEvent({
+		// 	name : 'framegroupo1'
+		// });
+		api.historyBack({
+			//frameName : 'hangqing_view'
+		}, function(ret, err) {
+			if (!ret.status) {
+				api.closeWin();
+			}
+		})
+	}
+    //点赞
+	function set_zan(article_id){
+
+      event.stopPropagation();
+      if(is_my>0){
+        	api.toast({
+	                  msg: "您点过赞了",
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+        return;
+        }
+
+		api.ajax({
+          url : URL+'/index.php?app=boli_homepage&act=set_zan',
+          method : 'post',
+          cache : false,
+          timeout : 30,
+          dataType : 'json',
+          returnAll : false,
+          data : {
+	          values:{
+	          		article_id:article_id,
+	          		userId:userId
+	          	}
+          }
+        }, function(ret, err) {
+        console.log(JSON.stringify(ret));
+         	if (ret &&ret.done) {
+        		  api.toast({
+	                  msg: ret.retval,
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+
+	              $("#zan").html(parseInt($("#zan").html())+1);
+	              $("#zan_btn").css("color","#238BD9");
+	              $("#zan_btn").removeAttr("onclick");
+
+        	}else if(ret){
+						api.toast({
+									msg: ret.msg,
+									duration: 2000,
+									location: 'bottom'
+								});
+					}else{
+						api.toast({
+									msg: err.msg,
+									duration: 2000,
+									location: 'bottom'
+								});
+					}
+        });
+	}
+    //下载分享
+    function fnOpendown() {
+      event.stopPropagation();
+      //复制文章文字
+      var content = $("#text1" ).text();
+      var clipBoard = api.require('clipBoard');
+      clipBoard.set({
+        value : content
+      }, function(ret, err) {
+        if (err) {
+          api.toast({
+            msg : err.msg,
+            duration : 2000,
+            location : 'bottom'
+          });
+        }
+      });
+      //下载图片
+      var pic_url = $("#text1").find("img");
+      $.each(pic_url, function(i, item) {
+        var path = $(this).attr('src');
+        var myurl = path;
+        console.log(path);
+        api.download({
+          url : path,
+          report : true,
+          cache : true,
+          allowResume : true,
+        }, function(ret, err) {
+          if (ret.state == 1) {
+            //下载成功
+            console.log("下载成功");
+            console.log(ret.savePath);
+            myurl = ret.savePath;
+            api.saveMediaToAlbum({
+              path : myurl
+            }, function(ret, err) {
+              if (ret && ret.status) {
+                console.log('保存成功');
+
+              } else {
+                console.log('保存失败');
+
+              }
+            });
+          } else {
+            console.log("下载失败");
+          }
+        });
+
+      })
+      api.openFrame({
+        name : 'download.share',
+        url : './download.share.html',
+        bounces : false,
+        bgColor : 'rgba(0,0,0,0.5)',
+        animation : {
+          type : "movein", //动画类型（详见动画类型常量）
+          subType : "from_bottom", //动画子类型（详见动画子类型常量）
+          duration : 100 //动画过渡时间，默认300毫秒
+        }
+      });
+    }
+
+</script>
+</html>

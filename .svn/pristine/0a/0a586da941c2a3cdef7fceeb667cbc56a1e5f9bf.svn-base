@@ -1,0 +1,353 @@
+/* 头部搜索 */
+.search-head {
+    height: 44px;
+    width: 100%;
+    color: #fff;
+    line-height: 44px;
+    font-size: 14px;
+}
+.search-bg {
+    background-color: #6eb92c;
+    height: 44px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.search-main {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+.down_icon {
+    font-size: 1.1em
+}
+.icon-search{
+    margin-right: 4px
+}
+.search-virtual {
+    width: 60%;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    background-color: #fff;
+    border-radius: 15px;
+    font-size: 1.1em;
+    color: #999;
+}
+
+/* 轮播图 */
+.swiper{
+    width: 96vw;
+    height: 48vw;
+    margin:10px auto;
+    border-radius: 4px;
+    
+}
+.swiper-top{
+    width: 100%;
+    height: 100%;
+}
+/* 售后标签 */
+.service{
+    color: #6eb92c;
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.4em;
+    padding: 0 10px;
+    letter-spacing:1px;
+}
+/* 球状列表 */
+.chef-ball-list{
+    width: 96vw;
+    margin:10px auto;
+    font-size: 14px;
+    color: #999;
+}
+.swiper-ball-items{
+    display: flex;
+    flex-wrap: wrap;
+}
+.swiper-ball-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    padding:10px 0;
+}
+.swiper-ball-imgbox{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 6px;
+}
+.swiper-ball-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: skyblue;
+}
+.swiper-ball-text{
+    text-align: center;
+}
+/* 商店选项 */
+.menu{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+.menu-item{
+    height: 90px;
+    width: 49%;
+    color:#fff;
+    background: lightsalmon;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding:7px 0 0 10px;
+    letter-spacing:1px;
+}
+.menu .menuNext{
+    background: lightcoral;
+}
+.menuText{
+    font-size: 0.6em;
+}
+/* 中间轮播图 */
+.chef-forum-swiper{
+    width: 100%;
+    height: 106px;
+    border-bottom: 8px solid #f2f2f2;
+}
+.forum-swiper-recommend{
+    width: 95%;
+    height: 86%;
+    border-radius: 10px;
+    background: skyblue;
+}
+.forum-foot-swiper{
+    width: 100%;
+    height: 100%;
+}
+.swiper-container-horizontal>.chef-forum-recommend{
+    left:70%;
+    width: auto;
+}
+.chef-forum-swiper .swiper-pagination-bullet{
+    background: #fff;
+    opacity: 1;
+}
+.chef-forum-swiper .swiper-pagination-bullet-active{
+    background: #6eb92c;
+}
+/* 限时抢购头部 */
+.chef-main-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #dfdfdf;
+}
+.chef-head-left{
+    display: flex;
+    align-items: center;
+}
+.chef-main-head .icon-qianbi{
+    color: #6eb92c;
+}
+.chef-left-text{
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-left: 6px;
+    margin-right: 10px;
+}
+.chef-head-more{
+    color: #a3a3a3;
+}
+.timeNub{
+    color: #fff;
+    background: #222;
+    padding: 0 3px;
+    border-radius: 4px;
+    margin: 0 3px;
+}
+/* 限时抢购 */
+.swiper-rush{
+    height: 180px;
+}
+.swiper-option{
+   width: 114px; 
+   border: 1px solid #f2f2f2;
+   margin: 10px 0 0 8px;
+   height: 150px;
+   font-size: 14px;
+}
+.forum-item-imgbox{
+    height: 70%;
+}
+.swiper-red{
+    color: #ff0000;
+}
+.swiper-del{
+    margin-left: 3px;
+    font-size: 0.6em;
+    color: #a3a3a3;
+    text-decoration:line-through;
+}
+.forum-item-explain{
+    padding: 3px 0 0 3px;
+}
+/* 特惠拼团 */
+.preferential{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px 15px 10px;
+    border-bottom: 8px solid #f2f2f2;
+}
+.preferential-item{
+    height: 90px;
+    width: 49%;
+    background: #f2f2f2;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding:7px 0 0 10px;
+    letter-spacing:1px;
+}
+.preferentialText{
+    font-size: 0.6em;
+    color: #a3a3a3;
+}
+/* 主题板块固定加滑动 */
+/* 节能灶具列表 */
+
+.chef-form-card{
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+.chef-form-leftimg{
+    width: 120px;
+    height: 110px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background: skyblue;
+}
+.chef-form-leftimg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+.chef-head1{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.chef-head2, .chef-head3 {
+    font-size: 0.6em;
+    color: #a3a3a3;
+}
+.forum-foot-bg{
+    background: #d96b6c;
+    padding: 1px 5px;
+    margin-right: 2px;
+    color: #fff;
+    border-radius: 4px;
+}
+.chef-head4{
+    margin-top: 20px;
+}
+.chef-form-formlist .chef-head1{
+    font-size: 0.9em;
+}
+.chef-form-formlist .chef-busy-footer{
+    border:none;
+}
+.chef-busy-footer{
+    display: flex;
+    padding: 6px 10px 20px 10px;
+    justify-content: space-around;
+    border-bottom: 8px solid #f2f2f2;
+}
+.chef-footer-item{
+    width: 48%;
+    padding: 8px 0;
+    font-weight: bold;
+    background: #f7f7f7;
+    text-align: center;
+    font-size: 0.9em;
+}
+/* 中间图片栏 */
+.pictureBar{
+    width: 100%;
+    height:100px;
+    background: lightcoral;
+    border-bottom: 8px solid #f2f2f2;
+}
+/* 全部最新热卖 */
+.chef-hotslist-head{
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+.hotslist-head-item{
+    width: 33.3%;
+    /* padding: 5px 0; */
+    margin: 10px 0;
+    font-size: 1em;
+    text-align: center;
+}
+.hotslist-head-active{
+    position: relative;
+    color: #6eb92c;
+}
+.hotslist-head-active::after{
+    position: absolute;
+    display: block;
+    content:"";
+    width: 30%;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    border:1px solid  #6eb92c;
+}
+/* 全部最新热卖列表 */
+.bestSellers{
+    background: #f2f2f2;
+    padding: 10px 6px;
+    display: flex;
+    justify-content: space-between;
+}
+.bestSellers-item{
+    height: 210px;
+    width: 49%;
+    font-size: 0.6em;
+    background: #fff;
+}
+.bestSellers-img{
+    height:70%;
+    border: 1px solid lightcoral;
+    box-sizing: border-box;
+}
+.introduce{
+    margin:3px 5px;
+}
+.bestSellers-red{
+    position: relative;
+    margin-top: 5px;
+}
+.bestSellers-del{
+    color: #a3a3a3;
+    text-decoration:line-through;
+}
+.salesVolume{
+    color: #a3a3a3;
+    position: absolute;
+    right: 4px;
+    top:3px;
+}
+.bestSellers-text{
+ font-size: 16px;
+ color: #ff0000;
+}

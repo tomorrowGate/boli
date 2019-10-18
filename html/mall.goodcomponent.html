@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>物品组件</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.goodThing.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 商品展示 -->
+        <div class="chef-form-formlist">
+            <div 
+                class="chef-form-card"  
+                v-for="(v,i) in bottomLists.showList" 
+                :key="i"
+                @click="goGoodsDet(v.goods_id)">
+                <div class="chef-form-leftimg">
+                    <img :src="URL+v.default_image" alt="">
+                </div>
+                <div class="chef-right-content">
+                    <div class="chef-head1">
+                        <div class="chef-head1-name">{{v.goods_name}}</div>
+                    </div>
+                    <div class="chef-head2 chef-forum-light">{{v.goods_name}}</div>
+                    <div class="chef-head3 chef-forum-light forum-foot-explain">
+                        <!-- <i class="iconfont"></i> -->
+                        <span class="forum-foot-name">{{v.tags}}</span>
+                    </div>
+                    <div class="chef-head4 ">
+                        <p class="swiper-red">
+                            <span class="agoPrice">￥{{v.oprice}}</span>
+                            <span class="price swiper-del">￥{{v.price}}</span>
+                        </p>
+                        
+                        <p class="chef-head2">销量<span>{{v.orders}}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            goodList:[],
+            url:"",
+            param:"",
+            bottomLists: {
+                activeIndex: 0,
+                list: [],
+                start: 0,
+                end:false,
+                showList: []
+            }
+        },
+        computed: {
+
+        },
+        methods: {
+            getGoodsbyCate: function (id) {
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=get_rand_goods',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            cate_id: id
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret.retval));
+                    if (ret && ret.done) {
+                        ret.retval.forEach(function (value, index) {
+                            if (value.tags.length) {
+                                value.tags = value.tags.split(",")
+                            }
+                        })
+                        that.goodList = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            
+            //进入商品详情
+            goGoodsDet: function goGoodsDet(id,isKill,endTime) {
+                //console.log(id)
+                api.openWin({
+                    name: 'mall.description',
+                    url: './mall.description.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        goodId: id,
+                        seckill:isKill,
+                        endTime:endTime
+                    }
+                });
+            },
+            changeBottomList: function () {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=' + that.url,
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            start: that.bottomLists.start 
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        if(ret.retval.length<=0){
+                            that.bottomLists.end = true
+                        }else{
+                            ret.retval.forEach(function(v,index){
+                                v.price = v.price<=1?v.price:parseInt(v.price)
+                                v.oprice = v.oprice<=1?v.oprice:parseInt(v.oprice)
+                                that.bottomLists.list.push(v)
+                            })
+                            that.bottomLists.start += 6;
+                            that.bottomLists.end = false
+                        }
+                        that.bottomLists.showList = that.bottomLists.list
+                        
+                    } else if (ret) {
+                        //that.noKillGoods = true
+                        //暂无秒杀
+                        that.bottomLists.end = true
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        that.bottomLists.end = true
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    that.URL = $api.URL()
+                    that.url = api.pageParam.url
+                    that.param = api.pageParam.param
+
+                    that.changeBottomList()
+                    //上拉加载
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 50 //距离底部距离
+                        }
+                    }, function (ret, err) {
+                        if (that.bottomLists.end ) {
+                            api.toast({
+                                msg: '没有更多了',
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        } else {
+                            that.changeBottomList()
+                        }
+                    });
+                    api.setCustomRefreshHeaderInfo({
+                        bgColor: '#F6F6F6',
+                        images: {
+                            pull: 'widget://image/refresh/pulling.png',
+                            transform: [
+                                'widget://image/refresh/transform0.png',
+                                'widget://image/refresh/transform1.png',
+                                'widget://image/refresh/transform2.png',
+                                'widget://image/refresh/transform3.png',
+                                'widget://image/refresh/transform4.png',
+                                'widget://image/refresh/transform5.png',
+                                'widget://image/refresh/transform6.png'
+                            ],
+                            load: [
+                                'widget://image/refresh/loading0.png',
+                                'widget://image/refresh/loading1.png',
+                                'widget://image/refresh/loading2.png',
+                                'widget://image/refresh/loading3.png',
+                                'widget://image/refresh/loading4.png',
+                            ]
+                        }
+                    }, function (ret, err) {
+                        console.log(1)
+                    });
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

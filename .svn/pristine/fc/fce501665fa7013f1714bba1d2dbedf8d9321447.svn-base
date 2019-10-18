@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>徒弟详情</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/login.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css"/>
+		<style type="text/css">
+			.my_info {
+				width: 100%;
+				position: relative;
+			}
+			.portrait {
+				width: 54px;
+				height: 54px;
+				border-radius: 27px;
+				border: 1px solid #fff;
+			}
+			.info_l {
+				float: left;
+				padding: 20px 5px 20px 20px;
+			}
+			.info_m {
+				float: left;
+				padding: 20px 20px 20px 5px
+			}
+			#user_name {
+				font-size: 1.1em;
+				margin-bottom: 5px
+			}
+			.border-w {
+				border: 1px solid #000;
+				height: 20px;
+				line-height: 20px;
+				border-radius: 10px;
+				background-color: transparent;
+				padding: 0 8px;
+				font-size: 0.8em;
+				margin-right: 10px;
+			}
+			.content p {
+				margin: 15px 0 10px;
+			}
+			.ip {
+				border: none;
+				border-bottom: 1px solid #f2f2f2;
+				height: 40px;
+				line-height: 40px;
+				color: #666;
+				width:100%;
+			}
+           .tag_t{
+           	    text-align: center;
+                color: #21bdc9;
+                margin: 0 5px;
+                font-size: 0.9em;}
+			.sub_botton {
+				text-align: center
+			}
+			.btn_2,.btn_3 {
+				background-color: #292929;
+				color: #fff;
+				height: 34px;
+				line-height: 34px;
+				border-radius: 17px;
+				padding: 0;
+				width: 90%;
+				margin-bottom: 15px
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+		<div class="header">
+			徒弟详情
+		</div>
+		<div class="DIV_L" onclick="goBack()" tapmode>
+			<i class="iconfont icon-back"></i>
+		</div>
+	</header>
+		<div id="wrap">
+			<div class="my_info clearfix">
+				<div class="info_l"><img src="../image/default_portrait.png"  class="portrait" id="portrait">
+				</div>
+				<div class="info_m">
+					<div id="user_name"></div>
+					<div>
+						<span class="border-w">邀请码:<span id="invite_code"></span></span>
+					</div>
+				</div>
+			</div>
+			<div class="content">
+				<p>
+					常驻地
+				</p>
+				<input type="text" name="address" id="address" readonly="readonly" class="ip" value="这个人很懒,TA什么都没有留下">
+				<p>
+					个性签名
+				</p>
+				<input type="text" name="autograph" id="autograph" readonly="readonly" class="ip" value="这个人很懒,TA什么都没有留下">
+				<p>
+					TA的标签
+				</p>
+				<i></i>&nbsp;<span id="tags">
+				<!-- <div class="tags" ><span class="tag_t">'+item.name+'</span></div>
+				<div class="tags" ><span class="tag_t">'+item.name+'</span></div> -->
+				</span>
+				<p>
+					拜师理由
+				</p>
+				<input type="text" name="remarks" id="remarks" readonly="readonly" class="ip" >
+			</div>
+			<div class="sub_botton clearfix">
+			    <span class="btn_2" onclick="agree('+item.user_id+')" tapmod>同意</span>
+			    <span class="btn_3"  onclick="reject('+item.user_id+')" tapmod>拒绝</span>
+			</div>
+		</div>
+		<script type="text/javascript" src="../script/api.js"></script>
+		<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+		<script type="text/javascript">
+			var URL = "";
+			$(function() {//消除300ms点击延迟
+				FastClick.attach(document.body);
+			});
+			var userId = window.localStorage.getItem("userId");
+			var tudiId="";
+			apiready = function() {
+				var header = $api.dom('header');
+				//适配iOS 7+，Android 4.4+状态栏
+				$api.fixStatusBar(header);
+				URL = $api.URL();
+				tudiId = api.pageParam.tudiId;
+				getTudi();
+			}
+			//返回上一页
+			var goBack = function() {
+				api.closeWin();
+			}
+			function getTudi() {
+				api.ajax({
+					url : URL + '/index.php?app=appstaff&act=get_tudi_info',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							user_id : userId,
+							tudi_id : tudiId
+						}
+					}
+				}, function(ret, err) {//alert(JSON.stringify(ret))
+					console.log(JSON.stringify(ret));
+					if (ret.done) {
+						var img_url = ret.retval.portrait;
+						if (img_url.indexOf("qlogo") == -1) {
+							$api.attr($api.byId("portrait"), 'src', URL + img_url);
+						} else {
+							$api.attr($api.byId("portrait"), 'src', img_url);
+						}
+						$("#user_name").html(ret.retval.real_name);
+						$("#invite_code").html(ret.retval.invite_code);
+						$("#address").val(ret.retval.invite_address);
+						$("#autograph").val(ret.retval.qm);
+						$("#remarks").val(ret.retval.remark);
+						var tags = ret.retval.tags;
+						if (tags.indexOf("no") > -1) {
+							$("#tags").html("这家伙很懒什么都没留下");
+						} else {
+							var lbt = '';
+							$.each(ret.retval.tags, function(i, item) {
+								lbt += '<span class="tag_t">'+item.name+'</span>';
+								$api.append($api.byId("tags"), lbt);
+							})
+						}
+					} else {
+						api.toast({
+							msg : ret.msg,
+							duration : 2000,
+							location : 'bottom'
+						});
+					};
+				});
+			}
+
+
+			//同意
+		function agree(changeId){
+           api.ajax({
+                    url : URL+'/index.php?app=appstaff&act=tong_relation',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            tudi_id:changeId
+                        }
+                    }
+          }, function(ret, err) {
+            console.log(JSON.stringify(ret));
+            if (ret&&ret.done) {
+                api.toast({
+                  msg: ret.retval,
+                  duration: 2000,
+                  location: 'middle'
+                });
+            	get_tudi_info();
+
+            }else if(ret){
+                api.toast({
+                  msg: ret.msg,
+                  duration: 2000,
+                  location: 'middle'
+                });
+            }
+            if(err){
+              api.toast({
+                msg: err.msg,
+                duration: 2000,
+                location: 'middle'
+              });
+            }
+          });
+		}
+		//拒绝
+		function reject(changeId){
+		  api.ajax({
+                    url : URL+'/index.php?app=appstaff&act=ju_relation',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            tudi_id:changeId
+                        }
+                    }
+          }, function(ret, err) {
+            console.log(JSON.stringify(ret));
+            if (ret&&ret.done) {
+                api.toast({
+                  msg: ret.retval,
+                  duration: 2000,
+                  location: 'middle'
+                });
+            	get_tudi_info();
+
+            }else if(ret){
+                api.toast({
+                  msg: ret.msg,
+                  duration: 2000,
+                  location: 'middle'
+                });
+            }
+            if(err){
+              api.toast({
+                msg: err.msg,
+                duration: 2000,
+                location: 'middle'
+              });
+            }
+          });
+		}
+
+		</script>
+	</body>
+</html>

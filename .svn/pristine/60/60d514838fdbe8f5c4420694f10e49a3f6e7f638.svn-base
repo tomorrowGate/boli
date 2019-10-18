@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.videocomponent.css" />
+    <title>教学视频组件</title>
+</head>
+
+<body>
+    <!-- 教学视频列表 -->
+    <div class="detail-teach-videos">
+        <div class="detail-teach-videobox">
+            <video src=""></video>
+        </div>
+        <div class="detail-video-bottom">
+            <div class="detail-video-name">秘制番茄炒蛋</div>
+            <div class="video-video-detail">
+                <div class="video-video-left">
+                    <i class="iconfont"></i>
+                    <span class="video-left-text">李大师</span>|<span class="video-left-text">国家一级厨师</span>
+                </div>
+                <div class="video-video-right">
+                    <div class="video-footer-item">
+                        <i class="iconfont"></i>
+                        <span class="video-footer-look">129</span>
+                    </div>
+                    <div class="video-footer-item">
+                        <i class="iconfont"></i>
+                        <span class="video-footer-comment">129</span>
+                    </div>
+                    <div class="video-footer-item">
+                        <i class="iconfont"></i>
+                        <span class="video-footer-fabulous">129</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var wrap = new Vue({
+        el: '#wrap',
+        data: {
+            userId:'',
+            sf_id:0,
+            URL:'',
+            staffVideo:[]
+        },
+        methods: {
+            getMasterVideo:function (){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=get_staff_video',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            sf_id: that.sf_id,
+                            start:0
+                        }
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.staffVideo = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            goTrendcomment:function(){
+                api.openWin({
+                    name: 'chef.forum',
+                    url: 'chef.forum.html',
+                    bounces: false,
+                    pageParam: {key : 'value'}
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function(){
+                apiready = function () {
+                    that.URL = $api.URL();
+                    that.sf_id = api.pageParam.sf_id;
+                    that.userId = window.localStorage.getItem("userId")
+                    that.getMasterVideo()
+                }
+            })
+        },
+        mounted: function mounted() {
+           
+
+        },
+    })
+</script>
+</html>

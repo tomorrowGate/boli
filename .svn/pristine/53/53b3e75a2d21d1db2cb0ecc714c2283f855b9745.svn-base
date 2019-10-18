@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>预约维修</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+		<style>
+			html, body, .con {
+				/*background-color: #f9f8f8;*/
+				background-color: #efefef;
+			}
+			.DIV_R {
+				width: 4em
+			}
+			.con {
+				padding: 10px;
+			}
+			.userInfo, .devService, .breakReason, .previewTime {
+				border-radius: 5px;
+				box-shadow: 2px 2px 4px #ddd;
+			}
+			.userInfo {
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+				height: 70px;
+				line-height: 50px;
+				background-color: #fff;
+				font-size: 14px;
+				color: #7f7f7f;
+			}
+			.userPic {
+				display: flex;
+				box-sizing: border-box;
+				width: 40px;
+				height: 40px;
+				/*padding-right: 10px;*/
+				/*border-right: 1px solid #ddd;*/
+				border-radius: 50%;
+				background-color: #6eb92c;
+			}
+			.userPic img {
+				transform: scale(0.5);
+			}
+			.devService {
+				margin-top: 10px;
+				background-color: #fff;
+				padding: 5px 15px 5px 15px;
+			}
+			.serTitle {
+				height: 50px;
+				line-height: 50px;
+				color: #6eb92c;
+				border-bottom: 1px solid #ddd;
+			}
+			.serTitle span {
+				text-indent: 5px;
+			}
+			.serCon {
+				display: flex;
+				align-items: center;
+			}
+			.devItem {
+				height: 92px;
+				line-height: 60px;
+				border-bottom: 1px solid #ddd;
+			}
+			.img-box {
+				display: inline-block;
+				width: 60px;
+				height: 60px;
+				/*border-right:1px solid #ddd;*/
+			}
+			.devItem img {
+				height: 50px;
+				vertical-align: middle;
+			}
+			.item-description {
+				font-size: 15px;
+				color: #ccc;
+			}
+			.serverdDev {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				box-sizing: border-box;
+				padding-left: 13px;
+			}
+			.serverdDev p {
+				/*height: 30px;*/
+				line-height: 20px;
+				font-size: 14px;
+			}
+			.deviceType {
+				color: #7f7f7f;
+			}
+			.deviceName {
+				color: #6eb92c;
+			}
+			.addDevice {
+				display: flex;
+				font-size: 15px;
+				color: #6eb92c;
+				height: 50px;
+				align-items: center;
+				justify-content: center;
+			}
+			.breakReason {
+				margin-top: 10px;
+				background-color: #fff;
+				font-size: 15px;
+				padding: 15px 15px 5px 15px;
+				color: #7f7f7f;
+			}
+			.breakReason img {
+				height: 50px;
+				vertical-align: middle;
+			}
+			.reasonDis {
+				text-indent: 10px;
+			}
+			.submitNow {
+				width: 60%;
+				height: 30px;
+				background-color: #6eb92c;
+				color: #fff;
+				text-align: center;
+				line-height: 30px;
+				border-radius: 15px;
+				margin: 25px auto;
+			}
+			.framBottom {
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				background-color: #fff;
+			}
+			.framHead {
+				height: 70px;
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+				background-color: #f9f9f9;
+			}
+			.framCon {
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				padding: 0 15px;
+			}
+			.framCon ul {
+				display: flex;
+				align-items: center;
+				width: 100%;
+				height: 40px;
+				text-indent: 10px;
+				border-bottom: 1px solid #ddd;
+			}
+			.framCon .inputKey {
+				width: 70px;
+				font-size: 14px;
+			}
+			input::-webkit-input-placeholder {/*WebKit browsers*/
+				font-size: 14px;
+			}
+			input::-moz-input-placeholder {/*Mozilla Firefox*/
+				font-size: 14px;
+			}
+			input::-ms-input-placeholder {/*Internet Explorer*/
+				font-size: 14px;
+			}
+			.peoWheComp {
+				margin: 10px 0 0 25px;
+				font-size: 14px;
+			}
+			.peoWheComp textarea {
+				padding: 3px;
+			}
+			.wrongDisTip {
+				float: left;
+				margin-right: 8px;
+			}
+			.framCon .preCon {
+				justify-content: space-between;
+				font-size: 14px;
+				border: none;
+			}
+			.dateTotal {
+				display: flex;
+			}
+			.hide {
+				display: none;
+			}
+			.selectTime {
+				/*border-bottom: 1px solid #fff;*/
+				padding-bottom: 15px;
+			}
+			.tips {
+				position: fixed;
+				width: 300px;
+				height: 100px;
+				padding: 7px 15px;
+				background-color: #fff;
+				border-radius: 10px;
+				top: calc(50% - 50px);
+				left: calc(50% - 165px);
+			}
+			.tipsHead {
+				text-align: center;
+				height: 30px;
+				line-height: 30px;
+			}
+			.sellPlace {
+				position: relative;
+				display: flex;
+				align-items: center;
+				height: 40px;
+				padding-top: 10px;
+			}
+			.sellPlace .img-box {
+				padding-top: 6px;
+				padding-left: 13px;
+				height: 100%;
+				box-sizing: border-box;
+			}
+			.icon-didian {
+				color: #6eb92c;
+				font-size: 20px;
+			}
+			.placeRight {
+				position: absolute;
+				right: 20px;
+			}
+			.pop {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background-color: rgba(0,0,0,0.5);
+			}
+			.layui-laydate, .layui-laydate-hint {
+				position: fixed !important;
+				width: 100% !important;
+				bottom: 0 !important;
+				left: 0 !important;
+				right: 0 !important;
+				top: 80% !important;
+			}
+			.layui-laydate-main {
+				width: 100% !important;
+				text-align: center !important;
+				position: fixed !important;
+				bottom: 0 !important;
+				left: 0 !important;
+				right: 0 !important;
+				background-color: #fff;
+			}
+			.layui-laydate-main table {
+				width: 100% !important;
+				text-align: center !important;
+			}
+			.layui-laydate-footer {
+				position: fixed !important;
+				bottom: 270px !important;
+				left: 0 !important;
+				right: 0 !important;
+				z-index: 999;
+				background-color: #e2e2e2
+			}
+			#booktime {
+				width: 8em;
+				color: #7f7f7f;
+			}
+			.framCon li {
+				height: 40px;
+				line-height: 40px;
+			}
+			.framCon input {
+				height: 40px;
+				line-height: 40px;
+			}
+			.left, .right {
+				height: 40px;
+				line-height: 40px;
+				width: 4em;
+				text-align: center;
+			}
+			/*.reasonDis{border:1px solid red;}*/
+			.reason11{/*border:1px solid red;*/color: #7f7f7f;width:150px;}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+			<div class="header">
+				预约维修
+			</div>
+			<div class="DIV_R" onclick="goBack()" tapmode>
+				<span>自助排查</span>
+			</div>
+		</header>
+		<div class="con">
+			<div class="userInfo" onclick="goAddConWay(window.event)" tapmode>
+				<div class="userPic">
+					<img src="../image/personMsg.png" alt="">
+				</div>
+				<div class="userConnection" id="real_name2">
+					点击添加您的姓名联系方式
+				</div>
+				<i class="iconfont icon-htbArrowright" ></i>
+			</div>
+			<div class="devService">
+				<div class="serTitle">
+					<i class="iconfont icon-qianbi my_icon3"></i>
+					<span class="">维修服务</span>
+				</div>
+				<div class="serCon devItem">
+					<div class="img-box"><img src="../image/kitchen.png" alt="" />
+					</div>
+					<span class="item-description hide">广式单炒单温-设备01</span>
+					<div id="addrs">
+						<div class="serverdDev">
+							<p class="deviceName" id="type_name"></p>
+							<p class="deviceType" id="A_SIM"></p>
+							<p class="deviceType" id="B_SIM" style="display: none"></p>
+						</div>
+					</div>
+				</div>
+				<div class="addDevice hide" tapmode>
+					<i class="iconfont icon-tianjia my_icon3"></i>
+					<span class="clickAdd" onclick="goDevicesList()">点击添加</span>
+				</div>
+			</div>
+			<div id="casues">
+				<div class="breakReason" tapmode >
+					<div class="img-box"><img src="../image/gj.png"/>
+					</div>
+					<span class="reasonTitle">故障原因</span>
+					<span class="reasonDis"><input type="text" value="" class="reason11"id="cause" placeholder="请填写~"></span>
+				</div>
+
+			</div>
+			<div class="previewTime breakReason" style="display: none">
+				<div class="img-box"><img src="../image/yysj.png" alt="" />
+				</div>
+				<span class="reasonTitle" >预约时间</span>
+				<span class=" reasonDis"><!-- <input type="text" name="booktime"  id="booktime" placeholder="请选择预约时间" readonly> -->
+					<input  type="text" id="booktime" placeholder="请选择预约时间">
+				</span>
+			</div>
+			<!--<div class="sellPlace breakReason hide" >
+			<div class="img-box">
+			<i class="iconfont icon-didian"></i>
+			</div>
+			<div >
+			<span class="reasonTitle" >最近售后点</span>
+			<span class=" reasonDis" >湖州区xx售后点</span>
+			</div>
+			<div class="placeRight">
+			<i class="iconfont icon-down"></i>
+			</div>
+			</div>-->
+			<div class="submitNow" onclick = "weixiu()" id="tjweixiu" tapmode>
+				立即提交
+			</div>
+		</div>
+		<div class="pop connect hide"  onclick="keep(window.event)" tapmode>
+			<div class="framBottom connectWay" onclick="stopProp(window.event)" tapmode>
+				<div class="framHead">
+					<span class="left" onclick="closePop(window.event)" tapmode>取消</span>
+					<span class="center">请输入联系人</span>
+					<span class="right" onclick="add_lxr()">确定</span>
+				</div>
+				<div class="framCon">
+					<ul>
+						<li class="inputKey">
+							<div class="framName">
+								联系人
+							</div>
+						</li>
+						<li >
+							<input type="text" id="peopleName" placeholder="请填写联系人">
+						</li>
+					</ul>
+					<ul>
+						<li class="inputKey">
+							<div class="framTel">
+								联系电话
+							</div>
+						</li>
+						<li >
+							<input type="text" id="phone_mob" placeholder="请填写联系人手机">
+						</li>
+					</ul>
+					<ul>
+						<li class="inputKey">
+							<div class="framTel">
+								服务地址
+							</div>
+						</li>
+						<li >
+							<input type="text" id="region_name" placeholder="省 市 区/县" tapmode>
+						</li>
+					</ul>
+				</div>
+				<div class="peoWheComp">
+					<textarea name="" id="address" cols="30" rows="10" placeholder="请填写详细地址"></textarea>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript" src="../script/lib/rolldate.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		var m_id = 0;
+		var log_id = 0;
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		var URL;
+		apiready = function() {
+			URL = $api.URL();
+			m_id = api.pageParam.m_id;
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			headerH = $api.fixStatusBar(header);
+			if (m_id > 0) {
+				get_driver_info();
+			} else {
+				get_new_info();
+			}
+			var name_info=window.localStorage.getItem('name_info');
+			var phone_mob=window.localStorage.getItem('phone_mob');
+			var region_name=window.localStorage.getItem('region_name');
+			var address=window.localStorage.getItem('address');
+			if(name_info){
+				$("#peopleName").val(name_info);
+				$("#real_name2").html(name_info);
+			}
+			if(phone_mob){
+				$("#phone_mob").val(phone_mob)
+			}
+			if(region_name){
+				$("#region_name").val(region_name)
+			}
+			if(address){
+				$("#address").val(address)
+			}
+		};
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+			//时间选择器
+			new rolldate.Date({
+				el : '#booktime',
+				format : 'YYYY-MM-DD hh:mm',
+				beginYear : 2000,
+				endYear : 2100
+			})
+		});
+		function goBack() {
+			api.closeWin();
+		}
+
+		function closePop(e) {
+			document.querySelectorAll(".pop").forEach(function(value) {
+				value.classList.add("hide");
+			})
+		}
+
+		function get_new_info() {
+			$(".addDevice").removeClass("hide");
+		}
+
+		function get_driver_info() {
+			api.ajax({
+				url : URL + 'index.php?app=appmachine&act=get_machine_info2',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						m_id : m_id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret.retval));
+				if (ret.done) {
+					var data = ret.retval;
+					$("#A_SIM").html("A眼SIM："+data.SIM);
+					if (data.B_SIM == null || data.B_SIM == "" | data.B_SIM == undefined) {
+					console.log("1223");
+					    $("#B_SIM").css('display','none');
+						$("#B_SIM").html("B眼SIM："+data.B_SIM);
+					}else{
+					console.log("55684");
+					    $("#B_SIM").css('display','block');
+						$("#B_SIM").html("B眼SIM："+data.B_SIM);
+					}
+					$("#type_name").html("设备名称："+data.machine_name);
+					log_id = data.log_id;
+					var str = "";
+//					var str='<input type="text" value="'++'" class="reason11">'
+					$("#cause").val(data.error_info);
+				} else {
+					api.toast({
+						msg : ret.msg,
+						duration : 2000,
+						location : 'bottom'
+					});
+				}
+			});
+		}
+
+		function weixiu() {
+			var real_name = $("#peopleName").val();
+			var phone_mob = $("#phone_mob").val();
+			var cause = $("#cause").val();
+			var region_name = $("#region_name").val();
+			var address = $("#address").val();
+//			alert(cause);
+//			return;
+			//var timestamp = (new Date()).getTime();
+			if (real_name == null || real_name === undefined || real_name == "") {
+				api.toast({
+					msg : '请输入联系人',
+					duration : 2000,
+					location : 'bottom'
+				});
+				return;
+			} else if (phone_mob == null || phone_mob === undefined || phone_mob == "") {
+				api.toast({
+					msg : '请输入联系方式',
+					duration : 2000,
+					location : 'bottom'
+				});
+				return;
+			}else if (cause == null || cause === undefined || cause == "") {
+				api.toast({
+					msg : '请输入故障原因',
+					duration : 2000,
+					location : 'bottom'
+				});
+				return;
+			} 
+			else {
+				api.ajax({
+					url : URL + 'index.php?app=appmachine&act=weixiu',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							userId : userId,
+							m_id : m_id,
+							real_name : real_name,
+							phone_mob : phone_mob,
+							cause : cause,
+							region_name : region_name,
+							address : address,
+							log_id : log_id
+						}
+					}
+				}, function(ret, err) {
+					console.log(JSON.stringify(ret));
+					if (ret.done) {
+						api.toast({
+							msg : ret.retval,
+							duration : 2000,
+							location : 'bottom'
+						});
+						window.localStorage.removeItem('name_info');
+						window.localStorage.removeItem('phone_mob');
+						window.localStorage.removeItem('region_name');
+						window.localStorage.removeItem('address');
+						$("#tjweixiu").removeAttr("onclick");
+						setTimeout('goBack();', 2000);
+						//清除数据
+						
+						
+					} else {
+						api.toast({
+							msg : ret.msg,
+							duration : 2000,
+							location : 'bottom'
+						});
+						window.localStorage.removeItem('name_info');
+						window.localStorage.removeItem('phone_mob');
+						window.localStorage.removeItem('region_name');
+						window.localStorage.removeItem('address');
+						$("#tjweixiu").unbind("click");
+						setTimeout('goBack();', 2000);
+					}
+				});
+			}
+		}
+		
+		function add_lxr() {
+			var real_name = $("#peopleName").val();
+			var phone_mob = $("#phone_mob").val();
+			var region_name = $("#region_name").val();
+			var address = $("#address").val();
+			$(".connect").addClass("hide");
+			$("#real_name2").html(real_name);
+			window.localStorage.setItem('name_info', real_name);
+			window.localStorage.setItem('phone_mob', phone_mob);
+			window.localStorage.setItem('region_name', region_name);
+			window.localStorage.setItem('address', address);
+		}
+
+		//设备列表
+		function goDevicesList() {
+			api.openWin({
+				name : 'deviceList',
+				url : './deviceList.html',
+				bounces : false,
+				reload : true,
+				animation : {
+					type : "push", //动画类型（详见动画类型常量）
+					subType : "from_right", //动画子类型（详见动画子类型常量）
+					duration : 300 //动画过渡时间，默认300毫秒
+				},
+			});
+		}
+
+		function keep(e) {
+			closePop()
+		}
+
+		function stopProp(e) {
+			//阻止事件冒泡
+			e.stopPropagation();
+		}
+
+		function goAddConWay(e) {
+			var oconnectWay = document.querySelector(".connect");
+			oconnectWay.classList.remove("hide")
+			e.stopPropagation();
+		}
+
+		function goTimeChoose(e) {
+			var oPreTime = document.querySelector(".TIME");
+			oPreTime.classList.remove("hide");
+			e.stopPropagation();
+			//api.require('UIMultiSelector');
+		}
+
+		function DateToUnix(string) {
+			var f = string.split(' ', 2);
+			var d = (f[0] ? f[0] : '').split('-', 3);
+			var t = (f[1] ? f[1] : '').split(':', 3);
+			return (new Date(parseInt(d[0], 10) || null, (parseInt(d[1], 10) || 1) - 1, parseInt(d[2], 10) || null, parseInt(t[0], 10) || null, parseInt(t[1], 10) || null, parseInt(t[2], 10) || null)).getTime() / 1000;
+		}
+	</script>
+</html>

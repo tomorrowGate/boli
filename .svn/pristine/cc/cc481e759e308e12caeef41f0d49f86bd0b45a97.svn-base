@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>厨师认证</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<style>
+			html, body {
+				background-color: #efefef;
+			}
+			p {
+				margin: 10px;
+			}
+			textarea {
+				width: 70%;
+				float:left;
+			    height: 120px;
+			    line-height: 36px;
+
+			}
+			.ip{ width: 70%;height:36px;line-height:36px; float:left;}
+			.top_div {
+				padding: 10px 0 0 0;
+				background-color: #fff;
+			}
+			.top_div img {
+				width: 100%;
+			}
+			.main_div {
+				background-color: #fff;
+				padding-top: 10px;
+				padding-bottom: 10px;
+			}
+			label{
+				width:4.5em;height:36px;line-height:36px;float:left;
+			}
+			.out_div {
+				margin-top: 10px;
+			}
+			.tab_title{
+				height:40px;
+				line-height: 40px;
+				padding:0 10px;
+                color:#0b93eb;
+                border-bottom: 1px solid #f2f2f2
+			}
+			.info_list{
+				padding:0 15px;
+			}
+			#upload_img_list span {
+				width: 33%;
+				text-align: left;
+				margin-bottom: 10px;
+			}
+			#upload_img_list span img {
+				width: 80px;
+				height: 80px;
+			}
+			.add_img {
+				height: 40px;
+				width: 40px;
+				border: 1px dotted #ddd;
+			}
+			.add_img i {
+				font-size: 2em;
+				color: #ccc;
+				position: relative;
+				left: 5px;
+			}
+			.ip1 {
+				width: 100%;
+			}
+			.add_more{
+				text-align: center;
+				height:40px;
+				line-height: 40px;
+				color:#0b93eb;
+			}
+			.add_more i{
+				color:#0b93eb;
+			}
+			.work_item{
+				border-bottom: 1px solid #f2f2f2;
+			}
+			.honor_item{
+				border-bottom: 1px solid #f2f2f2;
+			}
+			.sub_btn {
+				text-align: center;
+				margin-top: 80px;
+					margin-bottom: 80px;
+			}
+			#btn_tj {
+				width: 40%;
+				height: 36px;
+				line-height: 36px;
+				border-radius: 18px;
+				padding: 0;
+			}
+			.cook_img{ float:left;width:70%; }
+			.cook_img input{ height:36px;line-height: 36px; }
+			#my_portrait{
+				width:100px;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				厨师认证
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class="top_div"><img src="../image/baishi.png">
+		</div>
+		<div class="main_div">
+			<div class="info_list clearfix">
+			    <label>姓名</label>
+				<input type="text" name="user_name" id="user_name" class="ip" placeholder="请输入您的姓名">
+			</div>
+			<div class="info_list clearfix">
+			    <label>身份证号</label>
+				<input type="text" name="ID_card" id="ID_card" class="ip" placeholder="请输入您的身份证号">
+			</div>
+			<div class="info_list clearfix">
+			    <label>联系方式</label>
+				<input type="text" name="phone_mob" id="phone_mob" class="ip" placeholder="请输入您的联系方式">
+			</div>
+			<div class="info_list clearfix">
+			    <label>个人简介</label>
+				<textarea name="describe" id="describe" placeholder="请输入您的个人简历"></textarea>
+			</div>
+			<div class="info_list clearfix">
+			    <label>名厨靓照</label>
+			    <div class="cook_img clearfix">
+			    <input type="text" readonly="readonly"   placeholder="请上传您的一寸照片">
+				<div class="add_img " id="add_img" onclick="showAction()" tapmode><i class="iconfont icon-add1"></i></div>
+				<div class="upload_img hide" id="upload_img" onclick="showAction()" tapmode><img src="#" id="my_portrait" /></div>
+				</div>
+			</div>
+		</div>
+		<div class="out_div">
+		    <div class="tab_title">主要工作经历</div>
+		    <div id="work_list">
+		    <div class="work_item work_item0">
+			    <div class="info_list clearfix">
+				    <label>开始时间</label>
+					<input type="text" readonly name="start_time0" id="start_time0" class="ip time_choose" placeholder="请输入您工作的开始时间">
+				</div>
+				<div class="info_list clearfix">
+				    <label>结束时间</label>
+					<input type="text" readonly name="end_time0" id="end_time0" class="ip time_choose" placeholder="请输入您工作的结束时间">
+				</div>
+				<div class="info_list clearfix">
+				    <label>工作岗位</label>
+					<input type="text" name="work_type0" id="work_type0" class="ip" placeholder="请输入您工作岗位">
+				</div>
+			</div>
+			</div>
+			<div class="info_list clearfix add_more" onclick="addWork()" tapmode>
+			    <i class="iconfont icon-tianjia"></i><span>点击添加</span>
+			</div>
+
+		</div>
+		<div class="out_div">
+		    <div class="tab_title">获得荣誉</div>
+		    <div id="honor_list">
+                <div class="honor_item honor_item0">
+				    <div class="info_list clearfix">
+					    <label>开始时间</label>
+						<input type="text" readonly name="honor_time0" id="honor_time0" class="ip time_choose" placeholder="请输入您获得荣誉的时间">
+					</div>
+					<div class="info_list clearfix">
+					    <label>荣誉名称</label>
+						<input type="text" name="honor_name0" id="honor_name0" class="ip" placeholder="请输入您获得荣誉的名称">
+					</div>
+				</div>
+		    </div>
+			<div class="info_list clearfix add_more" onclick="addHonor()" tapmode>
+			    <i class="iconfont icon-tianjia"></i><span>点击添加</span>
+			</div>
+
+		</div>
+		<div class="sub_btn">
+			<span  id="btn_tj" class="btn_default2">立即认证</span>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/rolldate.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		var masterId;
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+			console.log('apiready');
+			//时间选择器
+			 new rolldate.Date({
+			 	el:'#start_time0',
+				format:'YYYY-MM-DD',
+				beginYear:1700,
+				endYear:2100
+			 })
+			 new rolldate.Date({
+			 	el:'#end_time0',
+				format:'YYYY-MM-DD',
+				beginYear:1700,
+				endYear:2100
+			 })
+			 new rolldate.Date({
+			 	el:'#honor_time0',
+				format:'YYYY-MM-DD',
+				beginYear:1700,
+				endYear:2100
+			 })
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+
+		}
+
+		var URL = "";
+		var work_num=0;
+		var honor_num=0;
+		apiready = function() {
+			console.log('apiready');
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+			masterId = api.pageParam.masterId;
+		};
+		function addWork(){
+            work_num+=1;
+            var honor='';
+			honor+='<div class="work_item work_item'+work_num+'">';
+			    honor+='<div class="info_list clearfix">';
+				    honor+='<label>开始时间</label>';
+					honor+='<input type="text" readonly name="start_time'+work_num+'" id="start_time'+work_num+'" class="ip time_choose" placeholder="请输入您工作的开始时间">';
+				honor+='</div>';
+				honor+='<div class="info_list clearfix">';
+				    honor+='<label>结束时间</label>';
+					honor+='<input type="text" readonly name="end_time'+work_num+'" id="end_time'+work_num+'" class="ip time_choose" placeholder="请输入您工作的结束时间">';
+				honor+='</div>';
+				honor+='<div class="info_list clearfix">';
+				    honor+='<label>工作岗位</label>';
+					honor+='<input type="text" name="work_type'+work_num+'" id="work_type'+work_num+'" class="ip" placeholder="请输入您工作岗位">';
+				honor+='</div>';
+			honor+='</div>';
+           $("#work_list").append(honor);
+           new rolldate.Date({
+			 	el:'#start_time'+work_num,
+				format:'YYYY-MM-DD',
+				beginYear:1700,
+				endYear:2100
+			 })
+           new rolldate.Date({
+			 	el:'#end_time'+work_num,
+				format:'YYYY-MM-DD',
+				beginYear:1700,
+				endYear:2100
+			 })
+        }
+        function addHonor(){
+            honor_num+=1;
+            var honor='<div class=" honor_item honor_item'+honor_num+'">';
+			honor+='<div class="info_list clearfix">';
+			honor+='<label>开始时间</label>';
+			honor+='<input type="text" readonly name="honor_time'+honor_num+'" id="honor_time'+honor_num+'" class="ip time_choose" placeholder="请输入您获得荣誉的时间">';
+			honor+='</div>';
+			honor+='<div class="info_list clearfix">';
+			honor+='<label>荣誉名称</label>';
+		    honor+='<input type="text" name="honor_name'+honor_num+'" id="honor_name'+honor_num+'" class="ip" placeholder="请输入您获得荣誉的名称">';
+			honor+='</div>';
+			honor+='</div>';
+           $("#honor_list").append(honor);
+           new rolldate.Date({
+			 	el:'#honor_time'+honor_num,
+				format:'YYYY-MM-DD',
+				beginYear:1700,
+				endYear:2100
+			 })
+        }
+
+		$("#btn_tj").bind("click", function() {
+			//member信息
+			var user_name = $("#user_name").val();
+			var ID_card = $("#ID_card").val();
+			var phone_mob = $("#phone_mob").val();
+			var describe = $("#describe").val();
+			var portrait=$("#my_portrait").attr('src');
+			if(portrait==""||portrait=="#"){
+				portrait="";
+			}
+
+			//alert(Date.parse(new Date($("#start_time"+work_num).val()))/1000);
+			//workexperience工作经历
+			var start_time="";
+			var end_time="";
+			var work_unit="";
+			if(work_num>0){
+				start_time=Date.parse(new Date($("#start_time0").val()))/1000;
+				end_time=Date.parse(new Date($("#end_time0").val()))/1000;
+				work_unit=$("#work_type0").val();
+				for(var i=1;i<=work_num;i++){
+					start_time+=","+Date.parse(new Date($("#start_time"+i).val()))/1000;
+					end_time+=","+Date.parse(new Date($("#end_time"+i).val()))/1000;
+					work_unit+=","+$("#work_type"+i).val();
+				}
+			}else{
+				start_time=Date.parse(new Date($("#start_time0").val()))/1000;
+				end_time=Date.parse(new Date($("#end_time0").val()))/1000;
+				work_unit=$("#work_type0").val();
+			}
+			//honor荣誉
+			var honor_time="";
+			var honor_name="";
+			if(honor_num>0){
+				honor_time=Date.parse(new Date($("#honor_time0").val()))/1000;
+				honor_name=$("#honor_name0").val();
+				for(var i=1;i<=honor_num;i++){
+					honor_time+=","+Date.parse(new Date($("#honor_time"+i).val()))/1000;
+					honor_name+=","+$("#honor_name"+i).val();
+				}
+			}else{
+				honor_time=Date.parse(new Date($("#honor_time0").val()))/1000;
+				honor_name=$("#honor_name0").val();
+			}
+
+			console.log(user_name);
+			console.log(ID_card);
+			console.log(phone_mob);
+			console.log(describe);
+
+
+			console.log(start_time);
+			console.log(end_time);
+			console.log(work_unit);
+
+			console.log(honor_time);
+			console.log(honor_name);
+			
+
+			if (phone_mob == "" || phone_mob == null || phone_mob == undefined) {
+					api.toast({msg: '请输入手机号码!'});
+				} else if (!(/^1[345789]\d{9}$/.test(phone_mob))) {
+					api.toast({msg: '手机号格式错误!'});
+				} else if (user_name == "" || user_name == null || user_name == undefined) {
+					api.toast({msg: '请输入姓名!'});
+				}else if (ID_card == "" || ID_card == null || ID_card == undefined) {
+				 	api.toast({msg: '请输入身份证号!'});
+				 }else if (describe == "" || describe == null || describe == undefined) {
+				 	api.toast({msg: '请输入个人简介!'});
+				 }else if (portrait == "" || portrait == null || portrait == undefined) {
+				 	api.toast({msg: '请上传照片!'});
+				 }
+				else {
+			api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=authentication',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						user_name : user_name,
+						ID_card : ID_card,
+						phone_mob : phone_mob,
+						describe : describe,
+						portrait : portrait,
+						start_time:start_time,
+						end_time:end_time,
+						work_unit:work_unit,
+						honor_time:honor_time,
+						honor_name:honor_name
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					api.toast({
+						msg : ret.retval,
+						duration : 2000,
+						location : 'bottom',
+						global:true
+					});
+					api.closeWin();
+				} else {
+					api.toast({
+						msg : ret.msg,
+						duration : 2000,
+						location : 'bottom'
+					});
+				}
+			});
+		}
+		});
+
+		      // 上传图片
+    function showAction() {
+
+        api.actionSheet({
+          title : '上传图片',
+          cancelTitle : '取消',
+          buttons : ['拍照', '从手机相册选择']
+        }, function(ret, err) {
+          if (ret) {
+            getPicture(ret.buttonIndex);
+          }
+        });
+    }
+
+    function getPicture(sourceType) {
+      if (sourceType == 1) {// 拍照
+        api.getPicture({
+          sourceType : 'camera',
+          encodingType : 'jpg',
+          mediaValue : 'pic',
+          allowEdit : false,
+          destinationType : 'base64',
+          quality : 50,
+          saveToPhotoAlbum : true
+        }, function(ret, err) {
+         if (ret) {        	
+            $("#my_portrait").attr('src', ret.base64Data);
+            $("#add_img").addClass('hide');
+         	$("#upload_img").removeClass('hide');
+            //console.log(ret.base64Data);
+          } else {
+            api.toast(JSON.stringify(err));
+          }
+        });
+      } else if (sourceType == 2) {// 从相机中选择
+        api.getPicture({
+          sourceType : 'library',
+          encodingType : 'jpg',
+          mediaValue : 'pic',
+          allowEdit : false,
+          destinationType : 'base64',
+          quality : 50,
+           /*targetHeight: 80*/
+        }, function(ret, err) {
+          if (ret) {
+            if (ret) {
+              $("#my_portrait").attr('src', ret.base64Data);
+              $("#add_img").addClass('hide');
+         	 $("#upload_img").removeClass('hide');
+             // console.log(ret.base64Data);
+            } else {
+              api.toast(JSON.stringify(err));
+            }
+          } else {
+            api.toast(JSON.stringify(err));
+          }
+        });
+      }
+    }
+	</script>
+</html>

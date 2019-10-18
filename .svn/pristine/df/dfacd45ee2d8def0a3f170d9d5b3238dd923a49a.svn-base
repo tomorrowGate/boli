@@ -1,0 +1,39 @@
+
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+html,body{
+    background: #f2f2f2;
+}
+
+.teachnext-items{
+    padding: 10px;
+    background: #fff;
+}
+.teachnext-items-text{
+    padding: 5px;
+    width: 100%;
+    border:1px solid #ddd;
+    box-sizing: border-box;
+}
+.teaching-cuisine-next{
+    width: 70%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
+    border-radius: 15px;
+    margin: 30px auto;
+    background: #6eb92c;
+}

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>告警记录</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+		<style>
+			html, body {
+				background-color: #efefef;
+				font-size: 1.05em !important
+			}
+
+			.head-center {
+				text-align: center;
+				height:40px;
+				line-height:40px;
+			}
+			.device-header {
+				position: relative;
+				background: url(../image/background1.png) no-repeat;
+				-webkit-background-size: 100% 160px;
+				background-size: 100% 160px;
+			}
+			.info_l {
+				float: left;
+				padding: 38px 5px 20px 20px;
+			}
+			.info_m {
+				font-size: 14px;
+				padding: 42px 20px 20px 5px;
+			}
+			.portrait {
+				width: 54px;
+				height: 54px;
+				border-radius: 27px;
+				border: 1px solid #fff;
+			}
+			#user_name {
+				font-size: 1.3em;
+				margin-bottom: 0px
+			}
+			.my_info {
+				position: relative;
+				display: flex;
+				/* align-items: center; */
+				height: 160px;
+				color: #fff;
+			}
+			.invite {
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				margin-top: 5px;
+			}
+			.inviteCode {
+				height: 24px;
+				line-height: 24px;
+				padding: 0 8px;
+				border: 1px solid #fff;
+				border-radius: 12px;
+				font-size: 14px;
+			}
+			.copy {
+				height: 24px;
+				line-height: 24px;
+				padding: 0 8px;
+				border: 1px solid #fff;
+				border-radius: 12px;
+				margin-left: 5px;
+				background-color: #d0a96f;
+				font-size: 14px;
+			}
+			.con {
+				position: relative;
+				top: -40px;
+				width: 95%;
+				background-color: #fff;
+				border-radius: 12px;
+				margin: 0 auto;
+			}
+			.con .alertItem {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				height: 70px;
+				padding: 26px 14px;
+				border-bottom: 1px solid #e9e9e9;
+			}
+			.itemDis {
+				display: flex;
+				flex-direction: column;
+			}
+			.itemHead {
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+			}
+			.itemName {
+				margin-left: 18px;
+				font-size: 15px;
+				color: #1095ec;
+			}
+			.aletState {
+				color: #ec0202;
+				font-size: 16px;
+			}
+			.itemTime {
+				color: #a5a5a5;
+			}
+			.itemHandle {
+				width: 70px;
+				height: 22px;
+				line-height: 22px;
+				padding: 0 8px;
+				border-radius: 13px;
+				font-size: 13px;
+				text-align: center;
+				color: #fff;
+			}
+			.rightNow {
+				background-color: #ec0202;
+			}
+			.alread {
+				background-color: #b8c0d1;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="head-center">
+				<span >告警记录</span>
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class='device-header'>
+			<div class="my_info clearfix">
+				<div class="info_l" ><img src="../image/tx.png" id="portrait" class="portrait">
+				</div>
+				<div class="info_m">
+					<div>
+						<span id="user_name">皮卡丘</span>
+					</div>
+					<div class="invite">
+						<div class="inviteCode">
+							<span>邀请码: </span><span class='device_num' id="invite_code"></span>
+						</div>
+						<div class="copy">
+							<span class="border-c" onclick="copyHref()" tapmode>复制</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="con" id="tt">
+	
+
+
+	
+		</div>
+	</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript">
+	 var URL="";
+	 var start=0;
+	 var data_goods=null;
+     var userId=window.localStorage.getItem("userId"); //用户id
+		//用户id
+		apiready = function() {
+		  	var header = $api.dom('header'); // 获取 header 标签元素
+		  	headerH = $api.fixStatusBar(header);
+	    	URL=$api.URL();
+        $api.html( $api.byId("user_name"),window.localStorage.getItem('real_name'));
+        $api.html( $api.byId("invite_code"),window.localStorage.getItem('invite_code'));
+        var portrait= window.localStorage.getItem('portrait');//头像
+        console.log(portrait);
+        if(portrait.substr(0,7).toLowerCase() == "http://"){
+          $api.attr($api.byId('portrait'),'src',portrait);
+          }else{
+            $api.attr($api.byId("portrait"),'src',URL+portrait);
+         }
+          get_weixiu_list();
+
+			 //下拉刷新
+          api.setCustomRefreshHeaderInfo({
+                bgColor: '#238bd9',
+                images: {
+                    pull: 'widget://image/refresh/pulling.png',
+                    transform: [
+                        'widget://image/refresh/transform0.png',
+                        'widget://image/refresh/transform1.png',
+                        'widget://image/refresh/transform2.png',
+                        'widget://image/refresh/transform3.png',
+                        'widget://image/refresh/transform4.png',
+                        'widget://image/refresh/transform5.png',
+                        'widget://image/refresh/transform6.png'
+                    ],
+                    load: [
+                        'widget://image/refresh/loading0.png',
+                        'widget://image/refresh/loading1.png',
+                        'widget://image/refresh/loading2.png',
+                        'widget://image/refresh/loading3.png',
+                        'widget://image/refresh/loading4.png',
+                    ]
+                }
+            }, function(ret, err) {
+              //console.log('loading=================================>');
+               get_weixiu_list();
+               setTimeout('api.refreshHeaderLoadDone()', '1000');
+               //get_spike_time();
+
+            });
+			//上拉加载
+         api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 50 //距离底部距离
+            }
+        }, function(ret, err) {
+            console.log("上拉加载");
+
+      if(data_goods!=null){
+//    		api.toast({
+//	                  msg: '没有更多了',
+//	                  duration: 2000,
+//	                  location: 'bottom'
+//	                });
+        if(data_goods.length<5){
+        api.toast({
+	                  msg: '没有更多了',
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+              }else{
+                start+=5;
+
+          setTimeout('get_weixiu_list()', '3000');
+            }
+         }
+        });
+
+		};
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		function goBack() {
+			api.closeWin();
+		}
+		function get_weixiu_list(){
+			api.ajax({
+					url : URL + 'index.php?app=appmachine&act=get_gj_list',
+					method : 'post',
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							userId : userId,
+							start:start
+						}
+					}
+				}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+					if (ret.done) {
+						data_goods=ret.retval;
+						var lbt = "";
+						$("#tt").html("");
+						$.each(ret.retval, function(index, value) {
+							lbt += '<div class="alertItem index1">';
+							lbt += '<div class="itemDis">';
+							lbt += '<div class="itemHead">';
+							lbt += '<div class="aletState">告警</div>';
+							lbt += '<div class="itemName">' + value.machine_name + '</div></div>';
+							lbt += '<div class="itemTime"><span class="time1">'+value.add_time+'</span><span class="time2"></span></div>';
+							lbt += '</div>';
+							if(value.state==2||value.state==1||value.state==0){
+								lbt += '<div class="itemHandle alread">已处理</div>';
+							}else{
+								lbt += '<div class="itemHandle rightNow">立即处理</div>';
+							}
+							lbt += '</div>';
+						})
+						$("#tt").html(lbt);
+					} else {
+						data_goods=null;
+						$("#tt").html('');
+						$(".null").removeClass("hide");
+					};
+				});
+
+
+
+    }
+
+    function copyHref(){
+      var content=$("#invite_code").text();
+      var clipBoard = api.require('clipBoard');
+      clipBoard.set({
+        value: content
+      }, function(ret, err) {
+        if (ret) {
+          MyToast('复制成功');
+        }else{
+          MyToast('复制失败');
+        }
+      });
+    }
+	</script>
+</html>

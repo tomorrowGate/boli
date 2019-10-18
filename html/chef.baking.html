@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.baking.css" />
+    <title>烘焙</title>
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部 -->
+        <header class="page-head">
+            <div class="back" onclick="goBack()" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>烘焙</span>
+            </div>
+        </header>
+        <!-- 头部搜索 -->
+        <div class="search-head">
+            <div class="search-main">
+                <i class="iconfont icon-search"></i>
+                <input class="search-virtual" placeholder="搜索教学、用户、内容" tapmode>
+                </input>
+            </div>
+            <div class="search-real" @click="search(str)">搜索</div>
+        </div>
+        <!-- 教学内容 -->
+        <div class="teaching-recommend-card">
+            <div class="teaching-card-item forum-item" @click="goVideoDet(id)">
+                <div class="forum-item-imgbox">
+                    <span class="forum-item-tagtop forum-item-pay">付费</span>
+                    <img src="" alt="">
+                </div>
+                <div class="forum-item-explain">
+                    <p class="forum-explain-title">中国菜肴的八种烹饪方法</p>
+                    <div class="forum-explain-foot">
+                        <div class="forum-foot-explain">
+                            <i class="iconfont"></i>
+                            <span class="forum-foot-name">周伯通</span>
+                            |
+                            <span class="forum-foot-level">国家一级厨师</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="../script/api.js"></script>
+    <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+    <script type="text/javascript" src="../script/lib/vue.min.js"></script>
+    <script type="text/javascript">
+        $(function () {//消除300ms点击延迟
+            FastClick.attach(document.body);
+        });
+        apiready = function () {
+            URL = $api.URL();
+            m_id = api.pageParam.m_id;
+            var header = $api.dom('header');
+            //适配iOS 7+，Android 4.4+状态栏
+            headerH = $api.fixStatusBar(header);
+        }
+
+        var wrap = new Vue({
+            el: "#wrap",
+            data: {
+                
+            },
+            methods: {
+                search:function search(str){
+                    api.ajax({
+                        url: 'ajax_url',
+                        method: 'post',
+                        timeout: 30,
+                        dataType: 'json',
+                        returnAll:false
+                    },function(ret,err){
+                        if (ret) {
+                            // TODO 
+                        } else {
+                            api.alert({
+                                msg:('错误码：'+err.code+'；错误信息：'+err.msg+'网络状态码：'+err.statusCode)
+                            });
+                        };
+                    });
+                },
+                goVideoDet: function goVideoDet(id){
+                    api.openWin({
+                        name: 'chef.instructional',
+                        url: './chef.instructional.html',
+                        bounces: false,
+                        pageParam: {key : 'value'}
+                    });
+                }
+            },
+            created: function created() {
+
+            },
+            mounted: function mounted() {
+
+            },
+        })
+
+        //返回上一页
+        function goBack() {
+            api.closeWin();
+        }
+    </script>
+</body>
+
+</html>

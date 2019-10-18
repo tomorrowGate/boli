@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/shipping.css" />
+		<style>
+			html, body {
+				background-color: #efefef;
+			}
+			header {
+				height: 50px;
+				line-height: 50px;
+				width: 100%;
+				margin-bottom: 5px;
+			}
+			.head-center {
+				text-align: center;
+			}
+			.con {
+				width: 85%;
+				margin: 15px auto;
+				padding: 3px 15px;
+				background-color: #fff;
+				border-radius: 10px;
+			}
+			.con > div:not(:nth-of-type(2)) {
+				/* box-shadow: 2px 2px 2px #ccc; */
+				border-radius: 5px;
+				padding: 8px 15px;
+				font-size: 15px;
+			}
+			.con .itemNum {
+				height: 30px;
+				line-height: 30px;
+				color: #0b93eb;
+			}
+			.devAlert {
+				height: 86px;
+				background-color: #0b93eb;
+				padding: 15px;
+				color: #fff;
+				box-sizing: border-box;
+			}
+			.alertMsg {
+				font-size: 18px;
+				height: 30px;
+			}
+			.alertAdvice {
+				font-size: 14px;
+				height: 30px;
+				line-height: 30px;
+			}
+			.devItem {
+				display: flex;
+				height: auto;
+				padding: 3px 15px;
+				flex-direction: column;
+				justify-content: space-around;
+				background-color: #fff;
+				border-radius: 10px;
+				margin: 0px auto;
+				font-size: 14px;
+			}
+			.itemHead {
+				display: flex;
+				justify-content: flex-start;
+				font-size: 16px;
+				color: #0b93eb;
+			}
+			.itemCon {
+				font-size: 15px;
+			}
+			.device {
+				color: #0b93eb;
+			}
+			.key {
+				margin-right: 10px;
+			}
+			.devItem .key, .zero tr:nth-child(1) {
+				color: #bbb;
+			}
+			.serPeople {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				height: 60px;
+				margin-bottom: 15px;
+			}
+			.serPeople .key {
+				color: #0b93eb;
+			}
+			.hadSer {
+				height: 20px;
+				width: 50%;
+				line-height: 20px;
+				margin: 30px auto;
+				padding: 5px 10px;
+				border-radius: 15px;
+				background-color: #0b93eb;
+				color: #fff;
+				text-align: center;
+			}
+			.pop {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background-color: rgba(0,0,0,0.5);
+			}
+			.tips {
+				position: fixed;
+				width: 300px;
+				height: 100px;
+				padding: 7px 15px;
+				background-color: #fff;
+				border-radius: 10px;
+				top: calc(50% - 50px);
+				left: calc(50% - 165px);
+			}
+			.tipsHead {
+				text-align: center;
+				height: 30px;
+				line-height: 30px;
+				margin-bottom: 10px;
+				color: #0b93eb;
+			}
+			.zero {
+				font-size: 14px;
+				text-align: center;
+			}
+			.zero tr  td:not(:nth-of-type(1)) {
+				padding-left: 6px;
+			}
+			.zero tr:not(:nth-of-type(1)) {
+				/*border:1px solid red;*/
+				height: 25px;
+				line-height: 25px;
+				/*padding-top:10px;*/
+			}
+			/* .td1{
+			 border:1px solid red;
+			 margin-top:-10px;
+			 } */
+			.submit {
+				width: 15%;
+				height: 15px;
+				line-height: 15px;
+				border: 1px solid #0b93eb;
+				color: #fff;
+				background-color: #0b93eb;
+				margin: 0 auto;
+				text-align: center;
+				margin-bottom: 12px;
+			}
+			.c_check {
+				width: 16px;
+				height: 16px;
+				float: left;
+				color: #fff;
+			}
+			input[type='checkbox'] {
+				-webkit-appearance: checkbox;
+			}
+			/*{
+			 vertical-align: middle;
+			 width: 20px;
+			 height: 26px;
+			 -webkit-appearance: none;
+			 outline: 0 !important;
+			 display: inline-block;
+			 background: url("../image/uncheck.png") no-repeat center;
+			 background-size: 16px 16px;
+			 position: relative;
+			 top:-2px;
+			 }
+			 input[type='checkbox']:checked{
+			 background: url("../image/checked.png") no-repeat center;
+			 background-size: 16px 16px
+			 } */
+			.devItem .reason:nth-child(1) span:nth-child(2), .aa {
+				padding-left: 1em;
+			}
+			.reason-hide .reason {
+				margin: 10px 0;
+			}
+			.reason-hide .reason .reasonVal {
+				padding: 4px;
+				vertical-align: top;
+				border: 1px solid #ddd;
+			}
+			.con textarea {
+				padding: 4px;
+				width: 85%;
+				vertical-align: top;
+				border: 1px solid #ddd;
+				margin-left: 15px;
+				margin-bottom: 8px;
+			}
+			.reason-hide .dev-infosub {
+				display: flex;
+				margin: auto;
+				width: 80px;
+				height: 30px;
+				line-height: 20px;
+				justify-content: space-around;
+				color: #fff;
+				background-color: #0b93eb;
+				border-radius: 10px;
+			}
+			select {
+				appearance: none;
+				-moz-appearance: none;
+				-webkit-appearance: none;
+				background-color: #0b93eb;
+				color: #fff;
+				border: solid 1px #0b93eb;
+				vertical-align: middle;
+				margin-left: 10px;
+			}
+			/*.zero span,.zeronext span{
+			 font-size:14px;
+			 }
+			 .zero span:not(:nth-of-type(1)),.zeronext span:not(:nth-of-type(1)){
+			 padding-left:14px;
+			 } */
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="head-center">
+				<span >维修详情</span>
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div class="con">
+			<!--用户信息-->
+			<div class="itemNum">
+				<i class="iconfont icon-qianbi my_icon3"></i>
+				<span class="itemNumKey">用户信息</span>
+			</div>
+			<div class="devItem">
+				<div class="reason">
+					<span class="reasonKey key">用户名</span>
+					<span class="reasonVal" id="user_name"></span>
+				</div>
+				<div class="reason">
+					<span class="reasonKey key">手机号码</span>
+					<span class="reasonVal" id="tele"></span>
+				</div>
+				<div class="reason">
+					<span class="reasonKey key">联系地址</span>
+					<span class="reasonVal" id="lixi_address"></span>
+				</div>
+				<div class="preTime">
+					<span class="preTimeKey key">上门时间</span>
+					<span class="preTimeVal" id="yy_time"></span>
+				</div>
+			</div>
+		</div>
+		<div class="con">
+			<!--设备信息-->
+			<div class="itemNum">
+				<i class="iconfont icon-qianbi my_icon3"></i>
+				<span class="itemNumKey">设备信息</span>
+			</div>
+			<div class="devItem">
+				<div class="reason-hide hide" id="sz">
+				<div class="reason">
+						<span class="reasonKey key">设备编码</span>
+						<input type="text" name="devName" id="devCode" class="reasonVal" placeholder="输入设备编码，必填">
+					</div>
+					<div class="reason">
+						<span class="reasonKey key">设备名称</span>
+						<input type="text" name="devName" id="devName" class="reasonVal" placeholder="输入设备名称，选填">
+					</div>
+
+					<button class="dev-infosub" onclick="sz()">
+						设置
+					</button>
+				</div>
+				<div class="reason-show">
+					<div class="reason" id="sbm_div">
+						<span class="reasonKey key">设备名</span>
+						<span class="reasonVal" id="equip_name"></span>
+					</div>
+					<div class="reason" id="sbbm_div">
+						<span class="reasonKey key">设备码</span>
+						<span class="reasonVal aa" id="equip_id"></span>
+					</div>
+					<div class="reason" id="SIM">
+						<span class="reasonKey key">A眼SIM</span>
+						<span class="reasonVal aa" id="sim_id"></span>
+					</div>
+					<div class="reason" id="B_SIM">
+						<span class="reasonKey key">B眼SIM</span>
+						<span class="reasonVal aa" id="b_sim_id"></span>
+					</div>
+					<div class="reason">
+						<span class="reasonKey key">故障编码</span>
+						<span class="reasonVal" id="error_num"></span>
+					</div>
+					<div class="reason">
+						<span class="reasonKey key">故障原因</span>
+						<span class="reasonVal" id="error_reason"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="con" id="breakreason">
+			<div class="itemNum">
+				<i class="iconfont icon-qianbi my_icon3"></i>
+				<span class="itemNumKey">故障原因</span>
+			</div>
+			<div class="reason">
+				<textarea name="inputReason" id="inputReason" class="reasonVal" cols="30" rows="5" placeholder="输入故障原因"></textarea>
+			</div>
+		</div>
+		<div class="con" id="handlecase">
+			<div class="itemNum">
+				<i class="iconfont icon-qianbi my_icon3"></i>
+				<span class="itemNumKey">解决方案</span>
+			</div>
+			<div class="reason">
+				<textarea name="inputcase" id="inputcase" class="reasonVal" cols="30" rows="5" placeholder="输入解决方案"></textarea>
+			</div>
+		</div>
+		<div  class="con">
+			<!--零配信息-->
+			<div class="itemNum">
+				<i class="iconfont icon-qianbi my_icon3"></i>
+				<span class="itemNumKey">零配件分类</span>
+				<span class="itemNumValue" id="kinds">
+					<select id="tabs">
+						<!--  <option value ="1">1</option>
+						<option value ="2">2</option> -->
+					</select> </span>
+			</div>
+			<div class="devItem" id="zero-0">
+				<table class="zero" id="zero-1">
+					<tr>
+						<td>选择</td><td>零配件名称</td><td>零配件数量</td><td>零配件种类</td>
+					</tr>
+					<tr class="td1">
+						<td>
+						<input type="checkbox" class="c_check" name="zero" id="" value="" />
+						</td><td></td><td></td><td></td>
+					</tr>
+					<tr class="td1">
+						<td>
+						<input type="checkbox" class="c_check" name="zero" id="" value="" />
+						</td><td></td><td></td><td></td>
+					</tr>
+				</table>
+			</div>
+			<div class="devItem" id="zero-1" style="display:none;">
+				<table class="zero">
+					<tr>
+						<td>选择</td><td>零配件名称</td><td>零配件数量</td><td>零配件种类</td>
+					</tr>
+					<tr>
+						<td>
+						<input type="checkbox" class="c_check" name="zero" id="" value="" />
+						</td><td></td><td></td><td></td>
+					</tr>
+				</table>
+			</div>
+			<div class="submit" onclick="tj()">
+				提交
+			</div>
+			<!-- <div class="devItem"id="zero-1" style="display:none;margin-top: 4px;">
+			<div class="reason">
+			<span class="reasonKey key">设备名</span>
+			<span class="reasonVal" id="equip_name">aaaa</span>
+			</div>
+			<div class="reason">
+			<span class="reasonKey key">设备码</span>
+			<span class="reasonVal" id="equip_id">1234567889</span>
+			</div>
+			<div class="reason">
+			<span class="reasonKey key">故障编码</span>
+			<span class="reasonVal" id="error_num">aaa1234567889</span>
+			</div>
+			<div class="reason">
+			<span class="reasonKey key">故障原因</span>
+			<span class="reasonVal" id="error_reason">aaa1234567889</span>
+			</div>
+			</div> -->
+			<!-- <div class="serPeople" id="tt1">
+			<div class="serPeo">
+			<span class="serPeoKey key">维修员</span>
+			<span class="serPeoVal val" id="">张大棕</span>
+			</div>
+			<div class="Tel">
+			<span class="telKey key">联系电话</span>
+			<span class="telVal val" id="phone_mob">18267265620</span>
+			</div>
+			</div> -->
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript" src="../script/lib/template.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		var URL = "";
+		var id = 0;
+		var machine_id = 0;
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		apiready = function() {
+			id = api.pageParam.id;
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			headerH = $api.fixStatusBar(header);
+			var li = $("#tabs");
+			var option = $("#tabs option");
+			var len = option.length;
+			//$("#zero-2").hide();
+			li.change(function() {
+				var t = li.get(0).selectedIndex;
+				for (var i = 0; i < len; i++) {
+					if (t == i) {
+						$("#zero-" + t).show();
+					} else {
+						$("#zero-" + i).hide();
+					}
+					if (t == 0) {
+						$('#zero' + i).show();
+					}
+				}
+			})
+			get_info();
+		};
+		function goBack() {
+			api.closeWin()
+		}
+
+		function get_info() {
+			api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=get_weixiu_info',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						id : id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					var data_weixiu_info = ret.retval[0];
+					console.log(JSON.stringify(data_weixiu_info));
+					var parts_type = ret.retval[1];
+					//用户信息
+					$("#user_name").html(data_weixiu_info.real_name);
+					$("#tele").html(data_weixiu_info.phone_mob);
+					$("#lixi_address").html(data_weixiu_info.region_name + data_weixiu_info.address);
+					$("#yy_time").html(formatDateTime(data_weixiu_info.yy_time));
+					//设备信息
+					if (!data_weixiu_info) {
+					} else {
+						machine_id = data_weixiu_info.machine_id;
+						if (data_weixiu_info.addr_id == null || data_weixiu_info.addr_id == "") {
+							$("#sz").removeClass("hide");
+							$("#sbm_div").addClass("hide");
+							$("#sbbm_div").addClass("hide");
+						} else {
+							$("#equip_name").html(data_weixiu_info.machine_name);
+							$("#equip_id").html(data_weixiu_info.addr_id);
+						}
+						$("#error_num").html(data_weixiu_info.cause_id);
+						$("#error_reason").html(data_weixiu_info.cause);
+						$("#inputReason").val(data_weixiu_info.cause_text);
+						$("#inputcase").val(data_weixiu_info.solution);
+						if (data_weixiu_info.B_SIM == null || data_weixiu_info.B_SIM == "" | data_weixiu_info.B_SIM == undefined) {
+							$("#B_SIM").css('display', 'none');
+							$("#b_sim_id").html(data_weixiu_info.B_SIM);
+						} else {
+							$("#B_SIM").css('display', 'block');
+							$("#b_sim_id").html(data_weixiu_info.B_SIM);
+						}
+							$("#sim_id").html(data_weixiu_info.SIM);
+					}
+					//零配件分类
+					var str = '';
+					$.each(parts_type, function(i, item) {
+						if (i == 0) {
+							get_parts(item.cate_id);
+						}
+						str += '<option value ="' + item.cate_id + '">' + item.cate_name + '</option>';
+					});
+					$("#tabs").html(str);
+					if (data_weixiu_info.parts != null && data_weixiu_info.parts != "") {
+						arr = data_weixiu_info.parts.split(",");
+						//alert(arr);
+					}
+				} else {
+				}
+			});
+		}
+
+		function get_parts(part_id) {
+			//alert(part_id);
+			api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=qh_parts',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						id : part_id
+					}
+				}
+			}, function(ret, err) {
+				//console.log(JSON.stringify(ret));
+				if (ret.done) {
+					//零配件
+					//$("#tabs").html("");
+					var str = '';
+					str += '<table class="zero">';
+					str += '<tr><td>选择</td><td>零配件名称</td><td>零配件厂家</td><td>零配件价格</td></tr>';
+					$.each(ret.retval, function(i, item) {
+						str += '<tr><td><input type="checkbox" class="c_check" name="zero" id="' + item.id + '" value="' + item.id + '" /></td><td>' + item.part_name + '</td><td>' + item.factory + '</td><td>&yen;' + item.price + '</td></tr>';
+					});
+					str += '</table>';
+					$("#zero-1").html(str);
+					//给单选框赋值
+					$.each(arr, function(i, item) {
+						$("#" + item).prop("checked", true);
+					});
+					$(".c_check").click(function() {
+						var div_id = $(this).attr('id').replace('checkbox', 'div');
+						if ($(this).prop("checked") == true) {
+							//alert("选中");
+							arr.push($(this).val());
+						} else {
+							//alert("取消选中");
+							arr.splice($.inArray($(this).val(), arr), 1);
+						}
+					});
+				} else {
+				}
+			});
+		}
+
+		//切换类型
+		$("#tabs").change(function() {
+			var opt = $("#tabs").val();
+			get_parts(opt);
+		});
+		//提交
+		var arr = [];
+		function tj() {
+			var part_data = '';
+//			if (machine_id == null || machine_id == 0) {
+//				api.toast({
+//					msg : '先把上面的信息填了',
+//					duration : 2000,
+//					location : 'middle'
+//				});
+//				return;
+//			}
+			if (arr.length <= 0) {
+				//          	api.toast({
+				//                  msg: '您忘记选零配件了！',
+				//                  duration: 2000,
+				//                  location: 'middle'
+				//     			});
+				//     			return;
+				part_data = "";
+			} else {
+				part_data = arr.join();
+			}
+			var inputReason = $("#inputReason").val();
+			var inputcase = $("#inputcase").val();
+			//存
+			api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=edit_weixiu',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						part_str : part_data,
+						weixiu_id : id,
+						inputReason : inputReason,
+						inputcase : inputcase
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					api.toast({
+						msg : ret.retval,
+						duration : 2000,
+						location : 'middle'
+					});
+					goZeroDetail(id);
+				} else {
+					api.toast({
+						msg : ret.msg,
+						duration : 2000,
+						location : 'middle'
+					});
+				}
+			});
+		}
+
+		//
+		//		 var $goodCart = $(".c_check");
+		//		$.each($goodCart,function(index,value){
+		//        value.addEventListener("click",function(e){
+		//            if(e.target.checked === true&&btn){
+		//              this.canClick = true;
+		//              btn = false;//控制大盒子能否点击
+		//            }
+		//            //如果点击目标有checked属性，并且点击目标的canclick属性不为true，那就alert
+		//            if("checked" in e.target){
+		//              if(this.canClick){
+		//                if($(this).find(".c_check:checked").length===0){
+		//                  this.canClick=false;
+		//                  btn=true;
+		//                }
+		//                console.log(btn,"能结算")
+		//              }
+		//              else{
+		//                e.target.checked=false
+		//                console.log(btn,"bu能结算")
+		//              }
+		//            }
+		//          })
+		//      })
+		function goZeroDetail(data) {
+			api.openWin({
+				name : 'zeroDetail',
+				url : './zeroDetail.html',
+				bounces : false,
+				reload : true,
+				animation : {
+					type : 'push',
+					subType : 'from_right',
+					duration : 300 //动画过渡时间，默认300毫秒
+				},
+				pageParam : {
+					data : data
+				}
+			});
+		}
+
+		//设备没有名称和没有编码时设置
+		function sz() {
+			if (machine_id == null) {
+				machine_id = 0;
+			}
+			var machine_name = $("#devName").val();
+			var addr_id = $("#devCode").val();
+//			if (machine_name == "" || machine_name == null) {
+//				api.toast({
+//					msg : "请给设备取个名称",
+//					duration : 2000,
+//					location : 'middle'
+//				});
+//				return;
+//			}
+			if (addr_id == "" || addr_id == null) {
+				api.toast({
+					msg : "请输入设备编码",
+					duration : 2000,
+					location : 'middle'
+				});
+				return;
+			}
+			api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=sz_weixiu',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						machine_id : machine_id,
+						machine_name : machine_name,
+						addr_id : addr_id,
+						weixiu_id : id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					api.toast({
+						msg : ret.retval,
+						duration : 2000,
+						location : 'middle'
+					});
+					window.location.reload();
+				} else {
+					api.toast({
+						msg : ret.msg,
+						duration : 2000,
+						location : 'middle'
+					});
+				}
+			});
+		}
+
+		//时间戳转换
+		function formatDateTime(timeStamp) {
+			var date = new Date();
+			date.setTime(timeStamp * 1000);
+			var y = date.getFullYear();
+			var m = date.getMonth() + 1;
+			m = m < 10 ? ('0' + m) : m;
+			var d = date.getDate();
+			d = d < 10 ? ('0' + d) : d;
+			var h = date.getHours();
+			h = h < 10 ? ('0' + h) : h;
+			var minute = date.getMinutes();
+			var second = date.getSeconds();
+			minute = minute < 10 ? ('0' + minute) : minute;
+			second = second < 10 ? ('0' + second) : second;
+			//return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+			return y + "-" + m + "-" + d;
+		};
+	</script>
+</html>

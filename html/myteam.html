@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的团队</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/myteam.css">
+
+    <style>
+
+    </style>
+</head>
+<body>
+	<header>
+  <div class="header">我的团队</div>
+  <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+</header>
+	<div id="wrap" class="flex-wrap flex-vertical">
+	<!--头部-->
+
+	<div class="case2">
+	    <div class="my_info clearfix">
+        <div class="info_l"><img src="../image/default_portrait.png"  class="portrait" id="portrait"></div>
+        <div class="info_m">
+          <div class="info1"><span id="user_name">未登录</span><img src="../image/male.png" class="img2 xb" id="sex" /><span class="jb" id="level">会员等级</span></div>
+          <div><span class="border-w">邀请码:<span id="invite_code"></span></span><span class="border-b" onclick="copyHref()" tapmode>复制</span></div>
+          <div class="xfe">我的本月消费额：<span id="xfe">0</span></div>
+        </div>
+      </div>
+
+	<!--会员栏-->
+
+	<div class="case1">
+	<div class="r">
+	<div class="yjhy block" id="yjhy">商界新秀</div>
+	<div class="ejhy" id="ejhy">商界名流</div>
+	</div>
+	<!--会员类别-->
+	<div class="case clearfix" id="vip">
+    <div id="vip1">
+     <div class="r1">直属伙伴(人)<br><span id="zshb" class="sz">0</span></div>
+     <div class="r1">当月销售额(元)<br><span id="dyxse" class="sz">0</span></div>
+    </div>
+    <div  id="vip2" class="vip2 hide">
+     <div class="r1">直属伙伴(人)<br><span id="zshb2" class="sz">0</span></div>
+     <div class="r1 le2" id="le2" onclick="goConsumecircle()" tapmod>合格消费圈(人)<br><span id="hgxfq" class="sz">0</span></div>
+     <div class="r1">当月销售额(元)<br><span id="dyxse2" class="sz">0</span></div>
+    </div>
+  </div>
+
+
+	<div class="r2"><input type="text" placeholder="搜索" class="ss" /><i class="iconfont icon-search"></i></div>
+</div>
+	</div>
+</div>
+	<!--会员详细栏-->
+	<div class="hyxx" id="hyxx">
+    <div class="team_member clearfix hide" onclick="goMymember()" tapmode>
+      <img src="../image/default_portrait.png" class="portrait1">
+      <div class="member_info">
+        <p>会员昵称<img src="../image/male.png" class="img2 xb"/></p>
+        <p class="font_s2">
+          <span class="default_color2">邀请码:xxxxxxxxx</span>
+          <span class="tel"><i class="iconfont icon-tel default_color1"></i>xxxxxxxxxxx</span>
+        </p>
+      </div>
+    </div>
+	</div>
+
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+    var page;
+    var URL="";
+    var userId=window.localStorage.getItem("userId"); //用户id
+    //返回上一页
+      var goBack=function(){
+          api.closeWin();
+      }
+    //一二级会员切换
+    $("#yjhy").click(function(){
+        $('#yjhy').addClass('block');
+        $('#ejhy').removeClass('block');
+        $('#vip1').removeClass('hide');
+        $('#vip2').addClass('hide');
+        page=1;
+        getVIP('1');
+
+    });
+    $("#ejhy").click(function(){
+        $('#yjhy').removeClass('block');
+        $('#ejhy').addClass('block');
+        $('#vip2').removeClass('hide');
+        $('#vip1').addClass('hide');
+        page=1;
+        getVIP('2');
+
+    });
+
+	apiready = function(){
+		var header = $api.dom('header'); // 获取 header 标签元素
+		headerH = $api.fixStatusBar(header);
+    URL=$api.URL();
+ //获取我的基本信息
+	if (window.localStorage.getItem('portrait')) {
+   var  portrait=window.localStorage.getItem('portrait');
+    if(portrait.substr(0,7).toLowerCase() == "http://"){
+      $api.attr($api.byId('portrait'),'src',portrait);
+      }else{
+        $api.attr($api.byId('portrait'),'src',URL+portrait);
+     }
+     }
+  $api.html( $api.byId("user_name"),window.localStorage.getItem('real_name'));
+  if(localStorage.getItem('gender')=='1'){
+           $api.attr($api.byId('sex'),'src','../image/female.png');
+  }
+  $api.html( $api.byId("level"),window.localStorage.getItem('level_name'));
+  $api.html( $api.byId("invite_code"),window.localStorage.getItem('invite_code'));
+  //获取我的本月销费额
+  getInfo();
+	getVIP('1');
+	};
+
+   //获取基本信息
+	 //获取用户信息
+		 function getInfo(){
+						api.ajax({
+							url : URL + 'index.php?app=myinfo&act=get_info',
+											method : 'post',
+											cache : false,
+											timeout : 30,
+											dataType : 'json',
+											returnAll : false,
+											data : {
+															values : {
+																		user_id:userId
+																		 }
+														 }
+						},function(ret,err){
+						console.log(JSON.stringify(ret));
+					if(ret.done){
+						// $api.html($api.byId("user_name"), ret.retval.real_name);
+						// $api.html($api.byId("level"), ret.retval.level_name);
+						// $api.html($api.byId("invite_code"), ret.retval.invite_code);
+						// $api.attr($api.byId("portrait"),'src',ret.retval.portrait);
+						// if(ret.retval.gender=1){
+		        //   $api.attr($api.byId("gender"),'src','../image/female.png');
+		        // }
+						$api.html($api.byId("xfe"), ret.retval.byxse);
+						 $.each(ret.retval.xjsl, function(i, item) {
+              if(item.ugrade==0){
+                $api.html($api.byId("zshb"), item.counts);
+              }else if(item.ugrade==1){
+                $api.html($api.byId("zshb2"), item.counts);
+              }
+
+						 });
+					}else{
+						api.toast({
+							msg: '失败',
+							duration: 2000,
+							location: 'middle'
+						});
+					}
+					if(err){
+						api.toast({
+							msg: err.msg,
+							duration: 2000,
+							location: 'middle'
+						});
+					}
+						});
+						}
+
+  //获取会员信息
+     function getVIP(level){
+            api.ajax({
+              url : URL + 'index.php?app=myinfo&act=get_team',
+                      method : 'post',
+                      cache : false,
+                      timeout : 30,
+                      dataType : 'json',
+                      returnAll : false,
+                      data : {
+                              values : {
+                                  user_id:userId
+                                     }
+                             }
+            },function(ret,err){
+            console.log(JSON.stringify(ret));
+          if(ret.done)
+          {
+						page+=1;
+            var data;
+            if(level=='1'){
+              data=ret.retval.xingxiu;
+            }else{
+              data=ret.retval.mingliu;
+            }
+            $api.html($api.byId("dyxse"), ret.retval.xingxiu_byxse);
+						$api.html($api.byId("dyxse2"), ret.retval.mingliu_byxse);
+       //      if(data.length==0){
+							// api.toast({
+	      //         msg: '无更多会员',
+	      //         duration: 2000,
+	      //         location: 'bottom'
+	      //       });
+
+       //      } else{
+            /* page+=1;*/
+             console.log(ret.retval.xingxiu.level_name);
+             $.each(data, function(i, item) {
+              console.log(i);
+                var str='<div class="team_member clearfix">';
+                if(item.portrait!==''&&item.portrait!==null&&item.portrait!==undefined){
+                   str+='<img src="'+item.portrait+'" class="portrait1">';
+                }else{
+                   str+='<img src="../image/default_portrait.png" class="portrait1">';
+                }
+                   str+='<div class="member_info">';
+                   if(item.gender=='1'){
+                      str+='<p>'+item.real_name+'<img src="../image/female.png" class="img2 xb"/></p>';
+                   }else{
+                      str+='<p>'+item.real_name+'<img src="../image/male.png" class="img2 xb"/></p>';
+                   }
+                   str+='<p class="font_s2">';
+                   str+='<span class="default_color2">邀请码:'+item.invite_code+'</span>';
+                   str+='<span class="tel"><i class="iconfont icon-tel default_color1"></i>'+item.phone_mob+'</span>';
+                   str+='</p>';
+                   str+='</div>';
+                   str+='</div>';
+                   if(i==0&&page==2){
+										 $api.html($api.byId("hyxx"), str);
+									 }else{
+										 $api.append($api.byId("hyxx"), str);
+									 }
+
+
+              });
+             api. addEventListener({  //监控页面滚动距离底部10距离时触发事件
+                          name:'scrolltobottom',
+                          extra:{
+                             threshold:10     //当事件为scrolltobottom时，设置距离底部多少距离时触发事件
+                          }
+                        }, function(ret, err){
+                          //调用加载更多
+                         getVIP(level);
+                      });
+           // }
+          }else{
+            api.toast({
+              msg: '暂无会员',
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+        });
+      }
+      //跳转团员详细页面
+    function goMyteam(){
+       api.openWin({
+        name: 'mymember',
+        url: './mymember.html',
+        bounces: false,
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        },
+        pageParam: {
+            member_id: member_id //通过var orderState=api.pageParam.orderState; 调用
+          }
+      });
+    }
+    //跳转合格消费圈页面
+    function goConsumecircle(){
+       api.openWin({
+        name: 'consumecircle',
+        url: './consumecircle.html',
+        bounces: false,
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+    }
+     //复制邀请码
+   function copyHref(){
+     var content=$("#invite_code").text();
+     var clipBoard = api.require('clipBoard');
+     clipBoard.set({
+       value: content
+     }, function(ret, err) {
+       if (ret) {
+         api.toast({
+           msg: '复制成功',
+           duration: 2000,
+           location: 'bottom'
+         });
+       }else{
+         api.toast({
+           msg: '复制失败',
+           duration: 2000,
+           location: 'bottom'
+         });
+       }
+     });
+   }
+</script>
+</html>

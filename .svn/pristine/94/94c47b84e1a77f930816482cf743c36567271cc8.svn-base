@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品分类</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.classify.css" />
+</head>
+
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>商品分类</span>
+        </div>
+    </header>
+    <!-- 商品分类 -->
+    <div class="classify">
+        <!-- 商品分类导航 -->
+        <div class="classifyNav">
+            <div class="classifyItem">厨店好物</div>
+            <div class="classifyItem">烹饪必备</div>
+        </div>
+        <!-- 商品展示 -->
+        <div class="commodity">
+            <div class="commodityTop">
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>节能灶具</p>
+                </div>
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>冰箱系列</p>
+                </div>
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>制冰机</p>
+                </div>
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>油烟机</p>
+                </div>
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>矮仔炉</p>
+                </div>
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>蒸柜</p>
+                </div>
+            </div>
+            <div class="commodityNext">
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>调味酱</p>
+                </div>
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>五谷杂粮</p>
+                </div>
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>食用油</p>
+                </div>
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>火锅调料</p>
+                </div>
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>酒醋酱油</p>
+                </div>
+                <div class="commodityItem">
+                    <div class="commodityImg">
+                        <img src="" alt="">
+                    </div>
+                    <p>糖盐</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

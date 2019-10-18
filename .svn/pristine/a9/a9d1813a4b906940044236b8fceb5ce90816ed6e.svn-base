@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>新增会员</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+        <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+        <link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+        <style>
+            .con{
+                background-color: #f9f8f8;
+				padding: 10px 0;
+            }
+            .add{
+                /* display: flex; */
+                height: 40px;
+                line-height: 40px;
+                padding:0 10px;
+                color: #6eb92c;
+                background-color: #fff;
+            }
+            .addmember{
+                margin-left: 8px;
+            }
+            .member-info{
+                margin-top: 10px;
+                background-color: #fff;
+            }
+            .member-info .member-type{
+                 display: flex; 
+                 justify-content: space-around;
+                 height: 40px;
+                line-height: 40px;
+                padding:0 10px;
+            }
+            .listitem{
+                padding:20px 10px;
+                background-color: #fff;
+            }
+            .memberkey{
+               
+                height: 40px;
+                line-height: 40px;
+            }
+            .memberkey+.memberkey{
+                border-top:1px solid #eee;
+            }
+            .memberkey input{
+                width: 60%;
+                margin-left: 10px;
+                /* border:1px solid #f00; */
+            }
+            .active{
+                color: #6eb92c;
+            }
+            .active::after{
+                display: block;
+                content: "";
+                border-bottom: 1px solid #6eb92c;
+            }
+            /* input[name="addType"]{
+                width: 20px;
+                height: 20px;
+            } */
+            .sure{
+                display: block;
+                width: 100px;
+                height: 32px;
+                background-color: #6eb92c;
+                color: #fff;
+                border-radius: 16px;
+                margin:30px auto;
+                outline: none;
+            }
+            input:-ms-input-placeholder{
+                font-size: 0.9em;
+            }/* Internet Explorer 10+ */
+            input::-webkit-input-placeholder{
+                font-size: 0.9em;
+            }/* WebKit browsers */
+            input::-moz-placeholder{
+                font-size: 0.9em;
+            } /* Mozilla Firefox 19+ */
+            input:-moz-placeholder{
+                font-size: 0.9em;
+            }/* Mozilla Firefox 4 to 18 */
+        </style>
+    </head>
+    <body>
+        <header>
+			<div class="header">新增</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+        </header>
+        <div class="con">
+            <!-- <div class="add" onclick="add()">
+                <i class="iconfont icon-tianjia"></i>
+                <span class="addmember">新增会员</span>
+            </div> -->
+            <ul class="member-info">
+                <li class="member-type">
+                    <!-- <div class="memberkey">会员名:<input type="text" name="name" id="name" placeholder="请输入姓名"></div>
+                    <div class="memberkey ">手机: <input type="tel" name="tel" id="tel" placeholder="请输入手机"> </div>  -->
+                    <div class="option type1 active" onclick="changetype(0)">
+                        <input type="radio" name="addType" id="terminal" value=0><label for="terminal">终端用户</label> 
+                    </div>
+                    <div class="option type2" onclick="changetype(1)">
+                        <input type="radio" name="addType" id="onelevel" value=1><label for="onelevel">二级代理</label> 
+                    </div>
+                </li>
+            </ul>
+            <ul class="terminal-member">
+                <li class="listitem">
+                    <div class="memberkey">单位名称:<input type="text" name="companyname" id="companyname" placeholder="请输入单位名称"></div>
+                    <div class="memberkey ">单位联系方式: <input type="tel" name="companyTel" id="companyTel" placeholder="请输入单位联系方式"> </div>
+                    <div class="memberkey ">单位地址: 
+                        <span id="area" onclick="selectCity()" tapmod>请选择单位地址</span>
+                    </div> 
+                    <div class="memberkey">详细地址:<input type="text" name="detailedArr" id="detailedArr" placeholder="请输入单位详细地址"></div>
+                    <div class="memberkey">一级联系人:<input type="text" name="connectman" id="connectman" placeholder="请输入一级联系人"></div>
+                    <div class="memberkey ">一级联系人手机: <input type="tel" name="connectmanTel" id="connectmanTel" placeholder="请输入一级联系人联系方式"> </div> 
+                    <div class="memberkey">厨房负责人:<input type="text" name="cookCharge" id="cookCharge" placeholder="请输入厨房负责人"></div>
+                    <div class="memberkey ">厨房负责人手机: <input type="tel" name="cookChargeTel" id="cookChargeTel" placeholder="请输入厨房负责人手机"> </div> 
+                    <div class="memberkey">厨师长:<input type="text" name="headCook" id="headCook" placeholder="请输入厨师长"></div>
+                    <div class="memberkey ">厨师长联系方式: <input type="tel" name="headCookTel" id="headCookTel" placeholder="请输入厨师长联系方式"> </div> 
+                </li>
+            </ul>
+            <ul class="onelevel-member hide">
+                <li class="listitem">
+                    <div class="memberkey">姓名:<input type="text" name="name" id="name" placeholder="请输入姓名"></div>
+                    <div class="memberkey ">身份证: <input type="number" name="id" id="id" placeholder="请输入身份证"> </div> 
+                    <div class="memberkey">代理商名称:<input type="text" name="agent" id="agent" placeholder="请输入代理商"></div>
+                    <div class="memberkey ">所在地:<span id="area2" onclick="selectCity()" tapmod>请选择单位地址</span></div> 
+                    <div class="memberkey">详细地址:<input type="text" name="address" id="address" placeholder="请输入详细地址"></div>
+                    <div class="memberkey">邮政编码:<input type="number" name="postal" id="postal" placeholder="请输入邮政编码"></div>
+                    <div class="memberkey ">手机: <input type="tel" name="tel" id="tel" placeholder="请输入手机号码"> </div> 
+                </li>
+            </ul>
+
+            <button class="sure" onclick="makesure()">确 认</button>
+        </div>
+        
+    </body>
+    <script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+    <script>
+	var userId = window.localStorage.getItem("userId");
+		//用户id
+		var URL;
+		var flag=0;
+		apiready = function() {
+		    URL=$api.URL();
+			var header = $api.dom('header');
+			sgrade = api.pageParam.sgrade;
+			//适配iOS 7+，Android 4.4+状态栏
+			headerH = $api.fixStatusBar(header);
+			
+
+		};
+        //返回上一页
+        function goBack(){
+            api.sendEvent({
+    name: 'memberlist'
+});
+			api.historyBack({
+				//frameName : 'hangqing_view'
+			}, function(ret, err) {
+				if (!ret.status) {
+					api.closeWin();
+				}
+			})
+        }
+
+        function changetype(num){
+            switch (num) {
+                case 0:
+                    $(".type1").addClass("active");
+                    $(".type2").removeClass("active");
+                    $(".onelevel-member").addClass("hide");
+                    $(".terminal-member").removeClass("hide");
+                    flag=0;
+                    break;
+                case 1:
+                	if(sgrade!=1){
+                		api.toast({
+		                  msg: '您没有权限添加二级会员',
+		                  duration: 2000,
+		                  location: 'bottom'
+		                });
+		                break;
+                	}
+                    $(".type1").removeClass("active");
+                    $(".type2").addClass("active");
+                    $(".onelevel-member").removeClass("hide");
+                    $(".terminal-member").addClass("hide");
+                    flag=1;
+                    break;
+            }
+        }
+
+        
+        function telcheck(arr,checkarr){
+            //手机号码验证
+            $.each(arr,function(index,item){
+                if (item.value == "" || item.value == null || item.value == undefined) {
+                    console.log('请输入手机号码')
+                    api.toast({
+                        msg: '请输入手机号码',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    return false;
+                } else if(!(/^1[34578]\d{9}$/.test(item.value))) {
+                    console.log('手机号格式错误')
+                   
+                    api.toast({
+                        msg: '手机号格式错误',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    return false;
+                }else{
+                    checkarr.length++;
+                }
+            })
+           console.log(checkarr.length)
+        }
+        function makesure(){
+            var checkarr=[];
+            var length=0;
+            //console.log($(".terminal-member").find("input[type=tel]").length)
+            if($(".onelevel-member").is('.hide')){
+                telcheck($(".terminal-member").find("input[type=tel]"),checkarr)
+                length=$(".terminal-member").find("input[type=tel]").length
+            }else{
+                telcheck($(".onelevel-member").find("input[type=tel]"),checkarr)
+                length=$(".onelevel-member").find("input[type=tel]").length
+            }
+           
+           /*  telcheck($(".terminal-member").find("input[type=tel]")) */
+          if(checkarr.length === length){
+              console.log(65165)
+              if(flag==0){
+              	add_zd();
+              }
+              if(flag==1){
+              	add_dl2();
+              }
+	       
+          }
+               
+           
+                
+        }
+        
+        function add_zd(){
+        	var phone_mob = $("#companyTel").val();
+	       var region_id = region_id;
+	       var region_name = $("#area").html();
+	       var real_name = $("#companyname").val();
+	       var dead_cook = $("#cookCharge").val();
+	       var cook_phone = $("#cookChargeTel").val();
+	       var kitchen_officer = $("#headCook").val();
+	       var officer_phone = $("#headCookTel").val();
+	       var address=$("#detailedArr").val();
+	       var yjphone_mob = $("#connectman").val();
+	       var contacts=$("#connectmanTel").val();
+            api.ajax({
+                url: URL + 'index.php?app=boli_homepage&act=add_zd',
+                 method: 'post',
+	            timeout: 30,
+	            dataType: 'json',
+	            returnAll: false,
+	            data: {
+	                values: {
+	                  user_id: userId,
+	                    phone_mob : phone_mob,
+				        region_id : region_id,
+				        region_name : region_name,
+				        real_name : real_name,
+				        dead_cook : dead_cook,
+				        cook_phone : cook_phone,
+				        kitchen_officer : kitchen_officer,
+				        officer_phone : officer_phone,
+				        address:address,
+				        yjphone_mob : yjphone_mob,
+				        contacts:contacts,
+	                }
+	            }
+                },function(ret,err){
+                    if (ret.done) {
+                        api.toast({
+		                  msg: ret.retval,
+		                  duration: 2000,
+		                  location: 'bottom'
+		                });
+		                setTimeout("goBack()",3000); 
+                    } else {
+                        api.toast({
+		                  msg: ret.msg,
+		                  duration: 2000,
+		                  location: 'bottom'
+		                });
+                    };
+
+                });
+        }
+        
+        function add_dl2(){
+        	var store_name = $("#name").val();
+	       var owner_name = $("#agent").val();
+	       var owner_card = $("#id").html();
+	       var region_id = region_id2;
+	       var region_name = $("#area2").html();
+	       var address = $("#address").val();
+	       var zipcode = $("#postal").val();
+	       var tel = $("#tel").val();
+
+            api.ajax({
+                url: URL + 'index.php?app=boli_homepage&act=add_dl2',
+                 method: 'post',
+	            timeout: 30,
+	            dataType: 'json',
+	            returnAll: false,
+	            data: {
+	                values: {
+	                  user_id: userId,
+	                    store_name : store_name,
+				        owner_name : owner_name,
+				        owner_card : owner_card,
+				        region_id : region_id2,
+				        region_name : region_name,
+				        address : address,
+				        zipcode : zipcode,
+				        tel : tel,
+	                }
+	            }
+                },function(ret,err){
+                    if (ret.done) {
+                        api.toast({
+		                  msg: ret.retval,
+		                  duration: 2000,
+		                  location: 'bottom'
+		                });
+		                setTimeout(goBack(),5000); 
+                    } else {
+                        api.toast({
+		                  msg: ret.msg,
+		                  duration: 2000,
+		                  location: 'bottom'
+		                });
+                    };
+
+                });
+        }
+
+        //城市选择器
+        var region_id=0;
+        var region_id2=0;
+        
+        function selectCity(){
+            var UIActionSelector = api.require('UIActionSelector');
+       UIActionSelector.open({
+            datas: 'widget://res/city.json',
+            layout: {
+                row: 5,
+                col: 3,
+                height: 30,
+                size: 12,
+                sizeActive: 14,
+                rowSpacing: 5,
+                colSpacing: 10,
+                maskBg: 'rgba(0,0,0,0.2)',
+                bg: '#fff',
+                color: '#666',
+                colorActive: '#f00',
+                colorSelected: '#000'
+            },
+            animation: true,
+            cancel: {
+                text: '取消',
+                size: 12,
+                w: 90,
+                h: 35,
+                bg: '#fff',
+                bgActive: '#ccc',
+                color: '#888',
+                colorActive: '#fff'
+            },
+            ok: {
+                text: '确定',
+                size: 12,
+                w: 90,
+                h: 35,
+                bg: '#fff',
+                bgActive: '#ccc',
+                color: '#888',
+                colorActive: '#fff'
+            },
+            title: {
+                text: '请选择',
+                size: 12,
+                h: 44,
+                bg: '#eee',
+                color: '#888'
+            },
+            fixedOn: api.group1,
+        }, function(ret, err) {
+            if (ret) {
+                console.log(JSON.stringify(ret));
+                 if (ret.eventType=='ok'){
+                 if(flag==0){
+                 	region_id=ret.selectedInfo[2]['id'];
+                 }else{
+                 	region_id2=ret.selectedInfo[2]['id'];
+                 }
+                 
+                  if(ret.level2=='市辖区'||ret.level2=='县'){
+                  if(flag==0){
+                    $api.html($api.byId('area'), ret.level1+'-'+ret.level3 );
+                    }else{
+                    	$api.html($api.byId('area2'), ret.level1+'-'+ret.level3 );
+                    }
+                  }else{
+                  if(flag==0){
+                    $api.html($api.byId('area'), ret.level1+'-'+ret.level2+'-'+ret.level3 );
+                    }else{
+                    	$api.html($api.byId('area2'), ret.level1+'-'+ret.level2+'-'+ret.level3 );
+                    }
+                  }
+                  
+                }
+            } else {
+                console.log(JSON.stringify(err));
+            }
+        });
+       }
+     
+    </script>
+    
+</html>

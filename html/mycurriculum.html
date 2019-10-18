@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>我的课程</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<style>
+			html, body {background-color: #fff;}
+			.hide {display: none;}
+			/*课程*/
+			.part_div{padding:10px 3%;}
+			.nomal_title{ margin-bottom: 10px;border-bottom: 1px solid #f2f2f2;padding: 5px 0; }
+			.my_icon3{ color:#6eb92c; }
+			.content_item{ padding: 10px 0;position: relative;border-bottom: 1px solid #f2f2f2; margin-bottom: 10px; }
+			.portrait_cooker{ width:60px;height:60px;border-radius: 50px; text-align: center;overflow: hidden}
+	        .cooker_info{ height: 60px;line-height: 22px;padding: 8px; }
+	        .cooker_info .master_name{ font-weight: bold;color: #6eb92c; }
+	        .cooker_info p{ margin:0; }
+	        .img1{ height: 100%; }
+	        .img2{  height:20px;margin-left:5px;margin-bottom}
+	        .name{ font-weight: bold }
+	        .tag{ font-size: 0.9em;color:#f37b1b;background-color: #fce1cc;padding:0 5px;border-radius: 3px;text-align: center }
+	        .bottom_btn{ position: absolute;top:32px;right:10px;margin:0; font-size: 0.9em }
+	        .bottom_btn .btn_1{ color:#ee5e53;background-color: #fff ; border: 1px solid #ee5e53;height:26px;line-height: 26px;border-radius: 13px;text-align: center;width:5.3em; }
+	        .article_title{ font-weight: bold;margin:5px 0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical; }
+	        .article_content video{ width:100%; }
+            .article_content img{ width:32%;margin-right:2%; }
+            .article_content img:nth-child(3){ margin-right:0; }
+            
+			
+		</style>
+	</head>
+	<body>
+		<header>
+	      <div class="header">课程</div>
+	      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+	    </header>
+		<div class="part_div clearfix">
+		       <div id="my_curriculum">
+			    <div class="content_item flex cross_middle">
+			        <div class="portrait_cooker"><img src="../image/cooker.png" class="img1 master_portrait"></div>
+			        <div class="cooker_info">
+			          <p><span class="master_name">周伯通</span><img src="../image/ceown_r.png" class="img2"></p>
+			          <span class="tag">师傅</span>
+			          <p class="bottom_btn"><span class="btn_1">学习</span></p>
+			        </div>
+			        <p class="article_title">浙菜大厨王大龙展现刀工绝技巴拉巴拉巴拉！</p>
+                    <div class="article_content"><video src="" controls="controls">您的手机不支持播放该视频格式。</video></div>
+			    </div>
+			    <div class="content_item flex cross_middle">
+			        <div class="portrait_cooker"><img src="../image/cooker.png" class="img1 master_portrait"></div>
+			        <div class="cooker_info">
+			          <p><span class="master_name">周伯通</span><img src="../image/ceown_r.png" class="img2"></p>
+			          <span class="tag">师傅</span>
+			          <p class="bottom_btn"><span class="btn_1">学习</span></p>
+			        </div>
+			        <p class="article_title">做红烧肉要不要油炸？掌握这三点诀窍就可以当大厨</p>
+                    <div class="article_content"><img src="../image/ep1.png"><img src="../image/ep2.png"><img src="../image/ep3.png"></div>
+			    </div>
+			    <div class="content_item flex cross_middle">
+			        <div class="portrait_cooker"><img src="../image/cooker.png" class="img1 master_portrait"></div>
+			        <div class="cooker_info">
+			          <p><span class="master_name">周伯通</span><img src="../image/ceown_r.png" class="img2"></p>
+			          <span class="tag">师傅</span>
+			          <p class="bottom_btn"><span class="btn_1">学习</span></p>
+			        </div>
+			        <p class="article_title">浙菜大厨王大龙展现刀工绝技巴拉巴拉巴拉！</p>
+                    <div class="article_content"><video src="" controls="controls">您的手机不支持播放该视频格式。</video></div>
+			    </div>
+			    <div class="content_item flex cross_middle">
+			        <div class="portrait_cooker"><img src="../image/cooker.png" class="img1 master_portrait"></div>
+			        <div class="cooker_info">
+			          <p><span class="master_name">周伯通</span><img src="../image/ceown_r.png" class="img2"></p>
+			          <span class="tag">师傅</span>
+			          <p class="bottom_btn"><span class="btn_1">学习</span></p>
+			        </div>
+			        <p class="article_title">做红烧肉要不要油炸？掌握这三点诀窍就可以当大厨</p>
+                    <div class="article_content"><img src="../image/ep1.png"><img src="../image/ep2.png"><img src="../image/ep3.png"></div>
+			    </div>
+		    </div>
+		</div>
+		
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/layer.js"></script>
+	<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+	<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);	
+		});		
+		var swiper1 = new Swiper('.swiper1', {
+			slidesPerView : 'auto',
+			spaceBetween : 10,
+			loop : false,
+			autoplay : false
+		});
+		var URL = "";
+		//返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+            //适配iOS 7+，Android 4.4+状态栏
+            $api.fixStatusBar(header);
+			api.refreshHeaderLoading();
+			$('.swiper-wrapper').on('touchstart', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group2',
+					scrollEnabled : false
+				});
+			});
+			$('.swiper-wrapper').on('touchend', function(e) {
+				api.setFrameGroupAttr({
+					name : 'group2',
+					scrollEnabled : true
+				});
+			});
+			//下拉刷新
+	        api.setCustomRefreshHeaderInfo({
+	            bgColor: '#F6F6F6',
+	            images: {
+	                pull: 'widget://image/refresh/pulling.png',
+	                transform: [
+	                    'widget://image/refresh/transform0.png',
+	                    'widget://image/refresh/transform1.png',
+	                    'widget://image/refresh/transform2.png',
+	                    'widget://image/refresh/transform3.png',
+	                    'widget://image/refresh/transform4.png',
+	                    'widget://image/refresh/transform5.png',
+	                    'widget://image/refresh/transform6.png'
+	                ],
+	                load: [
+	                    'widget://image/refresh/loading0.png',
+	                    'widget://image/refresh/loading1.png',
+	                    'widget://image/refresh/loading2.png',
+	                    'widget://image/refresh/loading3.png',
+	                    'widget://image/refresh/loading4.png',
+	                ]
+	            }
+	        }, function(ret, err) {
+	                get_master_info();
+					setTimeout('api.refreshHeaderLoadDone()', '2000');
+	        });
+		};
+		//获取师傅和朋友列表
+		function get_master_info() {
+			var userId = localStorage.getItem("userId");
+			api.ajax({
+				url : URL + 'index.php?app=appfind',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					 $.each(ret.retval.apprentice, function(i, item) {
+                        var str1='';
+                        str1+='<div class="content_item flex cross_middle">';
+				        str1+='<div class="portrait_cooker">';
+				        if(item.portrait){
+				        	str1+='<img src="' + URL +item.portrait+'" class="img1 master_portrait">';
+				        }else{
+				        	str1+='<img src="../image/cooker.png" class="img1 master_portrait">';
+				        }
+				        str1+='</div>';
+				        str1+='<div class="cooker_info">';
+				        str1+='<p><span class="master_name">'+item.real_name+'</span><img src="../image/ceown_r.png" class="img2"></p>';
+				        str1+='<span class="tag">'+item.cook_type+'</span>';
+				        str1+='<p class="bottom_btn"><span class="btn_1">学习</span></p>';
+				        str1+='</div>';
+				         str1+='<p class="article_title">'+item.class_name+'</p>';
+				        if(class_type=='video'){
+                            str1+='<div class="article_content"><video src="" controls="controls">您的手机不支持播放该视频格式。</video></div>';
+				        }else{
+                            str1+='<div class="article_content"><img src="../image/ep1.png"><img src="../image/ep2.png"><img src="../image/ep3.png"></div>';	
+				        }				        
+				       str1+='</div>';
+
+					 $api.append($api.byId("my_curriculum"), str1);	
+					 })
+					
+				} else {
+					alert(ret.msg);
+				}
+				api.refreshHeaderLoadDone();
+			});
+		}
+
+		
+		function changeOrder(order) {
+			$(this).addClass("active").siblings().removeClass("active");
+			api.execScript({
+				frameName : 'connection',
+				script : 'fnsetFrameGroupIndex("group_connection","' + order + '");'
+			});
+		}
+		
+	</script>
+</html>

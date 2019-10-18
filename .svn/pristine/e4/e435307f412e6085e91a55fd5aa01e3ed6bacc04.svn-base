@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>下载分享</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: transparent!important;
+      }
+      .all{ position:fixed;top:0;left:0;right:0;bottom:0;z-index:1; background-color: transparent}
+      .share{ position:fixed;bottom:0;left:0;right:0;background-color:#fff; text-align: center;z-index:2;}
+      .img1{ width:90%; }
+      .img2{ margin-top:20px;width:45px;height:45px; }
+      p{ text-align: center;color:#8e8e8e;font-size: 0.8em }
+      .close{ margin:30px 0 5px 0; }
+      .close i{ font-size: 2em }
+      </style>
+  </head>
+  <body>
+       <div class="all"  onclick="goBack()" tapmod></div>
+       <div class="share">
+        <img src="../image/top_image.png" class="img1">
+        <img src="../image/wechat.png" class="img2" onclick="goWechat()" tapmod>
+        <p onclick="goWechat()" tapmod>微信</p>
+        <p onclick="goBack()" tapmod class="close"><i class="iconfont icon-oms-tubiao-shangchuan-"></i></p>
+
+      </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeFrame();
+      }
+      var URL="";
+      apiready = function(){
+
+      URL=$api.URL();
+      var system;
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      system=api.systemType;
+      };
+
+      function goWechat(){
+          api.openApp({
+               iosUrl: 'weixin://',
+               androidPkg: 'com.tencent.mm',
+               mimeType: 'text/html',
+               uri: 'wechat://'
+         },function(ret,err){
+             console.log(JSON.stringify(ret));
+             });
+      }
+
+  </script>
+  </html>

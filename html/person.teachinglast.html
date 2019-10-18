@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>上传教学</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/person/person.teachinglast.css" />
+</head>
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span >上传教学</span>
+        </div>
+    </header>
+
+    <div class="teachnext-items">
+        <textarea 
+        name="" 
+        class="teachnext-items-text" 
+        id="" 
+        cols="30" 
+        rows="16" 
+        placeholder="介绍一下你的作品吧（如：作品的特色、卖点、创意、制作的要点、研发的经验等）"></textarea>
+    </div>
+    
+    <div class="teaching-cuisine-next">
+        发布
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+
+</script>
+
+</html>

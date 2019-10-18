@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>一级会员</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/vip1.css">
+
+      <style>
+      html,body {
+        background-color: #fff;
+      }
+      .top_tab{ color:#fff;background:url(../image/bg4.png) no-repeat;background-size:100% 100%; }
+      .header,.DIV_L,.DIV_R{ background-color:transparent;color:#fff; }
+      .header{ position:absolute;top:0;left:0;right:0; }
+      .icon-wenhao2{ font-size: 2em; }
+      .top_tab{ padding:60px 5% 20px 5%;}
+      .vip_money{ font-size: 2em;font-weight: bold;margin-bottom: 15px;}
+      .top_tab .t_l{ border-right:1px solid #fff; width:49%;}
+      .top_tab .t_r{ text-align: left; padding-left:5%;width:45%;}
+      .money_detail{ font-weight: bold;height:40px;line-height:40px;padding:0 5%; position:relative;}
+      .f_r{ position:absolute;right:5%;top:0;height:40px;line-height:40px; }
+      #wrap{ width: 100%; }
+        .scase6{ padding:0; }
+      .fx{    margin-top: 40px;}
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">兑换礼包金额</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+      <div class="DIV_R" onclick="goAsk()" tapmode><i class="iconfont icon-wenhao2"></i></div>
+    </header>
+     <div class="top_tab clearfix">
+      <p>累计金额(元)</p>
+      <p class="vip_money">0.00</p>
+      <div class="t_l"><p class="font_s2">可兑换金额</p><p>0.00</p></div>
+      <div class="t_r"><p class="font_s2">待到账金额</p><p>0.00</p></div>
+     </div>
+     <div class="money_detail" onclick="goMoneyDetail()" tapmod>收支明细<span class="f_r"><i class="iconfont icon-htbArrowright"></i></span></div>
+     <div id="wrap" class="flex-wrap flex-vertical">
+  <div class="row xt2"></div>
+<!--  礼包精选栏目-->
+  <div class="case3">
+    <div class="scase4">
+      <div class="lb"><img src="../image/tb1.png" class="img2" /><span>礼包精选</span></div>
+    </div>
+    <div class="scase5">
+    <div class="scase6" id="kq">
+      <div class="fx">玩主礼包精选</div>
+      <span class="jx">即刻开启玩主之旅</span>
+    </div>
+    </div>
+<!--    循环体盒子-->
+    <div class="case4" id="goodslist" >
+    <!--循环开始-->
+    <div class="gift_pack">
+        <div class="gift_img"><img src="../image/bg2.png" class="img7" /></div>
+      <div class="scase7">
+        <div class=" ms1">韩后</div>
+        <div class=" ms2">植物力量&nbsp;清爽利咽</div>
+        <div class=" ms3">传承日本200年口碑</div>
+        <div class=" ms4">
+          <div class="jg">¥598</div>
+          <div class="dj" id="dj">点击查看</div>
+        </div>
+      </div>
+    </div>
+    <!--结束-->
+
+
+    </div>
+  </div>
+
+</div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+  $(function() {  //消除300ms点击延迟
+    FastClick.attach(document.body);
+  });
+  var userId=window.localStorage.getItem("userId"); //用户id
+  var URL="";
+  //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+  apiready = function(){
+    var header = $api.dom('header'); // 获取 header 标签元素
+		headerH = $api.fixStatusBar(header);
+        URL=$api.URL();
+        getSpecinfo();
+  };
+  //获取商品规格
+  function getSpecinfo(){
+    api.ajax({
+          url : URL + 'index.php?app=store&act=get_gift_goods',
+                  method : 'post',
+                  cache : false,
+                  timeout : 30,
+                  dataType : 'json',
+                  returnAll : false,
+                  data : {
+                     values : {
+                         user_id:userId
+                     }
+                  }
+        },function(ret,err){
+        console.log(JSON.stringify(ret));
+          if(ret.done)
+          {
+          $.each(ret.retval, function(i, item) {
+            var str='<div class="gift_pack">';
+                str+='<div class="gift_img"><img src="'+URL+item.default_image+'" class="img7" /></div>';
+                str+='<div class="scase7">';
+                if(item.goods_brand){
+                  str+='<div class=" ms1">'+item.goods_brand+'</div>';
+                }
+                str+='<div class=" ms2">'+item.goods_name+'</div>';
+                str+='<div class=" ms3">'+item.extension_content+'</div>';
+                str+='<div class=" ms4">';
+                str+='<div class="jg">&yen;'+item.price+'</div>';
+                str+='<div class="dj" id="dj">点击查看</div>';
+                str+='</div>';
+                str+='</div>';
+                str+='</div>';
+            $api.html($api.byId("goodslist"), str);
+           });
+         }else{
+            api.toast({
+              msg: '失败',
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+          if(err){
+            api.toast({
+              msg: err.msg,
+              duration: 2000,
+              location: 'bottom'
+            });
+          }
+
+      });
+   }
+    //跳转问号
+      function goAsk(){
+        api.openWin({
+          name: 'article.view',
+          url: './article.view.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          },
+          pageParam:{
+            articleId:'ask'
+          }
+        });
+      }
+      //跳转明细
+      function goMoneyDetail(){
+        api.openWin({
+          name: 'money.list',
+          url: './money.list.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          }
+        });
+      }
+   //复制邀请码
+   function copyHref(){
+     var content=$("#invite_code").text();
+     var clipBoard = api.require('clipBoard');
+     clipBoard.set({
+       value: content
+     }, function(ret, err) {
+       if (ret) {
+         api.toast({
+           msg: '复制成功',
+           duration: 2000,
+           location: 'bottom'
+         });
+       }else{
+         api.toast({
+           msg: '复制失败',
+           duration: 2000,
+           location: 'bottom'
+         });
+       }
+     });
+   }
+  </script>
+  </html>

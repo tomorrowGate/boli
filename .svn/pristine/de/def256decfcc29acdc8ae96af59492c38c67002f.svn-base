@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>拜师</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.apprentice.css" />
+</head>
+
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span >名厨汇聚</span>
+        </div>
+    </header>
+    <!-- 厨师名片 -->
+    <div class="chef-detail-info">
+        <div class="chef-main-head">
+            <div class="chef-head-left">
+                <i class="iconfont icon-qianbi"></i>
+                <div class="chef-left-text">厨师</div>
+            </div>
+        </div>
+        <div class="chef-trends-head">
+            <div class="trends-head-imgbox">
+                <img src="" alt="">
+            </div>
+            <div class="trends-head-center">
+                <div class="trends-center-top">
+                    <span class="trends-center-name">周伯通</span>
+                </div>
+                <div class="trends-center-bottom trends-light">
+                    <span class="trends-center-iden trends-light">国家一级厨师</span>
+                </div>
+            </div>
+            <div class="trends-head-right">
+                <div class="trends-head-focus">关注</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 拜师理由 -->
+    <div class="apprentice-main">
+        <div class="chef-main-head">
+            <div class="chef-head-left">
+                <i class="iconfont icon-qianbi"></i>
+                <div class="chef-left-text">拜师理由</div>
+            </div>
+        </div>
+        <div class="apprentice-textarea">
+            <textarea name="" id="" cols="30" rows="10" placeholder="请输入您的拜师理由"></textarea>
+        </div>
+    </div>
+    <div class="apprentice-submit">申请拜师</div>
+    
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var swiperTop = new Swiper('.swiper-top', {
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        loop: false,
+    });
+    apiready = function () {
+        URL = $api.URL();
+        m_id = api.pageParam.m_id;
+        var header = $api.dom('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        headerH = $api.fixStatusBar(header);
+        api.setCustomRefreshHeaderInfo({
+            bgColor: '#F6F6F6',
+            images: {
+                pull: 'widget://image/refresh/pulling.png',
+                transform: [
+                    'widget://image/refresh/transform0.png',
+                    'widget://image/refresh/transform1.png',
+                    'widget://image/refresh/transform2.png',
+                    'widget://image/refresh/transform3.png',
+                    'widget://image/refresh/transform4.png',
+                    'widget://image/refresh/transform5.png',
+                    'widget://image/refresh/transform6.png'
+                ],
+                load: [
+                    'widget://image/refresh/loading0.png',
+                    'widget://image/refresh/loading1.png',
+                    'widget://image/refresh/loading2.png',
+                    'widget://image/refresh/loading3.png',
+                    'widget://image/refresh/loading4.png',
+                ]
+            }
+        }, function (ret, err) {
+
+        });
+    }
+
+</script>
+
+</html>

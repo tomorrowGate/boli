@@ -1,0 +1,252 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.clearfix:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+body {
+
+}
+
+img {
+	max-width: 100%;
+	display: inline-block;
+}
+
+.rotate-swiper {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,.66);
+	/* display: none; */
+}
+
+.rotate-swiper #rotate-swiper {
+	height: 100%;
+}
+
+.rotate-swiper .rotate-slide {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.rotate-swiper .block {
+	width: calc(100% - 34px);
+	margin-left: 17px;
+	height: 82%;
+	margin-top: 12%;
+	transform-origin: 0 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border-radius: 0.5em;
+	background: #fff;
+}
+
+.rotate-swiper .block .header {
+	background: linear-gradient(to right,#f8afca,#6eb92c);
+	color: #fff;
+}
+
+.rotate-swiper .block .header h3 {
+	text-align: center;
+	font-size: 1em;
+	padding: 0.7em 0;
+	font-weight: normal;
+	margin: 0;
+}
+
+.rotate-swiper .block .header .top-info {
+	padding: 0 4%;
+	box-sizing: border-box;
+}
+
+.rotate-swiper .block .header .img {
+	width: 18%;
+	float: left;
+}
+
+.rotate-swiper .block .header .txt {
+	font-size: 0.7em;
+	width: 70%;
+	float: left;
+	margin-left: 3%;
+}
+
+.rotate-swiper .block .header .txt p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 0;
+	margin-bottom: 0.6em;
+	letter-spacing: 0.1em;
+}
+
+.rotate-swiper .block .header .txt p.last {
+	font-size: 1.3em;
+}
+
+.rotate-swiper .block .header .icon {
+	width: 4%;
+	float: right;
+}
+
+.rotate-swiper .block .header .icon i {
+	margin-top: 1em;
+	display: block;
+}
+
+.rotate-swiper .block .body {
+	flex: 1;
+	overflow: hidden;
+}
+
+.rotate-swiper .block .body .swiper-container {
+	height: 100%;
+}
+
+.rotate-swiper .block .body .swiper-slide {
+	height: auto;
+}
+
+.rotate-swiper .block .body .swiper-slide ul {
+	padding: 1em 0;
+}
+
+.rotate-swiper .block .body .swiper-slide li {
+	padding: 0.7em 0;
+	position: relative;
+	list-style: none;
+	z-index: 10;
+}
+
+.rotate-swiper .block .body .swiper-slide li:after {
+	content: '';
+	position: absolute;
+	z-index: 9;
+	left: 20%;
+	top: 0;
+	border-left: 1px solid #ddd;
+	height: 100%;
+}
+
+.rotate-swiper .block .body .swiper-slide li:first-child:after {
+	height: 50%;
+	top: 50%;
+}
+
+.rotate-swiper .block .body .swiper-slide li:last-child:after {
+	height: 50%;
+}
+
+.rotate-swiper .block .body .swiper-slide li {
+	display: table;
+	width: 100%;
+}
+
+.rotate-swiper .block .body .swiper-slide li div {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: left;
+}
+
+.rotate-swiper .block .body .swiper-slide li div:first-child {
+	width: 15%;
+	padding-left: 3%;
+	font-size: 0.8em;
+	text-align: center;
+}
+
+.rotate-swiper .block .body .swiper-slide li div span {
+	display: block;
+	font-size: 0.8em;
+}
+
+.rotate-swiper .block .body .swiper-slide li div:nth-child(2) {
+	width: 10%;
+	text-align: center;
+}
+
+.rotate-swiper .block .body .swiper-slide li div:nth-child(2) i {
+	width: 2em;
+	height: 2em;
+	background: #ddd;
+	color:#fff;
+	border: 1px solid #fff;
+	border-radius: 50%;
+	display: block;
+	position: relative;
+	z-index: 10;
+}
+
+.rotate-swiper .block .body .swiper-slide li.big-icon div:nth-child(2) i {
+	border: 1px solid #ddd;
+	width: 2em;
+	height: 2em;
+	background: #fff;
+	color: #ccc;
+}
+
+.rotate-swiper .block .body .swiper-slide li.big-icon div:nth-child(2) i:before {
+	font-size: 1.2em;
+	margin-top: 0.1em;
+	display: block;
+}
+.rotate-swiper .block .body .swiper-slide li.finish-icon div:nth-child(2) i {
+	width: 2em;
+	height: 2em;
+	background: #fa79aa;
+	color: #fff;
+}
+
+.rotate-swiper .block .body .swiper-slide li.finish-icon div:nth-child(2) i:before {
+	font-size: 1.2em;
+	margin-top: 0.1em;
+	display: block;
+}
+
+.rotate-swiper .block .body .swiper-slide li div:last-child {
+	padding-left: 2%;
+}
+
+.rotate-swiper .block .footer {
+	line-height: 4;
+	font-size: 0.7em;
+	text-align: center;
+	border-top: 1px solid #eee;
+}
+
+.rotate-swiper .swiper-pagination {
+	top: 3%;
+	bottom: auto;
+}
+
+.rotate-swiper .swiper-pagination .swiper-pagination-bullet,.rotate-swiper .swiper-pagination .swiper-pagination-bullet-active {
+	background: #fff;
+}
+
+.rotate-swiper .close-btn {
+	height: 3em;
+	position: absolute;
+	bottom: 0;
+	text-align: center;
+	width: 100%;
+	color: #fff;
+	z-index: 30;
+}
+
+.rotate-swiper .close-btn i:before {
+	font-size: 2em;
+	padding: 0.1em;
+	/* border: 2px solid #fff; */
+	border-radius: 100%;
+	font-weight: lighter;
+}

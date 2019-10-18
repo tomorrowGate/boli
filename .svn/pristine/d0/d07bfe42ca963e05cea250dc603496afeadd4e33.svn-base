@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>我的订单</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<style>
+			html, body {
+				background-color: #fff;
+			}
+			.top_tab {
+				font-size: 0.8em
+			}
+			.top_tab span {
+				height: 30px;
+				line-height: 30px;
+				width: 5em;
+				border: 1px solid #0b93eb;
+				background-color: #f2f2f2;
+			}
+			.top_tab .active {
+				color: #fff;
+				background-color: #0b93eb
+			}
+			.null {
+				text-align: center;
+				padding-top: 30%;
+				color: #666;
+			}
+			.top_nav {
+				padding: 10px 10px 5px 10px;
+				background-color: #fff;
+			}
+			.top_nav .nav_item {
+				float: left;
+				width: 33.33%;
+				text-align: center;
+			}
+			.top_nav .nav_item span {
+				border: none;
+				height: 40px;
+				line-height: 40px;
+				padding: 0 5px;
+			}
+			.top_nav .active span {
+				border-bottom: 1px solid #0b93eb;
+				color: #0b93eb;
+			}
+			.out_div {
+				margin-top: 10px;
+				padding:5px;
+			}
+			#monet_list {
+				padding: 5px 0;
+				background-color: #f2f2f2;
+			}
+			.money_item{ width:100%; }
+			.w1{ width:10%; }
+			.w2{ width:15%;}
+			.w3{ width:25%;}
+			.w4{ width:45%;}
+
+		</style>
+	</head>
+	<body>
+		<header>
+		<div class="header">收支明细</div>
+		<div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+	</header>
+		<div class="top_nav clearfix">
+			<div class="nav_item item_0 active" onclick="chageMoneyState('0')" tapmode>
+				<span >全部</span>
+			</div>
+			<div class="nav_item item_1" onclick="chageMoneyState('1')" tapmode>
+				<span>已转入</span>
+			</div>
+			<div class="nav_item item_2" onclick="chageMoneyState('2')" tapmode>
+				<span>待转入</span>
+			</div>
+		</div>
+		<div class="null">
+			<p><img src="../image/order.png" width="60%"  />
+			</p>
+			<p>
+				暂无明细记录哦~
+			</p>
+		</div>
+		<div id="money_list" class="clearfix">
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript" src="../script/lib/template.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		var sta;
+		var URL = "";
+		var moneyState;
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+			//初始加载列表
+			chageMoneyState('0');
+
+		};
+		//加载列表
+		function getMoneys(state) {
+			api.ajax({
+				url : URL + 'index.php?app=#',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						type : state
+					}
+				}
+			}, function(ret, err) {
+				//console.log(JSON.stringify(ret.retval));
+				//console.log(ret.retval.length);
+				if (ret && ret.done) {
+					if (ret.retval.length == 0) {
+						$("#money_list").html("");
+						$(".null").removeClass("hide");
+					} else {
+						$(".null").addClass("hide");
+						var lbt = '<div class="money_item">';
+		            		lbt += '<span class="w1">序号</span>';
+		            		lbt += '<span class="w2">金额</span>';
+		            		lbt += '<span class="w3">时间</span>';
+		            		lbt += '<span class="w4">备注</span>';
+		            	    lbt += '</div>';
+					 	$api.html($api.byId("money_list"), lbt);
+						$.each(ret.retval, function(i, item) {
+					 	   var lbt = '<div class="money_item">';
+		            		lbt += '<span class="w1">'+item.sn+'</span>';
+		            		lbt += '<span class="w2">'+item.money+'</span>';
+		            		lbt += '<span class="w3">'+item.add_time+'</span>';
+		            		lbt += '<span class="w4">'+item.remarks+'</span>';
+		            	    lbt += '</div>';
+					 	   $api.append($api.byId("money_list"), lbt);
+						})
+					}
+				}else{
+					$("#money_list").html("");
+					$(".null").removeClass("hide");
+				}
+			});
+		}
+
+
+
+		//切换状态
+		function chageMoneyState(cId) {
+			sta=cId;
+			$(".nav_item").removeClass("active");
+			$(".item_" + cId).addClass("active");
+			if (cId == 0) {
+				$(".exchange").removeClass("hide");
+			} else {
+				$(".exchange").addClass("hide");
+			}
+			getMoneys(cId);
+		}
+	</script>
+</html>

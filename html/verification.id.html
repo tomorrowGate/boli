@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>身份验证</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+      .top_title{ margin:20px 0 30px 0;text-align: center;padding:0 20px;font-size: 0.9em }
+      .ip{ width:100%;height:40px;line-height: 40px;border-bottom: 1px solid #ccc;outline: none }
+      .veri_item{ width:90%;margin:20px 5%;height:40px;line-height: 40px; }
+      #get_code{ width:30%;height:40px;line-height: 40px;background-color: #ee3f3f ;color:#fff;font-size: 0.9em;border-radius: 5px;text-align:center;}
+      .sub_btn{ text-align: center;margin-top:80px; }
+      #btn_tj{ width:80%;height:40px;line-height: 40px;border-radius: 15px;padding:0;background-color: #8b8b8b;color:#fff; }
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">身份验证</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <p class="top_title">为保证您的账号安全，请校验您的帐户实名信息</p>
+      <form>
+      <div class="veri_list">
+        <div class="veri_item"><input type="text" name="real_name" id="real_name" class="ip" placeholder="请输入真实姓名"></div>
+        <div class="veri_item"><input type="text" name="id_code" id="id_code" class="ip" placeholder="请输入您的身份证号"></div>
+
+      </div>
+      <div class="sub_btn"><input type="button" name="btn_tj" id="btn_tj"  value="确定"></div>
+      </form>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+
+          api.closeWin();
+
+      }
+      var URL="";
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      //初始加载列表
+      //checkInfo();
+      };
+
+       //加载数据
+       $("#btn_tj").bind("click", function(){
+		      	var real_name2=$("#real_name").val();
+		      	var id_card=$("#id_code").val();
+		      	console.log(real_name2);
+		      	console.log(id_card);
+                api.ajax({
+                    url : URL+'index.php?app=myinfo&act=sfyz',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            real_name2:real_name2,
+                            id_card:id_card
+                        }
+                    }
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+						goBack();
+                    }else{
+                      api.toast({
+		                msg: '验证失败',
+		                duration: 2000,
+		                location: 'middle'
+		              });
+                    }
+                  });
+              })
+
+
+      function goAddId(){
+      var dialogBox = api.require('dialogBox');
+      dialogBox.alert({
+          texts: {
+              content: '为了您的账户安全，您必须添加帐户实名认证，才能换绑手机号',
+              leftBtnTitle: '我再想想',
+              rightBtnTitle: '去添加'
+          },
+          styles: {
+              bg: '#fff',
+              w: 300,
+              corner:5,
+              content: {
+                  marginT: 40,
+                  marginB: 40,
+                  color: '#000',
+                  size: 14
+              },
+              left: {
+                  marginB: 0,
+                  marginL: 0,
+                  w: 150,
+                  h: 45,
+                  corner: 5,
+                  bg: '#eee',
+                  color: '#000',
+                  size: 14
+              },
+              right: {
+                  marginB: 0,
+                  marginL: 0,
+                  w: 150,
+                  h: 45,
+                  corner: 5,
+                  bg: '#6eb92c',
+                  color: '#fff',
+                  size: 14
+              }
+          }
+      }, function(ret) {
+        if (ret.eventType == 'right'){
+          var dialogBox = api.require('dialogBox');
+              dialogBox.close({
+                  dialogName: 'alert'
+              });
+          api.openWin({
+                         name: 'identity',
+                         url: './identity.html',
+                         bounces: false,
+                         animation:{
+                           type:"push",                //动画类型（详见动画类型常量）
+                           subType:"from_right",       //动画子类型（详见动画子类型常量）
+                           duration:300                //动画过渡时间，默认300毫秒
+                         },
+                         reload: true
+                       });
+            }
+           if (ret.eventType == 'left') {
+               var dialogBox = api.require('dialogBox');
+               dialogBox.close({
+                   dialogName: 'alert'
+               });
+               api.closeWin();
+               api.openWin({
+                          name: 'set',
+                          url: './set.html',
+                          bounces: false,
+                          animation:{
+                            type:"push",                //动画类型（详见动画类型常量）
+                            subType:"from_right",       //动画子类型（详见动画子类型常量）
+                            duration:300                //动画过渡时间，默认300毫秒
+                          }
+                        });
+           }
+       });
+
+        }
+  </script>
+  </html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>安全验证</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+      .top{ height:40px;line-height: 40px; background:url(../image/bg_yz.png) no-repeat;background-size: 100% 100% }
+      .t_l,.t_r{ text-align:center; }
+      .co{ color:#fff; }
+      .ip{ width:100%;height:40px;line-height: 40px;border-bottom: 1px solid #ccc; }
+      .ip1{ width:65%;height:40px;line-height: 40px;border-bottom: 1px solid #ccc;margin-right: 5%}
+      .veri_item{ width:90%;margin:20px 5%;height:40px;line-height: 40px; }
+      #get_code{ width:30%;height:40px;line-height: 40px;background-color: #ee3f3f ;color:#fff;font-size: 0.9em;border-radius: 5px;text-align:center;}
+      .sub_btn{ text-align: center;margin-top:80px; }
+      #btn_tj{ width:80%;height:40px;line-height: 40px;border-radius: 15px;padding:0;background-color: #8b8b8b;color:#fff; }
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">安全验证</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div class="top">
+        <div class="t_l co">1.安全验证</div>
+        <div class="t_r">2.绑定新手机</div>
+      </div>
+      <form>
+      <div class="veri_list">
+        <div class="veri_item"><input type="hidden" name="phone_mob" id="phone_mob" readonly class="ip"><input type="text" placeholder="请输入手机号" name="phone_mob1" id="phone_mob1" readonly class="ip"></div>
+        <div class="veri_item"><input type="text" name="msg_code" id="msg_code"  class="ip1" placeholder="请输入验证码"><span id="get_code">获取密码</span></div>
+      </div>
+      <div class="sub_btn"><input type="button" name="btn_tj" id="btn_tj"  value="下一步"></div>
+      </form>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      var URL="";
+      //var phone_mob=0;
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+
+
+      //初始加载列表
+      getInfo();
+      };
+
+       //加载数据
+      function getInfo(){
+                api.ajax({
+                    url : URL+'index.php?app=myinfo&act=get_info',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                        }
+                    }
+                }, function(ret, err) {
+                    // alert(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+                      if(ret.retval.phone_mob!=null){
+                      		goIdverity(1);
+                      	 $api.val($api.byId('phone_mob'),ret.retval.phone_mob);
+                         $api.val($api.byId('phone_mob1'),ret.retval.phone_mob.substring(0,3)+"****"+ret.retval.phone_mob.substring(8,11));
+                         phone_mob=ret.retval.phone_mob;
+                      }else{
+                      		goIdverity(2);
+                      }
+                    }
+                  });
+              }
+    var Num="";
+    $("#get_code").bind("click",function(){
+    	var phone_mob=$("#phone_mob").val();
+    	var phone_mob1=$("#phone_mob1").val();
+    	if(phone_mob==null || phone_mob==''){
+    		phone_mob=phone_mob1;
+    	}
+    	if(phone_mob1==null){
+    		alert("请输入手机号!");
+    	}else{
+    		Num="";
+    		for(var i=0;i<6;i++){Num+=Math.floor(Math.random()*10);}
+			console.log(phone_mob+'=='+Num);
+			var verify=parseInt(Num);
+    		api.ajax({
+                    url : URL+'index.php?app=sms&act=app_crsms',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            telphone:phone_mob,
+                            verify:verify
+                        }
+                    }
+                }, function(ret, err) {
+                	console.log(JSON.stringify(ret));
+                    if (ret &&ret.done) {
+
+                    }else{
+                    	alert(ret.msg);
+                    }
+               });
+    	}
+
+    });
+    var flag=false;
+    $("#btn_tj").bind('click',function(){
+    	if(!flag){
+    		var msg_code=$("#msg_code").val();
+		    if(parseInt(Num)!=msg_code){
+		    	alert("验证码错误!");
+		    }else{
+		    	$("#phone_mob1").val('');
+		    	$("#phone_mob").val('');
+		    	$("#msg_code").val('');
+		    	$("#phone_mob1").removeAttr("readonly");
+		    	$("#phone_mob").removeAttr("readonly");
+		    	flag=true;
+		    }
+    	}else{
+    		var msg_code=$("#msg_code").val();
+    		if(parseInt(Num)!=msg_code){
+		    	alert("验证码错误!");
+		    }else{
+		    	 var phone_mob1=$("#phone_mob1").val();
+		    	 api.ajax({
+                    url : URL+'index.php?app=myinfo&act=update_phone2',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id:userId,
+                            new_phone:phone_mob1
+                        }
+                    }
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if(ret &&ret.done){
+                    	//18768200058
+                    	 api.toast({
+			                msg: '更换绑定成功!',
+			                duration: 2000,
+			                location: 'middle'
+			              });
+                    	api.execScript({
+						  name:"set",
+						  script:"getInfo();"
+						});
+			          api.closeWin();
+                    }
+                });
+		    }
+    	}
+
+
+
+    });
+//  yanzheng();
+//  function yanzheng(){
+//  	//var phone_mob=$("#phone_mob1").val();
+//  	var Num="";
+//		for(var i=0;i<6;i++)
+//		{
+//			Num+=Math.floor(Math.random()*10);
+//		}
+//
+//		var verify=parseInt(Num);
+//		console.log(verify+'=='+phone_mob);
+//  }
+
+    function goIdverity(red){
+      var dialogBox = api.require('dialogBox');
+      if(red==1){
+      	var c='更换手机号后，原来的手机号将无法登录使用，且无法收到验证码';
+      }else{
+      	var c='是否绑定新手机号';
+      }
+      dialogBox.alert({
+          texts: {
+              content: c,
+              leftBtnTitle: '我再想想',
+              rightBtnTitle: '确认更换'
+          },
+          styles: {
+              bg: '#fff',
+              w: 300,
+              corner:5,
+              content: {
+                  marginT: 40,
+                  marginB: 40,
+                  color: '#000',
+                  size: 14
+              },
+              left: {
+                  marginB: 0,
+                  marginL: 0,
+                  w: 150,
+                  h: 45,
+                  corner: 5,
+                  bg: '#eee',
+                  color: '#000',
+                  size: 14
+              },
+              right: {
+                  marginB: 0,
+                  marginL: 0,
+                  w: 150,
+                  h: 45,
+                  corner: 5,
+                  bg: '#6eb92c',
+                  color: '#fff',
+                  size: 14
+              }
+          }
+      }, function(ret) {
+        if (ret.eventType == 'right'){
+          var dialogBox = api.require('dialogBox');
+              dialogBox.close({
+                  dialogName: 'alert'
+              });
+          api.openWin({
+                         name: 'verification.id',
+                         url: './verification.id.html',
+                         bounces: false,
+                         animation:{
+                           type:"push",                //动画类型（详见动画类型常量）
+                           subType:"from_right",       //动画子类型（详见动画子类型常量）
+                           duration:300                //动画过渡时间，默认300毫秒
+                         },
+                         reload: true
+                       });
+            }
+           if (ret.eventType == 'left') {
+               var dialogBox = api.require('dialogBox');
+               dialogBox.close({
+                   dialogName: 'alert'
+               });
+               api.closeWin();
+           }
+       });
+
+           /*api.confirm({
+             msg: '更换手机号后，原来的手机号将无法登录使用，且无法收到验证码',
+             buttons: ['确定更换', '我在想想']
+            }, function(ret, err) {
+              var index = ret.buttonIndex;
+              if(index==1){
+                   api.openWin({
+                   name: 'verification.id',
+                   url: './verification.id.html',
+                   bounces: false,
+                   animation:{
+                     type:"push",                //动画类型（详见动画类型常量）
+                     subType:"from_right",       //动画子类型（详见动画子类型常量）
+                     duration:300                //动画过渡时间，默认300毫秒
+                   }
+                 });
+              }else{
+                api.closeWin();
+              }
+          });*/
+        }
+  </script>
+  </html>

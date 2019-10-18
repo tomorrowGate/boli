@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>名厨详情</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.detailcomponent.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 名师信息-->
+        <div class="chef-detail-main">
+            <ul class="chef-detail-list">
+                <li class="chef-list-item">
+                    <div class="list-item-key">地区</div>
+                    <div class="list-item-value">几内亚</div>
+                </li>
+                <li class="chef-list-item">
+                    <div class="list-item-key">单位</div>
+                    <div class="list-item-value">奥巴马豪华大酒店</div>
+                </li>
+                <li class="chef-list-item">
+                    <div class="list-item-key">职位</div>
+                    <div class="list-item-value">前端工程师</div>
+                </li>
+                <li class="chef-list-item">
+                    <div class="list-item-key">菜系</div>
+                    <div class="list-item-value cuisine">川菜</div>
+                </li>
+                <li class="chef-list-item">
+                    <div class="list-item-key">经历</div>
+                    <div class="list-item-value list-item-experience">
+                        <span class="experience-detail"> 精通java,c++,PHP。对服务器等知识了若指掌,编写并提出过多条网络协议。</span>
+                        <span class="experience-detail"> 精通java,c++,PHP。对服务器等知识了若指掌,编写并提出过多条网络协议。</span>
+                        <span class="experience-detail"> 精通java,c++,PHP。对服务器等知识了若指掌,编写并提出过多条网络协议。</span>
+                    </div>
+                </li>
+
+            </ul>
+            <!-- <div class="chef-detail-asteacher">
+                    <span >拜他为师</span>
+                </div> -->
+        </div>
+
+
+        <footer>
+            <div class="chef-detail-suspension" v-show="isShowApprentice" @click="goApprentice">
+                <span>拜他为师</span>
+            </div>
+        </footer>
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var wrap = new Vue({
+        el: '#wrap',
+        data: {
+            user_id:'',
+            sf_id:0,
+            URL:'',
+            MastInfoExper:[],
+            isShowApprentice:true
+        },
+        methods: {
+            getMasterInfo:function (){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=get_staff_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            userId: that.userId,
+                            sf_id: that.sf_id
+                        }
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.hotList = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            goApprentice:function goApprentice(){
+                var that = this
+                api.openWin({
+                    name: 'chef.apprentice',
+                    url: './chef.apprentice.html',
+                    bounces: false,
+                    pageParam: {sf_id : that.sf_id}
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            apiready = function () {
+                that.URL = $api.URL();
+                that.sf_id = api.pageParam.sf_id;
+                that.MastInfoExper = api.pageParam.MastInfoExper
+                that.isShowApprentice = api.pageParam.isShowApprentice
+                //console.log( that.MastInfoExper)
+                that.user_id = window.localStorage.getItem("userId")
+                
+            }
+        },
+        mounted: function mounted() {
+           
+
+        },
+    })
+
+
+</script>
+
+</html>

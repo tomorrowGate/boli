@@ -1,0 +1,157 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+
+
+/* 轮播图 */
+.swiper{
+    width: 96vw;
+    height: 48vw;
+    margin:10px auto;
+    border-radius: 6px;
+}
+.swiper-top{
+    width: 100%;
+    height: 100%;
+}
+.swiper-pagination-bullet{
+    width: 12px;
+    border-radius: 4px;
+}
+.swiper-pagination-bullet-active{
+    background: #6eb92c;
+}
+.swiper-slide-imgbox{
+    width: 100%;
+    height: 100%;
+    background: skyblue;
+    border-radius: 10px;
+}
+.swiper-slide-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+.chef-main-recomend1{
+    padding: 10px 0;
+    background-color: #f2f2f2;
+}
+/* 球状列表 */
+.chef-ball-list{
+    width: 96vw;
+    margin:10px auto;
+    font-size: 14px;
+    color: #999;
+}
+.swiper-ball-items{
+    display: flex;
+    flex-wrap: wrap;
+}
+.swiper-ball-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    padding:10px 0;
+}
+.swiper-ball-imgbox{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 6px;
+}
+.swiper-ball-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 1px 1px;
+}
+.swiper-ball-text{
+    text-align: center;
+}
+
+/* 全部最新热卖 */
+.chef-hotslist-head{
+    display: flex;
+    border-top: 8px solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
+}
+.hotslist-head-item{
+    width: 33.3%;
+    /* padding: 5px 0; */
+    margin: 5px 0;
+    font-size: 1.1em;
+    text-align: center;
+}
+.hotslist-head-active{
+    position: relative;
+    color: #6eb92c;
+}
+.hotslist-head-active::after{
+    position: absolute;
+    display: block;
+    content:"";
+    width: 40%;
+    left: 50%;
+    bottom: -5px;
+    transform: translateX(-50%);
+    border:1px solid  #6eb92c;
+}
+/* 商品展示 */
+.chef-form-card{
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+.chef-form-leftimg{
+    width: 120px;
+    height: 120px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background: skyblue;
+}
+.chef-form-leftimg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+.chef-forum-light{
+    font-size: 0.9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #a2a2a2;
+}
+.chef-form-formlist .chef-head1-name{
+    font-size: 1em;
+}
+.forum-foot-name,.forum-foot-level {
+    background: #d96b6c;
+    color: #fff;
+    padding: 0 5px;
+    border-radius: 2px;
+    font-size: 0.8em;
+}
+.chef-head4{
+    font-size: 0.8em;
+    margin-top: 25px;
+    color: #a6a6a6;
+}
+.chef-head4 .price{
+    color: #f22d1d;
+    font-size: 1.1em;
+}
+.agoPrice{
+    text-decoration: line-through;
+}

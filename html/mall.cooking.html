@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>烹饪必备</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.cooking.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack()" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>烹饪必备</span>
+            </div>
+        </header>
+
+        <!-- 轮播图 -->
+        <div class="swiper">
+            <div class="swiper-container swiper-top">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" tapmode v-for="(v,i) in topBanner" :key="i">
+                        <div class="swiper-slide-imgbox">
+                            <img :src="URL+v.file_path" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <div class="chef-ball-list">
+            <div class="swiper-container swiper-ball-list">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide swiper-ball-items" tapmode>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">调味酱</div>
+                        </div>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">五谷杂粮</div>
+                        </div>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">食用油</div>
+                        </div>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">大米</div>
+                        </div>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">火锅调料</div>
+                        </div>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">酒醋酱油</div>
+                        </div>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">糖盐</div>
+                        </div>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="" alt="">
+                            </div>
+                            <div class="swiper-ball-text">全部</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 全部最新热卖 -->
+        <div class="chef-hotslist-head" ref="chef-hotslist-head">
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==0?'hotslist-head-active':'']" @click="openFrameGroup(0)">全部</p>
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==1?'hotslist-head-active':'']"  @click="openFrameGroup(1)">最新</p>
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==2?'hotslist-head-active':'']" @click="openFrameGroup(2)">热卖</p>
+        </div>
+        
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            topBanner: {},
+            imgDefalt: '../image/headimgDef.png',
+            swiperTop: null,
+            bottomLists:{
+                activeIndex:0
+            }
+        },
+        computed: {
+
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            //初始化头部轮播图
+            initSwiperTop: function swiperNotice() {
+                this.swiperTop = new Swiper('.swiper-top', {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    observer: true,
+                    observeParents: true,
+                    on: {
+                        click: function () {
+                            const realIndex = this.realIndex;
+                            //that.handleClickSlide(realIndex); 
+                        }
+                    },
+                    preventLinksPropagation: false   // 阻止点击事件冒泡
+                });
+            },
+            //获得头部轮播
+            getTopBanner: function getTopBanner() {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=home_lunbo',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.topBanner = ret.retval
+                        that.$nextTick(function () {
+                            that.initSwiperTop()
+                        })
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //打开页面组
+            openFrameGroup:function openFrameGroup(i){
+                var that = this
+                var funcArr = ["get_all_goods_new", "get_new_goods", "get_hot_goods"]
+                this.bottomLists.activeIndex = i
+                api.openFrame({
+                    name: 'mall.goodcomponent.'+funcArr[i],
+                    url: './mall.goodcomponent.html',
+                    rect: {
+                        x: 0,
+                        marginTop: that.top+10, // frame页面距离win顶部的高度
+                        marginBottom: 0, // frame页面距离win底部的高度
+                    },
+                    overScrollMode:'scrolls',
+                    pageParam: {
+                        url:funcArr[i],
+                        param:0
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.top = that.$refs['chef-hotslist-head'].getBoundingClientRect().bottom
+                    that.getTopBanner()
+                    that.openFrameGroup(0)
+                    $('.swiper-wrapper').on('touchstart', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: false
+                        });
+                    });
+                    $('.swiper-wrapper').on('touchend', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: true
+                        });
+                    });
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

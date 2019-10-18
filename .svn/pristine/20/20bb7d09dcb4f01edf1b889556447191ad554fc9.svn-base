@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>收货地址</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.address.css" />
+</head>
+
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>收货地址</span>
+        </div>
+    </header>
+    <!-- 用户地址 -->
+    <div class="addressBox">
+        <div class="subscriber">
+            <span>张三</span>
+            <span>18267775024</span>
+        </div>
+        <address class="subscriberAdd">
+            <span class="default">默认</span>
+            <span>浙江省湖州市德清县武康镇中兴路1088号德清县科技创业园1幢1楼德澳互通</span>
+         </address>
+        <div class="compile">
+            <span class="compileText">编辑</span>
+            <span>删除</span>
+        </div>
+    </div>
+    <button class="addFlexd">添加新地址</button>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>文章</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+
+      .out_div{ margin:10px 0 0 0; }
+      label{ width: 100%;padding: 10px 0;border-bottom: 1px solid #efefef }
+      .cash_item{ position: relative; }
+      .item_div{ width:50%;height:40px;vertical-align: middle;margin-left:10px; }
+      .img{ width:40px;height:40px;border-radius: 20px; vertical-align: middle}
+      .ip{ position:absolute;right:0; top:13px;height:14px;width:14px;outline: none}
+      .count{ height:60px;line-height: 60px;font-size: 1.2em;font-weight: bold }
+      .ip2{ width:70%;padding-left:10px;height:60px;line-height: 60px;outline: none }
+      .all_out{ color:#576b95; }
+      .sub_btn{ width:100%;text-align: center;margin:30px 0; }
+      .sub_btn span{ width:70%;height:40px;line-height: 40px;color:#fff;border-radius: 20px;background-color: #ccc;background-color:#666; }
+      .sub_btn .active{background-color:#292929;}
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">提现</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+      <div class="DIV_R font_s2">提现记录</div>
+    </header>
+      <div class="out_div clearfix">
+        <label>
+          <div class="cash_item">
+             <img src="../image/zfb.jpg" class="img">
+             <span class="item_div" onclick="goBind('zfb')" tapmode>
+                <p>我的支付宝</p>
+                <p class="states font_s2">未绑定</p>
+             </span>
+             <input type="radio" name="method" value="zfb" id="zfb" class="ip">
+          </div>
+        </label>
+        <label>
+          <div class="cash_item">
+             <img src="../image/wechat.png" class="img">
+             <span class="item_div" onclick="goBind('wechat')" tapmode>
+                <p>我的微信</p>
+                <p class="states font_s2">未绑定</p>
+             </span>
+             <input type="radio" name="method" value="wechat" id="wechat" class="ip">
+          </div>
+        </label>
+        <label>
+          <div class="cash_item">
+             <img src="../image/bank.jpg" class="img">
+             <span class="item_div" onclick="goBind('bank')" tapmode>
+                <p>我的银行卡</p>
+                <p class="states font_s2">未绑定</p>
+             </span>
+             <input type="radio" name="method" value="bank" id="bank" class="ip">
+          </div>
+        </label>
+      </div>
+      <div class="out_div clearfix">
+        <p class="font_w1">提现金额</p>
+        <div class="count"><span>&yen;</span><span><input type="text" name="money_tixian" class="ip2" id="money_tixian"></span></div>
+        <p>可提现金额<span id="all_money">0</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="all_out" onclick="allTixian()" taomod>全部提现</span></p>
+      </div>
+      <div class="sub_btn"><span class="active">去提现</span></div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      var URL="";
+      var articleType;
+      apiready = function(){
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+
+      };
+      //全部提现按钮
+       function allTixian(){
+          $("#money_tixian").val($("#all_money").html());
+       }
+      //绑定提现账号
+      function goBind(type){
+        api.openWin({
+        name: 'bind.tixian',
+        url: './bind.tixian.html',
+        bounces: false,
+        pageParam: {
+                  tixianType: type// 在infomation.modify.html页面通过var tixianType=api.pageParam.tixianType调用;
+                   },
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+  </script>
+  </html>

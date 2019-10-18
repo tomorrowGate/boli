@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>确定订单</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.order.css" />
+</head>
+
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>确定订单</span>
+        </div>
+    </header>
+    <!-- 用户地址 -->
+    <div class="userAdd">
+        <button class="addBtn">添加收货地址</button>
+    </div>
+    <div class="userAdd1">
+        <i class="addIcn">❤</i>
+        <div class="orderText">
+            <p><span class="orderName">张三</span><span class="orderCall">18267775024</span></p>
+            <p>浙江省湖州市德清县武康镇中兴路1088号德清县科技创业园1幢1楼德澳互通</p>
+        </div>
+        <i class="iconfont icon-htbArrowright iconRt"></i>
+    </div>
+
+
+    <!-- 购买的产品 -->
+    <div class="product">
+        <div class="chef-form-card">
+            <div class="chef-form-leftimg">
+                <img src="" alt="">
+            </div>
+            <div class="chef-right-content">
+                <p class="chef-head1"> 广式双炒双温节能灶</p>
+                <div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+                <div class="chef-head3">
+                    <span class="forum-foot-bg">九折</span>
+                    <span class="forum-foot-bg">上门安装</span>
+                </div>
+                <div class="chef-head4 ">
+                    <p class="swiper-red">￥
+                        <span>258</span>
+                        <span class="swiper-del">￥536</span>
+                        <span class="swiper-nub">x1</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- 购买资料 -->
+        <div class="productInp">
+            <div class="productInp-item">
+                <label class="tabName" for="">购买资料</label>
+                <div class="numberBox">
+                    <span class="count">-</span>
+                    <span class="nubBox">1</span>
+                    <span class="count1">+</span>
+                </div>
+            </div>
+            <div class="productInp-item">
+                <label class="tabName" for="">服务</label>
+                <input type="text" name="" id="" placeholder="此商品支持上门安装">
+            </div>
+            <div class="productInp-item">
+                <label class="tabName" for="">优惠券</label>
+                <span class="option">暂无可用</span>
+                <i class="iconfont icon-htbArrowright"></i>
+            </div>
+            <div class="productInp-item">
+                <label class="tabName" for="">配送方式</label>
+                <span class="option">厂家上门</span>
+                <i class="iconfont icon-htbArrowright"></i>
+            </div>
+            <div class="productInp-item">
+                <label class="tabName" for="">配送时间</label>
+                <span>发货后15工作日内送达</span>
+            </div>
+            <div class="productInp-item">
+                <label class="tabName" for="">订单备注</label>
+                <input type="text" name="" id="" placeholder="选填，请先和商家协商一致">
+            </div>
+        </div>
+    </div>
+    <!-- 选择付款方式 -->
+    <div class="payment">
+        <div class="ui-form-item ui-form-item-checkbox ui-border-b">
+            <label for="balance" class="ui-col-90">
+                <i class="iconfont ui-col ui-col-25"></i>
+                <div class="paymentText">
+                    <p>微信支付</p>
+                    <p class="describe">亿万用户的选择，更快更安全</p>
+                </div>
+            </label>
+            <label class="ui-checkbox ui-col ui-col-10">
+                <input type="radio" name="payType" id="balance">
+            </label>
+        </div>
+        <div class="ui-form-item ui-form-item-checkbox ui-border-b">
+            <label for="balance" class="ui-col-90">
+                <i class="iconfont ui-col ui-col-25"></i>
+                <div class="paymentText">
+                    <p>支付宝</p>
+                    <p class="describe">快捷安全科支持银行卡支付</p>
+                </div>
+            </label>
+            <label class="ui-checkbox ui-col ui-col-10">
+                <input type="radio" name="payType" id="balance">
+            </label>
+        </div>
+        <div class="ui-form-item ui-form-item-checkbox ui-border-b">
+            <label for="balance" class="ui-col-90">
+                <i class="iconfont ui-col ui-col-25"></i>
+                <div class="paymentText">
+                    <p>余额</p>
+                    <p class="describe">迅速付款，全程无忧</p>
+                </div>
+            </label>
+            <label class="ui-checkbox ui-col ui-col-10">
+                <input type="radio" name="payType" id="balance">
+            </label>
+        </div>
+        <div class="ui-form-item ui-form-item-checkbox ui-border-b">
+            <label for="balance" class="ui-col-90">
+                <i class="iconfont ui-col ui-col-25"></i>
+                <div class="paymentText">
+                    <p>线下支付</p>
+                    <p class="describe">线下公帐打款，便捷安全</p>
+                </div>
+            </label>
+            <label class="ui-checkbox ui-col ui-col-10">
+                <input type="radio" name="payType" id="balance">
+            </label>
+        </div>
+    </div>
+    <!-- 底部浮动按钮 -->
+    <div class="submission">
+        <div class="submissionPrice">
+            <p>
+                <span>共1件</span>
+                <span class="submissionB">合计：</span>
+                <span class="submissionR">￥0.00</span>
+            </p>
+            <p class="discount">优惠：
+                <span>￥0.00</span>
+            </p>
+        </div>
+        <button class="submissionBtn">提交订单</button>
+    </div>
+    <!-- 优惠券弹窗 -->
+    <div class="popup">
+        <div class="popupDiscount"><span>优惠券</span><span>X</span></div>
+        <div class="popupItem">
+            <div class="popupCoupon">
+                <span class="popupPrice">￥30</span>
+                <p class="popupDate">使用期限：2019.5.21</p>
+                <p class="popupDate">订单购满299元可使用(不包含运费)</p>
+            </div>
+            <button class="receive">领取</button>
+        </div>
+        <div class="popupItem">
+            <div class="popupCoupon">
+                <span class="popupPrice">￥30</span>
+                <p class="popupDate">使用期限：2019.5.21</p>
+                <p class="popupDate">订单购满299元可使用(不包含运费)</p>
+            </div>
+            <button class="receive">领取</button>
+        </div>
+        <div class="popupItem">
+            <div class="popupCoupon">
+                <span class="popupPrice">￥30</span>
+                <p class="popupDate">使用期限：2019.5.21</p>
+                <p class="popupDate">订单购满299元可使用(不包含运费)</p>
+            </div>
+            <button class="receive">领取</button>
+        </div>
+        <button class="popupBtn">确定</button>
+    </div>
+
+</body>
+
+</html>

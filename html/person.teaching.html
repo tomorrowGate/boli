@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>上传教学</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/person/person.teaching.css" />
+</head>
+<body>
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span >上传教学</span>
+        </div>
+    </header>
+
+    <div class="person-teaching-main">
+        <div class="person-teaching-top">
+            <div class="per-top-imgbox">
+                <i class="iconfont"></i>
+                <span class="per-top-innertext">上传视频</span>
+            </div>
+            <div class="per-top-videobox">
+                <video src=""></video>
+                <i class="iconfont"></i>
+            </div>
+        </div>
+
+        <div class="settled-center-form">
+            <div class="settled-item-key">作品名</div>
+            <div class="settled-center-value">
+                <input type="text" class="settled-item-name input-active" placeholder="作品名">
+            </div>
+        </div>
+        
+        <div class="teaching-cuisine">
+            <div class="teaching-cuisine-key">
+                <span class="teaching-cuisine-text">请选择菜系</span>
+                <span class="teaching-cuisine-add">添加</span>
+            </div>
+            <div class="teaching-cuisine-tags">
+                
+            </div>
+        </div>
+    </div>
+    <div class="teaching-cuisine-next">
+        下一步
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+
+</script>
+
+</html>

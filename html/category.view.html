@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <link rel="stylesheet" href="../css/swiper.min.css">
+      <style>
+      html,body {
+        background-color: #fff;
+      }
+      .header,.cate_tab,.swiper-container,.wiper-wrapper{ z-index:14;position:relative; }
+      .cate_tab{ position: relative;padding:0 22px 0 10px;z-index:14;background-color:#fff}
+      .show_all{ position: absolute;right:8px;top:10px; width:15px;}
+      .swiper_category{ padding:10px 0 0 0 ; }
+      .active{ color:#6eb92c;border-bottom: 1px solid #6eb92c }
+      .swiper-wrapper{border-bottom: 1px dotted #f2f2f2}
+      .swiper-slide{ text-align: center; }
+      .sort{ background-color:#fff; position:relative;}
+      .sort_list{ z-index:13; padding:5px 10px;background-color:#fff;position: absolute;top:0;right:0;left:0;border-top:1px solid #f2f2f2}
+      .sort ul li{ height:24px;line-height:24px;font-size: 0.8em;color:#8d8d8d; border-bottom: 1px solid #f2f2f2}
+      .sort_list i{ margin:0 10px}
+      .mask{ position:fixed;top:0px; }
+
+      /* 商品列表goods_list */
+          #goods_list{ padding:0 3%;width:94%; }
+          .good_item{ margin:10px 0;padding:10px 0; }
+          .relative{position: relative;}
+          .good_img{ padding:0 10px 0 0;float:left }
+         .good_info{ position:absolute;top:7px;left:100px;right:0 }
+         .tags{ font-size: 0.8em; }
+         .tag{ padding:0 0.5em;border-radius: 3px;color:#ff0000;background-color: #ffe1ec;font-size:0.7em;margin-right:0.5em; }
+         .tag_odd{ padding:0 0.5em;border-radius: 3px;color:#a17fff;background-color: #f4f0ff; font-size:0.7em;margin-right:0.5em; }
+         .sales{ color:#8d8d8d;font-size:0.9em; }
+         .item_val{position: absolute;right:0;top:-11px;}
+         .item_val1{position: absolute;right:3.8em;top:-11px;}
+         .buy_btn{ padding:2px 0.5em;color:#fff;background-color: #6eb92c ;border-radius: 5px;font-size:1em;}
+         .buy_btn1,.buy_btn2{ padding:2px;color:#fff;background-color: #fff;color: #6eb92c ;border:1px solid #6eb92c ; border-radius: 5px;font-size:1em;}
+         .buy_btn2{ color:#fff;background-color: #6eb92c ; }
+         .good_desc{ color:#8d8d8d;font-size: 0.8em }
+         .relative{position: relative;}
+         .col_good_price{ color:#ff0000;padding-right: 5px }
+         .col_old_price{ color:#8d8d8d; }
+         .good_title,.sales{ margin-bottom:0 }
+         .tags{ margin-bottom:2px }
+         .sub_title{ color:#8d8d8d;font-size: 0.9em;margin-bottom: 2px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical; }
+         .good_title{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;font-weight: bold}
+         .dianji { pointer-events: none; }
+         .category_item{ font-weight: bold }
+      </style>
+  </head>
+  <body>
+  	<header>
+  		<div class="DIV_L"  onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+	    <div class="header" id="header">类别名</div>
+
+	    <div class="DIV_R"  onclick="goSearch()" tapmode><i class="iconfont icon-search"></i></div>
+    </header>
+    <div class="cate_tab">
+    <div class="swiper-container swiper_category" >
+      <div class="swiper-wrapper" id="category_list">
+      <div class="swiper-slide"><span class="category_item category_0 " onclick="getAllGoods('0')"  tapmode>全&nbsp;&nbsp;部</span></div>
+        <!--<div class="swiper-slide"><span class="category_item category_0 active" onclick="getAllGoods('0')" tapmode>全&nbsp;&nbsp;部</span></div>-->
+      <!-- <div class="swiper-slide"><span class="category_item category_1" onclick="getGoods('1')" tapmode>子分类1</span></div>
+        <div class="swiper-slide"><span class="category_item category_2" onclick="getGoods('2')" tapmode>子分类2</span></div>
+        <div class="swiper-slide"><span class="category_item category_3" onclick="getGoods('3')" tapmode>子分类3</span></div>
+        <div class="swiper-slide"><span class="category_item category_4" onclick="getGoods('4')" tapmode>子分类4</span></div>
+        <div class="swiper-slide"><span class="category_item category_5" onclick="getGoods('5')" tapmode>子分类5</span></div>
+        <div class="swiper-slide"><span class="category_item category_6" onclick="getGoods('6')" tapmode>子分类6</span></div> -->
+      </div>
+    </div>
+    <span class="show_all" onclick="toggleSort()" tapmod><i class="iconfont icon-zhankai"></i></span>
+  </div>
+  <div class="sort hide">
+      <div class="mask" id="mask" onclick="hideSort()" tapmod></div>
+      <ul class="sort_list">
+        <li onclick="goSort('synthesize')" tapmode ><i class="iconfont icon-zonghe"></i> 按综合排序</li>
+        <li onclick="goSort('hot')" tapmode><i class="iconfont icon-xiaoliang"></i> 按热销排序</li>
+        <li onclick="goSort('descend_price')" tapmode><i class="iconfont icon-jiangxu"></i> 价格由高到低</li>
+        <li onclick="goSort('ascend_price')" tapmode><i class="iconfont icon-shengxu"></i> 价格由低到高</li>
+      </ul>
+    </div>
+    <div id="goods_list">
+
+
+       <!--<div class="good_item relative clearfix">
+        <div class="good_img">
+          <img src="../image/good_img.png" width="90" height="90" >
+        </div>
+        <div class="good_info">
+          <P class="good_title">汤臣倍健胶原蛋白粉固体饮料水蜜桃味90g</P>
+                    <P class="sub_title">商品介绍,商品介绍,商品介绍</P>
+                    <P class="tags">
+                        <span class="tag">新品</span>
+                        <span class="tag_odd">假一赔十</span>
+                        <span class="tag">国内</span>
+                        <span class="tag_odd">包邮</span>
+                    </P>
+                    <p class="sales"><span >销量:36</span></p>
+                    <p class="relative" ><span class="col_good_price">&yen;&nbsp;258</span><del class="col_old_price">&yen;536</del><span class="item_val buy_btn">立即购买</span></p>
+        </div>
+      </div>
+
+
+      <div class="good_item relative clearfix">
+        <div class="good_img">
+          <img src="../image/good_img.png" width="90" height="90" >
+        </div>
+        <div class="good_info">
+          <P class="good_title">汤臣倍健胶原蛋白粉固体饮料水蜜桃味90g</P>
+                    <P class="sub_title">商品介绍,商品介绍,商品介绍</P>
+                    <P class="tags">
+                        <span class="tag">新品</span>
+                        <span class="tag_odd">假一赔十</span>
+                        <span class="tag">国内</span>
+                        <span class="tag_odd">包邮</span>
+                    </P>
+                    <p class="sales"><span >销量:36</span></p>
+                    <p class="relative" ><span class="col_good_price">&yen;&nbsp;258</span><span class="col_old_price">赚&yen;36</span><span class="item_val1 buy_btn1">省钱购</span><span class="item_val buy_btn2">分享赚</span></p>
+        </div>
+      </div>-->
+
+
+    </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    var ugrade=window.localStorage.getItem("ugrade"); //用户等级
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+
+      var URL="";
+      var parent_id;
+      var cate_id;
+      var cate_id2;
+      var sort="";
+
+      //排序变量
+      var allgoods_flag=0;
+      var goods_flag=0;
+      var goods_cid=0;
+      var goods_cate_id=0;
+      var all_flag=0;
+      apiready = function(){
+        var header = $api.dom('header'); // 获取 header 标签元素
+        headerH = $api.fixStatusBar(header);
+       parent_id=api.pageParam.parent_id;//总分类ID
+       cate_id=api.pageParam.cate_id;//孙分类ID
+       cate_id2=api.pageParam.cate_id2;//子分类ID
+       all_flag=api.pageParam.all_flag;
+       //alert(all_flag);
+       URL=$api.URL();
+       $("#goods_list").html("");
+      //var categoryId=api.pageParam.categoryId;
+
+     // alert(cate_id2);
+      getnamebyid(parent_id);//获得头部主分类
+      pjzi(parent_id);//拼接子分类
+
+      $('.swiper-wrapper').on('touchstart', function(e) {
+                        api.setFrameGroupAttr({
+                            name : 'group1',
+                            scrollEnabled : false
+                        });
+                });
+
+        $('.swiper-wrapper').on('touchend', function(e) {
+                        api.setFrameGroupAttr({
+                                name : 'group1',
+                                scrollEnabled : true
+                        });
+                });
+
+
+
+	//上拉加载
+         api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 50 //距离底部距离
+            }
+        }, function(ret, err) {
+            console.log("上拉加载");
+            //console.log(data_allgoods.length);
+
+            if(allgoods_flag==1){
+            	if(data_allgoods!=null){
+		            if(data_allgoods.length<10){
+		            api.toast({
+			                  msg: '没有更多了',
+			                  duration: 2000,
+			                  location: 'bottom'
+			                });
+		            }else{
+		            	start+=10;
+					   	setTimeout('getAllGoods()', '3000');
+				    }
+				}
+		    }
+		    if(goods_flag==1){
+		    	if(data_goods!=null){
+		            if(data_goods.length<10){
+			            api.toast({
+				                  msg: '没有更多了',
+				                  duration: 2000,
+				                  location: 'bottom'
+				                });
+		            }else{
+		            	start+=10;
+					   	setTimeout('getGoods()', '3000');
+				    }
+				}
+		    }
+
+        });
+
+     //初始加载列表
+      //getGoods(categoryId);
+
+      };
+      //展开\关闭排序选项
+      function toggleSort(){
+        $(".sort").toggleClass("hide");
+        $(".good_item").addClass("dianji");
+      }
+      //关闭排序选项
+      function hideSort(){
+
+        $(".sort").addClass("hide");
+        $(".good_item").removeClass("dianji");
+
+      }
+      //排序
+      function goSort(sType){
+      	event.stopPropagation();
+      	start=0;
+         sort=sType;
+         $(".sort").addClass("hide");
+		//$("#allgoods").find("active").click();
+  		if(allgoods_flag==1){
+//	  		xli=0;
+//			xli2=10;
+			$("#goods_list").html("");
+  			getAllGoods('0');
+  		}
+  		if(goods_flag==1){
+  			$("#goods_list").html("");
+  			getGoods(goods_cid,goods_cate_id);
+  		}
+
+
+         //console.log(sdfs);
+         //alert("a");
+      }
+
+
+      var data_allgoods;
+      var data_goods;
+
+//    var xli=0;
+//	  var xli2=10;
+	  var start=0;
+      var end=10;
+      //拼接全部商品
+     function SplicingAllGoods(){
+    	var str="";
+     	for(var i=0;i<data_allgoods.length;i++){
+     				var funct='goDetail('+data_allgoods[i].goods_id+')';
+                      str="";
+                      str+='<div class="good_item relative clearfix " onclick="'+funct+'">';
+                      str+='<div class="good_img">';
+                      str+='<img src="'+$api.img_surl+data_allgoods[i].default_image+'" width="90" height="90" >';
+                      str+='</div>';
+                      str+='<div class="good_info">';
+                      str+='<P class="good_title">'+data_allgoods[i].goods_name+'</P>';
+                      if(data_allgoods[i].extension_content!=null&&data_allgoods[i].extension_content!=""){
+
+                          str+='<P class="sub_title">'+data_allgoods[i].extension_content+'</P>';
+
+                      }else{
+                        str+='<P class="sub_title">'+" "+'</P>';
+                      }
+                      //$("#goods_list").append('<P class="tags">');
+                      str+='<P class="tags">';
+                      //$("#goods_list").append('<span class="tag">新品</span>');
+                      str+='<span class="tag">新品</span>';
+                      //$("#goods_list").append('<span class="tag_odd">假一赔十</span>');
+                      str+='<span class="tag_odd">假一赔十</span>';
+                      //$("#goods_list").append('<span class="tag">国内</span>');
+                      str+='<span class="tag">国内</span>';
+                      //$("#goods_list").append('<span class="tag_odd">包邮</span>');
+                      str+='<span class="tag_odd">包邮</span>';
+                      //$("#goods_list").append('</P>');
+                      str+='</P>';
+                      if(data_allgoods[i].orders==null){
+                        //$("#goods_list").append('<p class="sales"><span >销量:0</span></p>');
+                        str+='<p class="sales"><span >销量:0</span></p>';
+                      }else{
+                        //$("#goods_list").append('<p class="sales"><span >销量:'+ret.retval[i].orders+'</span></p>');
+                        str+='<p class="sales"><span >销量:'+data_allgoods[i].orders+'</span></p>';
+                      }
+                      //$("#goods_list").append('<p class="relative" >');
+                      str+='<p class="relative" >';
+
+ 						var now_time=Date.parse(new Date())/1000;
+		                    if(data_allgoods[i].sp_goods_id!=null&&data_allgoods[i].start_time<now_time&&data_allgoods[i].end_time>now_time){
+		                    	if(ugrade==0||ugrade==1){
+		                    		str+='<span class="col_good_price">&yen;&nbsp;'+data_allgoods[i].sp_goods_price+'</span><del class="col_old_price">&yen;'+data_allgoods[i].oprice+'</del><span class="item_val buy_btn">立即购买</span>';
+		                    	}else{
+			                    	//var member_price=data_goods[i].member_price.split("-");
+			                    	//var zhuan=member_price[0]-member_price[ugrade];
+			                    	str+='<span class="col_good_price">&yen;&nbsp;'+data_allgoods[i].sp_goods_price+'</span><span class="col_old_price">赚&yen;'+zhuan+'</span><span class="item_val buy_btn2">省钱购</span>';
+		                    	}
+		                    }else{
+			                    if(ugrade==0||ugrade==1){
+		                    		str+='<span class="col_good_price">&yen;&nbsp;'+data_allgoods[i].price+'</span><del class="col_old_price">&yen;'+data_allgoods[i].oprice+'</del><span class="item_val buy_btn">立即购买</span>';
+		                    	}else{
+			                    	var member_price=data_allgoods[i].member_price.split("-");
+			                    	var zhuan=member_price[0]-member_price[ugrade];
+			                    	str+='<span class="col_good_price">&yen;&nbsp;'+member_price[ugrade]+'</span><span class="col_old_price">赚&yen;'+zhuan+'</span><span class="item_val1 buy_btn1">省钱购</span><span class="item_val buy_btn2" onclick="fun.goShare()" tapmode>分享赚</span>';
+		                    	}
+	                    	}
+
+
+//                    if(ugrade==0){
+//                      //$("#goods_list").append('<span class="col_good_price">&yen;&nbsp;'+ret.retval[i].price+'</span><del class="col_old_price">&yen;'+ret.retval[i].oprice+'</del><span >立即购买</span></p>');
+//                      str+='<span class="col_good_price">&yen;&nbsp;'+data_allgoods[i].price+'</span><del class="col_old_price">&yen;'+data_allgoods[i].oprice+'</del><span >立即购买</span></p>';
+//                    }else{
+//                      // $("#goods_list").append('<span class="col_good_price">&yen;&nbsp;'+ret.retval[i].price+'</span><span class="col_old_price">赚&yen;36</span><span class="item_val buy_btn1">省钱购</span><span >分享赚</span></p>');
+//                      //$api.append($api.byId("goods_list"), '<span class="col_good_price">&yen;&nbsp;'+ret.retval[i].price+'</span><span class="col_old_price">赚&yen;36</span><span class="item_val buy_btn1">省钱购</span><span >分享赚</span></p>');
+//                      str+='<span class="col_good_price">&yen;&nbsp;'+data_allgoods[i].price+'</span><span class="col_old_price">赚&yen;36</span><span class="item_val1 buy_btn1">省钱购</span><span class="item_val buy_btn2" onclick="fun.goShare()" tapmode>分享赚</span>';
+//                    }
+                      //$("#goods_list").append('</div>');
+                      str+='</p>';
+                      str+='</div>';
+                      //$("#goods_list").append('</div>');
+                      str+='</div>';
+
+            $api.append($api.byId("goods_list"), str);
+            }
+     }
+      //点选全部加载商品列表
+      function getAllGoods(cid){
+  		//alert(1);
+      allgoods_flag=1;
+      goods_flag=0;
+              $(".category_item").removeClass("active");
+              $(".category_"+cid).addClass("active");
+                api.ajax({
+                    url : URL+'/index.php?app=homepage&act=comprehensive1',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                      values : {
+                          cate_id:parent_id,
+                          sort:sort,
+                          start:start,
+                          end:end
+                        }
+                    }
+                }, function(ret, err) {
+                    // alert(JSON.stringify(ret));
+                 if (ret &&ret.done) {
+                    //console.log(JSON.stringify(ret.retval[0]));
+
+                    //var str="";
+//                 if(ret.retval.length<50||ret.retval==null){
+//	                	//data_allgoods=[];
+//	             	}else{
+	                    data_allgoods=ret.retval;
+
+	                    SplicingAllGoods();
+//					}
+         		 }
+                });
+            }
+      //点选加载||获得商品
+      function getGoods(cid,cate_id){
+      //alert(cate_id);3000
+      //alert(sort);
+      allgoods_flag=0;
+      goods_flag=1;
+      goods_cid=cid;
+      goods_cate_id=cate_id;
+
+      $(".category_item").removeClass("active");
+       $(".category_"+cid).addClass("active");
+       //alert(cate_id);
+        api.ajax({
+                    url : URL+'/index.php?app=homepage&act=category_getgoods',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            cate_id:cate_id,
+                            sort:sort
+                        }
+                    }
+                }, function(ret, err) {
+                if (ret &&ret.done) {
+                  	$("#goods_list").html("");
+					data_goods=ret.retval;
+					SplicingGoods();
+                  //alert("a");
+                  //console.log(ret.retval.length);
+
+				}
+       });
+
+      }
+       //拼接商品
+	function SplicingGoods(){
+     	 var str2="";
+                  for(var i=0;i<data_goods.length;i++){
+                      //$("#goods_list").append('<div class="good_item relative clearfix">');
+                      var funct='goDetail('+data_goods[i].goods_id+')';
+                      str2+='<div class="good_item relative clearfix " onclick="'+funct+'">';
+                      //$("#goods_list").append('<div class="good_img">');
+                      str2+='<div class="good_img">';
+                      //$("#goods_list").append('<img src="'+URL+ret.retval[i].default_image+'" width="90" height="90" >');
+                      str2+='<img src="'+$api.img_surl+data_goods[i].default_image+'" width="90" height="90" >';
+                      //$("#goods_list").append('</div>');
+                      str2+='</div>';
+                      //$("#goods_list").append('<div class="good_info">');
+                      str2+='<div class="good_info">';
+                      //$("#goods_list").append('<div class="good_item relative clearfix">');
+
+                      //$("#goods_list").append('<P class="good_title">'+ret.retval[i].goods_name+'</P>');
+                      str2+='<P class="good_title">'+data_goods[i].goods_name+'</P>';
+                      //$("#goods_list").append('<P class="sub_title">'+ret.retval[i].extension_content+'</P>');
+                      str2+='<P class="sub_title">'+data_goods[i].extension_content+'</P>';
+                      //$("#goods_list").append('<P class="tags">');
+                      str2+='<P class="tags">';
+                      //$("#goods_list").append('<span class="tag">新品</span>');
+                      str2+='<span class="tag">新品</span>';
+                      //$("#goods_list").append('<span class="tag_odd">假一赔十</span>');
+                      str2+='<span class="tag_odd">假一赔十</span>';
+                      //$("#goods_list").append('<span class="tag">国内</span>');
+                      str2+='<span class="tag">国内</span>';
+                      //$("#goods_list").append('<span class="tag_odd">包邮</span>');
+                      str2+='<span class="tag_odd">包邮</span>';
+                      //$("#goods_list").append('</P>');
+                      str2+='</P>';
+                      if(data_goods[i].orders==null){
+                        //$("#goods_list").append('<p class="sales"><span >销量:0</span></p>');
+                        str2+='<p class="sales"><span >销量:0</span></p>';
+                      }else{
+                        //$("#goods_list").append('<p class="sales"><span >销量:'+ret.retval[i].orders+'</span></p>');
+                        str2+='<p class="sales"><span >销量:'+data_goods[i].orders+'</span></p>';
+                      }
+                      //$("#goods_list").append('<p class="relative" >');
+                      str2+='<p class="relative" >';
+						var now_time = Date.parse(new Date()) / 1000;
+						if (data_goods[i].sp_goods_id != null && data_goods[i].start_time < now_time && data_goods[i].end_time > now_time) {
+							if (ugrade == 0 || ugrade == 1) {
+								str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].sp_goods_price + '</span><del class="col_old_price">&yen;' + data_goods[i].oprice + '</del><span class="item_val buy_btn">立即购买</span>';
+							} else {
+								//var member_price=data_goods[i].member_price.split("-");
+								//var zhuan=member_price[0]-member_price[ugrade];
+								str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].sp_goods_price + '</span><span class="col_old_price">赚&yen;' + zhuan + '</span><span class="item_val buy_btn2">省钱购</span>';
+							}
+						} else {
+							if (ugrade == 0 || ugrade == 1) {
+								str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].price + '</span><del class="col_old_price">&yen;' + data_goods[i].oprice + '</del><span class="item_val buy_btn">立即购买</span>';
+							} else {
+								var member_price = data_goods[i].member_price.split("-");
+								var zhuan = member_price[0] - member_price[ugrade];
+								str2 += '<span class="col_good_price">&yen;&nbsp;' + member_price[ugrade] + '</span><span class="col_old_price">赚&yen;' + zhuan + '</span><span class="item_val1 buy_btn1">省钱购</span><span class="item_val buy_btn2" onclick="fun.goShare()" tapmode>分享赚</span>';
+							}
+						}
+
+//                    if(ugrade==0){
+//                      //$("#goods_list").append('<span class="col_good_price">&yen;&nbsp;'+ret.retval[i].price+'</span><del class="col_old_price">&yen;'+ret.retval[i].oprice+'</del><span >立即购买</span></p>');
+//                      str2+='<span class="col_good_price">&yen;&nbsp;'+data_goods[i].price+'</span><del class="col_old_price">&yen;'+data_goods[i].oprice+'</del><span >立即购买</span></p>';
+//                    }else{
+//                       //$("#goods_list").append('<span class="col_good_price">&yen;&nbsp;'+ret.retval[i].price+'</span><span class="col_old_price">赚&yen;36</span><span >省钱购</span><span >分享赚</span></p>');
+//                      str2+='<span class="col_good_price">&yen;&nbsp;'+data_goods[i].price+'</span><span class="col_old_price">赚&yen;36</span><span class="item_val1 buy_btn1" >省钱购</span><span class="item_val buy_btn2" onclick="fun.goShare()" tapmode>分享赚</span>';
+//                    }
+
+
+                      //$("#goods_list").append('</div>');
+                      str2+='</p>';
+                      str2+='</div>';
+                      //$("#goods_list").append('</div>');
+                      str2+='</div>';
+
+                }
+                 $api.append($api.byId("goods_list"), str2);
+     }
+
+
+      //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      //搜索页面
+        function goSearch(){
+            api.openWin({
+                name: 'search',
+                url: './search.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                }
+            });
+        }
+
+
+        //拼接孙分类
+        function pjzi(parent_id){
+        //alert(all_flag);
+          api.ajax({
+                    url : URL+'/index.php?app=homepage&act=getzi_category',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            cate_id:parent_id
+                        }
+                    }
+                }, function(ret, err) {
+                //console.log(ret.retval);
+                //console.log(cate_id);
+                if(ret.retval.length==0){
+                	$(".category_item").removeClass("active");
+	              	$(".category_0").addClass("active");
+	                getAllGoods('0');
+                }
+                for(var i=0;i<ret.retval.length;i++){
+                  if(cate_id==0){
+                    if(i==0){
+	                    if(all_flag==1){
+	                    		//alert("a");
+	                    		$(".category_item").removeClass("active");
+	              				$(".category_0").addClass("active");
+	                    		getAllGoods('0');
+	                    		$("#category_list").append('<div class="swiper-slide"><span class="category_item category_'+(i+1)+' " onclick="getGoods('+(i+1)+','+ret.retval[i].cate_id+')" tapmode>'+ret.retval[i].cate_name+'</span></div>');
+
+	                    	}else{
+			                    getGoods(i+1,ret.retval[i].cate_id);
+			                    $("#category_list").append('<div class="swiper-slide"><span class="category_item category_'+(i+1)+' active " onclick="getGoods('+(i+1)+','+ret.retval[i].cate_id+')" tapmode>'+ret.retval[i].cate_name+'</span></div>');
+	                   		}
+                    }else{
+                      	$("#category_list").append('<div class="swiper-slide"><span class="category_item category_'+(i+1)+'" onclick="getGoods('+(i+1)+','+ret.retval[i].cate_id+')" tapmode>'+ret.retval[i].cate_name+'</span></div>');
+                      	//alert(ret.retval[i].cate_name);
+                    }
+                  }else{
+                   if(cate_id==ret.retval[i].cate_id){
+                   		getGoods(i+1,ret.retval[i].cate_id);
+                    	$("#category_list").append('<div class="swiper-slide"><span class="category_item category_'+(i+1)+' active " onclick="getGoods('+(i+1)+','+ret.retval[i].cate_id+')" tapmode>'+ret.retval[i].cate_name+'</span></div>');
+
+
+                      //getGoods(i+1,ret.retval[i].cate_id);
+                      //$("#category_list").append('<div class="swiper-slide"><span class="category_item category_'+(i+1)+' active " onclick="getGoods('+(i+1)+','+ret.retval[i].cate_id+')" tapmode>'+ret.retval[i].cate_name+'</span></div>');
+                  }else{
+                    $("#category_list").append('<div class="swiper-slide"><span class="category_item category_'+(i+1)+'" onclick="getGoods('+(i+1)+','+ret.retval[i].cate_id+')" tapmode>'+ret.retval[i].cate_name+'</span></div>');
+                  }
+                }
+              }
+               var swiper = new Swiper('.swiper_category', {
+           slidesPerView: 4,
+           spaceBetween:0,
+           loop: false,
+           autoplay: false
+          });
+
+           });
+        }
+
+        //给头部赋值
+        function getnamebyid(cate_id){
+          api.ajax({
+                    url : URL+'/index.php?app=homepage&act=getcate_namebyid',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            cate_id:cate_id
+                        }
+                    }
+                }, function(ret, err) {
+                console.log(ret.retval);
+                $("#header").html(ret.retval);
+       });
+        }
+
+       function goDetail(goodId){
+       event.stopPropagation();
+        console.log(goodId);
+            api.openWin({
+                name: 'goods.view',
+                url: './goods.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    goodId: goodId //商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                }
+            });
+        }
+
+		//各类排序点击
+
+  </script>
+  </html>

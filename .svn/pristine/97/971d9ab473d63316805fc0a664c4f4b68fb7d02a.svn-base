@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.teaching.css" />
+    <title>厨艺教学</title>
+</head>
+
+<body>
+    <!-- 头部 -->
+    <header class="page-head">
+        <div class="back" onclick="goBack()" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>厨艺教学</span>
+        </div>
+    </header>
+
+    <!-- 头部搜索 -->
+    <div class="search-head">
+        <div class="search-main">
+            <i class="iconfont icon-search"></i>
+            <input class="search-virtual" placeholder="搜索商品" tapmode>
+            </input>
+        </div>
+        <div class="search-real">搜索</div>
+    </div>
+
+    <!-- 轮播图 -->
+    <div class="swiper">
+        <div class="swiper-container swiper-top">
+            <div class="swiper-wrapper" id="adv">
+                <div class="swiper-slide" tapmode>
+                    <div class="swiper-slide-imgbox">
+                        <img src="" alt="">
+                    </div>
+                </div>
+                <div class="swiper-slide" tapmode>14</div>
+                <div class="swiper-slide" tapmode>153</div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <!-- 名厨介绍 -->
+    <div class="introduce">
+        <div class="history">
+            <div class="history-ball">
+                <i></i>
+            </div>
+            <div class="history-ball-text">播放历史</div>
+        </div>
+        <div class="history">
+            <div class="history-ball">
+                <i></i>
+            </div>
+            <div class="history-ball-text">我的收藏</div>
+        </div>
+        <div class="history">
+            <div class="history-ball">
+                <i></i>
+            </div>
+            <div class="history-ball-text">了解教学</div>
+        </div>
+    </div>
+    <!-- 球状列表 -->
+    <div class="chef-ball-list">
+        <div class="swiper-container swiper-ball-list">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide swiper-ball-items" tapmode>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">烘焙</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">中餐</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">西餐</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">营养餐</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">点心</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">饮品</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">创意菜</div>
+                    </div>
+                    <div class="swiper-ball-item">
+                        <div class="swiper-ball-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="swiper-ball-text">全部</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flip"></div>
+    </div>
+    <!-- 教学轮播列表 -->
+    <div class="swiper-container swiper-teaching">
+        <div class="swiper-wrapper" id="forum">
+            <div class="swiper-slide swiper-teaching-slide" tapmode>
+                <p>热门教学</p>
+                <p class="teaching-text">本周流行菜系</p>
+                <div class="goBtn">
+                    <p>GO</p>
+                    <i class="iconfont icon-htbArrowright"></i>
+                </div>
+            </div>
+            <div class="swiper-slide swiper-teaching-slide slide-blue" tapmode>
+                <p>最新教学</p>
+                <p class="teaching-text">24小时实时推荐</p>
+                <div class="goBtn goBtn-blue">
+                    <p>GO</p>
+                    <i class="iconfont icon-htbArrowright"></i>
+                </div>
+            </div>
+            <div class="swiper-slide swiper-teaching-slide slide-purple" tapmode>
+                <p>新手教学</p>
+                <p class="teaching-text ">国家一级教程</p>
+                <div class="goBtn goBtn-purple">
+                    <p>GO</p>
+                    <i class="iconfont icon-htbArrowright"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 教学推荐头部 -->
+    <div class="chef-teaching-recommend">
+        <div class="chef-form-in">
+            <div class="chef-main-head">
+                <div class="chef-head-left">
+                    <i class="iconfont icon-qianbi"></i>
+                    <div class="chef-left-text">教学推荐</div>
+                </div>
+                <!-- <div class="chef-head-more">
+                    更多
+                    <i class="iconfont icon-htbArrowright"></i>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- 教学推荐卡片 -->
+
+        <div class="teaching-recommend-card">
+            <div class="teaching-card-item forum-item">
+                <div class="forum-item-imgbox">
+                    <span class="forum-item-tagtop forum-item-pay">付费</span>
+                    <img src="" alt="">
+                </div>
+                <div class="forum-item-explain">
+                    <p class="forum-explain-title">中国菜肴的八种烹饪方法</p>
+                    <div class="forum-explain-foot">
+                        <div class="forum-foot-explain">
+                            <i class="iconfont"></i>
+                            <span class="forum-foot-name">周伯通</span>
+                            |
+                            <span class="forum-foot-level">国家一级厨师</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 教学名片选项 -->
+        <div class="chef-hotslist-head">
+            <p class="hotslist-head-item hotslist-head-active">全部</p>
+            <p class="hotslist-head-item">大师公开课</p>
+            <p class="hotslist-head-item">技法解析</p>
+            <p class="hotslist-head-item">食材解析</p>
+        </div>
+        <!-- 教学视频列表 -->
+        <div class="detail-teach-videos">
+            <div class="detail-teach-videobox">
+                <video src=""></video>
+            </div>
+            <div class="detail-video-bottom">
+                <div class="detail-video-name">秘制番茄炒蛋</div>
+                <div class="video-video-detail">
+                    <div class="video-video-left">
+                        <i class="iconfont"></i>
+                        <span class="video-left-text">李大师</span>|<span class="video-left-text">国家一级厨师</span>
+                    </div>
+                    <div class="video-video-right">
+                        <div class="video-footer-item">
+                            <i class="iconfont"></i>
+                            <span class="video-footer-look">129</span>
+                        </div>
+                        <div class="video-footer-item">
+                            <i class="iconfont"></i>
+                            <span class="video-footer-comment">129</span>
+                        </div>
+                        <div class="video-footer-item">
+                            <i class="iconfont"></i>
+                            <span class="video-footer-fabulous">129</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

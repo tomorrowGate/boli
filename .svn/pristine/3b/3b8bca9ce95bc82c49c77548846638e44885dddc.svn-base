@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>名厨汇聚</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <style>
+         html, body{}
+         .bg_div{  background: url(../image/bg_top.png) 0 0 no-repeat; background-size: 100% 100%;}
+        .center_div{border-bottom:10px solid #f6f6f6;padding:0 3%;}
+        .swiper_top{max-height:165px;}
+         /* 分类列表middle_nav*/
+         .middle_nav{padding:15px 0 10px 0;width:100%}
+        .nav_item{ width:25%;float:left;color:#8d8d8d;text-align:center;font-size: 0.8em; }
+        .nav_item .sub_category{ height:40px;width:40px; border-radius:20px; box-shadow: 0 0 1px 2px #f6f4f4;margin: 5px 0; }
+        .nav_item img.category_img{height:40px;width:40px;border-radius:20px;margin-bottom: 5px;}
+        .nav_item .all_c{ font-size: 2em; position: relative;top: 5px; }
+        /* sticky */
+        .sticky {position: -webkit-sticky;position: sticky;top: 0;padding: 5px 3%; background-color: #fff;z-index: 1;}
+        .sticky .list_type{ width:50%;text-align:center;float:left;height:30px;line-height: 30px;font-weight: bold ;border-bottom: 1px solid #f2f2f2 }
+        .sticky .list_type span{ height:30px;line-height:30px; }
+         .sticky .active span{ color:#0b93eb;border-bottom: 2px solid #0b93eb }
+         /* 商品列表goods_list */
+          #goods_list{ padding:0 3%;width:100%; }
+          .good_item{ margin:10px 0;padding:10px 0; }
+          .good_title,.sales{ margin-bottom:0 }
+         .sub_title{ color:#8d8d8d;font-size: 0.9em;margin-bottom: 2px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical; }
+         .good_title{white-space:nowrap;text-overflow:ellipsis; overflow: hidden;font-weight: bold;font-size: 0.9em}
+          .relative{position: relative;}
+           .left_message{width:70%; line-height:18px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;font-size: 0.9em; }
+          .good_img{ padding:0 10px 0 0;float:left }
+          .cooker_img{ height:80px;width:80px;border-radius:40px; }
+         .good_info{ position:absolute;top:7px;left:100px;right:0 }
+         .name{ font-weight: bold }
+         .img2{  height:20px;margin-left:5px;}
+         .tags{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 70%; -webkit-line-clamp: 1;font-size: 0.9em;margin-bottom:2px;padding-right:3.8em; color:#8d8d8d;  }
+         .tag{ margin-right:0.5em;}
+         .sales{ color:#8d8d8d;font-size: 0.9em; }
+         .person_view{ color: #0069ad ;margin:7px 0 0 0;font-size: 0.9em}
+         .item_val{position: absolute;right:0;top:0;}
+         .learn_btn,.apprentice_btn{ width:3.4em;height:26px;line-height: 26px;border-radius: 13px;color:#fff;background-color: #ee5e53 ;margin-bottom: 8px;text-align: center}
+         .item_val1{position: absolute;right:3.8em;top:-11px;}
+         .buy_btn{ padding:2px 0.5em;color:#fff;background-color: #0b93eb ;border-radius: 5px;font-size:1.1em;}
+         .buy_btn1,.buy_btn2{ padding:2px;color:#fff;background-color: #fff;color: #0b93eb ;border:1px solid #0b93eb ; border-radius: 5px;font-size:1.1em;}
+         .buy_btn2{ color:#fff;background-color: #0b93eb ; }
+         .good_desc{ color:#8d8d8d;font-size: 0.8em }
+         .relative{position: relative;}
+         .col_good_price{ color:#ff0000;padding-right: 5px }
+         .col_old_price{ color:#8d8d8d; }
+
+         .opera{ text-align: right;font-size: 0.9em; margin-top:8px;}
+         .opera i{ font-size: 0.9em;  }
+         .view_icon,.love_icon{ color:#DBDBDB; }
+         .opera span{ margin: 0 10px 0 5px; }
+         /*教学*/
+          .content_item{margin-bottom: 10px;position:relative;}
+          .article_video{width:50%;float:left;overflow: hidden}
+          .article_video video{width:100%;}
+          .article_desc{height:80px;float:left;padding-left:10px;padding-top:10px;}
+          .article_title{margin-bottom:0;height:20px;line-height:20px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;}
+          .article_content{margin-bottom:0;height:20px;line-height:20px;color:#7f7f7f;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;}
+
+    </style>
+</head>
+<body>
+  <div class="bg_div">
+    <div class="swiper-container swiper_top" >
+        <div class="swiper-wrapper" id="adv">
+           <div class="swiper-slide" onclick="" tapmode>
+              <img src="../image/mchj.jpg" width="100%" width="100%" class="circle" />
+            </div>
+            <!--<div class="swiper-slide" onclick="" tapmode>
+              <img src="../image/mrsx2.png" width="100%" width="100%" class="circle" />
+            </div>-->
+        </div>
+      </div>
+
+  </div>
+    <div class="sticky">
+      <div class="list_type active" onclick="fun.changeOrder(this,1)" id="zh" tapmode><span>名厨</span></div>
+      <div class="list_type" onclick="fun.changeOrder(this,2)" tapmode><span>教学</span></div>
+      <div style="clear:both"></div>
+    </div>
+    <div id="goods_list" class="clearfix">
+          <!-- <div class="content_item clearfix " id="article_1">
+             <div class="article_video"><video src="'+URL+'/'+item.article_videos+'" controls="controls">您的手机不支持播放该视频格式。</video></div>
+             <div  class="article_desc">
+               <p class="article_title">'+item.title+'</p>
+               <p class="article_content">'+item.content+'</p>
+             </div>
+          </div>
+      <div class="good_item relative clearfix">
+        <div class="good_img">
+          <img src="../image/good_img.png" class="cooker_img">
+        </div>
+        <div class="good_info">
+          <P class="good_title"><span class="name">周伯通</span> <img src="../image/ceown_r.png" class="img2"></P>
+                    <P class="sub_title">川菜大厨</P>
+                    <P class="tags">
+                        <span class="tag">擅长：</span>
+                        <span class="tag">川菜</span>
+                        <span class="tag">湘菜</span>
+                        <span class="tag">鲁菜</span>
+                        <span class="tag">粤菜</span>
+                    </P>
+                    <p class="person_view">查看人物介绍</p>
+                    <p class="item_val" onClick="goMymaster('master_id')" tapmod><span class="learn_btn">学习</span><br/><span class="apprentice_btn">拜师</span></p>
+        </div>
+      </div> -->
+    </div>
+
+
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+	var type=1;//价格排序变量
+	$(function() {  //消除300ms点击延迟
+    	FastClick.attach(document.body);
+  	});
+	var swiper_top = new Swiper('.swiper_top', {
+  		slidesPerView: 1,
+	    spaceBetween:0,
+	    loop: true,
+	    autoplay:true
+	});
+  function checkLogin(){
+     var userId=window.localStorage.getItem("userId"); //用户id
+     if(userId==''||userId==null||userId==undefined){
+       api.openWin({
+         name : 'login',
+         url : './login.html',
+         slidBackEnabled:false
+       });
+       api.toast({
+               msg: '请先登录!',
+               duration: 2000,
+               location: 'middle'
+             });
+       return false;
+     }else{ 
+       return true;
+    }
+  }
+
+	var ugrade=window.localStorage.getItem("ugrade"); //用户等级
+	var userId=window.localStorage.getItem("userId"); //用户id
+	//alert(ugrade);
+	var URL="";
+	var fun={};
+  var cidType=1;
+	URL=$api.URL();
+
+    apiready = function(){
+		$("#goods_list").html("");
+        comprehensive_list(1);//获得商品默认综合
+
+
+        //上拉加载
+    api.addEventListener({
+    	name: 'scrolltobottom',
+        extra: {
+        	threshold: 50 //距离底部距离
+        }
+    }, function(ret, err) {
+    		console.log("上拉加载");
+            //alert(data.length);
+            //var avg=data_goods.length-data_goods.length%10;
+            //alert(avg);
+         if(data_goods!=null){
+	            if(data_goods.length<10){
+	            	api.toast({
+		                  msg: '没有更多了',
+		                  duration: 2000,
+		                  location: 'bottom'
+		                });
+	            }else{
+	            	start+=10;
+
+			          //alert(xli+"  "+xli2);
+			    	setTimeout('comprehensive_list(cidType)', '3000');
+		       }
+	       }
+
+        });
+        //下拉刷新
+          api.setCustomRefreshHeaderInfo({
+                bgColor: '#238bd9',
+                images: {
+                    pull: 'widget://image/refresh/pulling.png',
+                    transform: [
+                        'widget://image/refresh/transform0.png',
+                        'widget://image/refresh/transform1.png',
+                        'widget://image/refresh/transform2.png',
+                        'widget://image/refresh/transform3.png',
+                        'widget://image/refresh/transform4.png',
+                        'widget://image/refresh/transform5.png',
+                        'widget://image/refresh/transform6.png'
+                    ],
+                    load: [
+                        'widget://image/refresh/loading0.png',
+                        'widget://image/refresh/loading1.png',
+                        'widget://image/refresh/loading2.png',
+                        'widget://image/refresh/loading3.png',
+                        'widget://image/refresh/loading4.png',
+                    ]
+                }
+            }, function(ret, err) {
+              //console.log('loading=================================>');
+              $("#goods_list").html("");
+              comprehensive_list(cidType);
+               setTimeout('api.refreshHeaderLoadDone()', '3000');
+               //get_spike_time();
+            });
+
+     };
+
+     //切换
+      fun.changeOrder=function(objThis,cid){
+          $(objThis).addClass("active").siblings().removeClass("active");
+          cidType=cid;
+          $("#wrapperScroll0 .moreLoad p").text("加载中...");
+          $("#goods_list").html("");
+          //listLoad(cid);
+          if(cid==3){
+ 		      	if(type==1){
+ 		      		type=2;
+ 		      	}else if(type==2){
+ 		      		type=1;
+ 		      	}
+ 		      }
+ 		      start=0;
+			    //console.log(type);
+          comprehensive_list(cid);
+      }
+
+        //商品详情
+        fun.goDetail=function(goodId){
+        	//alert(goodId);
+            api.openWin({
+                name: 'goods.view',
+                url: './goods.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    goodId: goodId //商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                }
+            });
+        }
+
+
+        var start=0;
+        var end=10;
+        var data_goods=null;
+        //获得名厨
+         function comprehensive_list(cid){
+			//alert(cid);
+	         var act="";
+	        	if(cid==1){
+	        		act="BigChef_Converge";
+              api.ajax({
+                        url : URL+'/index.php?app=boli_homepage&act=BigChef_Converge',
+                        method : 'post',
+                        cache : false,
+                        timeout : 30,
+                        dataType : 'json',
+                        returnAll : false,
+                        data : {
+                          values : {
+                           userId : userId,
+                              type:type,
+                              start:start,
+                              end:end
+                            }
+                        }
+                    }, function(ret, err) {
+                      if (ret &&ret.done) {
+                      console.log(JSON.stringify(ret));
+                        data_goods=ret.retval;
+                        if(cid==1){
+                          Splicing_BigChef();
+                        }else{
+                          Splicing_Teaching();
+                        }
+
+                      }
+                      api.refreshHeaderLoadDone();
+                    });
+
+
+          }else if(cid==2){
+              api.ajax({
+                        url : URL+'/index.php?app=boli_homepage&act=get_news',
+                        method : 'post',
+                        cache : false,
+                        timeout : 30,
+                        dataType : 'json',
+                        returnAll : false,
+                        data : {
+                          values : {
+                           userId : userId,
+                              type:type,
+                              start:start,
+                              end:end,
+                              cate_id:21
+                            }
+                        }
+                    }, function(ret, err) {
+                      if (ret &&ret.done) {
+                      console.log(JSON.stringify(ret));
+                        data_goods=ret.retval;
+                        if(cid==1){
+                          Splicing_BigChef();
+                        }else{
+                          Splicing_Teaching();
+                        }
+
+                      }
+                      api.refreshHeaderLoadDone();
+                    });
+
+	        	}
+
+}
+
+        //拼接名厨
+        function Splicing_BigChef(){
+
+        var str_comprehensive='';
+        if(data_goods==''){
+          str_comprehensive+='<p class="null">暂无内容</p>';
+        }else{
+          $.each(data_goods, function(i, item) {
+
+                       str_comprehensive+='<div class="good_item relative clearfix" onClick="goMymaster('+item.user_id+')" tapmod>';
+                       str_comprehensive+='<div class="good_img">';
+                       str_comprehensive+='<img src="'+URL+"/"+item.portrait+'"  class="cooker_img">';
+                       str_comprehensive+='</div>';
+                       str_comprehensive+='<div class="good_info">';
+                       str_comprehensive+='<P class="good_title "><span class="name">'+item.real_name2+'</span> <img src="../image/ceown_r.png" class="img2"></P>';
+                       str_comprehensive+='<p class="left_message font_c1">'+item.remark+'</p>';
+                       str_comprehensive+='<P class="tags">';
+                       if(item.tag_name.length>0){
+                     $.each(item.tag_name,function(i,item1){
+                      str_comprehensive+='<span class="tag">'+item1.name+'</span>';
+                    })
+                   }else{
+                      str_comprehensive+='<span class="tag">'+item.name+'</span>';
+                   }
+                       str_comprehensive+='</P>';
+                       str_comprehensive+='<p class="person_view " >查看人物介绍</p>';
+                       str_comprehensive+='<p class="item_val" onClick="goMymaster('+item.user_id+')" tapmod><span class="learn_btn">学习</span><br/><span class="apprentice_btn">拜师</span></p>';
+                       str_comprehensive+='</div>';
+                       str_comprehensive+='</div>';
+                   })
+        }
+
+                    $api.append($api.byId("goods_list"), str_comprehensive);
+        }
+        //拼接教学
+        function Splicing_Teaching(){
+        var str_comprehensive='';
+        if(data_goods==''){
+          str_comprehensive+='<p class="null">暂无内容</p>';
+        }else{
+        	 $.each(data_goods, function(i, item) {
+            str_comprehensive+='<div class="content_item clearfix " id="article_1">';
+             str_comprehensive+='<div class="article_video"><video src="'+URL+'/'+item.article_videos+'" controls="controls" >您的手机不支持播放该视频格式。</video></div>';
+             str_comprehensive+='<div  class="article_desc">';
+               str_comprehensive+='<p class="article_title">'+item.title+'</p>';
+               str_comprehensive+='<p class="article_content">'+item.content+'</p>';
+             str_comprehensive+='</div>';
+          str_comprehensive+='</div>';
+
+             })
+           }
+             $api.append($api.byId("goods_list"), str_comprehensive);
+        }
+
+      //跳转我的师傅\我要拜师
+    function goMymaster(masterId){
+      if(checkLogin()){
+    console.log(masterId);
+      api.openWin({
+          name: 'master',
+          url: './master.html',
+          bounces: false,
+          pageParam: {
+             masterId: masterId,
+          },
+          animation:{
+            type:"push",
+            subType:"from_right",
+            duration:300
+          }
+        });
+    }
+  }
+
+
+     //点击类型栏
+     function Category(cate_id){
+     	//alert(cate_id);
+     	$("#zh").addClass("active").siblings().removeClass("active");
+     }
+</script>
+</html>
