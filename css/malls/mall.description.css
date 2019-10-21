@@ -288,6 +288,12 @@
 .rich-text img{
     width: 100%;
 }
+.mustknow-box{
+    width: 100%;
+}
+.mustknow-box img{
+    width: 100%;
+}
 /* 底部导航条 */
 .footNav {
     width: 100%;
@@ -464,4 +470,58 @@
     color: #fff;
     text-align: center;
     background: #6fba2c;
+}
+
+/* 优惠券弹框 */
+.dia-coupon-real{
+    height: 90vw;
+}
+.dia-coupton-top{
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+.coupton-title{
+    font-size: 1.4em;
+    font-weight: bold;
+}
+.dia-shopcard-content{
+    padding: 10px ;
+}
+.coupon-item{
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+}
+.coupin-item-left{
+    flex:3;
+    padding: 5px 20px;
+    background: #fbeded;
+    font-size: 0.9em;
+    color: #999;
+    border-radius: 10px 0 0 10px;
+}
+.coupon-item-money{
+    font-size: 1.1em;
+    color: #d96b6c;
+}
+.money-real{
+    font-size: 1.8em;
+}
+.coupin-item-right{
+    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #d96b6c;
+    color: #fff;
+    border-radius: 10px;
+}
+.coupon-item-receive{
+    font-size: 1.4em;
+}
+.coupon-bottom-canele{
+    font-size: 1.2em;
+    background: #eee;
+    color: #000;
 }

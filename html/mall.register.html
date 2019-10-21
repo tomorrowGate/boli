@@ -227,6 +227,7 @@
                     var header = that.$refs.header;
                     $api.fixStatusBar(header);
                     that.URL = $api.URL()
+                    that.changeBottomList(that.bottomLists.activeIndex)
                     //上拉加载
                     api.addEventListener({
                         name: 'scrolltobottom',
@@ -267,7 +268,7 @@
                             ]
                         }
                     }, function (ret, err) {
-                        console.log(1)
+                        setTimeout('api.refreshHeaderLoadDone()', '500');
                     });
                 }
             })

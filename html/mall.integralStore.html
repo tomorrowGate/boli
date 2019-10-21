@@ -71,13 +71,6 @@
             </div>
         </div>
 
-
-        <!-- 全部最新热卖 -->
-        <div class="chef-hotslist-head">
-            <p class="hotslist-head-item hotslist-head-active">全部</p>
-            <p class="hotslist-head-item">最新</p>
-            <p class="hotslist-head-item">热卖</p>
-        </div>
         <!-- 全部最新热卖 -->
         <div class="chef-hotslist-head">
             <p :class="['hotslist-head-item',bottomLists.activeIndex==0?'hotslist-head-active':'']"
@@ -356,6 +349,7 @@
                             bounces: true
                         });
                     });
+                    that.changeBottomList(that.bottomLists.activeIndex)
                     //上拉加载
                     api.addEventListener({
                         name: 'scrolltobottom',
@@ -400,7 +394,7 @@
                             ]
                         }
                     }, function (ret, err) {
-                        console.log(1)
+                        setTimeout('api.refreshHeaderLoadDone()', '500');
                     });
                 }
             })

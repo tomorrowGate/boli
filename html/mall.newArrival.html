@@ -41,10 +41,40 @@
         </div>
         <!-- 全部最新热卖 -->
         <div class="chef-hotslist-head" ref="chef-hotslist-head">
-            <p :class="['hotslist-head-item',isDet==0?'hotslist-head-active':'']" @click="changeNVTbar(0)">全部</p>
-            <p :class="['hotslist-head-item',isDet==1?'hotslist-head-active':'']" @click="changeNVTbar(1)">最新</p>
-            <p :class="['hotslist-head-item',isDet==2?'hotslist-head-active':'']" @click="changeNVTbar(2)">热卖</p>
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==0?'hotslist-head-active':'']" @click="changeBottomList(0)">全部</p>
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==1?'hotslist-head-active':'']" @click="changeBottomList(1)">最新</p>
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==2?'hotslist-head-active':'']" @click="changeBottomList(2)">热卖</p>
         </div>
+   
+        <!-- 商品展示 -->
+        <div class="chef-form-formlist">
+                <div 
+                    class="chef-form-card"  
+                    v-for="(v,i) in bottomLists.showList" 
+                    :key="i"
+                    @click="goGoodsDet(v.goods_id)">
+                    <div class="chef-form-leftimg">
+                        <img :src="URL+v.default_image" alt="">
+                    </div>
+                    <div class="chef-right-content">
+                        <div class="chef-head1">
+                            <div class="chef-head1-name">{{v.goods_name}}</div>
+                        </div>
+                        <div class="chef-head2 chef-forum-light">{{v.goods_name}}</div>
+                        <div class="chef-head3 chef-forum-light forum-foot-explain">
+                            <!-- <i class="iconfont"></i> -->
+                            <span class="forum-foot-name">{{v.tags}}</span>
+                        </div>
+                        <div class="chef-head4 ">
+                            <p class="swiper-red">
+                                <span class="agoPrice">￥{{v.oprice}}</span>
+                                <span class="price swiper-del">￥{{v.price}}</span>
+                            </p>
+                            <p class="chef-head2">销量<span>{{v.orders}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
 </body>
 
@@ -63,6 +93,14 @@
             top:0,
             swiperTop: null,
             isDet:0,
+
+            bottomLists:{
+                activeIndex: 0,
+                list: [[], [], []],
+                start: [0, 0, 0],
+                end:[false,false,false],
+                showList: []
+            }
         },
         computed: {
 
@@ -191,7 +229,77 @@
                     index: i,
                     scroll:true,
                 });
-            }
+            },
+            changeBottomList: function (i) {
+                var that = this
+                this.bottomLists.activeIndex = i
+                var funcArr = ["get_all_goods_new", "get_new_goods", "get_hot_goods"]
+                /* console.log('激活的index='+this.bottomLists.activeIndex)
+                console.log('start'+that.bottomLists.start[that.bottomLists.activeIndex]) */
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=' + funcArr[i],
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: { start: that.bottomLists.start[i] }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        if(ret.retval.length<=0){
+                            that.bottomLists.end[i] = true
+                        }else{
+                            ret.retval.forEach(function(v,index){
+                                v.price = v.price<=1?v.price:parseInt(v.price)
+                                v.oprice = v.oprice<=1?v.oprice:parseInt(v.oprice)
+                                that.bottomLists.list[i].push(v)
+                            })
+                            that.bottomLists.start[i] += 6;
+                            that.bottomLists.end[i] = false
+                        }
+                        that.bottomLists.showList = that.bottomLists.list[i]
+                        
+                    } else if (ret) {
+                        //that.noKillGoods = true
+                        //暂无秒杀
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+             //进入商品详情
+             goGoodsDet: function goGoodsDet(id,isKill,endTime) {
+                //console.log(id)
+                api.openWin({
+                    name: 'mall.description',
+                    url: './mall.description.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        goodId: id,
+                        seckill:isKill,
+                        endTime:endTime
+                    }
+                });
+            },
         },
         created: function created() {
             var that = this
@@ -203,7 +311,7 @@
                     that.top = that.$refs['chef-hotslist-head'].getBoundingClientRect().bottom
 
                     that.getTopBanner()
-                    that.openFrameGroup()
+                    //that.openFrameGroup()
                     $('.swiper-wrapper').on('touchstart', function () {
                         api.setFrameAttr({
                             name: 'mall',
@@ -215,6 +323,27 @@
                             name: 'mall',
                             bounces: true
                         });
+                    });
+
+                     
+                    that.changeBottomList(that.bottomLists.activeIndex)
+                     //上拉加载
+                     api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 50 //距离底部距离
+                        }
+                    }, function (ret, err) {
+                        if (that.bottomLists.end[that.bottomLists.activeIndex] ) {
+                            api.toast({
+                                msg: '没有更多了',
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+                        } else {
+                            
+                            that.changeBottomList(that.bottomLists.activeIndex)
+                        }
                     });
                 }
             })

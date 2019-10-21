@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>title</title>
+    <title>设备管理</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css"/>
     <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
@@ -123,13 +123,14 @@
 		}
 		.device-type{
 			width: 100%;
-			font-size: 13px;
+			font-size: 14px;
 			color: #269ff2;
-			padding:20px 14px;
+			padding:20px 10px;
 		}
 		.type-con{
 			position: relative;
 			height: 40px;
+			font-size: 14px;
 		}
 		.type-con .icon-qianbi{
 			position: absolute;
@@ -161,30 +162,26 @@
 		}
 		.device-item{
 			display:flex;
-			margin-top:15px;
+			margin:15px auto;
 			justify-content:flex-start;
 			width: 100%;
-			height: 100px;
 			flex-wrap:wrap;
-			margin-bottom: 15px;
 		}
 		.device-item-i{
-			width: 20%;
-			height: 120px;
-			/*border:1px solid red;*/
+			width: 50%;
+			font-size: 14px;
+			margin-bottom: 6px;
 		}
 		.device-item-i img{
 			display: block;
 			width: 48px;
-			/*margin-left:5px;*/
-			margin: 0 auto	;
+			margin: 5px auto;
 			background-color: #fff;
 		}
 		.equip-number{
-			position:relative;
-			left:6px ;
-			
-		    color:#0d0d0d;padding:2px 2px;
+			padding:2px 2px;
+			color:#0d0d0d;
+			text-align: center;
 		}
 		.device-mes{
 			width: 55px;
@@ -221,8 +218,8 @@
 	<div class='device-header'>
 	  <div class='devices-head'>
 	  	<div class="add-device">
-	  		<span onclick="goDevicesList()" tapmod><i class="iconfont icon-add1 add-dev1"></i></span>
-	  		<div onclick="goDevicesList()" tapmod>设备列表</div>
+	  		<span onclick="goDevicesList()" tapmode><i class="iconfont icon-add1 add-dev1"></i></span>
+	  		<div onclick="goDevicesList()" tapmode>设备列表</div>
 	  	</div>
 
 	  </div>
@@ -235,11 +232,11 @@
       </div>
     </div>
     <div class="device-type device-type2" id="tt">
-      <div class="type-con">
+     			<span class='type-number'> </span>
+    	 <div class="type-con">
     		<i class="iconfont icon-qianbi"></i>
     			<div class='device-type-con'>
     				<span class='type-name'>蒸箱</span>
-    				<span class='type-number'> </span>
     			</div>
     			<div class="device-modle">
     				<span>型号：</span>
@@ -263,7 +260,6 @@
     			<img src="../image/kitchen.png" alt="" />
     			<p class="device-mes dev-doing">运行中</p>
     		</div>
-    		
     	</div> 
     	<div class="type-con">
     		<i class="iconfont icon-qianbi"></i>
@@ -375,7 +371,7 @@
 		if(e.target.classList.contains("icon-shuaxin")){
 			//var oRe = $api.dom(e.target,".icon-shuaxin")
 			e.target.degree==undefined ? e.target.degree=0:e.target.degree+=360;
-			e.target.style.transform=`rotate(${e.target.degree+360}deg)`;
+			e.target.style.transform='rotate('+(e.target.degree+360)+'+deg)';
 		}
 		getDeviceState()
 	}

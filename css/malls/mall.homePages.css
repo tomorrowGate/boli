@@ -199,10 +199,16 @@ header{
     width: 100%;
     height: 100%;
 }
-.swiper-container-horizontal>.chef-forum-recommend{
-    left:90%;
+/* .swiper-container-horizontal>.chef-forum-recommend{
     bottom: 10px;
     width: auto;
+} */
+.chef-forum-recommend{
+    position: absolute;
+    left: 80%;
+    bottom:-10px;
+    /* background: #f00 */
+    /* width: 100vw; */
 }
 .chef-forum-swiper .swiper-pagination-bullet{
     background: #fff;

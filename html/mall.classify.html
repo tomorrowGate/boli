@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <div id="wrap">
+    <div id="wrap" class="wrap">
         <header class="page-head" ref="header">
             <div class="back" @click="goBack" tapmode>
                 <i class="iconfont icon-back"></i>
@@ -27,87 +27,39 @@
         <div class="classify">
             <!-- 商品分类导航 -->
             <div class="classifyNav">
-                <div class="classifyItem">厨店好物</div>
-                <div class="classifyItem">烹饪必备</div>
+                <div 
+                class="classifyItem" 
+                v-for="(v,i) in goodList[0]" 
+                :key="i" 
+                @click="goCateChild(v.cate_id)">{{v.cate_name}}</div>
             </div>
             <!-- 商品展示 -->
             <div class="commodity">
-                <div class="commodityTop">
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
+                
+               <!--  <div class="swiper-container swiper-top">
+                    <div class="swiper-wrapper"> -->
+                        <div class="commodity-child swiper-slide" v-for="(v,i) in goodList[1]" :key="i">
+                            <div class="" v-if="v.length">
+                                <div class="commodityTop" v-for="(value,index) in v" :key="index">
+                                    <div class="commodity-item-head">{{value.cate_name}}</div>
+                                    <div class="commodity-item-content">
+                                        <div class="commodityItem" v-for="(item,number) in goodList[2][i][index]" :key="number">
+                                            <div class="commodityItem-child">
+                                                <div class="commodityImg">
+                                                    <img :src="URL1+item.cate_images" alt="">
+                                                </div>
+                                                <p>{{item.cate_name}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="commodity-nodata" v-else>
+                                <h3>暂无数据</h3>
+                            </div>
                         </div>
-                        <p>节能灶具</p>
-                    </div>
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
-                        </div>
-                        <p>冰箱系列</p>
-                    </div>
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
-                        </div>
-                        <p>制冰机</p>
-                    </div>
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
-                        </div>
-                        <p>油烟机</p>
-                    </div>
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
-                        </div>
-                        <p>矮仔炉</p>
-                    </div>
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
-                        </div>
-                        <p>蒸柜</p>
-                    </div>
-                </div>
-                <div class="commodityNext">
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
-                        </div>
-                        <p>调味酱</p>
-                    </div>
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
-                        </div>
-                        <p>五谷杂粮</p>
-                    </div>
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
-                        </div>
-                        <p>食用油</p>
-                    </div>
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
-                        </div>
-                        <p>火锅调料</p>
-                    </div>
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
-                        </div>
-                        <p>酒醋酱油</p>
-                    </div>
-                    <div class="commodityItem">
-                        <div class="commodityImg">
-                            <img src="" alt="">
-                        </div>
-                        <p>糖盐</p>
-                    </div>
-                </div>
+                    <!-- </div>
+                </div> -->
 
             </div>
         </div>
@@ -116,6 +68,7 @@
 
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
 <script type="text/javascript" src="../script/lib/vue.min.js"></script>
 <script type="text/javascript">
     var userId = window.localStorage.getItem("userId");
@@ -124,16 +77,10 @@
         el: "#wrap",
         data: {
             URL: "",
+            URL1:"http://yff.wjtxmobile.com/",
             goodList: [],
             url: "",
             param: "",
-            bottomLists: {
-                activeIndex: 0,
-                list: [],
-                start: 0,
-                end: false,
-                showList: []
-            }
         },
         computed: {
 
@@ -142,27 +89,31 @@
             goBack: function goBack() {
                 api.closeWin()
             },
-            getGoodsbyCate: function (id) {
+            getAllCategory: function () {
+                var that = this
                 api.ajax({
-                    url: that.URL + '/index.php?app=homepage&act=get_rand_goods',
-                    method: 'post',
-                    cache: false,
+                    url: 'http://yff.wjtxmobile.com/index.php?app=homepage&act=selection_type',
+                    method: 'get',
+                    cache: true,
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
                     timeout: 30,
                     dataType: 'json',
                     returnAll: false,
                     data: {
                         values: {
-                            cate_id: id
+                            
                         }
                     }
                 }, function (ret, err) {
                     //console.log(JSON.stringify(ret.retval));
                     if (ret && ret.done) {
-                        ret.retval.forEach(function (value, index) {
+                        /* ret.retval.forEach(function (value, index) {
                             if (value.tags.length) {
                                 value.tags = value.tags.split(",")
                             }
-                        })
+                        }) */
                         that.goodList = ret.retval
                     } else if (ret) {
                         api.toast({
@@ -178,6 +129,9 @@
                         });
                     }
                 });
+            },
+            goCateChild:function goCateChild(id){
+                console.log(id)
             },
             //进入商品详情
             goGoodsDet: function goGoodsDet(id, isKill, endTime) {
@@ -210,7 +164,7 @@
                     var header = that.$refs.header;
                     $api.fixStatusBar(header);
                     that.URL = $api.URL()
-                    //that.changeBottomList()
+                    that.getAllCategory()
                     
                     api.setCustomRefreshHeaderInfo({
                         bgColor: '#F6F6F6',
@@ -234,7 +188,7 @@
                             ]
                         }
                     }, function (ret, err) {
-                        console.log(1)
+                        setTimeout('api.refreshHeaderLoadDone()', '500');
                     });
                 }
             })

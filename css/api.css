@@ -443,3 +443,6 @@ th {
 .tapmodeclass {
 	background: rgba(0, 0, 0, 0.3);
 }
+button{
+	outline: none; 
+}

@@ -87,9 +87,12 @@
 
 /* 全部最新热卖 */
 .chef-hotslist-head{
+    position: sticky;
+    top:64px;
     display: flex;
     border-top: 8px solid #f2f2f2;
     border-bottom: 1px solid #f2f2f2;
+    background: #fff;
 }
 .hotslist-head-item{
     width: 33.3%;

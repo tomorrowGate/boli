@@ -232,6 +232,18 @@
         </div>
       </div>
 
+      <div class="my_other out_div clearfix">
+        <div class="orders">
+          <div class="nomal_all clearfix"  onclick="goMyorders('0')" tapmode>
+            <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;厨小店</div>
+            <div class="t_r font_c1 font_s2 more"></div>
+          </div>
+          <div class="nomal_states clearfix">
+            <div class="nav_item" onclick="goKitchen()" tapmode><span class="bg_span my_icon7"><i class="iconfont icon-shoucang"></i><span class="badge-dot hide"></span></span><br/><span>厨小店</span></div>
+          </div>
+        </div>
+      </div>
+
   </body>
   <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
@@ -934,6 +946,11 @@ FNScanner.open({
         //alert(JSON.stringify(err));
     }
 });
+}
+
+//厨小店
+function goKitchen(){
+  alert("敬请期待")
 }
 
 //test

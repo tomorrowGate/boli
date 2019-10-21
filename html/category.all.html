@@ -37,16 +37,43 @@ ul li{float:left; text-align:center;}
     max-width: 100%;
     height: 50px;
 }
-
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+    font-weight: bold;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
 </style>
 </head>
 <body>
 
 <div class="tab_box clearfix">
 <div style="position:fixed; top:0; width:100%;background:#f2f2f2">
-  <header></header>
-  <div class="main_search"><div class="ip_div"  onclick="goSearch()" tapmode><i class="iconfont icon-search"></i>&nbsp;搜索</div></div>
-  <div class="DIV_L"  onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+  <div class="page-head">
+      <div class="back" onclick="goBack()" tapmode>
+          <i class="iconfont icon-back"></i>
+      </div>
+      <div class="head-center">
+          <span>商品分类</span>
+      </div>
+  </div>
+ <!--  <div class="main_search">
+    <div class="ip_div"  onclick="goSearch()" tapmode>
+      <i class="iconfont icon-search"></i>&nbsp;搜索
+    </div>
+  </div>
+  <div class="DIV_L"  onclick="goBack()" tapmode>
+    <i class="iconfont icon-back"></i>
+  </div> -->
 </div>
 
   <div class="lyz_tab_left" style="position:fixed; overflow: auto">

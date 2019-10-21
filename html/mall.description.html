@@ -45,7 +45,7 @@
                 </div>
             </transition>
         </div>
-        <div class="main">
+        <div class="main" id="main">
             <!-- 视频详情 -->
             <div class="detail-teach-videobox" id="baby">
                 <div class="swiper-container goods-swiper-recommend">
@@ -92,7 +92,7 @@
                 <!-- <span>快递：0.00</span> -->
                 <span class="salesVolume">销量{{goodsInfo.orders}}</span>
             </div>
-            <div class="discount">
+            <div class="discount" @click="showCoupon">
                 <span class="tag">优惠</span>
                 <span class="coupon">领优惠券</span>
                 <i class="iconfont icon-htbArrowright icon-right"></i>
@@ -154,7 +154,10 @@
             </div>
             <!-- 购买须知 -->
             <div id="mustKnow">
+                <div class="mustknow-box">
+                    <img src="../image/knowMust.png" alt="">
 
+                </div>
             </div>
             
         <!-- 购物车弹框 -->
@@ -253,6 +256,49 @@
             </transition>
         </div> 
     </transition>  
+
+
+        <!-- 优惠券弹框 -->
+        <transition 
+            enter-active-class="animated fadeIn" 
+            leave-active-class="animated fadeOut" 
+            :duration="500">
+        <div class="dia-shopcard" v-show="isShowCoupon" @click="cancleCoupon">
+            <transition 
+                enter-active-class="animated fadeIn" 
+                leave-active-class="animated fadeOut" 
+                :duration="200">
+                <div class="dia-mask" @click="closeDia" v-show="isShowCoupon"></div>
+            </transition>
+            <transition 
+                enter-active-class="animated fadeInUpBig" 
+                leave-active-class="animated fadeOutDownBig" 
+                :duration="500">
+            <div class="dia-shopcard-real dia-coupon-real" v-show="isShowCoupon">
+                <div class="dia-shopcard-top dia-coupton-top">
+                    <p class="coupton-title">优惠券</p>
+                </div>
+                <div class="dia-shopcard-content">
+                    <div class="coupon-item">
+                        <div class="coupin-item-left">
+                            <div class="coupon-item-money">￥<span class="money-real">30</span></div>
+                            <div class="coupon-usetime">使用期限：2019.5.21</div>
+                            <div class="coupon-use-condition">订单购满299使用（不包含运费）</div>
+                        </div>
+                        <div class="coupin-item-right" @click="receiveCoupon">
+                            <div class="coupon-item-receive">领 取</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="dia-shopcard-bottom">
+                    <div class="shopcard-bottom-kill coupon-bottom-canele" @click="cancleCoupon">取消</div>
+                </div>
+            </div>
+            </transition>
+        </div> 
+    </transition>  
+
         <!-- 底部导航条 -->
         <nav class="footNav">
             <div class="footNav-top footNav-bor" @click="goShopCart"><i>🧡</i>
@@ -273,6 +319,15 @@
 <script type="text/javascript" src="../script/lib/vue.min.js"></script>
 <script type="text/javascript">
     var userId = window.localStorage.getItem("userId");
+    // var wrap = new Vue({
+    //     el:"#wrap",
+    //     data:{
+
+    //     }
+        
+    // })
+
+
     var wrap = new Vue({
         el: "#wrap",
         data: {
@@ -298,6 +353,7 @@
             goodShowPrice:0,
             goodsAddress:"",
             isShowCar:false,
+            isShowCoupon:false,
             storkSelect:0,//库存
             specificationsArr:[],//规格数组
             specArrLen:0,//规格数组的长度
@@ -309,8 +365,10 @@
         },
         computed: {
             specTextShow:function(){
+                console.log(this.specArrLen)
                 if(this.specArrLen&&this.specificationsArr[this.selectColor]&&this.specificationsArr[this.selectColor].length){
                     console.log(this.specificationsArr[this.selectColor].length)
+                    return this.specificationsArr[this.selectColor].length
                 }
                 return this.specArrLen&&this.specificationsArr[this.selectColor]&&this.specificationsArr[this.selectColor].length
             },
@@ -334,6 +392,15 @@
                 } else {
                     this.isTopShow = false
                 }
+            },
+            showCoupon:function showCoupon(){
+                this.isShowCoupon = true
+            },
+            cancleCoupon:function cancleCoupon(){
+                this.isShowCoupon = false
+            },
+            receiveCoupon:function receiveCoupon(){
+                api.alert("成功")
             },
             //判断是否为厨小店
             isLittleKitchen :function(){
@@ -515,8 +582,8 @@
             },
             openPictorial:function(gID){
                 api.openWin({
-                    name : 'share.ewm',
-                    url : './share.ewm.html',
+                    name : 'appshare.ewm',
+                    url : './appshare.ewm.html',
                     bounces : false,
                     pageParam : {
                         goodId : gID
@@ -939,6 +1006,7 @@
         },
         created: function created() {
             var that = this
+            
             this.$nextTick(function () {
                 apiready = function () {
                     var header = that.$refs.header;
@@ -973,8 +1041,8 @@
             })
         },
         mounted: function mounted() {
-
             window.addEventListener('scroll', this.getScroll);
+            var that = this
         },
         destroyed: function destroyed() {
             window.removeEventListener('scroll', this.getScroll);
