@@ -212,11 +212,13 @@
                     });
                   }
                   if(ret.index == 1){
+
                     api.toast({
                         msg: '敬请期待',
                         duration: 2000,
                         location: 'bottom'
                     });
+
                   }else{
                     api.setFrameGroupIndex({
                       name: 'group3',

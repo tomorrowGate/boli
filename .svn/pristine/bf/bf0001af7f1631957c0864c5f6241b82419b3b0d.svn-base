@@ -519,8 +519,6 @@ header{
 }
 /* 全部最新热卖 */
 .chef-hotslist-head{
-    position:sticky;
-    top:0;
     display: flex;
     border-bottom: 1px solid #ddd;
     font-weight: bold;

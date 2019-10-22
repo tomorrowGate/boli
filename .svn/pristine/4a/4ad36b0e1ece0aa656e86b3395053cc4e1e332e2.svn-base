@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>新品上架</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.newArrival.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode="tapmodeclass">
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>新品上架</span>
+            </div>
+        </header>
+
+        <!-- 轮播图 -->
+        <div class="margin">
+            <div class="swiper">
+                <div class="swiper-container swiper-top">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" tapmode v-for="(v,i) in topBanner" :key="i">
+                            <div class="swiper-slide-imgbox">
+                                <img :src="URL+v.file_path" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 全部最新热卖 -->
+        <div class="chef-hotslist-head" ref="chef-hotslist-head">
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==0?'hotslist-head-active':'']" @click="changeBottomList(0)">全部</p>
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==1?'hotslist-head-active':'']" @click="changeBottomList(1)">最新</p>
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==2?'hotslist-head-active':'']" @click="changeBottomList(2)">热卖</p>
+        </div>
+   
+        <!-- 商品展示 -->
+        <div class="chef-form-formlist">
+                <div 
+                    class="chef-form-card"  
+                    v-for="(v,i) in bottomLists.showList" 
+                    :key="i"
+                    @click="goGoodsDet(v.goods_id)">
+                    <div class="chef-form-leftimg">
+                        <img :src="URL+v.default_image" alt="">
+                    </div>
+                    <div class="chef-right-content">
+                        <div class="chef-head1">
+                            <div class="chef-head1-name">{{v.goods_name}}</div>
+                        </div>
+                        <div class="chef-head2 chef-forum-light">{{v.goods_name}}</div>
+                        <div class="chef-head3 chef-forum-light forum-foot-explain">
+                            <!-- <i class="iconfont"></i> -->
+                            <span class="forum-foot-name">{{v.tags}}</span>
+                        </div>
+                        <div class="chef-head4 ">
+                            <p class="swiper-red">
+                                <span class="agoPrice">￥{{v.oprice}}</span>
+                                <span class="price swiper-del">￥{{v.price}}</span>
+                            </p>
+                            <p class="chef-head2">销量<span>{{v.orders}}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            topBanner: {},
+            imgDefalt: '../image/headimgDef.png',
+            top:0,
+            swiperTop: null,
+            isDet:0,
+
+            bottomLists:{
+                activeIndex: 0,
+                list: [[], [], []],
+                start: [0, 0, 0],
+                end:[false,false,false],
+                showList: []
+            }
+        },
+        computed: {
+
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            //初始化头部轮播图
+            initSwiperTop: function swiperNotice() {
+                this.swiperTop = new Swiper('.swiper-top', {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    observer: true,
+                    observeParents: true,
+                    on: {
+                        click: function () {
+                            const realIndex = this.realIndex;
+                            //that.handleClickSlide(realIndex); 
+                        }
+                    },
+                    preventLinksPropagation: false   // 阻止点击事件冒泡
+                });
+            },
+            //获得头部轮播
+            getTopBanner: function getTopBanner() {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=home_lunbo',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.topBanner = ret.retval
+                        that.$nextTick(function () {
+                            that.initSwiperTop()
+                        })
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //打开页面组
+            openFrameGroup:function openFrameGroup(){
+                var that = this
+                var funcArr = ["get_all_goods_new", "get_new_goods", "get_hot_goods"]
+                //this.bottomLists.activeIndex = i
+                api.openFrameGroup({
+                    name: 'group',
+                    rect: {
+                        marginTop: that.top+10, // frame页面距离win顶部的高度
+                        marginBottom: 0, // frame页面距离win底部的高度
+                        w: 'auto', // frame页面的宽度 自适应屏幕宽度
+                    },
+                    scrollEnabled: true,
+                    bounces:false,
+                    frames: [
+                        {
+                            name: 'mall.goodcomponent.all',
+                            url: './mall.goodcomponent.html',
+                            pageParam: {
+                                url:funcArr[0],
+                                param:0
+                            },
+                            bounces:false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                        {
+                            name: 'mall.goodcomponent.last',
+                            url: 'mall.goodcomponent.html',
+                            pageParam: {
+                                url:funcArr[1],
+                                param:0
+                            },
+                            bounces:false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                        {
+                            name: 'mall.goodcomponent.hot',
+                            url: 'mall.goodcomponent.html',
+                            pageParam: {
+                                url:funcArr[2],
+                                param:0
+                            },
+                            bounces:false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        }
+                    ]
+                }, function(ret, err) {
+                    if (ret.index > -1) {
+                        that.isDet = ret.index
+                    }
+                });
+            },
+            //改变头部导航条
+            changeNVTbar:function changeNVTbar(i){
+                this.isDet = i
+                api.setFrameGroupIndex({
+                    name: 'group',
+                    index: i,
+                    scroll:true,
+                });
+            },
+            changeBottomList: function (i) {
+                var that = this
+                this.bottomLists.activeIndex = i
+                var funcArr = ["get_all_goods_new", "get_new_goods", "get_hot_goods"]
+                /* console.log('激活的index='+this.bottomLists.activeIndex)
+                console.log('start'+that.bottomLists.start[that.bottomLists.activeIndex]) */
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=' + funcArr[i],
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: { start: that.bottomLists.start[i] }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        if(ret.retval.length<=0){
+                            that.bottomLists.end[i] = true
+                        }else{
+                            ret.retval.forEach(function(v,index){
+                                v.price = v.price<=1?v.price:parseInt(v.price)
+                                v.oprice = v.oprice<=1?v.oprice:parseInt(v.oprice)
+                                that.bottomLists.list[i].push(v)
+                            })
+                            that.bottomLists.start[i] += 6;
+                            that.bottomLists.end[i] = false
+                        }
+                        that.bottomLists.showList = that.bottomLists.list[i]
+                        
+                    } else if (ret) {
+                        //that.noKillGoods = true
+                        //暂无秒杀
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+             //进入商品详情
+             goGoodsDet: function goGoodsDet(id,isKill,endTime) {
+                //console.log(id)
+                api.openWin({
+                    name: 'mall.description',
+                    url: './mall.description.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        goodId: id,
+                        seckill:isKill,
+                        endTime:endTime
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.top = that.$refs['chef-hotslist-head'].getBoundingClientRect().bottom
+
+                    that.getTopBanner()
+                    //that.openFrameGroup()
+                    $('.swiper-wrapper').on('touchstart', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: false
+                        });
+                    });
+                    $('.swiper-wrapper').on('touchend', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: true
+                        });
+                    });
+
+                     
+                    that.changeBottomList(that.bottomLists.activeIndex)
+                     //上拉加载
+                     api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 50 //距离底部距离
+                        }
+                    }, function (ret, err) {
+                        if (that.bottomLists.end[that.bottomLists.activeIndex] ) {
+                            api.toast({
+                                msg: '没有更多了',
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+                        } else {
+                            
+                            that.changeBottomList(that.bottomLists.activeIndex)
+                        }
+                    });
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

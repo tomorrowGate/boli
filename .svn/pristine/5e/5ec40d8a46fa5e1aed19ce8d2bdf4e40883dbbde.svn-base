@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/appshare.css">
+		<style>
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<!--app二维码分享-->
+			<div class="container case1">
+				<header>
+					<div class="header">
+						生成二维码
+					</div>
+					<div class="DIV_L" onclick="goBack()" tapmode>
+						<i class="iconfont icon-back"></i>
+					</div>
+				</header>
+				<div class="main_bg">
+					<div class="fxqh" id="fxqh"><img src="../image/invitatPictorial.png " class="img1" />
+					</div>
+					<div class="ewm" id="ewm"><img src="../image/ewm.png" class="img2" />
+					</div>
+				</div>
+				<div class="fx" >
+					<span id="bc" onclick="h2c()" tapmode>保存图片 <i class="iconfont icon-xiazai1"></i></span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="fx" onclick="fnOpenshare()" tapmod>分享邀请 <i class="iconfont icon-fenxiang"></i></span>
+					<div id="images" class="hide"></div>
+				</div>
+			</div>
+			<div class="case2">
+				<div class="btn_change">
+					<button type="button" class="btn1" onclick="getStyle()">
+						<i class="iconfont icon-shuaxin"></i> 换个样式
+					</button>
+				</div>
+				<div class="swiper-container swiper_style" style="padding-top:3%;">
+					<div class="swiper-wrapper" id="swiper_style">
+						<div class="swiper-slide" id="1" onclick="changeStyle('1')" tapmode><img src="../image/invitatPictorial.png" class="img3" />
+						</div>
+						<div class="swiper-slide" id="2" onclick="changeStyle('2')" tapmode><img src="../image/invitatPictorial.png" class="img3" />
+						</div>
+						<div class="swiper-slide" id="3" onclick="changeStyle('3')" tapmode><img src="../image/fxqh.png" class="img3" />
+						</div>
+						<div class="swiper-slide" id="4" onclick="changeStyle('4')" tapmode><img src="../image/find4.png" class="img3" />
+						</div>
+						<div class="swiper-slide" id="5" onclick="changeStyle('5')" tapmode><img src="../image/find3.png" class="img3" />
+						</div>
+						<div class="swiper-slide" id="6" onclick="changeStyle('6')" tapmode><img src="../image/cooker.png" class="img3" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript" src="../script/lib/html2canvas.js"></script>
+	<script type="text/javascript">
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+			var swiper1 = new Swiper('.swiper_style', {
+			    slidesPerView: 'auto',
+			    spaceBetween:10,
+			    loop: false,
+			    autoplay: false,
+			    observer:true,//修改swiper自己或子元素时，自动初始化swiper
+			    observeParents:true//修改swiper的父元素时，自动初始化swiper
+			  });
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+		var userId=window.localStorage.getItem('userId');
+		var portrait=window.localStorage.getItem('portrait');
+		
+		function h2c() {
+			html2canvas($(".main_bg"), {// $(".myImg")是你要复制生成canvas的区域，可以自己选
+			useCORS: true, // 【重要】开启跨域配置
+			allowTaint: true,//允许跨域图片
+				onrendered : function(canvas) {
+					dataURL = canvas.toDataURL("image/png");
+					$("#images").append(canvas);
+					//console.log(dataURL);
+					var str = encodeURIComponent(dataURL);
+					//console.log(str);
+				var myurl= dataURL.replace("data:image/png;base64,", "");
+					saveImage(myurl);
+				}
+			})
+		}
+
+		var trans;
+		apiready = function() {
+			console.log("123123");
+			dialogBox = api.require('dialogBox');
+			URL = $api.URL();
+			if (localStorage.getItem("userId")) {
+				var user_id = localStorage.getItem("userId");
+				var real_name = localStorage.getItem("realName");
+				var invite_code = localStorage.getItem("invite_code");
+			} else {
+				api.toast({
+					msg : "未登录，获取失败"
+				});
+				return;
+			}
+			api.ajax({
+				url : URL + 'index.php?app=appajax&act=tuiguang',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : user_id,
+						invite_code : invite_code
+					}
+				}
+			}, function(ret, err) {
+			   console.log(JSON.stringify(ret));
+				if (ret.done) {
+					$api.html($api.byId("ewm"), '<img src="' + ret.retval[0].rut_imgurl + '"  class="img2" />');
+					//c_sort(ret.retval[0].wz) ;
+					//$api.html($api.byId("ewm"), ret.retval[0].wz);
+				} else {
+					api.toast({
+						msg : "获取失败，请稍后再试！"
+					});
+				};
+			})
+			var header = $api.dom('header');
+			// 获取 header 标签元素
+			headerH = $api.fixStatusBar(header);
+			trans = api.require('trans');
+			var mySwiper = new Swiper('.swiper-container', {
+				autoplay : false, //可选选项，自动滑动
+				slidesPerView : 4,
+				centeredSlides : false,
+			})
+		};
+
+		function saveImage(str) {
+			trans.saveImage({
+				base64Str : str,
+				album : true,
+				imgPath : "fs://shareImg/",
+				imgName : "Myshare.png"
+			}, function(ret, err) {
+				console.log(ret.status);
+				if (ret.status == true) {
+					api.toast({
+						msg : '保存成功',
+						duration : 2000,
+						location : 'bottom'
+					});
+				} else {
+					api.toast({
+						msg : err.msg,
+						duration : 2000,
+						location : 'bottom'
+					});
+				}
+			});
+		}
+
+
+		//生成从minNum到maxNum的随机数
+function randomNum(minNum,maxNum){ 
+    switch(arguments.length){ 
+        case 1: 
+            return parseInt(Math.random()*minNum+1,10); 
+        break; 
+        case 2: 
+            return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
+        break; 
+            default: 
+                return minNum; 
+            break; 
+    } 
+}
+		//获取不同样式
+		function getStyle() {
+//		var n=randomNum(1,9);
+//		alert(n);
+		changeStyle(randomNum(1,9));
+//		
+//			api.ajax({
+//				url : URL + 'index.php?app=#',
+//				method : 'post',
+//				cache : false,
+//				timeout : 30,
+//				dataType : 'json',
+//				returnAll : false,
+//				data : {
+//					values : {
+//					}
+//				}
+//			}, function(ret, err) {
+//				console.log(JSON.stringify(ret));
+//				if (ret.done) {
+//					$.each(ret.retval, function(i, item) {
+//						var str = '<div class="swiper-slide" id="' + item.style_id + '" onclick="changeStyle(' + item.style_id + ')"><img src="' + URL + item.style_image + '" class="img3" /></div>';
+//						$api.append($api.byId("swiper_style"), str);
+//					});
+//				} else {
+//					api.toast({
+//						msg : '失败',
+//						duration : 2000,
+//						location : 'bottom'
+//					});
+//				}
+//				if (err) {
+//					api.toast({
+//						msg : err.msg,
+//						duration : 2000,
+//						location : 'bottom'
+//					});
+//				}
+//			});
+		}
+
+		//换样式
+		function changeStyle(style) {
+			var src_new = $("#" + style).find('img').attr('src');
+			$("#fxqh").find('img').attr('src', src_new);
+		}
+
+		function fnOpenshare(){
+			/* api.execScript({
+				name:"index",
+				frameName: 'vip2member',
+				script:  "fnOpenshare();"
+				});*/
+				dialogBox.actionMenu({
+				rect : {
+					h : 150
+				},
+				texts : {
+					cancel : '取消'
+				},
+				items : [{
+					text : '微信',
+					icon : 'widget://image/wechat.png'
+				}, {
+					text : '微信朋友圈',
+					icon : 'widget://image/wpyq.png'
+				}, {
+					text : 'QQ',
+					icon : 'widget://image/qq.png'
+				}, {
+					text : 'QQ空间',
+					icon : 'widget://image/qzone.png'
+				}, {
+					text : '微博',
+					icon : 'widget://image/weibo.png'
+				}, {
+					text : '商品二维码',
+					icon : 'widget://image/erweima.png'
+				}, {
+					text : '复制链接',
+					icon : 'widget://image/copylink.png'
+				}],
+				styles : {
+					bg : '#FFF',
+					column : 5,
+					itemText : {
+						color : '#000',
+						size : 12,
+						marginT : 8
+					},
+					itemIcon : {
+						size : 60
+					},
+					cancel : {
+						bg : 'fs://icon.png',
+						color : '#000',
+						h : 44,
+						size : 14
+					}
+				},
+				tapClose : true
+			}, function(ret, err) {
+
+				if (ret) {
+					console.log(JSON.stringify(ret));
+					if (ret.eventType == "cancel") {
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 0) {
+						get_goods_info(userId, "session");
+						//fnopenWechat("weixin",title,text,url,img);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 1) {
+						get_goods_info(userId, "timeline");
+						//fnopenWechat("weixin",title,text,url,img);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 2) {
+						get_goods_info(userId, "QFriend");
+						//fnopenQq(gID);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 3) {
+						get_goods_info(userId, "QZone");
+						//fnopenQq(gID);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 4) {
+						get_goods_info(userId, "sinaWb");
+						//fnopenWeibo(gID);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 5) {
+						//fnopenErweima(userId);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 6) {
+						//fnopenCopylink(userId);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+				} else {
+					//alert(JSON.stringify(err));
+				}
+			});
+			} 
+			function get_goods_info(userId, tag) {
+			var url="";
+			var img="";
+			if(portrait.substr(0,7).toLowerCase() == "http://" ){
+                 img =portrait;
+            }else{
+                 img = URL + portrait;
+            }
+            var invite_code = localStorage.getItem("invite_code");
+            var real_name = localStorage.getItem("real_name");
+			var url = URL + "index.php?app=qrcode&invite_code="+invite_code+"&id="+invite_code;
+			var title = real_name;
+			var text = real_name+"邀请您加入博立";
+			var img = $api.img_surl + img;
+			//微信
+			if (tag == "session") {
+				fnopenWechat(tag, title, text, url, img);
+			} else if (tag == "timeline") {//微信朋友圈
+				fnopenWechat(tag, title, text, url, img);
+			} else if (tag == "QFriend") {
+				fnopenQq(tag, title, text, url, img);
+			}else if (tag == "QZone") {
+				fnopenQq(tag, title, text, url, img);
+			}else if (tag == "sinaWb") {
+				fnopenWeibo(tag, title, text, url, img);
+			}
+		}
+		//微信分享
+		function fnopenWechat(tar, title, text, url, img) {
+		//console.log("===>>>分享");
+			filename = (new Date()).valueOf() + '.' + img.substring(img.lastIndexOf('.') + 1);
+			api.download({
+				url : img,
+				savePath : 'fs://' + filename,
+				report : false,
+				cache : true,
+				allowResume : true
+			}, function(ret, err) {
+				var wx = api.require('wx');
+				wx.isInstalled(function(ret) {
+					if (ret.installed) {
+						api.toast({
+							msg : '分享中，请稍候',
+							duration : 2000,
+							location : "middle"
+						});
+					} else {
+						api.toast({
+							msg : '没有安装微信，无法进行分享',
+							duration : 2000,
+							location : "middle"
+						});
+					}
+				});
+				wx.shareWebpage({
+					apiKey : '',
+					scene : tar,
+					title : title,
+					description : text,
+					thumb : 'fs://' + filename,
+					contentUrl : url
+				}, function(ret, err) {
+					if (ret.status) {
+						api.toast({
+							msg : '分享成功',
+							duration : 2000,
+							location : "middle"
+						});
+					}
+				});
+			});
+		}
+
+		//QQ分享
+			function fnopenQq(tar, title, text, url, img) {
+			var qq = api.require('QQPlus');
+			qq.installed(function(ret) {
+				if (ret.status) {
+					api.toast({
+						msg : '分享中，请稍候',
+						duration : 2000,
+						location : "middle"
+					});
+				} else {
+					api.toast({
+						msg : '没有安装QQ，无法进行分享',
+						duration : 2000,
+						location : "middle"
+					});
+				}
+			});
+			qq.shareNews({
+				url : url,
+				title : title,
+				description : text,
+				imgUrl : img,
+				type : tar
+			}, function(ret, err) {
+				if (ret.status) {
+					api.toast({
+						msg : '分享成功',
+						duration : 2000,
+						location : "botoom"
+					});
+				}
+			});
+		}
+		//新浪微博分享
+		function fnopenWeibo(tar, title, text, url, img) {
+			filename = (new Date()).valueOf() + '.' + img.substring(img.lastIndexOf('.') + 1);
+			api.download({
+				url : img,
+				savePath : 'fs://' + filename,
+				report : false,
+				cache : true,
+				allowResume : true
+			}, function(ret, err) {
+				var weibo = api.require('weibo');
+				weibo.shareImage({
+					text : title + text + url,
+					imageUrl : 'fs://' + filename
+				}, function(ret, err) {
+					if (ret.status) {
+						api.toast({
+							msg : '分享成功',
+							duration : 2000,
+							location : "middle"
+						});
+					}
+				});
+			});
+		}
+
+
+		
+		
+	</script>
+</html>

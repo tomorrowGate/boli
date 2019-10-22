@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <title>我的积分</title>
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+  <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+  <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+  <link rel="stylesheet" type="text/css" href="../css/myinfos/myPoint.css" />
+</head>
+
+<body>
+  <header>
+    <div class="header">我的积分</div>
+    <div class="DIV_L" onclick="goBack()" tapmode>
+      <i class="iconfont icon-back"></i>
+    </div>
+  </header>
+  <div class="head">
+    <div class="portrait">
+      <div class="imgbox">
+        <img src="../image/tx.png" alt="" id="portrait">
+      </div>
+      <span class="detailed" onclick="goList()" tapmode>明细</span>
+    </div>
+    <div class="pointNum" id="jf">
+      0
+    </div>
+    <div class="pointText">
+      <span>会员积分</span>
+    </div>
+  </div>
+  <div class="content">
+    <div class="conHead">
+      <span><i class="iconfont icon-qianbi"></i>我的签到</span>
+      <div class="rule" onclick="goArticle()" tapmode>
+        <span>赚积分规则</span>
+        <i class="iconfont icon-back"></i>
+      </div>
+    </div>
+    <div class="rate">
+      <div class="bars">
+        <div class="barContanir">
+          <div class="barReal"></div>
+        </div>
+
+      </div>
+      <p class="activ">
+        <span class="actKey">本周活跃值</span>
+        <span class="actValue"><span id="all_huoyue">0</span>/<span id="must_huoyue">100</span></span>
+      </p>
+    </div>
+    <div class="weekDay">
+      <div class="day">
+        <div class="weekCircle" id="sunday">1</div>
+        <div class="weekText">周日</div>
+      </div>
+      <div class="day ">
+        <div class="weekCircle" id="monday">2</div>
+        <div class="weekText">周一</div>
+      </div>
+      <div class="day ">
+        <div class="weekCircle" id="tuesday">3</div>
+        <div class="weekText">周二</div>
+      </div>
+      <div class="day">
+        <div class="weekCircle" id="wednesday">4</div>
+        <div class="weekText">周三</div>
+      </div>
+      <div class="day">
+        <div class="weekCircle" id="thursday">5</div>
+        <div class="weekText">周四</div>
+      </div>
+      <div class="day ">
+        <div class="weekCircle" id="friday">6</div>
+        <div class="weekText">周五</div>
+      </div>
+      <div class="day">
+        <div class="weekCircle" id="saturday">7</div>
+        <div class="weekText">周六</div>
+      </div>
+    </div>
+    <div class="sure" onclick="sign()" id="sign_btn">
+      签到
+    </div>
+    <!-- <div class="container case7 " id="qdk" style="display: none" >
+  <div class="row r1 ">您已连续签到</div>
+  <div class="row r2">13<span class="r3">天</span></div>
+  <div class="row r4">今日签到可领<span id="hy_money">0</span>活跃值</div>
+  <div class="row" style="margin-top:5%;">
+  <table class="r5">
+  <tr style="width:100%;">
+    <td class="wqd" id="sunday">7</td>
+    <td class="wqd" id="monday">1</td>
+    <td class="wqd" id="tuesday">2</td>
+    <td class="wqd" id="wednesday">3</td>
+    <td class="wqd" id="thursday">4</td>
+    <td class="wqd" id="friday">5</td>
+    <td class="wqd" id="saturday">6</td>
+
+  </tr>
+    <tr style="margin-top:6%;">
+  <td >周日</td>
+  <td class="qdr">周一</td>
+  <td class="qdr">周二</td>
+  <td >周三</td>
+  <td >周四</td>
+    <td >周五</td>
+    <td >周六</td>
+    </tr>
+  </table></div>
+  <div class="row " onclick="sign()" tapmode ><button type="button" class="r6">签到</button></div>
+  </div> -->
+  </div>
+  <div class="case2 clearfix">
+    <p class="font_s1 font_w1 tt1">
+      <i class="iconfont icon-qianbi my_icon"></i> 活跃值任务
+    </p>
+
+    <div class="part clearfix">
+      <div class="f_l">
+        <p class="tab_item"><img src="../image/ic_1.png"><span>签到</span><i class="iconfont icon-htbArrowright"></i></p>
+        <p class="font_w1 font_s1">每天签到一次</p>
+        <P class="default_color3 jifen_desc">
+          可获得<span class="default_color1">5-30</span>个活跃值
+        </P>
+      </div>
+      <div class="f_r">
+        <p class="tab_item"><img src="../image/ic_2.png"><span>推荐</span><i class="iconfont icon-htbArrowright"></i></p>
+        <p class="font_w1 font_s1">推荐给好友</p>
+        <P class="default_color3 jifen_desc">
+          可获得<span class="default_color1">300</span>个活跃值
+        </P>
+      </div>
+    </div>
+
+
+    <div class="part clearfix">
+      <div class="f_l">
+        <p class="tab_item"><img src="../image/ic_3.png"><span>分享</span><i class="iconfont icon-htbArrowright"></i></p>
+        <p class="font_w1 font_s1">完成一次分享</p>
+        <P class="default_color3 jifen_desc">
+          可获得<span class="default_color1">3</span>个活跃值
+        </P>
+      </div>
+      <div class="f_r" >
+        <p class="tab_item"><img src="../image/ic_4.png"><span>发动态</span><i class="iconfont icon-htbArrowright"></i></p>
+        <p class="font_w1 font_s1">发一次动态</p>
+        <P class="default_color3 jifen_desc">
+          可获得<span class="default_color1">5</span>个活跃值
+        </P>
+      </div>
+    </div>
+
+    <div class="part border_none clearfix">
+				<div class="f_l" >
+					<p class="tab_item"><img src="../image/ic_5.png"><span>发布视频</span><i class="iconfont icon-htbArrowright"></i></p>
+					<p class="font_w1 font_s1">发布一个教学视频</p>
+					<P class="default_color3 jifen_desc">
+						可获得<span class="default_color1">20</span>个活跃值
+					</P>
+        </div>
+        <div class="f_r" >
+          <p class="tab_item"><img src="../image/ic_1.png"><span>发菜品</span><i class="iconfont icon-htbArrowright"></i></p>
+          <p class="font_w1 font_s1">发布一个新菜品</p>
+          <P class="default_color3 jifen_desc">
+            可获得<span class="default_color1">15</span>个活跃值
+          </P>
+        </div>
+    </div>
+    
+    <div class="part border_none clearfix">
+				<div class="f_l" >
+					<p class="tab_item"><img src="../image/ic_1.png"><span>阅读资讯</span><i class="iconfont icon-htbArrowright"></i></p>
+					<p class="font_w1 font_s1">成功阅读资讯</p>
+					<P class="default_color3 jifen_desc">
+						可获得<span class="default_color1">12</span>个活跃值
+					</P>
+        </div>
+        <div class="f_r" >
+          <p class="tab_item"><img src="../image/ic_3.png"><span>评论</span><i class="iconfont icon-htbArrowright"></i></p>
+          <p class="font_w1 font_s1">发布一条评论</p>
+          <P class="default_color3 jifen_desc">
+            可获得<span class="default_color1">5</span>个活跃值
+          </P>
+        </div>
+    </div>
+    
+    <div class="part border_none clearfix">
+				<div class="f_l" >
+					<p class="tab_item"><img src="../image/ic_2.png"><span>关注</span><i class="iconfont icon-htbArrowright"></i></p>
+					<p class="font_w1 font_s1">关注一名用户</p>
+					<P class="default_color3 jifen_desc">
+						可获得<span class="default_color1">2</span>个活跃值
+					</P>
+        </div>
+        <div class="f_r" >
+          <p class="tab_item"><img src="../image/ic_4.png"><span>被关注</span><i class="iconfont icon-htbArrowright"></i></p>
+          <p class="font_w1 font_s1">成功被关注</p>
+          <P class="default_color3 jifen_desc">
+            可获得<span class="default_color1">2</span>个活跃值
+          </P>
+        </div>
+		</div>
+    
+    <div class="part border_none clearfix">
+				<div class="f_l" >
+					<p class="tab_item"><img src="../image/ic_5.png"><span>购物商品</span><i class="iconfont icon-htbArrowright"></i></p>
+					<p class="font_w1 font_s1">每次购物</p>
+					<P class="default_color3 jifen_desc">
+						可获得<span class="default_color1">订单金额 x 0.1</span>个活跃值
+					</P>
+        </div>
+		</div>
+  </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  var userId = window.localStorage.getItem("userId"); //用户id
+  apiready = function () {
+    var header = $api.dom('header');
+    //适配iOS 7+，Android 4.4+状态栏
+    headerH = $api.fixStatusBar(header);
+
+    URL = $api.URL();
+
+    var portrait = window.localStorage.getItem('portrait');//头像
+    console.log(portrait);
+    if (portrait !== 'undefined' && portrait !== "" && portrait !== 'null') {
+      console.log('portrait');
+      if (portrait.substr(0, 7).toLowerCase() == "http://") {
+        $api.attr($api.byId('portrait'), 'src', portrait);
+      } else {
+        $api.attr($api.byId("portrait"), 'src', URL + portrait);
+      }
+    }
+    getWeek();
+    getSign();
+    getHuoyue()
+  };
+  function goBack() {
+    api.closeWin();
+  }
+
+  //规则
+  function goArticle() {
+    api.openWin({
+      name: 'article.view',
+      url: './article.view.html',
+      bounces: false,
+      animation: {
+        type: "push",                //动画类型（详见动画类型常量）
+        subType: "from_right",       //动画子类型（详见动画子类型常量）
+        duration: 300                //动画过渡时间，默认300毫秒
+      },
+      pageParam: {
+        articleId: 'help'
+      }
+    });
+  }
+
+  //获取签到信息
+  function getSign() {
+    api.ajax({
+      url: URL + 'index.php?app=appajax&act=sign',
+      method: 'get',
+      cache: false,
+      timeout: 30,
+      dataType: 'json',
+      returnAll: false,
+      data: {
+        values: {
+          user_id: userId,
+        }
+      }
+    }, function (ret, err) {
+      console.log(JSON.stringify(ret));
+      if (ret.done) {
+        if (ret.retval.is_lianxu) {
+          $api.html($api.byId("hy_money"), ret.retval.net_lianxu_money);
+        } else {
+          $api.html($api.byId("hy_money"), ret.retval.one_money);
+        }
+        var today = new Date().getDate();
+        today = today < 10 ? '0' + today : today;
+        $.each(ret.retval.sign_day, function (i, item) {
+          if (item == today) {
+            $('#sign_btn').html('已签到');
+            $('#sign_btn').addClass('signed');
+          }
+          console.log(item);
+          $('.date_' + item).parent('.day').addClass('done');
+
+        });
+
+      } else {
+        api.toast({
+          msg: '失败',
+          duration: 2000,
+          location: 'middle'
+        });
+      }
+      if (err) {
+        api.toast({
+          msg: err.msg,
+          duration: 2000,
+          location: 'middle'
+        });
+      }
+
+    });
+  }
+  //获取活跃值
+  function getHuoyue() {
+    api.ajax({
+      url: URL + 'index.php?app=appajax&act=huoyuzhi',
+      method: 'post',
+      cache: false,
+      timeout: 30,
+      dataType: 'json',
+      returnAll: false,
+      data: {
+        values: {
+          user_id: userId
+        }
+      }
+    }, function (ret, err) {
+      console.log(JSON.stringify(ret));
+      $api.html($api.byId("jf"), parseInt(ret.retval.jf));
+      $api.html($api.byId("all_huoyue"), parseInt(ret.retval.all_huoyue));
+      $api.html($api.byId("must_huoyue"), parseInt(ret.retval.must_huoyue));
+      var percent = Math.round(ret.retval.all_huoyue * 100 / ret.retval.must_huoyue);
+      $(".barReal").width(percent + "%");
+      if (ret.done) {
+
+      } else {
+        api.toast({
+          msg: '失败',
+          duration: 2000,
+          location: 'middle'
+        });
+      }
+      if (err) {
+        api.toast({
+          msg: err.msg,
+          duration: 2000,
+          location: 'middle'
+        });
+      }
+    });
+  }
+  //签到
+  function sign() {
+    api.ajax({
+      url: URL + 'index.php?app=appajax&act=sign',
+      method: 'post',
+      cache: false,
+      timeout: 30,
+      dataType: 'json',
+      returnAll: false,
+      data: {
+        values: {
+          user_id: userId,
+        }
+      }
+    }, function (ret, err) {
+      console.log(JSON.stringify(ret));
+      if (ret.done) {
+        api.toast({
+          msg: '签到成功',
+          duration: 2000,
+          location: 'middle'
+        });
+        getSign();
+        getHuoyue();
+      } else {
+        api.toast({
+          msg: ret.msg,
+          duration: 2000,
+          location: 'middle'
+        });
+      }
+      if (err) {
+        api.toast({
+          msg: err.msg,
+          duration: 2000,
+          location: 'middle'
+        });
+      }
+      getSign();
+      getHuoyue();
+    });
+  }
+  //获取上周周日日期
+  function getMonDate() {
+    var d = new Date(),
+      day = d.getDay(),
+      date = d.getDate();
+    if (day == 0) { return d; }
+    if (day == 1) { d.setDate(date - 1); }
+    else { d.setDate(date - day); }
+    return d;
+  }
+  // 0-6转换成英文名称
+  function getDayName(day) {
+    var day = parseInt(day);
+    if (isNaN(day) || day < 0 || day > 6)
+      return false;
+    var weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    return weekday[day];
+  }
+  //获取签到一周日期
+  function getWeek() {
+    //d是当前星期一的日期对象
+    var d = getMonDate();
+    var arr = [];
+    for (var i = 0; i < 7; i++) {
+      //arr.push(d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 （'+getDayName(d.getDay())+'）');
+      $("#" + getDayName(d.getDay())).html(d.getDate());
+      var todate = d.getDate();
+      todate = todate < 10 ? '0' + todate : todate;
+      $("#" + getDayName(d.getDay())).addClass('date_' + todate);
+      console.log(d.getDate());
+      console.log(getDayName(d.getDay()));
+      d.setDate(d.getDate() + 1);
+
+    }
+  }
+  function goList() {
+    api.toast({
+      msg: '敬请期待',
+      duration: 2000,
+      location: 'middle'
+    });
+  }
+
+</script>
+
+</html>

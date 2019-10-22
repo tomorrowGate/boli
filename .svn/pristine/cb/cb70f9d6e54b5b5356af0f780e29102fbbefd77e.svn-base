@@ -240,14 +240,7 @@
                             <div class="shopcard-content-item">
                                 <span class="">购买数量</span>
                             </div>
-                            <!-- 秒杀的 -->
-                            <div class="shopcard-content-item shopcard-content-numchange" v-if="seckill">
-                                <span class="shopcard-content-itemlabel" @click="minusNumKill" tapmode>-</span>
-                                <span class="shopcard-content-itemlabel">{{buyKillNum}}</span>
-                                <span class="shopcard-content-itemlabel" @click="addNumKill" tapmode>+</span>
-                            </div>
-                            <!-- 正常的 -->
-                            <div class="shopcard-content-item shopcard-content-numchange" v-else>
+                            <div class="shopcard-content-item shopcard-content-numchange">
                                 <span class="shopcard-content-itemlabel" @click="minusNum" tapmode>-</span>
                                 <span class="shopcard-content-itemlabel">{{buyNum}}</span>
                                 <span class="shopcard-content-itemlabel" @click="addNum" tapmode>+</span>
@@ -278,14 +271,14 @@
                 enter-active-class="animated fadeIn" 
                 leave-active-class="animated fadeOut" 
                 :duration="200">
-                <div class="dia-mask" @click="cancleCoupon" v-show="isShowCoupon" tapmode @touchmove.prevent></div>
+                <div class="dia-mask" @click="cancleCoupon" v-show="isShowCoupon" tapmode></div>
             </transition>
             <transition 
                 enter-active-class="animated fadeInUpBig" 
                 leave-active-class="animated fadeOutDownBig" 
                 :duration="500">
             <div class="dia-shopcard-real dia-coupon-real" v-show="isShowCoupon">
-                <div class="dia-shopcard-top dia-coupton-top" @touchmove.prevent>
+                <div class="dia-shopcard-top dia-coupton-top">
                     <p class="coupton-title">优惠券</p>
                 </div>
                 <div class="dia-shopcard-content">
@@ -416,8 +409,6 @@
             isShowLittle:0,//是否显示厨小店，1：显示
             goodId: 0,
             seckill:0,//是否为秒杀商品
-            upper:1,
-            sale:1,
             killEndTime:0,
             countTime: {
                 hour: 0,
@@ -439,8 +430,7 @@
             selectColor:'',//被选中的颜色
             specificationName:"",//被选中的规格的名称
             selectSpecifications:'',//被选中的规格id
-            buyNum:1,
-            buyKillNum:10,
+            buyNum:1
             //goodsInfo._specs[0].stork
         },
         computed: {
@@ -475,12 +465,16 @@
             },
             showCoupon:function showCoupon(e){
                 this.isShowCoupon = true
+                document.body.style.overflow="hidden";
+                e.preventDefault();
             },
-            cancleCoupon:function cancleCoupon(e){
+            cancleCoupon:function cancleCoupon(){
                 this.isShowCoupon = false
+                document.body.style.overflow="";
             },
             cancleShare:function(){
                 this.isShowShare = false
+                /* document.body.style.overflow=''; */
             },
             //判断是否为厨小店
             isLittleKitchen :function(){
@@ -600,10 +594,12 @@
                 });
             },
             showGoodCards:function(){
+                document.body.style.overflow='hidden';
                 this.isShowCar = true
             },
             closeDia:function(){
                 this.isShowCar = false
+                document.body.style.overflow='';
             },
             shareGoods:function(){
                 var that = this
@@ -952,7 +948,6 @@
                     }
                 });
             },
-            //获取规格
             getSpecifications:function Specifications(){
                 var that = this
                 api.ajax({
@@ -987,14 +982,8 @@
                     }
                 });
             },
-            addNumKill:function addNumKill(){
-                this.buyKillNum = this.buyKillNum>=this.upper?this.upper:this.buyKillNum*1+1
-            },
             addNum:function addNum(){
                 this.buyNum++
-            },
-            minusNumKill:function minusNumKill(){
-                this.buyKillNum = this.buyKillNum<=this.sale?this.sale:this.buyKillNum-1
             },
             minusNum:function minusNum(){
                 this.buyNum = this.buyNum<=1?1:this.buyNum-1
@@ -1094,8 +1083,9 @@
             },
             
             receiveCoupon:function receiveCoupon(id, is_have){
+                var detail = id.split(',');
                 var that = this
-                if (is_have == 1) {
+                if (detail[1] == 1) {
                     api.toast({
                         msg : '你已经领过了',
                         duration : 2000,
@@ -1117,20 +1107,13 @@
                         }
                     }
                 }, function(ret, err) {
-                    console.log(JSON.stringify(ret));
-                    if(ret&&ret.done){
-                        api.toast({
-                            msg : "领取成功",
-                            duration : 2000,
-                            location : 'middle'
-                        });
-                    }else{
-                        api.toast({
-                            msg : ret.msg,
-                            duration : 2000,
-                            location : 'middle'
-                        });
-                    }
+                    //console.log(JSON.stringify(ret));
+                    api.toast({
+                        msg : "领取成功",
+                        duration : 2000,
+                        location : 'middle'
+                    });
+                    that.getCoupons()
                 });
             },
             //倒计时
@@ -1172,11 +1155,8 @@
                     $api.fixStatusBar(header);
                     that.URL = $api.URL()
                     that.goodId = api.pageParam.goodId
-                    that.seckill = api.pageParam.seckill//是否为秒杀
-                    that.killEndTime = api.pageParam.endTime//秒杀的结束时间
-                    that.sale = api.pageParam.sale//秒杀的开始物品数量
-                    that.upper = api.pageParam.upper//秒杀的最多物品数量
-                    that.buyKillNum = that.sale
+                    that.seckill = api.pageParam.seckill
+                    that.killEndTime = api.pageParam.endTime
                     if(that.killEndTime){
                         that.countdowm(that.killEndTime)
                     }
