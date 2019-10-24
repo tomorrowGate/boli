@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>绑定手机</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/login.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<style type="text/css">
+			.top_t {
+				margin: 20px 0;
+				font-size: 0.9em;
+				text-align: center;
+			}
+			#form1 {
+				margin-top: 90px;
+			}
+			header {
+				background-color: #f2f2f2;
+				height: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				绑定手机号码
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<div id="wrap">
+			<div class="content">
+				<p class="top_t">
+					为保证您的账号安全，请绑定手机号码
+				</p>
+				<form  id="form1" role="form" class="form-horizontal">
+					<div class="list_item border-b">
+						<i class="iconfont icon-buchongiconsvg03"></i>
+						<input type="text" name="telephone" id="telephone" class="ip" placeholder="请输入手机号码">
+					</div>
+					<div class="list_item border-b">
+						<i class="iconfont icon-mima"></i>
+						<input type="text" name="check_code" id="check_code" class="ip1" placeholder="请输入验证码">
+						<input class="Captcha" type="button" value="获取验证码" onclick="getCode(this)" tapmode />
+					</div>
+					<div class="sub_botton clearfix">
+						<input type="button" class="btn col-xs-12 btn_login" value="绑定"  onclick="bind()" tapmode />
+					</div>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript" src="../script/api.js"></script>
+		<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../script/lib/bscroll.min.js"></script>
+		<script type="text/javascript" src="../script/lib/layer.js"></script>
+		<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+		<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+		<script type="text/javascript">
+			var URL = "";
+			var openid;
+			$(function() {//消除300ms点击延迟
+				FastClick.attach(document.body);
+			});
+			apiready = function() {
+				var header = $api.dom('header');
+				openid = api.pageParam.openid;
+				console.log(openid);
+				//适配iOS 7+，Android 4.4+状态栏
+				$api.fixStatusBar(header);
+				URL = $api.URL();
+				if (localStorage.getItem('telephone')) {
+					api.openWin({
+						name : 'index',
+						url : './index.html',
+						bounces : false,
+						reload : true,
+						animation : {
+							type : "push", //动画类型（详见动画类型常量）
+							subType : "from_right", //动画子类型（详见动画子类型常量）
+							duration : 300 //动画过渡时间，默认300毫秒
+						}
+					});
+				}
+			}
+			//返回上一页
+			var goBack = function() {
+				api.closeWin();
+			}
+			var fun = {};
+			//获取验证码
+			var _telphone = "";
+			//暂存手机号码
+			var _code = "";
+			var Num;
+			//验证码
+			function getCode(objThis) {
+				Num = "";
+				for (var i = 0; i < 6; i++) {
+					Num += Math.floor(Math.random() * 10);
+				}
+				var telephone = $("#telephone").val();
+				if (telephone == "" || telephone == null || telephone == undefined) {
+					MyToast('请输入手机号码');
+				} else if (!(/^1[345789]\d{9}$/.test(telephone))) {
+					MyToast('手机号格式错误');
+				} else {
+					$(objThis).prop("disabled", true);
+					api.ajax({
+						url : URL + '/index.php?app=sms&act=app_crsms',
+						method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+							values : {
+								telphone : telephone,
+								verify : Num
+							}
+						}
+					}, function(ret, err) {
+						console.log(JSON.stringify(ret));
+						console.log(err);
+						if (ret) {
+							if (ret[0].error) {
+								$(".Captcha").removeAttr("disabled");
+								MyToast(ret[0].error);
+							} else {
+								_telphone = telephone;
+								_code = ret[0].yzm;
+								MyToast('发送成功');
+								countDown();
+								//倒计时
+							}
+						} else {
+							$(".Captcha").removeAttr("disabled");
+							MyToast("网络超时，请稍后再试");
+						}
+					});
+				}
+			}
+
+			//倒计时
+			function countDown() {
+				var i = 60;
+				$(".Captcha").val(i + "s");
+				$(".Captcha").css({
+					"color" : "#ccc"
+				});
+				var _timer = setInterval(function() {
+					if (i > 0) {
+						i--;
+						$(".Captcha").val(i + "s");
+					} else {
+						clearInterval(_timer);
+						$(".Captcha").val("重新获取");
+						$(".Captcha").removeAttr("disabled");
+						$(".Captcha").css({
+							"color" : "#666"
+						});
+					}
+				}, 1000)
+			}
+
+			//登录
+			function bind() {
+				console.log(URL);
+				var telephone = $("#telephone").val();
+				//手机号码
+				var check_code = $("#check_code").val();
+				if (telephone == "" || telephone == null || telephone == undefined) {
+					MyToast('请输入手机号码');
+				} else if (!(/^1[345789]\d{9}$/.test(telephone))) {
+					MyToast('手机号格式错误');
+				} else if (check_code == "" || check_code == null || check_code == undefined) {
+					MyToast('请输入验证码');
+				} else {
+					pd_phone(telephone);
+				}
+			}
+
+			function pd_phone(telephone) {
+				api.ajax({
+					url : URL + 'index.php?app=appajax&act=pd_phone',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							openid : openid,
+							telephone : telephone,
+						}
+					}
+				}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+					console.log(JSON.stringify(err));
+					if (ret.done) {
+						MyToast("绑定成功");
+						if (ret.retval == telephone) {
+							login_to();
+						} else {
+							//window.localStorage.setItem("telephone", telephone);
+							//用户手机号码
+							api.openWin({
+								name : 'invite.code',
+								url : './invite.code.html',
+								bounces : false,
+								reload : true,
+								animation : {
+									type : "push", //动画类型（详见动画类型常量）
+									subType : "from_right", //动画子类型（详见动画子类型常量）
+									duration : 300 //动画过渡时间，默认300毫秒
+								},
+								pageParam : {
+									//user_id : user_id, //新注册用户user_id
+									openid : openid,
+									telephone : telephone
+								},
+							});
+						}
+					} else {
+						MyToast(ret.err);
+					};
+				});
+			}
+
+			function login_to() {
+				var telephone = $("#telephone").val();
+				api.ajax({
+					url : URL + 'index.php?app=appajax&act=login',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							name : telephone,
+							password : '12345678',
+						}
+					}
+				}, function(ret, err) {//alert(JSON.stringify(ret))
+					if (ret) {
+						if (!ret[0].error) {
+							MyToast("登录成功");
+							/*window.localStorage.setItem("loginPwd",password); //密码*/
+							window.localStorage.setItem('UID', ret[0].id);
+							//用户id
+							window.localStorage.setItem("telephone", telephone);
+							//用户手机号码
+							window.localStorage.setItem('real_name', ret[0].real_name);
+							//昵称
+							window.localStorage.setItem('real_name2', ret[0].real_name2);
+							//真实姓名
+							window.localStorage.setItem('ugrade', ret[0].ugrade);
+							//用户等级
+							window.localStorage.setItem('portrait', ret[0].portrait);
+							//用户头像
+							window.localStorage.setItem('level_name', ret[0].level_name);
+							//用户等级对应的名称
+							window.localStorage.setItem('invite_code', ret[0].invite_code);
+							//用户邀请码
+							window.localStorage.setItem('ECM_ID', ret[0].ECM_ID);
+							//唯一序列号
+							window.localStorage.setItem('HTTP_USER_AGENT', ret[0].HTTP_USER_AGENT);
+							//声明头部
+							//算法真实*20，拆成2份 id4个前混合+真实id1+数字2个+真是id2+后6个
+							var x = 10000000000;
+							var y = 100000;
+							var rand = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+							var rand2 = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+							var rand3 = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+							var muser_id = ret[0].id * 20 + "";
+							var muser_id1 = muser_id.slice(0, 1);
+							var muser_id2 = muser_id.slice(1, muser_id.length);
+							var p_muser_id = rand.slice(0, 4) + muser_id1 + rand2.slice(0, 2) + muser_id2 + rand3.slice(0, 6);
+							window.localStorage.setItem('userId', p_muser_id);
+							//用户id
+							// alert(p_muser_id)
+							api.openWin({
+								name : 'index',
+								url : './index.html',
+								bounces : false,
+								reload : true,
+								animation : {
+									type : "push", //动画类型（详见动画类型常量）
+									subType : "from_right", //动画子类型（详见动画子类型常量）
+									duration : 300 //动画过渡时间，默认300毫秒
+								}
+							});
+						} else {
+						}
+					} else {
+						MyToast("网络超时，请稍后再试");
+					};
+				});
+			}
+		</script>
+	</body>
+</html>

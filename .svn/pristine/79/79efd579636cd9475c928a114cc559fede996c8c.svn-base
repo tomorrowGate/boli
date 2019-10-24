@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>微信公众号</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+      .logo{ width:100%;padding:60px 0 20px 0;text-align: center; }
+      .logo img{ height:100px;width:100px;border-radius: 5px; }
+      .out_div{ margin-top:10px; }
+      .copy{ width:3em;border:1px solid #000;height:20px;line-height:20px;border-radius: 10px; margin-top:10px;}
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">微信公众号</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+      <div class="logo"><img src="../image/wxPublic.jpg"/></div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+      var URL="";
+      apiready = function(){
+
+      URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      
+
+        //复制微信号
+    function copyHref(){
+      var content=$("#wechat_code").text();
+      var clipBoard = api.require('clipBoard');
+      clipBoard.set({
+        value: content
+      }, function(ret, err) {
+        if (ret) {
+         api.toast({
+           msg: '复制成功',
+           duration: 2000,
+           location: 'bottom'
+         });
+       }else{
+         api.toast({
+           msg: '复制失败',
+           duration: 2000,
+           location: 'bottom'
+         });
+       }
+      });
+    }
+}
+
+  </script>
+  </html>

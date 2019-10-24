@@ -1,0 +1,326 @@
+html,
+body {
+    background-color: #efefef;
+    font-size: 1.05em !important
+}
+
+header {
+    background-color: #282724
+}
+
+/* 徽章 */
+.badge-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border-radius: 4px;
+    box-shadow: 0 0 1px 1px #f4f4f4;
+    position: absolute;
+    top: 2px;
+    left: 26px;
+    display: inline-block;
+    font-size: 12px;
+    text-align: center;
+    background-color: #FF5722;
+    color: #fff;
+}
+
+.order_states .badge-dot {
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: none;
+    position: absolute;
+    top: 0;
+    left: 27px;
+    display: inline-block;
+    font-size: 12px;
+    text-align: center;
+    color: #6eb92c;
+    background-color: transparent;
+    border: 1px solid #6eb92c;
+}
+
+/* 我的信息 */
+.my_info {
+    width: 100%;
+    position: relative;
+    color: #fff;
+    padding-top: 15px;
+}
+
+.portrait {
+    width: 54px;
+    height: 54px;
+    border-radius: 27px;
+    border: 1px solid #fff;
+}
+
+.info_l {
+    float: left;
+    padding: 38px 5px 20px 20px;
+}
+
+.info_m {
+    float: left;
+    padding: 38px 0px 20px 10px;
+    width: calc(100vw - 165px);
+}
+
+#user_name {
+    display: inline;
+    font-size: 1.2em;
+    margin-bottom: 0px;
+}
+
+.xb {
+    padding: 0px;
+    margin-left: 5px;
+    text-align: center;
+}
+.jb {
+    background-color: #d2ad73;
+    border-radius: 20px 20px 20px 0px;
+    padding: 0px 8px;
+    margin-left: 5px;
+    text-align: center;
+    position: relative;
+    bottom: 5px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 0.7em;
+}
+
+.border-w {
+    border: 1px solid #fff;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 10px;
+    background-color: transparent;
+    padding: 0 8px;
+    font-size: 0.7em;
+    margin-right: 10px;
+}
+
+.border-c {
+    border: 1px solid #d0a96f;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 10px;
+    background-color: #d0a96f;
+    padding: 0 8px;
+    font-size: 0.7em
+}
+
+.my_icon0 {
+    position: absolute;
+    right: 60px;
+    top: 12px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.my_icon1 {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 26px;
+    color: #fff;
+}
+
+.my_icon2 {
+    position: absolute;
+    right: 20px;
+    top: 55px;
+    font-size: 0.8em;
+    width: 55px;
+    height: 22px;
+    line-height: 22px;
+    border: 1px solid #fff;
+    color: #fff;
+    text-align: center;
+    border-radius: 11px;
+}
+
+.my_icon2-1 {
+    position: absolute;
+    right: 20px;
+    top: 85px;
+    font-size: 0.6em;
+    width: 55px;
+    height: 22px;
+    line-height: 22px;
+    border: 1px solid #fff;
+    color: #fff;
+    text-align: center;
+    border-radius: 11px;
+}
+
+.my_icon3 {
+    color: #6eb92c;
+}
+
+/* 我的订单 */
+.my_order {}
+
+.more {
+    font-size: 0.9em !important
+}
+
+.nomal_all,
+.order_all,
+.maintain_all,
+.mana_all {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f2f2f2;
+    padding: 0 0 5px 0;
+}
+
+.device_states,
+.order_states {
+    padding: 10px 0;
+    width: 100%
+}
+
+.nav_item {
+    width: 20%;
+    float: left;
+    color: #8d8d8d;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.nav_item span.bg_span {
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    padding: 0px 8px;
+    margin-bottom: 8px;
+    box-shadow: 0 0 1px 2px #f6f4f4;
+}
+
+.nav_item span.bg_span i {
+    color: #6eb92c;
+    font-size: 24px
+}
+
+.mana_item {
+    width: 50%;
+}
+
+.nomal_states .nav_item {
+    width: 25%
+}
+.nomal_states a{
+    color: #8d8d8d;
+}
+.delivery {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-radius: 3px
+}
+
+.delivery-swiper {
+    height: 100px;
+    z-index: 0;
+}
+
+.del_title {}
+
+.del_content {
+    position: relative;
+}
+
+.good_image {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.del_info {
+    padding-left: 56px;
+    height: 40px;
+    line-height: 20px;
+    margin-top: 10px;
+}
+
+.delivery p {
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+/* 设备 */
+.my_devices .nav_item span.bg_span {
+    background-color: #6eb92c;
+}
+
+.my_devices .nav_item span.bg_span i {
+    color: #fff;
+}
+
+/*其他*/
+
+.my_other .nav_item span.bg_span i {
+    color: #fff;
+}
+
+.my_other .nomal_states {
+    margin-bottom: 10px
+}
+
+.my_icon4 {
+    background-color: #f8afca !important;
+}
+
+.my_icon5 {
+    background-color: #fbcf90 !important;
+}
+
+.my_icon6 {
+    background-color: #79d1e2 !important;
+}
+
+.my_icon7 {
+    background-color: #b8b6ff !important;
+}
+
+.my_icon8 {
+    background-color: #ff98a0 !important;
+}
+
+.my_icon9 {
+    background-color: #9aabff !important;
+}
+
+.my_icon10 {
+    background-color: #98eaf3 !important;
+}
+
+.my_icon11 {
+    background-color: #ffc46f !important;
+}
+
+.header_1 {
+    width: 75%;
+    height: 20px;
+    line-height: 20px;
+    color: #000;
+    position: absolute;
+    border-radius: 12px;
+    background-clip: #fff;
+    right: 90px;
+    top: 18px;
+    font-size: 0.8em;
+}
+
+.ip {
+    padding-left: 1em;
+}

@@ -1,0 +1,467 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+</head>
+
+<body class="wrap">
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+   $(function() {  //消除300ms点击延迟
+     FastClick.attach(document.body);
+  });
+   var footerH;
+    apiready = function() {
+        var header = $api.dom('.header'); // 获取 header 标签元素
+        headerH = $api.fixStatusBar(header);
+        //var headerH = $api.offset(header).h;
+        //console.log(api.deviceModel);
+        //console.log(api.systemType);
+        // if(api.systemType=='ios'){
+        //    footerH = 84;
+        // }else{
+        //     footerH = 50;
+        // }
+        if(api.safeArea.bottom=='0'){
+           footerH = 60;
+        }else{
+            footerH = 84;
+        }
+        window.localStorage.setItem('headerH', headerH);
+      	window.localStorage.setItem('footerH', footerH);
+        /* console.log(api.safeArea.top);
+        console.log(api.safeArea.bottom);
+        console.log(footerH); */
+        api.setStatusBarStyle({
+          style: 'light',
+         // color:'#f8afca'
+        });
+        api.addEventListener({//登录状态改变退出
+                    name : 'loginBack'
+                }, function(ret, err) {
+                    setFirst();
+                });
+        fnNVTabBar_open();
+        // fnOpenFirst();
+        fnopenFrameGroup3();
+        api.setFrameGroupIndex({
+          name: 'group3',
+          index: '0',
+          scroll: true
+        });
+        //监听返回操作,避免返回到登录页面
+        api.addEventListener({
+          name: 'keyback'
+        }, function(ret, err) {
+          api.toast({
+                  msg: '没有上一页了',
+                  duration: 2000,
+                  location: 'bottom'
+                });
+        });
+        api.setWinAttr({
+          slidBackEnabled:false,//ios是否支持滑动返回
+        });
+    };
+
+    function fnNVTabBar_open() {
+        var NVTabBar = api.require('NVTabBar');
+        NVTabBar.open({
+            styles: {
+                bg: '#ffffff',
+                h: 60,
+                dividingLine: {
+                    width: 1,
+                    color: '#f6f6f6'
+                },
+                badge: {
+                    bgColor: '#f00',
+                    numColor: '#000',
+                    size: 6.0,
+                    centerY: 2
+                }
+            },
+            items: [{
+                w: api.winWidth / 5.0,
+                iconRect: {
+                    w: 23.0,
+                    h: 23.0,
+                },
+                icon: {
+                    normal: 'widget://image/NVTabBar/home.png',
+                    highlight: 'widget://image/NVTabBar/homeed.png',
+                    selected: 'widget://image/NVTabBar/homeed.png'
+                },
+                title: {
+                    text: '商城',
+                    size: 12.0,
+                    normal: '#b6dc95',
+                    selected: '#6eb92c',
+                    marginB: 4.0,
+                }
+            },  {
+                w: api.winWidth / 5.0,
+                iconRect: {
+                    w: 23.0,
+                    h: 23.0,
+                },
+                icon: {
+                    normal: 'widget://image/NVTabBar/navBarCenter.png',
+                    highlight: 'widget://image/NVTabBar/navBarCentered.png',
+                    selected: 'widget://image/NVTabBar/navBarCentered.png'
+                },
+                title: {
+                    text: '名厨',
+                    size: 12.0,
+                    normal: '#b6dc95',
+                    selected: '#6eb92c',
+                    marginB: 4.0
+                }
+            },{
+                w: api.winWidth / 5.0,
+                iconRect: {
+                    w: 23.0,
+                    h: 23.0,
+                },
+                icon: {
+                    normal: 'widget://image/NVTabBar/discover.png',
+                    highlight: 'widget://image/NVTabBar/discovered.png',
+                    selected: 'widget://image/NVTabBar/discovered.png'
+                },
+                title: {
+                    text: '社交',
+                    size: 12.0,
+                    normal: '#b6dc95',
+                    selected: '#6eb92c',
+                    marginB: 4.0
+                }
+            },{
+                w: api.winWidth / 5.0,
+                iconRect: {
+                    w: 23.0,
+                    h: 23.0,
+                },
+                icon: {
+                    normal: 'widget://image/NVTabBar/cart.png',
+                    highlight: 'widget://image/NVTabBar/carted.png',
+                    selected: 'widget://image/NVTabBar/carted.png'
+                },
+                title: {
+                    text: '人脉',
+                    size: 12.0,
+                    normal: '#b6dc95',
+                    selected: '#6eb92c',
+                    marginB: 4.0
+                }
+            }, {
+                w: api.winWidth / 5.0,
+                iconRect: {
+                    w: 23.0,
+                    h: 23.0,
+                },
+                icon: {
+                    normal: 'widget://image/NVTabBar/peoplefill.png',
+                    highlight: 'widget://image/NVTabBar/peoplefilled.png',
+                    selected: 'widget://image/NVTabBar/peoplefilled.png'
+                },
+                title: {
+                    text: '我的',
+                    size: 12.0,
+                    normal: '#b6dc95',
+                    selected: '#6eb92c',
+                    marginB: 4.0
+                }
+            }],
+            selectedIndex: 0
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.eventType == "click") {
+                  console.log(ret.index);
+                  if(ret.index !== 0){
+                    api.closeFrameGroup({
+                        name: 'group1'
+                    });
+                  }
+                  
+                  if(ret.index !== 1){
+                    api.closeFrameGroup({
+                        name: 'group2'
+                    });
+                  }
+                  if(ret.index !== 2){
+                    api.closeFrameGroup({
+                        name: 'group2'
+                    });
+
+                  }
+                  if(ret.index !== 3){
+                    api.closeFrameGroup({
+                        name: 'group_connection'
+                    });
+                  }
+                  if(ret.index == 1){
+                    api.toast({
+                        msg: '敬请期待',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                  }else{
+                    api.setFrameGroupIndex({
+                      name: 'group3',
+                      index: ret.index,
+                      scroll: true,
+                      reload:true
+                  });
+
+                  }
+                 
+
+                }
+                
+
+
+            }
+        });
+    }
+
+    function fnopenFrameGroup3() {
+      //console.log('index:fnopenFrameGroup3');
+        api.openFrameGroup({
+            name: 'group3',
+            rect: {
+
+                marginTop:headerH, // frame页面距离win顶部的高度
+                marginBottom: footerH, // frame页面距离win底部的高度
+                w: 'auto', // frame页面的宽度 自适应屏幕宽度
+            },
+            preload:'0',
+            index: '0',
+            scrollEnabled: false,
+            frames: [{
+                name: 'mall',
+                url: 'mall.homePages.html',
+                pageParam: {
+                    name: 'value'
+                },
+                bounces:false,
+                overScrollMode:"scrolls",
+                customRefreshHeader: 'UIPullRefresh'
+            },  {
+                name: 'chef',
+                url: 'chef.index.html',
+                pageParam: {
+                    name: 'value'
+                },
+                bounces:true,
+                customRefreshHeader: 'UIPullRefresh'
+            },{
+                name: 'find',
+                url: 'find.html',
+                pageParam: {
+                    name: 'value'
+                },
+                bounces:true,
+                customRefreshHeader: 'UIPullRefresh'
+            },{
+                name: 'connection',
+                url: 'connection.html',
+                pageParam: {
+                    name: 'value'
+                },
+                bounces:true,
+                customRefreshHeader: 'UIPullRefresh'
+            },{
+                name: 'myinfo',
+                url: 'myinfo.html',
+                pageParam: {
+                    name: 'value'
+                },
+                bounces:true,
+                customRefreshHeader: 'UIPullRefresh'
+            }
+            ]
+        }, function(ret, err) {
+            if (ret) {
+                //console.log(JSON.stringify(ret));
+                if(ret.index==2){}
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+
+    }
+     function fnOpenFirst() {
+        api.openFrame({
+            name: 'first',
+            url: 'first.html',
+            rect: {
+                marginTop: headerH+64, // frame页面距离win顶部的高度
+                marginBottom: footerH, // frame页面距离win底部的高度
+                w: 'auto' // frame页面的宽度 自适应屏幕宽度
+            },
+            reload:true,
+            pageParam: {
+                name: 'test'
+            },
+            bounces: false,
+            bgColor: 'rgba(255,255,255)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+
+    }
+    function fnOpenFind() {
+        api.openFrame({
+            name: 'find',
+            url: 'find.html',
+            rect: {
+                marginTop: headerH+64, // frame页面距离win顶部的高度
+                marginBottom: footerH+50, // frame页面距离win底部的高度
+                w: 'auto' // frame页面的宽度 自适应屏幕宽度
+            },
+            reload:true,
+            pageParam: {
+                name: 'test'
+            },
+            bounces: false,
+            bgColor: 'rgba(255,255,255)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+
+    }
+
+    function fnOpenVipmemberFrame() {
+     var ugrade=0;
+     if (localStorage.getItem('ugrade')) {
+     ugrade=localStorage.getItem("ugrade"); //用户id
+     }
+     if(ugrade==0){
+     api.openFrame({
+            name: 'vipmember',
+            url: 'vipmember.html',
+            rect: {
+                marginTop: headerH+64, // frame页面距离win顶部的高度
+                marginBottom: footerH+50, // frame页面距离win底部的高度
+                w: 'auto' // frame页面的宽度 自适应屏幕宽度
+            },
+            pageParam: {
+                name: 'test'
+            },
+            bounces:true,
+            reload:true,
+            customRefreshHeader: 'UIPullRefresh',
+            bgColor: 'rgba(255,255,255)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+     }else{
+     api.openFrame({
+            name: 'vip2member',
+            url: 'vip2member.html',
+            rect: {
+                marginTop: headerH+64, // frame页面距离win顶部的高度
+                marginBottom: footerH+50, // frame页面距离win底部的高度
+                w: 'auto' // frame页面的宽度 自适应屏幕宽度
+            },
+            pageParam: {
+                name: 'test'
+            },
+            reload:true,
+            bounces:true,
+            customRefreshHeader: 'UIPullRefresh',
+            bgColor: 'rgba(255,255,255)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+     }
+
+    }
+    function fnOpenCartFrame() {
+        api.openFrame({
+            name: 'cart',
+            url: 'cart.html',
+            rect: {
+               marginTop: headerH+64, // frame页面距离win顶部的高度
+                marginBottom: footerH+50, // frame页面距离win底部的高度
+                w: 'auto' // frame页面的宽度 自适应屏幕宽度
+            },
+            pageParam: {
+                name: 'test'
+            },
+            reload:true,
+            bounces:true,
+            customRefreshHeader: 'UIPullRefresh',
+            bgColor: 'rgba(255,255,255)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+    }
+
+    function fnOpenMyinfoFrame() {
+        api.openFrame({
+            name: 'myinfo',
+            url: 'myinfo.html',
+            rect: {
+                marginTop: headerH+64, // frame页面距离win顶部的高度
+                marginBottom: footerH+50, // frame页面距离win底部的高度
+                w: 'auto' // frame页面的宽度 自适应屏幕宽度
+            },
+            reload:true,
+            pageParam: {
+                name: 'test'
+            },
+            bounces:true,
+            customRefreshHeader: 'UIPullRefresh',
+            bgColor: 'rgba(255,255,255)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+    }
+
+    function fnsetFrameGroupIndex(name, index) {
+        api.setFrameGroupIndex({
+            name: name,
+            index: index,
+            scroll: true
+        });
+    }
+      function setFirst(){
+        api.closeFrameGroup({
+        name: 'group2'
+       });
+        var NVTabBar = api.require('NVTabBar');
+        NVTabBar.setSelect({
+          index: 0,
+      });
+      api.setFrameGroupIndex({
+        name: 'group3',
+        index: '0',
+        scroll: true,
+        reload:true,
+      });
+    }
+     function setFind(){
+        api.closeFrameGroup({
+        name: 'group1'
+       });
+        var NVTabBar = api.require('NVTabBar');
+        NVTabBar.setSelect({
+          index: 1,
+      });
+    }
+</script>
+
+</html>
