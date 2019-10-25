@@ -1,0 +1,49 @@
+html,body{
+    width: 100%;
+    height: 100%;
+}
+.wrap{
+    width: 100%;
+    height: 100%;
+    background-image:url("../../image/invitationAdv.png") ;
+    background-size: contain;
+}
+.back{
+    position: absolute;
+    top:40px;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 1.2em;
+    color: #fff;
+    background: rgba(0,0,0,0.5);
+    border-radius: 50%;
+}
+.integralBtn{
+    position: fixed;
+    bottom: 20vw;
+    left:50%;
+    width: 90%;
+    height: 50px;
+    background: #fd6c59;
+    color: #fff;
+    border-radius: 25px;
+    transform: translateX(-50%);
+    font-size: 1.1em;
+    letter-spacing: 2px;
+}
+.look-rule{
+    position: fixed;
+    bottom: calc(20vw - 30px);
+    left:50%;
+    transform: translateX(-50%);
+    color: #94794c;
+}
+.look-rule::after{
+    display: block;
+    content: "";
+    width: 90%;
+    border-top: 1px solid #94794a;
+}

@@ -20,7 +20,7 @@
             <div class="search-bg"></div>
             <div class="search-main">
                 <span id="area" class="search-area" @click="selectCity" tapmode="tapmodeclass">
-                    {{selectedCity?selectedCity:"选择城市"}}
+                    {{selectedCity}}
                     <i class="iconfont icon-down down_icon"></i>
                 </span>
                 <div class="search-virtual" @click="goSearch" tapmode>
@@ -103,9 +103,14 @@
         <div class="swiper chef-forum-swiper">
             <div class="swiper-container forum-swiper-recommend">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" @click="goInvitationAdv" tapmode>
+                    <div class="swiper-slide" tapmode>
                         <div class="forum-foot-imgbox">
-                            <img src="../image/../image/testBaner.jpg" alt="">
+                            <img src="../image/lunbo1.png" alt="">
+                        </div>
+                    </div>
+                    <div class="swiper-slide" tapmode>
+                        <div class="forum-foot-imgbox">
+                            <img src="../image/lunbo2.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -282,7 +287,7 @@
             </div>
         </div>
         <!-- 中间图片栏 -->
-        <div class="pictureBar" @click="goInvitationAdv"><img src="../image/testBaner.jpg" alt=""></div>
+        <div class="pictureBar"><img src="../image/mallBanner.png" alt=""></div>
         <!-- 全部最新热卖 -->
         <div class="chef-hotslist-head">
             <p :class="['hotslist-head-item',bottomLists.activeIndex==0?'hotslist-head-active':'']"
@@ -302,7 +307,7 @@
             ref="bottoms"
             tapmode>
                 <div class="bestSellers-img">
-                    <img :src="v.default_image" :key="v.default_image" >
+                    <img :src="v.default_image" alt="">
                 </div>
                 <div class="bestSellers-item-bottom">
                     <p class="introduce">{{v.goods_name}}</p>
@@ -476,21 +481,6 @@
 
                     }
                 });
-            },
-            goInvitationAdv:function(){
-                api.openWin({
-                    name: 'mall.invitationAdv',
-                    url: './mall.invitationAdv.html',
-                    bounces: false,
-                    animation: {
-                        type: "push",
-                        subType: "from_right",
-                        duration: 300
-                    },
-                    pageParam: {
-
-                    }
-                });  
             },
             goSpecialOffer:function(){
                 api.toast({
@@ -1086,7 +1076,7 @@
                     that.getTopBanner()
                     that.getAll_category()
 
-                    //that.initSwiperMid()
+                    that.initSwiperMid()
                     that.chefCommend()
                     that.upperRecent()
                     that.get_spike_time()
@@ -1120,6 +1110,7 @@
             })
         },
         mounted: function mounted() {
+            this.initSwiperMid()
             //this.initSwiperTop()
         },
     })

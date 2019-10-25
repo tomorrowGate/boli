@@ -518,7 +518,7 @@ header{
 /* 中间图片栏 */
 .pictureBar{
     width: 100%;
-    height:106px;
+    height:100px;
     background: lightcoral;
     border-bottom: 8px solid #f2f2f2;
 }

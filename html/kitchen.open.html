@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>厨师入驻</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/kitchen.open.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部 -->
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>邀请好友注册</span>
+            </div>
+        </header>
+        <!-- 头部图片 -->
+        <div class="headImg">
+            <!--  <img src="../image//invitationDown.png" alt=""> -->
+            <p class="invitat-vip headImg-text">邀请vip会员</p>
+            <p class="invitat-app-down headImg-text">邀请好友下载厨连联APP</p>
+        </div>
+        <!-- 邀请得积分 -->
+        <div class="integral">
+            <P class="getIntegral">自购更省钱</P>
+            <P class="integralText">开通厨小店，自购享受优惠。</P>
+            <P class="getIntegral">分享推广得收益</P>
+            <P class="integralText">通过“邀请好友”邀请好友下载厨连联APP，每邀请一位可得XXXX奖励。</P>
+            <P class="getIntegral">好友下单获得更多奖励</P>
+            <P class="integralText">厨小店用户好友在平台购买商品，获得积分及佣金奖励</P>
+            <button class="integralBtn" @click="goKitchenStore">我要开通厨小店</button>
+            <p class="integral-under">查看更多厨小店优惠政策</p>
+        </div>
+        
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var portrait = window.localStorage.getItem('portrait');//头像
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            topBanner: {},
+            imgDefalt: '../image/headimgDef.png',
+            swiperTop: null,
+            bottomLists: {
+                activeIndex: 0,
+                list: [[], [], []],
+                start: [0, 0, 0],
+                end: [false, false, false],
+                showList: []
+            }
+        },
+        computed: {
+
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            goKitchenStore: function goset() {
+                api.openWin({
+                    name: 'kitchen.store',
+                    url: './kitchen.store.html',
+                    bounces: false,
+                    reload: true,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

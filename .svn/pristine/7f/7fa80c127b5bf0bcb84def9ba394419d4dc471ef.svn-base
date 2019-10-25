@@ -103,7 +103,7 @@
         <div class="swiper chef-forum-swiper">
             <div class="swiper-container forum-swiper-recommend">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" @click="goInvitationAdv" tapmode>
+                    <div class="swiper-slide" tapmode>
                         <div class="forum-foot-imgbox">
                             <img src="../image/../image/testBaner.jpg" alt="">
                         </div>
@@ -282,7 +282,7 @@
             </div>
         </div>
         <!-- 中间图片栏 -->
-        <div class="pictureBar" @click="goInvitationAdv"><img src="../image/testBaner.jpg" alt=""></div>
+        <div class="pictureBar"><img src="../image/testBaner.jpg" alt=""></div>
         <!-- 全部最新热卖 -->
         <div class="chef-hotslist-head">
             <p :class="['hotslist-head-item',bottomLists.activeIndex==0?'hotslist-head-active':'']"
@@ -476,21 +476,6 @@
 
                     }
                 });
-            },
-            goInvitationAdv:function(){
-                api.openWin({
-                    name: 'mall.invitationAdv',
-                    url: './mall.invitationAdv.html',
-                    bounces: false,
-                    animation: {
-                        type: "push",
-                        subType: "from_right",
-                        duration: 300
-                    },
-                    pageParam: {
-
-                    }
-                });  
             },
             goSpecialOffer:function(){
                 api.toast({

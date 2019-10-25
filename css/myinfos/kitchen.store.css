@@ -1,0 +1,161 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+
+/* 个人资料填写完整 */
+.chef-settled-main{
+    background: #f2f2f2;
+}
+.settled-main-top{
+    padding: 0 10px;
+    font-size: 0.9em;
+    background: #fff;
+    margin-bottom: 10px;
+}
+.settled-top-equity{
+    display: flex;
+    height: 20px;
+    line-height: 20px;
+    justify-content: flex-end;
+    font-size: 0.7em;
+    color: #6eb92c;
+}
+.icon-question{
+    font-size: 0.7em;
+}
+.settled-top-title{
+    padding: 5px 0;
+}
+.settled-title-main{
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+.settled-title-h1{
+    margin-right: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.settled-h1-status{
+    height: 14px;
+    line-height: 15px;
+    padding: 0 5px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.7em;
+}
+.settled-h1-no{
+    background: #f00;
+}
+.settled-h1-yes{
+    background: #6eb92c;
+}
+.settled-title-supplement{
+    color: #999;
+}
+
+.settled-top-form{
+
+}
+.settled-form-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+.settled-item-key{
+    width: 15%;
+}
+.settled-item-value{
+    width: 70%;
+}
+.settled-item-rightarr{
+    width: 10%;
+    text-align: right;
+}
+
+/* 实名认证 */
+.settled-main-center{
+    background: #fff;
+    padding: 10px;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+.settled-main-center .settled-title-supplement{
+    color: #6e6e6e;
+    font-size: 0.9em;
+}
+.settled-center-btn{
+    width: 70%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    color: #6eb92c;
+    text-align: center;
+    margin: 20px auto;
+    border-radius: 15px;
+    border:1px solid #6eb92c;
+}
+/* 职业证明 */
+.settled-professional-certificate{
+    line-height: 20px;
+}
+.settled-center-imgup{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border: 1px dashed #999;
+    border-radius: 2px;
+}
+.settled-imgup-text{
+    color: #999;
+    font-size: 1em;
+}
+.settled-main-bottom{
+    padding: 10px;
+}
+.settled-main-bottom .settled-top-equity{
+    justify-content: flex-start;
+    color: #6eb92c;
+}
+.settled-bottom-submit{
+    margin: 30px auto;
+    color: #fff;
+    background: #6eb92c;
+    width: 70%;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 15px;
+}
+.settled-bottom-foot{
+    font-size: 0.7em;
+    color: #6e6e6e;
+}
+.ui-checkbox input:checked:before, .ui-checkbox-s input:checked:before {
+    color: #6eb92c;
+    font-size: 28px;
+}
+.equity-light-normal{
+    color: #636363;
+}
+.equity-light-normal .equity-light::after{
+    display: block;
+    content: "";
+    border-bottom: 1px solid #6eb92c;
+}

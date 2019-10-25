@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>厨师入驻</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/kitchen.store.css" />
+</head>
+<body>
+    <div id="wrap">
+    <header class="page-head">
+        <div class="back" @click="goBack" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span >开通厨小店</span>
+        </div>
+    </header>
+
+    <div class="chef-settled-main">
+            <!-- 个人资料填写完整 -->
+        <div class="settled-main-top">
+            <div class="settled-top-equity">
+                <i class="iconfont icon-question"></i>
+                <span class="equity-light">名厨权益</span> 
+            </div>
+            <div class="settled-top-title">
+                <div class="settled-title-main">
+                    <span class="settled-title-h1">个人资料填写完整</span>
+                    <span class="settled-h1-status settled-h1-no">未完成</span>
+                </div>
+                <div class="settled-title-supplement">使用真实头像&姓名，有助于增加你的人脉</div>
+            </div>
+            <div class="settled-top-form">
+                <div class="settled-form-item" @click="goset" tapmode>
+                    <div class="settled-item-key">头像</div>
+                    <div class="settled-item-value"></div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+                <div class="settled-form-item" @click="goset" tapmode>
+                    <div class="settled-item-key">姓名</div>
+                    <div class="settled-item-value">碳治郎</div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+                <div class="settled-form-item" @click="goset" tapmode>
+                    <div class="settled-item-key">性别</div>
+                    <div class="settled-item-value">男</div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+                <div class="settled-form-item" @click="goset" tapmode>
+                    <div class="settled-item-key">菜系</div>
+                    <div class="settled-item-value">融合菜、中国甜点</div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+                <div class="settled-form-item" @click="goset" tapmode>
+                    <div class="settled-item-key">单位</div>
+                    <div class="settled-item-value">去填写</div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+                <div class="settled-form-item" @click="goset" tapmode>
+                    <div class="settled-item-key">职位</div>
+                    <div class="settled-item-value">去填写</div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 实名认证 -->
+        <div class="settled-main-center">
+            <div class="settled-top-title">
+                <div class="settled-title-main">
+                    <span class="settled-title-h1">实名认证</span>
+                    <span class="settled-h1-status settled-h1-no">未完成</span>
+                </div>
+                <div class="settled-title-supplement">
+                    您的身份信息仅用于实名认证，我们保证您的信息安全 不会被泄漏，并且不会用于任何其用途
+                </div>
+            </div>
+            <div class="settled-center-btn" @click="goRealname" tapmode>去完成实名</div>
+        </div>
+
+        <!-- 提交审核 -->
+        <div class="settled-main-bottom">
+            <div class="settled-top-equity">
+                <div class=" ui-form-item-checkbox ui-border-b">
+                    <label class="ui-checkbox">
+                        <input type="checkbox" checked="">
+                    </label>
+                    <span class="equity-light-normal">
+                        我已仔细阅读并同意
+                    </span> 
+                    <span class="equity-light">《厨小店用户协议》</span>  
+                </div>
+            </div>
+            <div class="settled-bottom-submit">申请开通</div>
+        </div>
+
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var portrait= window.localStorage.getItem('portrait');//头像
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            topBanner: {},
+            imgDefalt: '../image/headimgDef.png',
+            swiperTop: null,
+            bottomLists:{
+                activeIndex: 0,
+                list: [[], [], []],
+                start: [0, 0, 0],
+                end:[false,false,false],
+                showList: []
+            }
+        },
+        computed: {
+
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            goset:function goset(){
+                api.openWin({
+                    name: 'set',
+                    url: './set.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",                
+                        subType:"from_right",      
+                        duration:300                
+                    }
+                });
+            },
+            goRealname:function goRealname(){
+                api.openWin({
+                    name: 'chef.attestation',
+                    url: './chef.attestation.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",                
+                        subType:"from_right",      
+                        duration:300                
+                    }
+                });
+            },
+            upVideo:function upVideo(){
+                api.openWin({
+                    name: 'person.teaching',
+                    url: './person.teaching.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",                
+                        subType:"from_right",      
+                        duration:300                
+                    }
+                });
+            },
+            upProve:function upProve(){
+                var that = this
+                api.actionSheet({
+                    title : '上传图片',
+                    cancelTitle : '取消',
+                    buttons : ['拍照', '从手机相册选择']
+                    }, function(ret, err) {
+                    if (ret) {
+                        that.getPicture(ret.buttonIndex);
+                    }
+                });
+            },
+            getPicture:function getPicture(sourceType) {
+                if (sourceType == 1) {// 拍照
+                    api.getPicture({
+                    sourceType : 'camera',
+                    encodingType : 'jpg',
+                    mediaValue : 'pic',
+                    allowEdit : false,
+                    destinationType : 'base64',
+                    quality : 50,
+                    saveToPhotoAlbum : true
+                    }, function(ret, err) {
+                    if (ret) {        	
+                        /* $("#my_portrait").attr('src', ret.base64Data);
+                        $("#add_img").addClass('hide');
+                        $("#upload_img").removeClass('hide'); */
+                        //console.log(ret.base64Data);
+                    } else {
+                        api.toast(JSON.stringify(err));
+                    }
+                    });
+                } else if (sourceType == 2) {// 从相机中选择
+                    api.getPicture({
+                    sourceType : 'library',
+                    encodingType : 'jpg',
+                    mediaValue : 'pic',
+                    allowEdit : false,
+                    destinationType : 'base64',
+                    quality : 50,
+                    /*targetHeight: 80*/
+                    }, function(ret, err) {
+                        // console.log(ret.base64Data);
+                        if (ret) {
+                           /*  $("#my_portrait").attr('src', ret.base64Data);
+                            $("#add_img").addClass('hide');
+                            $("#upload_img").removeClass('hide'); */
+                        } else {
+                            api.toast(JSON.stringify(err));
+                        }
+                    });
+                }
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>
