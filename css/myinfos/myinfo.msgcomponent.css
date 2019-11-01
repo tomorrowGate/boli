@@ -1,0 +1,182 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+
+/* 名厨动态 */
+.chef-trends{
+    padding: 10px;
+}
+.chef-trends-head{
+    display: flex;
+    position: relative;
+    align-items: center;
+    font-size: 0.9em;
+}
+.trends-head-imgbox{
+    width: 50px;
+    height: 50px;
+    background: skyblue;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.trends-head-imgbox img{
+    width: 100%;
+}
+.trends-light{
+    color: #999;
+    font-size: 0.8em;
+}
+.trends-head-right{
+    position: absolute;
+    right:10px;
+    top:50%;
+    height: 16px;
+    line-height: 16px;
+    padding: 0px 8px;
+    border:1px solid #6eb92c;
+    border-radius: 9px;
+    color: #6eb92c;
+    transform: translateY(-50%);
+}
+
+.hotslist-body-item{
+    font-size: 0.8em;
+}
+.hotslist-item-title{
+    padding: 10px 0;
+}
+.hotslist-item-imgboxs{
+    display: flex;
+    align-items: center;
+}
+.hotslist-comment-imgbox{
+    width: 50px;
+    height: 50px;
+}
+.hotslist-comment-imgbox img{
+    width: 100%;
+    height: 100%;
+    background: skyblue;
+}
+.hotslist-imgboxs-imgbox img{
+    width: 100%;
+}
+.hotslist-item-footer{
+    display: flex;
+    justify-content:  flex-end ;
+}
+.hotslist-footer-item{
+    margin-right: 16px;
+}
+
+/* 评论体 */
+.chef-trend-comment{
+    padding: 10px 0;
+    background: #f2f2f2;
+}
+.chef-main-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #dfdfdf;
+    background: #fff;
+}
+.chef-head-left{
+    display: flex;
+    align-items: center;
+}
+.chef-main-head .icon-qianbi{
+    color: #6eb92c;
+}
+.chef-left-text{
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-left: 6px;
+}
+.trend-comment-body{
+    padding: 10px 10px 30px 10px;
+    background: #fff;
+}
+.comment-body-item{
+    display: flex;
+    margin-bottom: 16px;
+}
+.comment-body-imgbox{
+    width: 50px;
+    height: 50px;
+    background: skyblue;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.trends-head-imgbox img{
+    width: 100%;
+}
+.comment-body-main{
+    width: calc( 100% - 70px);
+    padding-bottom: 6px;
+    border-bottom: 1px solid #dfdfdf;
+}
+.comment-main-name{
+    padding: 5px 0;
+    font-weight: bold;
+}
+.comment-main-content{
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+.comment-main-foot{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 8px;
+}
+.comment-main-time{
+    font-size: 0.8em;
+    color: #999;
+}
+.comment-main-reply{
+    margin-left:10px; 
+    font-size: 0.9em;
+}
+.comment-hide-text{
+    width: calc(100% - 60px);
+}
+.comment-hide-item{
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    background: #f2f2f2;
+    box-sizing: border-box;
+}
+.comment-hide-name{
+    font-weight: bold;
+}
+.comment-hide-item .comment-hide-name{
+    display: inline;
+}
+.comment-hide-content{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+
+}
+.comment-hide-more{
+    padding: 2px;
+    color: #6eb92c;
+}
+

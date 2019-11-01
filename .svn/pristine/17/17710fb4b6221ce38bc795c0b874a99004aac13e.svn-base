@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>退款/售后</title>
+	<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+	<link rel="stylesheet" href="../css/frozenui.css">
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.createcen.css"/>
+</head>
+
+<body>
+	<div id="wrap" class="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode="tapmodeclass">
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>创作中心</span>
+            </div>
+            <div class="create-my-works">我的作品</div>
+        </header>
+        <div class="cretecen-btns">
+            <div class="cretecen-btns-item">发布菜谱</div>
+            <div class="cretecen-btns-item">发布教学</div>
+        </div>
+	</div>
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+	var userId = window.localStorage.getItem("userId");
+
+	var wrap = new Vue({
+		el: "#wrap",
+		data: {
+			URL: "",
+			checks:[[[]],[[],[]]]
+		},
+		computed: {
+
+		},
+		watch: {
+			checks:function (){
+				console.log(this.checks)
+			}
+		},
+		methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+		},
+		created: function created() {
+			var that = this
+			this.selectedCity = window.localStorage.getItem("selectedCity")
+			this.$nextTick(function () {
+				apiready = function () {
+					var header = that.$refs.header;
+					$api.fixStatusBar(header);
+					that.URL = $api.URL()
+					//上拉加载
+					api.addEventListener({
+						name: 'scrolltobottom',
+						extra: {
+							threshold: 50 //距离底部距离
+						}
+					}, function (ret, err) {
+						/* if (that.bottomLists.end[that.bottomLists.activeIndex]) {
+							api.toast({
+								msg: '没有更多了',
+								duration: 2000,
+								location: 'middle'
+							});
+						} else {
+							that.changeBottomList(that.bottomLists.activeIndex)
+						} */
+					});
+				}
+			})
+		},
+		mounted: function mounted() {
+		},
+	})
+
+</script>
+
+</html>

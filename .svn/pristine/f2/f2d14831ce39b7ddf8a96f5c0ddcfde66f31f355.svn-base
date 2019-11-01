@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>分类</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css"  href="../css/ssfl.css">
+    <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<style type="text/css">
+table{
+border-collapse:collapse;
+border-spacing:0;
+}
+a{ text-decoration:none;}
+html,body{ background-color:#f2f2f2;}
+ul{overflow:hidden;width:100%; }
+ul li{float:left; text-align:center;}
+.main_search{ text-align: left;padding: 10px 5% 10px 30px;position: relative; }
+.ip_div{     background-color: #fff;
+    border-radius: 15px;
+    height: 30px;
+    line-height: 30px;
+    color: #666;
+    font-size: 15px;
+    padding: 0 10px;}
+    .DIV_L{ height:50px;line-height: 50px }
+.pic{
+  float: left;
+  border:0;
+  margin:10px;
+}
+#category_all li{ font-weight: bold }
+.title{ width:100%; float:left;padding-left:10px;color:#595957;font-weight: bold}
+.right_con_img{
+    max-width: 100%;
+    height: 50px;
+}
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+    font-weight: bold;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+</style>
+</head>
+<body>
+
+<div class="tab_box clearfix">
+<header >
+  <div class="page-head">
+      <div class="back" onclick="goBack()" tapmode>
+          <i class="iconfont icon-back"></i>
+      </div>
+      <div class="head-center">
+          <span>商品分类</span>
+      </div>
+  </div>
+  <!-- <div class="main_search">
+    <div class="ip_div"  onclick="goSearch()" tapmode>
+      <i class="iconfont icon-search"></i>&nbsp;搜索
+    </div>
+  </div>
+  <div class="DIV_L"  onclick="goBack()" tapmode>
+    <i class="iconfont icon-back"></i>
+  </div> -->
+</div>
+
+  <div class="lyz_tab_left" style="position:fixed; overflow: auto">
+    <div class="pro_con111">
+      <ul id="category_all">
+      	<!--<li id="one_2" onclick="setTab('one',2,8)">品牌馆</li>-->
+        <!--<li class="hover" id="one_1" onclick="setTab('one',1,8)">个人护理</li>
+        <li id="one_2" onclick="setTab('one',2,8)">美妆护肤</li>
+        <li id="one_3" onclick="setTab('one',3,8)">数码家电</li>
+        <li id="one_4" onclick="setTab('one',4,8)">营养保健</li>
+        <li id="one_5" onclick="setTab('one',5,8)">环球美食</li>
+        <li id="one_6" onclick="setTab('one',6,8)">国际轻奢</li>
+        <li id="one_7" onclick="setTab('one',7,8)">母婴儿童</li>
+        <li id="one_8" onclick="setTab('one',8,8)">居家百货</li>  -->
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="lyz_tab_right" id="right_list">
+  	<!--<div class="con_right" id="con_one_0">
+
+
+  	</div>
+
+  -->
+
+
+
+
+   <!-- <div class="con_right" id="con_one_2" >
+      <ul>
+   
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_4.png"  width="100%"  data='{$good.goods_id}' /><p>洗沐浴露</p></div>
+        </li>
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_5.png"  width="100%"  data='{$good.goods_id}' /><p>身体乳</p></div>
+        </li>
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_6.png"  width="100%"  data='{$good.goods_id}' /><p>手足护理</p></div>
+        </li>
+      </ul>
+      <ul>
+       <div class="title" style="margin:10px 0;">身体护理</div>
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_4.png"  width="100%"  data='{$good.goods_id}' /><p>洗沐浴露</p></div>
+        </li>
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_5.png"  width="100%"  data='{$good.goods_id}' /><p>身体乳</p></div>
+        </li>
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_6.png"  width="100%"  data='{$good.goods_id}' /><p>手足护理</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="con_right" id="con_one_3" >
+      <ul>
+       <div class="title" style="margin:10px 0;">身体护理</div>
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_4.png"  width="100%"  data='{$good.goods_id}' /><p>洗沐浴露</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="con_right" id="con_one_4" >
+      <ul>
+       <div class="title" style="margin:10px 0;">身体护理</div>
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_4.png"  width="100%"  data='{$good.goods_id}' /><p>洗沐浴露</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="con_right" id="con_one_5" >
+      <ul>
+       <div class="title" style="margin:10px 0;">身体护理</div>
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_4.png"  width="100%"  data='{$good.goods_id}' /><p>洗沐浴露</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="con_right" id="con_one_6" >
+      <ul>
+       <div class="title" style="margin:10px 0;">身体护理</div>
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_4.png"  width="100%"  data='{$good.goods_id}' /><p>洗沐浴露</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="con_right" id="con_one_7" >
+      <ul>
+       <div class="title" style="margin:10px 0;">身体护理</div>
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_4.png"  width="100%"  data='{$good.goods_id}' /><p>洗沐浴露</p></div>
+        </li>
+      </ul>
+    </div>
+
+
+
+
+    <div class="con_right" id="con_one_8" >
+      <ul>
+       <div class="title" style="margin:10px 0;">身体护理</div>
+        <li style="width:33.33%;" >
+          <div class="pic" onclick="goCategory('goods_id')"><img src="../image/fl_4.png"  width="100%"  data='{$good.goods_id}' /><p>洗沐浴露</p></div>
+        </li>
+      </ul>
+    </div>
+    -->
+
+    <!--<div class="con_right" id="con_one_8" >
+    <ul><div class="title" style="margin:10px 0;">营养补充</div></ul>
+    <ul><div class="title" style="margin:10px 0;">父母长辈</div></ul>
+    <ul><div class="title" style="margin:10px 0;">儿童保健</div></ul>
+    <ul><div class="title" style="margin:10px 0;">女性保养</div></ul>
+    <ul><div class="title" style="margin:10px 0;">男性健康</div></ul>
+	</div>-->
+
+
+
+  </div>
+  <div class="clear"></div>
+</div>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+
+  $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+  });
+  var URL="";
+  var userId=window.localStorage.getItem("userId"); //用户id
+  var ugrade=window.localStorage.getItem("ugrade"); //用户id
+  var searchs=[];
+  var headerH;
+
+  URL=$api.URL();
+
+  apiready = function() {
+    var header = $api.dom('header'); // 获取 header 标签元素
+    headerH = $api.fixStatusBar(header);
+  	//获取所有类型
+  	getAll_category();
+    console.log(headerH);
+   height=headerH+50;
+    //$api.attr($api.dom('.lyz_tab_left'),'top',headerH+50);
+   console.log(    $api.attr($api.dom('.lyz_tab_left'),'top')
+) ;
+  }
+   //返回上一页
+      function goBack(){
+
+          api.closeWin();
+      }
+//商品详情
+        function goCategory(parent_id,cate_id,cate_id2,all_flag){
+         event.stopPropagation();
+            api.openWin({
+                name: 'category.view',
+                url: './category.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    parent_id: parent_id,//商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                    cate_id: cate_id,//商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                	cate_id2:cate_id2,
+                	all_flag:all_flag
+                }
+            });
+        }
+        function setTab(name,cursel,n){
+          console.log(name+cursel+n);
+          $("#one_"+cursel).addClass("hover").siblings("li").removeClass("hover");
+          $("#con_one_"+cursel).addClass("active").siblings("div").removeClass("active");
+        }
+        //搜索页面
+        function goSearch(){
+            api.openWin({
+                name: 'search',
+                url: './search.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    searchs:searchs,
+                }
+            });
+        }
+        //获取全部分类
+        function getAll_category(){
+	        api.ajax({
+		        url : URL+'/index.php?app=homepage&act=selection_type',
+		        method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+
+						}
+	        },function(ret,err){
+
+	        	//拼接主分类
+	        	for(var i=0;i<ret.retval[0].length;i++){
+	        		var click0="setTab('one',0,8)";
+	        		var click="setTab('one',"+(i+1)+",8)";
+	        		console.log(click);
+	        			//拼接主分类
+	        			$("#category_all").append('<li id="one_'+(i+1)+'" onclick="'+click+'">'+ret.retval[0][i].cate_name+'</li>');
+	        		
+	        	}
+
+	        	console.log(ret.retval[0].length);
+	        	console.log(ret.retval[1][0].length);
+
+	        	$("#right_list").html("");
+				var str_s='';
+				for(var i=0;i<ret.retval[1].length;i++){
+
+
+					if(i==0){
+						str_s+=' <div class="con_right" id="con_one_0"> ';
+						str_s+=' </div> ';
+
+						str_s+=' <div class="con_right active" id="con_one_'+(i+1)+'"> ';
+					}else{
+						str_s+=' <div class="con_right" id="con_one_'+(i+1)+'"> ';
+					}
+          str_s+='<ul>'
+          
+					for(var j=0;j<ret.retval[1][i].length;j++){
+          //<div class="title" style="margin:10px 0;display:none" onclick="'+funct1+'">'+ret.retval[1][i][j].cate_name+'</div>';
+					//var funct1='goCategory('+ret.retval[1][i][j].parent_id+',0,0,'+1+')';
+						
+				//		for(var a=0;a<ret.retval[2][i][j].length;a++){
+							str_s+='<li style="width:33.33%;" >';
+							str_s+='<div class="pic" onclick="goCategory('+ret.retval[1][i][j].parent_id+','+ret.retval[1][i][j].cate_id+','+0+')"><img src="'+URL+ret.retval[1][i][j].cate_images+'"  class="right_con_img"  data='+ret.retval[1][i][j].cate_id+' /><p>'+ret.retval[1][i][j].cate_name+'</p></div></li>';
+							var search={cate_id:ret.retval[1][i][j].cate_id, cate_name: ret.retval[1][i][j].cate_name, cate_id2: ret.retval[1][i][j].cate_id,cate_parent_id:ret.retval[1][i][j].parent_id}
+							searchs.push(search);
+					//	}
+					}
+						str_s+='</ul>';
+					str_s+='</div>';
+				}
+				$api.append($api.byId("right_list"), str_s);
+
+
+//	        	for(var i=0;i<ret.retval[1].length;i++){
+//	        		if(i==0){
+//
+//	        			$("#right_list").append('<div class="con_right active" id="con_one_'+(i+1)+'">');
+//	        			//str_zi+='<div class="con_right active" id="con_one_'+(i+1)+'">';
+//	        		}else{
+//	        			$("#right_list").append('<div class="con_right" id="con_one_'+(i+1)+'">');
+//	        			//str_zi+='<div class="con_right" id="con_one_'+(i+1)+'">';
+//	        		}
+//	        		str_sun="";
+//	        		for(var j=0;j<ret.retval[1][i].length;j++){
+//	        			$('#con_one_'+(i+1)).append("<ul>");
+//	        			//str_sun+='<ul>';
+//	        			$('#con_one_'+(i+1)).append('<div class="title" style="margin:10px 0;">'+ret.retval[1][i][j].cate_name+'</div>');
+//	        			//str_sun+='<div class="title" style="margin:10px 0;">'+ret.retval[1][i][j].cate_name+'</div>';
+//	        			console.log(j);
+//	        			//拼接孙子级别的分类
+//	        			for(var a=0;a<ret.retval[2][i][j].length;a++){
+//	        				console.log(a);
+//	        				console.log(ret.retval[1][i][j].parent_id);
+//	        				$('#con_one_'+(i+1)).append('<li style="width:33.33%;" >');
+//	        				//str_sun+='<li style="width:33.33%;" >';
+//	        				$('#con_one_'+(i+1)).append('<div class="pic" onclick="goCategory('+ret.retval[1][i][j].parent_id+','+ret.retval[2][i][j][a].cate_id+','+ret.retval[1][i][j].cate_id+')"><img src="../image/fl_4.png"  width="100%"  data="'+ret.retval[2][i][j][a].cate_id+'" /><p>'+ret.retval[2][i][j][a].cate_name+'</p></div>');
+//	        				//str_sun+='<div class="pic" onclick="goCategory('+ret.retval[1][i][j].parent_id+','+ret.retval[2][i][j][a].cate_id+','+ret.retval[1][i][j].cate_id+')"><img src="'+URL+'/'+ret.retval[2][i][j][a].cate_images+'"  width="100%"  data="'+ret.retval[2][i][j][a].cate_id+'" /><p>'+ret.retval[2][i][j][a].cate_name+'</p></div>';
+//	        				$('#con_one_'+(i+1)).append('</li>');
+//	        				//str_sun+='</li>';
+//	        			}
+//
+//	        			$('#con_one_'+(i+1)).append('</ul>');
+//	        			//str_sun+='</ul>';
+//	        		}
+//	        		console.log(str_sun);
+//					//$api.append($api.byId("con_one_"+(i+1)), str_sun);
+//					//$("#con_one_1").append(str_sun);
+//	        		$("#right_list").append('</div>');
+//	        		//str_zi+='</div>'
+//	        	}
+	        	//$api.append($api.byId("right_list"), str_zi);
+	        	//$("#right_list").append(str_zi);
+
+	        	//拼接p品牌馆
+	        	var str_brand="";
+	        	for(var i=0;i<ret.retval[3].length;i++){
+	        	console.log(ret.retval[3][i].brand_name);
+	        		if(i==0){
+	        			//$('#con_one_0').append('<p>');
+	        			str_brand+='<ul>';
+	        		}
+//	        		$('#con_one_0').append('aaaaaaaaaa');
+		        		//$('#con_one_0').append('<li style="width:33.33%;" >');
+		        		str_brand+='<li style="width:33.33%;" >';
+		        		//$('#con_one_0').append('<div class="pic" onclick="goCategory('+ret.retval[3][i].brand_id+')"><img src="'+URL+'/'+ret.retval[3][i].brand_logo+'"  width="100%"  data="'+ret.retval[3][i].brand_id+'" /><p>'+ret.retval[3][i].brand_name+'</p></div>');
+		        		str_brand+='<div class="pic" onclick="goCategory('+ret.retval[3][i].brand_id+')"><img src="'+URL+'/'+ret.retval[3][i].brand_logo+'"  width="100%"  data="'+ret.retval[3][i].brand_id+'" /><p>'+ret.retval[3][i].brand_name+'</p></div>';
+		        		//$('#con_one_0').append('</li>');
+		        		str_brand+='</li>';
+
+		        	if(i==ret.retval[3].length-1){
+		        	console.log(i);
+		        		//$('#con_one_0').append('</ul>');
+		        		str_brand+='</ul>';
+		        		console.log(str_brand);
+		        		$api.append($api.byId("con_one_0"), str_brand);
+		        		console.log($("#con_one_0").html());
+		        	}
+	        	}
+
+
+	        });
+
+        }
+</script>
+</body>
+</html>

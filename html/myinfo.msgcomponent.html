@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的动态组件</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.msgcomponent.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 名厨动态 -->
+        <div class="chef-trends">
+            <div class="chef-trends-head">
+                <div class="trends-head-imgbox">
+                    <img src="" alt="">
+                </div>
+                <div class="trends-head-center">
+                    <div class="trends-center-top">
+                        <span class="trends-center-name">周伯通</span>
+                        <span class="trends-center-iden trends-light">国家一级厨师</span>
+                    </div>
+                    <div class="trends-center-bottom trends-light">
+                        <span class="trends-center-date">09-17</span>
+                        <span class="trends-center-time">13:30</span>
+                    </div>
+                </div>
+                <div class="trends-head-right">
+                    <div class="trends-head-focus">关注</div>
+                </div>
+            </div>
+            <div class="chef-hotslist-body">
+                <div class="hotslist-body-item">
+                    <div class="hotslist-item-title">
+                        茉莉花，别名：茉莉，拉丁文名：Jasminum sambac (L.) Ait，
+                        木犀科、素馨属直立或攀援灌木，高达3米。小枝圆柱形或稍压扁状，
+                        有时中空，疏被柔毛。叶对生，单叶，叶片纸质，圆形、椭圆形、
+                        卵状椭圆形或倒卵形，两端圆或钝，基部有时微心形，在上面稍凹入或凹起
+                        ，下面凸起，细脉在两面常明显，微凸起，除下面脉腋间常具簇毛外，
+                        其余无毛；裂片长圆形至近圆形，先端圆或钝。果球形，呈紫黑色。
+                        花期5-8月，果期7-9月。茉莉的花极香，为著名的花茶原料及重要的香精原料；
+                        花、叶药用治目赤肿痛，并有止咳化痰之效.
+                    </div>
+                    <div class="comment-hide-item">
+                        <div class="hotslist-comment-imgbox">
+                            <img src="" alt="">
+                        </div>
+                        <div class="comment-hide-text">
+                            <span class="comment-hide-name">哪路托：</span>
+                            <span class="comment-hide-content">
+                                っ那時的空氣真好，輕輕辷ō乎吸，勼可以嗅到年輕的щeι道。っ那時的空氣真好，輕輕辷ō乎吸，勼可以嗅到年輕的щeι道。っ那時的空氣真好，輕輕辷ō乎吸，勼可以嗅到年輕的щeι道。っ那時的空氣真好，輕輕辷ō乎吸，勼可以嗅到年輕的щeι道。っ那時的空氣真好，輕輕辷ō乎吸，勼可以嗅到年輕的щeι道。
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var wrap = new Vue({
+        el: '#wrap',
+        data: {
+            test:['a','avs','adidas','faker'],
+            userId: '',
+            sf_id: 0,
+            URL: '',
+            artic_id:0,
+            staffAtc: [],
+            commentArr:[],
+            mainComment:'',
+            isShowApprentice: true
+        },
+        methods: {
+            submit:function submit(){
+                console.log(this.mainComment)
+            },
+            goBack:function goBack(){
+                api.closeWin();
+            },
+            fortest:function(v){
+                console.log(this.$refs[v][0].innerHTML)
+                console.log(this.$refs[v][1].dataset.abc)
+            },
+            //根据articid获取文章内容
+            getMasterCircle:function (){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=get_staff_article',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            artic_id: that.artic_id,
+                        }
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                      
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //获取评论
+            getCommend:function getCommend(){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=get_staff_article',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            artic_id: that.artic_id,
+                        }
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.commentArr = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    that.URL = $api.URL();
+                    that.artic_id = api.pageParam.artic_id;
+                    that.userId = window.localStorage.getItem("userId")
+
+                }
+            })
+        },
+        mounted: function mounted() {
+
+
+        },
+    })
+
+</script>
+
+</html>

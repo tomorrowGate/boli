@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>线下预约</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.study.css" />
+</head>
+
+<body>
+    <div id="collect">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>线下预约</span>
+            </div>
+        </header>
+      
+        <div class="chef-nocloccet hide">
+            <div class="chef-nocloccet-imgbox">
+                <img src="../image/novideos.png" alt="">
+            </div>
+            <div class="chef-nocloccet-text">
+                暂无预约
+            </div>
+        </div>
+
+        <!-- 精品讲堂 -->
+        <div class="myinfo-under-items" v-for="(v,i) in 6" :key="i">
+            <div class="my-info-top">杭州市 9月21日 15：00 开课</div>
+            <div class="chef-form-card"  @click="oneForumDet">
+                <div class="chef-form-leftimg">
+                    <img src="" alt="">
+                </div>
+                <div class="chef-right-content">
+                    <div class="chef-head1">
+                        <div class="chef-head1-name">中国菜肴的八种烹饪法则</div>
+                    </div>
+                    <div class="chef-head2 chef-forum-light">教你探究中式烹饪的秘诀</div>
+                    <div class="chef-head3 chef-forum-light forum-foot-explain">
+                        <i class="iconfont"></i>
+                        <span class="forum-foot-name">周伯通</span>
+                        |
+                        <span class="forum-foot-level">国家一级厨师</span>
+                    </div>
+                    <div class="chef-head4 chef-forum-light">
+                        <i class="iconfont"></i>
+                        <span class="">14925</span>人已观看
+                    </div>
+                </div>
+            </div>
+            <div class="my-info-bottom">
+                <div class="my-info-lookmore">查看更多</div>
+            </div>  
+        </div>
+         
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/jroll.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    (function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    })();
+
+
+    var collectMain = new Vue({
+        el: "#collect",
+        data: {
+            URL:"",
+            userId:0,
+            a: 10,
+            isChefForum:1,
+            weekAgo:[],//一周以前
+            yearsAgo:[]//更早
+        },
+        methods: {
+            goBack:function goBack(){
+                api.closeWin();
+            },
+            changeCollect:function changeCollect(type){
+                this.isChefForum = type
+                this.a = this.isChefForum==1 ? 10:3
+                this.$nextTick(function(){
+                    this.slideDel()
+                })
+            },
+            oneForumDet:function(){
+                console.log(1)
+            },
+            getWeekago:function getWeekago(type){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appvideo&act=play_on_week',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id:that.user_id,
+                            type :type
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.weekAgo = ret.retval//不能拜师
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else{
+                        that.isShowApprentice = true//可以拜师
+                        
+                    }
+                });
+            },
+            getYearsago:function getYearsago(type){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appvideo&act=play_history',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id:that.user_id,
+                            type :type
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.yearsAgo = ret.retval//不能拜师
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else{
+                        that.isShowApprentice = true//可以拜师
+                        
+                    }
+                });
+            },
+            
+        },
+        computed:{
+           /*  a:function(){
+                this.isChefForum?this.active = "hotslist-head-active" :''
+            } */
+           
+        },
+        created:function created() {
+            var that = this
+            this.$nextTick(function(){
+                apiready = function () {
+                    that.URL = $api.URL();
+                    that.userId = window.localStorage.getItem("userId")
+                    var header = that.$refs["header"];
+                    $api.fixStatusBar(header);
+                    that.getWeekago(1)
+                }
+            })
+           
+        },
+        mounted:function mounted() {
+            
+        },
+    });
+
+</script>
+
+</html>

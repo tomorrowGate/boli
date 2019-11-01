@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <meta name = "format-detection" content = "telephone=no">
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../font/font_1202900_w049oinjmf/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css" />
+      <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+      <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.before.css" />
+
+  </head>
+  <body>
+      <div class="top_bg"></div>
+      <header></header>
+      <div class="my_info clearfix">
+        <i class="iconfont icon-xiaoxi my_icon1" onclick="goMessage()" tapmod><span class="badge-dot" id="message_dot"></span></i>
+        <div class="myinfo-center">
+            <div class="info_l" ><img src="../image/default_portrait.png" id="portrait" class="portrait" onclick="goPortrait()"></div>
+            <div class="info_m">
+              <div class="user-name"><span id="user_name">未登录</span><span class="jb" id="level">会员</span></div>
+              <div><span class="border-w">邀请码:<span id="invite_code"></span></span><span class="border-c" onclick="copyHref()" tapmode>复制</span></div>
+            </div>
+            <div class="myinfo-center-right">
+                <span class="my_icon2" onclick="goMyPoint()" tapmode>赚积分</span>
+                <span class="my_icon2-1" onclick="goMarketing()" tapmode>推荐大使</span>
+            </div>
+        </div>
+        <!-- <div class="header_1"><input type="text" name="search" placeholder="请输入设备编码" class="ip" id="addr_input" ></div>
+        <i class="iconfont icon-saoyisao my_icon0" id="apDiv1" onclick="test()" tapmod></i> -->
+        
+      </div>
+      <div class="my_maintain_order out_div clearfix" id="wxdd">
+      	<div class="orders">
+      		<div class="maintain_all clearfix"  onclick="goMyMiantainingOrders('1')" tapmode>
+	            <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;维修订单</div>
+	            <div class="t_r font_c1 font_s2 more">查看我的维修订单&nbsp;<i class="iconfont icon-htbArrowright"></i></div>
+          	</div>
+          	<div class="nomal_states clearfix">
+	            <div class="nav_item"  onclick="goMyMiantainingOrders('1')" tapmode><span class="bg_span"><span id="badge-dot" class="badge-dot hide"></span> <i class="iconfont icon-ERP_asset"></i><span class="badge-dot hide" id="maintaining_dot"></span></span><br/><span>待维修</span></div>
+	            <div class="nav_item" onclick="goMyMiantainingOrders('2')" tapmode><span class="bg_span"><i class="iconfont icon-wancheng"></i><span class="badge-dot hide" id="maintained_dot"></span></span><br/><span>已完成</span></div>
+          </div>
+      	</div>
+      </div>
+      <div class="my_maintain_order out_div clearfix" id="wbdd">
+      	<div class="orders">
+      		<div class="maintain_all clearfix"  onclick="goProtectOrders('1')" tapmode>
+	            <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;维保订单</div>
+	            <div class="t_r font_c1 font_s2 more">查看我的维保订单&nbsp;<i class="iconfont icon-htbArrowright"></i></div>
+          	</div>
+          	<div class="nomal_states clearfix">
+	            <div class="nav_item"  onclick="goProtectOrders('1')" tapmode><span class="bg_span"><span id="protect-dot" class="badge-dot hide"></span> <i class="iconfont icon-ERP_asset"></i><span class="badge-dot hide" id="maintaining_dot"></span></span><br/><span>待维保</span></div>
+	            <div class="nav_item"  onclick="goProtectOrders('2')" tapmode><span class="bg_span"><i class="iconfont icon-wancheng"></i><span class="badge-dot hide" id="maintained_dot"></span></span><br/><span>已完成</span></div>
+          </div>
+      	</div>
+      </div>
+      <div class="my_devices out_div clearfix" id="sb">
+        <div class="orders">
+          <div class="nomal_all clearfix"  onclick="goMyDevices()" tapmode>
+            <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;设备</div>
+            <div class="t_r font_c1 font_s2 more">查看我的设备&nbsp;<i class="iconfont icon-htbArrowright"></i></div>
+          </div>
+          <div class="nomal_states clearfix">
+            <div class="nav_item"  onclick="goMyDevices()" tapmode><span class="bg_span"><i class="iconfont icon-ERP_asset"></i><span class="badge-dot hide" id="paying_dot1"></span></span><br/><span>设备管理</span></div>
+            <div class="nav_item" onclick="goPreSer()" tapmode><span class="bg_span"><i class="iconfont icon-dengdai"></i><span class="badge-dot hide" id="payed_dot"></span></span><br/><span>预约维修</span></div>
+            <div class="nav_item" onclick="goAfterSer()" tapmode><span class="bg_span"><i class="iconfont icon-huoche"></i><span class="badge-dot hide" id="shipping_dot"></span></span><br/><span>我的售后</span></div>
+            <div class="nav_item" onclick="goAlertRecord()" tapmode><span class="bg_span"><i class="iconfont icon-wancheng"></i><span class="badge-dot hide" id="finished_dot"></span></span><br/><span>告警记录</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="my_order out_div clearfix">
+        <div class="orders">
+          <div class="order_all clearfix"  onclick="goMyorders('0')" tapmode>
+            <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;订单</div>
+            <div class="t_r font_c1 font_s2 more">查看更多订单&nbsp;<i class="iconfont icon-htbArrowright"></i></div>
+          </div>
+          <div class="order_states clearfix">
+            <div class="nav_item"  onclick="goMyorders('1')" tapmode><span class="bg_span"><i class="iconfont icon-ERP_asset"></i><span class="badge-dot hide" id="paying_dot"></span></span><br/><span>待付款</span></div>
+            <div class="nav_item" onclick="goMyorders('2')" tapmode><span class="bg_span"><i class="iconfont icon-dengdai"></i><span class="badge-dot hide" id="payed_dot"></span></span><br/><span>待发货</span></div>
+            <div class="nav_item" onclick="goMyorders('3')" tapmode><span class="bg_span"><i class="iconfont icon-huoche"></i><span class="badge-dot hide" id="shipping_dot"></span></span><br/><span>待收货</span></div>
+            <div class="nav_item" onclick="goMyorders('4')" tapmode><span class="bg_span"><i class="iconfont icon-wancheng"></i><span class="badge-dot hide" id="finished_dot"></span></span><br/><span>已完成</span></div>
+            <div class="nav_item" onclick="goAftersale()" tapmode><span class="bg_span"><i class="iconfont icon-board"></i><span class="badge-dot hide" id="failed_dot"></span></span><br/><span>售后</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="my-mana out_div clearfix hide">
+        <div class="mana">
+          <div class="mana_all clearfix"  onclick="goMyMana('0')" tapmode>
+            <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;管理</div>
+          </div>
+          <div class="mana_states clearfix">
+            <div class="mana_item nav_item"  onclick="goMyMana('1')" tapmode><span class="bg_span"><i class="iconfont icon-huiyuan_open"></i><span class="badge-dot hide"></span></span><br/><span>会员管理</span></div>
+            <div class="mana_item nav_item" onclick="goMyMana('2')" tapmode><span class="bg_span"><i class="iconfont icon-ERP_asset"></i><span class="badge-dot hide"></span></span><br/><span>我的设备</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="my_wallet out_div clearfix">
+        <div class="orders">
+          <div class="nomal_all clearfix"  onclick="goAftersale('0')" tapmode>
+            <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;礼遇</div>
+            <div class="t_r font_c1 font_s2 more"></div>
+          </div>
+          <div class="nomal_states clearfix">
+            <div class="nav_item"  onclick="goAftersale('1')" tapmode><span class="bg_span"><i class="iconfont icon-qianbao"></i><span class="badge-dot hide" id="paying_dot"></span></span><br/><span>积分</span></div>
+            <div class="nav_item" onclick="goAssets()" tapmode><span class="bg_span"><i class="iconfont icon-huangjinrenmaiquan"></i><span class="badge-dot hide" id="payed_dot"></span></span><br/><span>资产</span></div>
+            <div class="nav_item" onclick="goAftersale()" tapmode><span class="bg_span"><i class="iconfont icon-yingxiao"></i><span class="badge-dot hide" id="shipping_dot"></span></span><br/><span>营销</span></div>
+            <div class="nav_item" onclick="goAftersale('4')" tapmode><span class="bg_span"><i class="iconfont icon-youhuiquan"></i><span class="badge-dot hide" id="finished_dot"></span></span><br/><span>卡券</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="my_other out_div clearfix">
+        <div class="orders">
+          <div class="nomal_all clearfix"  onclick="goMyorders('0')" tapmode>
+            <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;服务</div>
+            <div class="t_r font_c1 font_s2 more"></div>
+          </div>
+          <div class="nomal_states clearfix">
+            <div class="nav_item"  onclick="goCoupon()" tapmode><span class="bg_span my_icon4"><i class="iconfont icon-renzheng1"></i><span class="badge-dot hide" id="coupon_dot"></span></span><br/><span>厨师认证</span></div>
+            <div class="nav_item" onclick="goIdentity()" tapmode><span class="bg_span my_icon5"><i class="iconfont icon-shimingzhuanhuan"></i><span class="badge-dot hide" id="identity_dot"></span></span><br/><span>实名认证</span></div>
+            <div class="nav_item" onclick="fnopenMall()" tapmode><span class="bg_span my_icon6"><i class="iconfont icon-banquanbaohu"></i><span class="badge-dot hide" ></span></span><br/><span>版权库</span></div>
+            <div class="nav_item" onclick="goFavorite()" tapmode><span class="bg_span my_icon7"><i class="iconfont icon-shoucang"></i><span class="badge-dot hide" id="my_collect"></span></span><br/><span>我的收藏</span></div>
+          </div>
+          <div class="nomal_states clearfix">
+            <div class="nav_item"  onclick="goHelp()" tapmode><span class="bg_span my_icon8"><i class="iconfont icon-bangzhu"></i><span class="badge-dot hide" id="my_help"></span></span><br/><span>使用帮助</span></div>
+            <div class="nav_item" onclick="goService()" tapmode>
+              <span class="bg_span my_icon9">
+                <i class="iconfont icon-kefu"></i>
+                <span class="badge-dot hide"></span>
+              </span><br/><span>联系客服</span>
+            </div>
+            <div class="nav_item" onclick="goSuggest()" tapmode><span class="bg_span my_icon10"><i class="iconfont icon-yijian"></i><span class="badge-dot hide"></span></span><br/><span>意见反馈</span></div>
+            <div class="nav_item" onclick="goSet()" tapmode><span class="bg_span my_icon11"><i class="iconfont icon-shezhi"></i><span class="badge-dot hide"></span></span><br/><span>系统设置</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="my_other out_div clearfix">
+        <div class="orders">
+          <div class="nomal_all clearfix"  tapmode>
+            <div class="t_l font_s1 font_w1"><i class="iconfont icon-qianbi my_icon3"></i>&nbsp;厨小店</div>
+            <div class="t_r font_c1 font_s2 more"></div>
+          </div>
+          <div class="nomal_states clearfix">
+            <div class="nav_item" onclick="goKitchen()" tapmode><span class="bg_span my_icon7"><i class="iconfont icon-shoucang"></i><span class="badge-dot hide"></span></span><br/><span>厨小店</span></div>
+            <div class="nav_item" onclick="goShopCar()" tapmode><span class="bg_span my_icon4"><i class="iconfont icon-shoucang"></i><span class="badge-dot hide"></span></span><br/><span>购物车</span></div>
+          </div>
+        </div>
+      </div>
+
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script>
+function checkLogin(){
+        var userId=window.localStorage.getItem("userId"); //用户id
+        if(userId==''||userId==null||userId==undefined){
+          api.openWin({
+            name : 'login',
+            url : './login.html',
+            slidBackEnabled:false
+          });
+          api.toast({
+                  msg: '请先登录!',
+                  duration: 2000,
+                  location: 'middle'
+                });
+          return false;
+        }else{ 
+        	return true;
+        }
+      }
+  //最新物流上下自动显示
+  var swiper0 = new Swiper('.delivery-swiper', {
+              direction: 'vertical',
+              slidesPerView: '1',
+              autoplay:true,
+            });
+
+
+  //物流弹出层swiper
+    var swiper = new Swiper('.rotate-swiper', {
+      effect : 'coverflow',
+      slidesPerView: '1',
+      freeMode :false,
+      autoplay:false,
+      pagination: {
+        el: '#rotate-pagination',
+      },
+      observer:true,/*启动动态检查器，当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。*/
+      observeParents:true,/*将observe应用于Swiper的父元素。当Swiper的父元素变化时，例如window.resize，Swiper更新。*/
+    });
+    //具体物流信息
+    new Swiper('.detail-swiper', {
+              direction: 'vertical',
+              slidesPerView: 'auto',
+              freeMode: true,
+              observer:true,/*启动动态检查器，当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。*/
+              observeParents:true,/*将observe应用于Swiper的父元素。当Swiper的父元素变化时，例如window.resize，Swiper更新。*/
+          });
+
+
+    var URL="";
+    var userId=window.localStorage.getItem("userId"); //用户id
+    //var real_name=window.localStorage.getItem("real_name");//昵称
+    //var invite_code=window.localStorage.getItem("invite_code");//邀请码
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+    var fun={};
+    var headerH;
+    var FNScanner;
+    var sgrade;
+      apiready = function(){
+       FNScanner = api.require('FNScanner');
+        var header = $api.dom('header'); // 获取 header 标签元素
+        headerH = $api.fixStatusBar(header);
+        URL=$api.URL();
+        if(checkLogin()){
+            $api.html( $api.byId("user_name"),window.localStorage.getItem('real_name'));
+	        $api.html( $api.byId("invite_code"),window.localStorage.getItem('invite_code'));
+	        var portrait= window.localStorage.getItem('portrait');//头像
+          console.log(portrait)
+          if(portrait!= "undefined" || portrait!=null || portrait!= " " ){
+            if(portrait.substr(0,7).toLowerCase() == "http://"){
+              $api.attr($api.byId('portrait'),'src',portrait);
+            }else{
+              $api.attr($api.byId("portrait"),'src',URL+portrait);
+            }
+          }else{
+            $api.attr($api.byId('portrait'),'src','../image/default_portrait.png');
+          }
+	        api.refreshHeaderLoading();
+        }
+        
+        //下拉刷新
+        api.setCustomRefreshHeaderInfo({
+    bgColor: '#282724',
+    images: {
+        pull: 'widget://image/refresh/pulling.png',
+        transform: [
+            'widget://image/refresh/transform0.png',
+            'widget://image/refresh/transform1.png',
+            'widget://image/refresh/transform2.png',
+            'widget://image/refresh/transform3.png',
+            'widget://image/refresh/transform4.png',
+            'widget://image/refresh/transform5.png',
+            'widget://image/refresh/transform6.png'
+        ],
+        load: [
+            'widget://image/refresh/loading0.png',
+            'widget://image/refresh/loading1.png',
+            'widget://image/refresh/loading2.png',
+            'widget://image/refresh/loading3.png',
+            'widget://image/refresh/loading4.png',
+        ]
+    }
+}, function(ret, err) {
+  if (localStorage.getItem('userId')) {
+        userId = localStorage.getItem("userId");
+        console.log(userId);
+        get_user_info();
+        get_msg_status();
+       } else {
+        api.openWin({
+          name : 'login',
+          url : 'login.html',
+          allowEdit:true,
+        });
+      }
+  setTimeout('api.refreshHeaderLoadDone()', '5000');
+});
+};
+
+  function get_msg_status(){
+      console.log("222");
+       api.ajax({
+        url : URL + 'index.php?app=myinfo&act=get_msg_status',
+            method : 'post',
+            cache : false,
+            timeout : 30,
+            dataType : 'json',
+            returnAll : false,
+            data : {
+                    values : {
+                          user_id:userId
+                            }
+                    }
+      },function(ret,err){
+        //console.log(ret.done);
+        if(!ret.done){
+          $("#message_dot").addClass("hide");
+        }else{
+          $("#message_dot").removeClass("hide");
+        }
+      });
+
+    }
+
+    //获取用户信息
+    function get_user_info(){
+    //alert("aa");
+    api.ajax({
+      url : URL + 'index.php?app=myinfo&act=get_info',
+              method : 'post',
+              cache : false,
+              timeout : 30,
+              dataType : 'json',
+              returnAll : false,
+              data : {
+                      values : {
+                            user_id:userId
+                             }
+                     }
+    },function(ret,err){
+    console.log(JSON.stringify(ret));
+      if(ret.done)
+      {
+      console.log("====》》》"+ret.retval.real_name);
+      sgrade=ret.retval.sgrade;
+     // $api.html($api.byId("user_name"), ret.retval.real_name);
+     // $api.html($api.byId("invite_code"), ret.retval.invite_code);
+      //头像
+
+     //$api.attr($api.byId("portrait"),'src',URL+ret.retval.portrait);
+      //显示订单数量
+      if(ret.retval.store_id!=null){
+      		$(".my-mana").removeClass("hide");
+      }
+      if( ret.retval.order_num.pending_count>0){
+        $api.removeCls($api.byId("paying_dot"), 'hide');
+        $api.html($api.byId("paying_dot"), ret.retval.order_num.pending_count);
+      }
+      if( ret.retval.order_num.accepted_count>0){
+        $api.removeCls($api.byId("payed_dot"), 'hide');
+        $api.html($api.byId("payed_dot"), ret.retval.order_num.accepted_count);
+      }
+      if( ret.retval.order_num.shipped_count>0){
+        $api.removeCls($api.byId("shipping_dot"), 'hide');
+        $api.html($api.byId("shipping_dot"), ret.retval.order_num.shipped_count);
+      }
+      if( ret.retval.order_num.finished_count>0){
+        $api.removeCls($api.byId("finished_dot"), 'hide');
+        $api.html($api.byId("finished_dot"), ret.retval.order_num.finished_count);
+      }
+      if(ret.retval.is_shiming)
+      {
+        $api.html($api.byId("is_shiming"), '已实名');
+      }
+      }else{
+        $api.html($api.byId("is_shiming"), '未实名');
+      }
+         if(ret.retval.im_aliww!=2){
+           $("#wxdd").css('display','none');
+           $("#wbdd").css('display','none');
+		
+         }else{
+         
+           $("#sb").css('display','none');
+           $("#level").html("");
+           $("#level").html("维修");
+         }
+//       待维修
+         if(ret.retval.has_dwx>0&&ret.retval.has_dwx!=null){
+         	$("#badge-dot").removeClass('hide');
+         }else{
+         	$("#badge-dot").addClass('hide');
+         }
+         //待维保
+		if(ret.retval.has_dwb>0&&ret.retval.has_dwb!=null){
+         	$("#protect-dot").removeClass('hide');
+         }else{
+         	$("#protect-dot").addClass('hide');
+         }
+
+         
+
+    });
+    api.refreshHeaderLoadDone();
+    }
+     function goInfo(){
+        api.openWin({
+        name: 'infomation',
+        url: './infomation.html',
+        bounces: false,
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+
+    //赚积分
+    function goMyPoint(){
+        api.openWin({
+          name: 'myPoint',
+          url: './myPoint.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          },
+          pageParam: {
+             articleType: 'point' //通过var orderState=api.pageParam.orderState; 调用
+          }
+        });
+    }
+
+	//营销
+	function goMarketing(){
+		api.openWin({
+          name: 'listMarketing',
+          url: './listMarketing.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          },
+          pageParam: {
+             articleType: 'point' //通过var orderState=api.pageParam.orderState; 调用
+          }
+        });
+	}
+    //复制邀请码
+    function copyHref(){
+      var content=$("#invite_code").text();
+      var clipBoard = api.require('clipBoard');
+      clipBoard.set({
+        value: content
+      }, function(ret, err) {
+        if (ret) {
+          MyToast('复制成功');
+        }else{
+          MyToast('复制失败');
+        }
+      });
+    }
+      function hideShipping(){
+      $(".rotate-swiper").addClass("hide");
+    }
+    function showShipping(){
+    $(".rotate-swiper").removeClass("hide");
+
+    }
+    //消息中心
+      function goMessage(){
+        api.openWin({
+          name: 'myMessage',
+          url: './myMessage.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          },
+          pageParam: {
+             articleType: 'message' //通过var orderState=api.pageParam.orderState; 调用
+          }
+        });
+      }
+      
+      //维修详情
+//    function goMessage(){
+//      api.openWin({
+//        name: 'maintainDetail',
+//        url: './maintainDetail.html',
+//        bounces: false,
+//        reload:true,
+//        animation:{
+//          type:"push",                //动画类型（详见动画类型常量）
+//          subType:"from_right",       //动画子类型（详见动画子类型常量）
+//          duration:300                //动画过渡时间，默认300毫秒
+//        },
+//        pageParam: {
+//           id:1 //通过var orderState=api.pageParam.orderState; 调用
+//        }
+//      });
+//    }
+    //我的设备
+      function goMyDevices(){
+      	api.openWin({
+	          name: 'my_devices',
+	          url: './my_devices.html',
+	          bounces:false,
+	          reload:true,
+	          animation:{
+	          	type:"push",                //动画类型（详见动画类型常量）
+            	subType:"from_right",       //动画子类型（详见动画子类型常量）
+            	duration:300
+	          },
+	          pageParam: {
+             	devices: 'devices' //通过var orderState=api.pageParam.orderState; 调用
+          	}
+          });
+      }
+      //预约维修
+      function goPreSer(){
+        api.openWin({
+	          name: 'preService',
+	          url: './preService.html',
+	          bounces:false,
+	          reload:true,
+	          animation:{
+	          	type:"push",                //动画类型（详见动画类型常量）
+            	subType:"from_right",       //动画子类型（详见动画子类型常量）
+            	duration:300
+	          },
+	          pageParam: {
+              preService: 'preService' //通过var orderState=api.pageParam.orderState; 调用
+          	}
+          });
+      }
+      //我的售后
+      function goAfterSer(){
+        api.openWin({
+          name:"myAfterSer",
+          url:"./myAfterSer.html",
+          bounces:false,
+          reload:true,
+          animation:{
+            type:"push",
+            subType:"from_right",
+            duration:300
+          },
+          pageParam:{
+            myAfterSer:'myAfterSer'
+          }
+        })
+      }
+      //告警记录
+      function goAlertRecord(){
+        api.openWin({
+          name:"alertRecord",
+          url:"./alertRecord.html",
+          bounces:false,
+          reload:true,
+          animation:{
+            type:"push",
+            subType:"from_right",
+            duration:300
+          },
+          pageParam:{
+            myAfterSer:'myAfterSer'
+          }
+        })
+      }
+      //我的维修订单  待维修
+	function goMyMiantainingOrders(orderState){
+		api.openWin({
+	        name: 'maintain',
+	        url: './maintain.html',
+	        bounces:false,
+	        reload:true,
+	        animation:{
+	        	type:"push",
+	        	subType:"from_right",
+	        	duration:300
+	        },
+	        pageParam:{
+	        	orderState: orderState //通过var orderState=api.pageParam.orderState; 调用
+	        }
+        });
+	}
+	//我的维保订单
+	function goProtectOrders(orderState){
+		api.openWin({
+	        name: 'protect',
+	        url: './protect.html',
+	        bounces:false,
+	        reload:true,
+	        animation:{
+	        	type:"push",
+	        	subType:"from_right",
+	        	duration:300
+	        },
+	        pageParam:{
+	        	orderState: orderState //通过var orderState=api.pageParam.orderState; 调用
+	        }
+        });
+	}
+    //我的订单
+      function goMyorders(orderState){
+
+      	// 	api.toast({
+				// msg: '敬请期待！',
+				// duration: 2000,
+			 	// location: 'middle'
+			  // });
+     api.openWin({
+       name: 'myorder',
+       url: './myorder.html',
+       bounces: false,
+       reload:true,
+       animation:{
+         type:"push",                //动画类型（详见动画类型常量）
+         subType:"from_right",       //动画子类型（详见动画子类型常量）
+         duration:300                //动画过渡时间，默认300毫秒
+       },
+       pageParam: {
+          orderState: orderState //通过var orderState=api.pageParam.orderState; 调用
+       }
+     });
+      }
+      //管理列表
+      function goMyMana(status){
+        switch (status){
+          case '1':
+            api.openWin({
+            name: 'memberlist',
+            url: './memberlist.html',
+            bounces:false,
+            reload:true,
+            animation:{
+              type:"push",
+              subType:"from_right",
+              duration:300
+            },
+            pageParam:{
+              manaStates: status, //通过var orderState=api.pageParam.orderState; 调用
+              sgrade:sgrade
+            }
+          });
+          break;
+
+          case '2':
+            api.openWin({
+            name: 'manaDecList',
+            url: './manaDecList.html',
+            bounces:false,
+            reload:true,
+            animation:{
+              type:"push",
+              subType:"from_right",
+              duration:300
+            },
+            pageParam:{
+              manaStates:status  //通过var orderState=api.pageParam.orderState; 调用
+            }
+          });
+          break;
+        }
+      }
+      //售后
+      function goAftersale(){
+            api.toast({
+				msg: '敬请期待！',
+				duration: 2000,
+			 	location: 'middle'
+			  });
+//      api.openWin({
+//        name: 'aftersale',
+//        url: './aftersale.html',
+//        bounces: false,
+//        reload:true,
+//        animation:{
+//          type:"push",                //动画类型（详见动画类型常量）
+//          subType:"from_right",       //动画子类型（详见动画子类型常量）
+//          duration:300                //动画过渡时间，默认300毫秒
+//        }
+//      });
+      }
+
+      //资产
+      function goAssets(){
+        api.openWin({
+          name: 'my.assets',
+          url: './my.assets.html',
+          bounces: false,
+          reload:true,
+          overScrollMode:'scrolls',
+          animation:{
+            type:"push",                
+            subType:"from_right",     
+            duration:300                
+          }
+        });
+      }
+
+    //我的优惠券
+
+//      api.openWin({
+//        name: 'coupon',
+//        url: './coupon.html',
+//        bounces: false,
+//        reload:true,
+//        animation:{
+//          type:"push",                //动画类型（详见动画类型常量）
+//          subType:"from_right",       //动画子类型（详见动画子类型常量）
+//          duration:300                //动画过渡时间，默认300毫秒
+//        }
+//      });
+      // }
+
+      //厨师认证
+      function goCoupon(){
+        console.log("cooker.indentify");
+        api.openWin({
+          name: 'cooker.indentify',
+          url: './cooker.indentify.html',
+          bounces: false,
+          reload:true,
+          softInputMode:'resize',
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          }
+        });
+      }
+       //实名认证
+      function goIdentity(){
+
+     api.openWin({
+       name: 'identity',
+       url: './identity.html',
+       bounces: false,
+       reload:true,
+       animation:{
+         type:"push",                //动画类型（详见动画类型常量）
+         subType:"from_right",       //动画子类型（详见动画子类型常量）
+         duration:300                //动画过渡时间，默认300毫秒
+       }
+     });
+      }
+    //我的收藏
+      function goFavorite(){
+            api.toast({
+				msg: '敬请期待！',
+				duration: 2000,
+			 	location: 'middle'
+			  });
+//      api.openWin({
+//        name: 'favorite',
+//        url: './favorite.html',
+//        bounces: false,
+//        reload:true,
+//        animation:{
+//          type:"push",                //动画类型（详见动画类型常量）
+//          subType:"from_right",       //动画子类型（详见动画子类型常量）
+//          duration:300                //动画过渡时间，默认300毫秒
+//        }
+//      });
+      }
+    //使用帮助
+      function goHelp(){
+        $("#my_help").addClass("hide");
+        api.openWin({
+          name: 'article',
+          url: './article.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          },
+          pageParam: {
+             articleType: 'help' //通过var orderState=api.pageParam.orderState; 调用
+          }
+        });
+      }
+    //意见反馈
+      function goSuggest(){
+        api.openWin({
+          name: 'suggest',
+          url: './suggest.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          }
+        });
+      }
+      //客服
+      function goService(){
+        api.openWin({
+          name: 'service',
+          url: './service.html',
+          bounces: false,
+          /* reload:true, */
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          },
+          pageParam: {
+            sorce: 'myinfo',
+          },
+        });
+        
+      }
+    //设置
+      function goSet(){
+        api.openWin({
+          name: 'set',
+          url: './set.html',
+          bounces: false,
+          reload:true,
+          animation:{
+            type:"push",                //动画类型（详见动画类型常量）
+            subType:"from_right",       //动画子类型（详见动画子类型常量）
+            duration:300                //动画过渡时间，默认300毫秒
+          }
+        });
+      }
+
+
+
+      function test(){
+        alert("a");
+      }
+      function fnopenMall(){
+        MyToast("敬请期待!");
+    }
+    function goPortrait(){
+        api.openWin({
+        name: 'infomation.modify',
+        url: './infomation.modify.html',
+        bounces: false,
+        pageParam: {
+                  infoType: 'portrait'
+                   },
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+      }
+      
+      function scans(){
+      
+FNScanner.open({
+    autorotation: true
+}, function(ret, err) {
+
+    if (ret.eventType=="success") {
+        console.log("===>>>"+JSON.stringify(ret.content));
+        var go_url=ret.content+"&jm_user_id="+userId;
+         api.openWin({
+        name: 'go_scan',
+        url: './ty_win.html',
+        bounces: false,
+       pageParam: {
+                  title: '绑定设备',
+                  name:'go_scan',
+                  broot:1,
+                  out_url:1,
+                  url:go_url
+                   },
+        animation:{
+          type:"push",                //动画类型（详见动画类型常量）
+          subType:"from_right",       //动画子类型（详见动画子类型常量）
+          duration:300                //动画过渡时间，默认300毫秒
+        }
+      });
+    } else {
+        //alert(JSON.stringify(err));
+    }
+});
+}
+
+//厨小店
+function goKitchen(){
+  api.openWin({
+      name : 'kitchen.open',
+      url : './kitchen.open.html',
+      bounces : false,
+      animation : {
+          type : "push", 
+          subType : "from_right", 
+          duration : 300 
+      }
+  });
+}
+//进入购物车
+function goShopCar(){
+  api.openWin({
+      name : 'cart',
+      url : './cart.html',
+      bounces : false,
+      animation : {
+          type : "push", 
+          subType : "from_right", 
+          duration : 300 
+      }
+  });
+}
+//test
+function test(){
+	var addr_id=$("#addr_input").val();
+	if(addr_id==null||addr_id==""){
+		api.toast({
+      msg: "设备编号不能为空",
+      duration: 2000,
+      location: 'bottom'
+    });
+    return;
+	}
+	 api.ajax({
+				url : URL + 'index.php?app=boli_homepage&act=scanner_tz',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						addr_id: addr_id
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.done) {
+					//跳转各自页面
+					if(ret.retval['page']=='my-bind'){
+						    api.openWin({
+						      name: 'my-bind',
+						      url: './my-bind.html',
+						      bounces: false,
+						      pageParam: {
+						                addr_id:ret.retval['addr_id']
+						                 },
+						      animation:{
+						        type:"push",                //动画类型（详见动画类型常量）
+						        subType:"from_right",       //动画子类型（详见动画子类型常量）
+						        duration:300                //动画过渡时间，默认300毫秒
+						      }
+						    });
+					}
+					if(ret.retval['page']=='info_bind'){
+						    api.openWin({
+						      name: 'info_bind',
+						      url: './info_bind.html',
+						      bounces: false,
+						      pageParam: {
+						                addr_id:ret.retval['addr_id'],
+						                is_login:ret.retval['is_login'],
+						                is_ls:ret.retval['is_ls']
+						                 },
+						      animation:{
+						        type:"push",                //动画类型（详见动画类型常量）
+						        subType:"from_right",       //动画子类型（详见动画子类型常量）
+						        duration:300                //动画过渡时间，默认300毫秒
+						      }
+						    });
+					}
+					if(ret.retval['page']=='dls_bind_ls'){
+						    api.openWin({
+						      name: 'dls_bind_ls',
+						      url: './dls_bind_ls.html',
+						      bounces: false,
+						      pageParam: {
+						                addr_id:ret.retval['addr_id'],
+						                 },
+						      animation:{
+						        type:"push",                //动画类型（详见动画类型常量）
+						        subType:"from_right",       //动画子类型（详见动画子类型常量）
+						        duration:300                //动画过渡时间，默认300毫秒
+						      }
+						    });
+					}
+					if(ret.retval['page']=='dls_bind_ls2'){
+						    api.openWin({
+						      name: 'dls_bind_ls2',
+						      url: './dls_bind_ls2.html',
+						      bounces: false,
+						      pageParam: {
+						                addr_id:ret.retval['addr_id'],
+						                 },
+						      animation:{
+						        type:"push",                //动画类型（详见动画类型常量）
+						        subType:"from_right",       //动画子类型（详见动画子类型常量）
+						        duration:300                //动画过渡时间，默认300毫秒
+						      }
+						    });
+					}
+					
+				} else {
+					api.toast({
+            msg: ret.msg,
+            duration: 2000,
+            location: 'bottom'
+          });
+				}
+			});
+
+      }
+    
+
+  </script>
+  </html>

@@ -1,0 +1,91 @@
+html,body{
+    background: #f2f2f2;
+}
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+.edit{
+    font-size: 0.8em;
+    margin-top: 3px;
+}
+/* 导购 */
+.shopHead{
+    padding: 0 10px;
+    line-height: 42px;
+    font-size: 0.9em;
+    background: #ffffff;
+}
+
+.shopMar{
+    margin-top: 8px;
+}
+.chef-form-card{
+    padding: 10px 10px;
+    background: #ffffff;
+}
+.after-goods-item{
+    display: flex;
+    padding-bottom: 6px;
+    align-items: center;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.shopIcn{
+    align-items: center;
+}
+.chef-form-leftimg{
+    width: 120px;
+    height: 110px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background: skyblue;
+}
+.chef-form-leftimg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+.chef-right-content{
+    line-height: 20px;
+    width: 70%;
+    position: relative;
+}
+.chef-head1{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.chef-head2{
+    color:#a3a3a3 ;
+    font-size: 0.6em;
+}
+ .chef-head3 {
+    font-size: 0.6em;
+    color: #a3a3a3;
+}
+.forum-foot-bg{
+    background: #d96b6c;
+    padding: 0 5px;
+    margin-right: 2px;
+    color: #fff;
+    border-radius: 4px;
+}
+.chef-head4{
+    margin-top: 30px;
+}
+.swiper-red{
+    color: #ff0000;
+    position: relative;
+    width: 100%;
+}
+.swiper-del{
+    margin-left: 3px;
+    font-size: 0.6em;
+    color: #a3a3a3;
+    text-decoration:line-through;
+}

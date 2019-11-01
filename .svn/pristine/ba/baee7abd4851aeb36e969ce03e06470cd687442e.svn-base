@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/my.homepage.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部图片 -->
+        <div>
+            <div class="headImg">
+                <div class="ui-row-flex ui-whitespace">
+                    <div class="ui-col">
+                        <div class="my-head-imgbox">
+                            <img src="../image/default_portrait.png" alt="">
+                        </div>
+                    </div>
+                    <div class="ui-col ui-col-3">
+                        <div class="ui-row-flex ui-whitespace ui-row-flex-ver">
+                            <div class="ui-col ">
+                                <span class="head-h1">皮卡丘</span> 
+                                <span class="head-h1-tag">厨师</span>
+                                <span class="head-h1-tag head-tag-kitch">厨小店</span>
+                            </div>
+                            <div class="ui-col"><span class="head-tag">邀请码:021456788</span> </div>
+                            <div class="ui-col"><span class="head-fans">粉丝 0</span>  <span class="head-fans">关注 10</span></div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="head-right-item">
+                            <i class="iconfont icon-xiaoxi my_icon1" onclick="goMessage()" tapmode>
+                                <span class="badge-dot" id="message_dot"></span>
+                            </i>
+                        </div>
+                        <div class="head-right-point head-right-item">
+                            <span class="my_icon2" onclick="goMyPoint()" tapmode>赚积分</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="my-content">
+            <div class="ui-grid ui-grid-trisect my-money-out">
+                <ul class="ui-border-b">
+                    <li>
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <span class="my-money-num">0</span>
+                            <div>余额</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <span class="my-money-num">0</span>
+                            <div>收益</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <span class="my-money-num">0</span>
+                            <div>积分</div>
+                        </div>
+                    </li>
+                </ul>
+            </div> 
+
+            <div class="ui-tab my-order-tab">
+                <div class="ui-row-flex my-order-row">
+                    <div class="ui-col my-order-normal my-order-select">我的订单</div>
+                    <div class="ui-col my-order-normal"> 设备安装</div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <span class="my-money-radius"><i class="iconfont icon-fukuan"></i></span>
+                            <div>待付款</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <span class="my-money-radius"><i class="iconfont icon-peisong"></i></span>
+                            <div>待配送</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <span class="my-money-radius"><i class="iconfont icon-peisongzhong"></i></span>
+                            <div>配送中</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <span class="my-money-radius"><i class="iconfont icon-yiwancheng"></i></span>
+                            <div>已完成</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <span class="my-money-radius"><i class="iconfont icon-daipingjia"></i></span>
+                            <div>待评价</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 我的服务 -->
+            <div class="my-servers">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">我的服务</div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-wodedongtai"></i></div>
+                            <div>我的动态</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-xuexi"></i></div>
+                            <div>我的学习</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-yuyue1"></i></div>
+                            <div>线下预约</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-07"></i></div>
+                            <div>我的消息</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-wodequanzi"></i></div>
+                            <div>我的圈子</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-gouwuche"></i></div>
+                            <div>购物车</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-wuxiaoxing-kong"></i></div>
+                            <div>物品收藏</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-youhuiquan1"></i></div>
+                            <div>优惠券</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div class="flex-onlyone">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-tuikuan"></i></div>
+                            <div>退款售后</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 厨师服务 -->
+            <div class="my-servers">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">厨师服务</div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-wodedongtai"></i></div>
+                            <div>我的作品</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-xuexi"></i></div>
+                            <div>创作中心</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-yuyue1"></i></div>
+                            <div>我的师门</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- 我的设备 -->
+            <div class="my-servers">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">我的设备</div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-diannao"></i></div>
+                            <div>设备管理</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-naozhong"></i></div>
+                            <div>预约维修</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-shouhou1"></i></div>
+                            <div>我的售后</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-gaojing"></i></div>
+                            <div>告警记录</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他服务 -->
+            <div class="my-servers">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">其他服务</div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon">
+                                <i class="iconfont icon-renzheng2"></i>
+                                <span class="rot-text">已开通</span>
+                            </div>
+                            <div>厨师认证</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-new-store-open"></i><span class="rot-text">HOT</span></div>
+                            <div>开通厨小店</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-yaoqinghaoyoufuben"></i></div>
+                            <div>邀请好友</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-kefu1"></i></div>
+                            <div>联系客服</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-woshiqiye"></i></div>
+                            <div>我是名厨</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-yijianfankui"></i></div>
+                            <div>意见反馈</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-question"></i></div>
+                            <div>使用帮助</div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-shezhi1"></i></div>
+                            <div>系统设置</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var portrait = window.localStorage.getItem('portrait');//头像
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            topBanner: {},
+            imgDefalt: '../image/headimgDef.png',
+            swiperTop: null,
+            bottomLists: {
+                activeIndex: 0,
+                list: [[], [], []],
+                start: [0, 0, 0],
+                end: [false, false, false],
+                showList: []
+            }
+        },
+        computed: {
+
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            goKitchenStore: function goset() {
+                api.openWin({
+                    name: 'kitchen.store',
+                    url: './kitchen.store.html',
+                    bounces: false,
+                    reload: true,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

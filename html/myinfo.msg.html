@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的消息</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.msg.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode="tapmodeclass">
+                <i class="iconfont icon-back"></i>
+            </div>
+        </header>
+        <!-- 厨师名片 -->
+        <div class="chef-detail-info">
+            <div class="chef-hotslist-head"  ref="chef-hotslist-head">
+                <p 
+                :class="['hotslist-head-item',isDet==1?'hotslist-head-active':'']" 
+                @click="changeDis(1)" 
+                tapmode="tapmodeclass">资料</p>
+                <p 
+                :class="['hotslist-head-item',isDet==2?'hotslist-head-active':'']" 
+                @click="changeDis(2)" 
+                tapmode="tapmodeclass">厨圈</p>
+                <p 
+                :class="['hotslist-head-item',isDet==3?'hotslist-head-active':'']" 
+                @click="changeDis(3)" 
+                tapmode="tapmodeclass">菜谱</p>
+                <p 
+                :class="['hotslist-head-item',isDet==4?'hotslist-head-active':'']" 
+                @click="changeDis(4)" 
+                tapmode="tapmodeclass">教学</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var wrap = new Vue({
+        el: '#wrap',
+        data: {
+            isDet: 1,
+            imgDefalt: '../image/headimgDef.png',
+            focusText: "关注",
+            isShowDia: false,
+            sf_id:0,//师傅id
+            MastInfo:[],
+            isShowApprentice:true
+        },
+        computed: {
+            imgsrc:function(){
+                console.log(this.MastInfo.photo)
+                if(this.MastInfo&&this.MastInfo.photo){
+                    var realimg = this.URL+this.MastInfo.photo
+                    return realimg
+                }else{
+                    console.log(this.imgDefalt)
+                    return this.imgDefalt
+                }
+            }
+        },
+        methods: {
+            goBack:function goBack(){
+                api.closeWin();
+            },
+            //点击视频详情
+            goTeachDet: function goTeachDet() {
+                api.openWin({
+                    name: 'chef.instructional',
+                    url: './chef.instructional.html',
+                    bounces: false,
+                    pageParam: { key: 'value' }
+                });
+            },
+            isApprenticed:function (){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=pd_sf',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            sf_id: that.sf_id
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.isShowApprentice = false//不能拜师
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else{
+                        that.isShowApprentice = true//可以拜师
+                        
+                    }
+                });
+            },
+            getMasterInfo:function (){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=get_staff_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            sf_id: that.sf_id
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.MastInfoExper = ret.retval[1]
+                        that.MastInfo = ret.retval[0]
+                        console.log(JSON.stringify(that.MastInfoExper))
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            changeDis: function changeDis(type) {
+                this.isDet = type
+                //var pageParam = ['chef.detailcomponent','chef.videocomponent','chef.trendcomponent','chef.menucomponent']
+                api.setFrameGroupIndex({
+                    name: 'group1',
+                    index: type-1,
+                    scroll:true,
+                });
+            },
+            focus: function focus() {
+                var that = this
+                api.ajax({
+                    url: 'ajax_url',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll:false
+                },function(ret,err){
+                    if (ret) {
+                        // TODO 
+                        that.focusText = "已关注"
+                    } else {
+                        
+                    };
+                });
+            },
+            payStudy: function payStudy() {
+                this.isShowDia = true
+            },
+            closeDia: function closeDia() {
+                this.isShowDia = false
+            },
+            payReal: function payReal() {
+                this.isShowDia = false
+                api.ajax({
+                    url: 'ajax_url',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false
+                }, function (ret, err) {
+                    if (ret) {
+                        // TODO 
+                    } else {
+                        api.alert({
+                            msg: ('错误码：' + err.code + '；错误信息：' + err.msg + '网络状态码：' + err.statusCode)
+                        });
+                    };
+                });
+            },
+            openFrameGroup:function openFrameGroup(i){
+                var that = this
+                var top = this.$refs['chef-hotslist-head'].getBoundingClientRect().bottom
+                api.openFrameGroup({
+                    name: 'group1',
+                    rect: {
+                        marginTop: top+10, 
+                        marginBottom: 0, 
+                        w: 'auto' 
+                    },
+                    scrollEnabled: true,
+                    bounces:false,
+                    frames: [
+                        {
+                            name: 'myinfo.msgcomponent1',
+                            url: 'myinfo.msgcomponent.html',
+                            pageParam: {
+                               type:1
+                            },
+                            bounces:false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                        {
+                            name: 'myinfo.msgcomponent2',
+                            url: 'myinfo.msgcomponent.html',
+                            pageParam: {
+                               type:2
+                            },
+                            bounces:false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                        {
+                            name: 'myinfo.msgcomponent3',
+                            url: 'myinfo.msgcomponent.html',
+                            pageParam: {
+                               type:3
+                            },
+                            bounces:false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                        {
+                            name: 'myinfo.msgcomponent4',
+                            url: 'myinfo.msgcomponent.html',
+                            pageParam: {
+                               type:4
+                            },
+                            bounces:false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                    ]
+                }, function(ret, err) {
+                    if (ret.index > -1) {
+                        that.isDet = ret.index+1
+                    }
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            apiready = function () {
+                that.URL = $api.URL();
+                that.sf_id = api.pageParam.sf_id;
+                that.userId = window.localStorage.getItem("userId")
+                var header = that.$refs["header"];
+                headerH = $api.fixStatusBar(header);
+                //headerH要先获取，再触发openFrameGroup
+                that.openFrameGroup()
+                that.getMasterInfo()
+               
+            }
+        },
+        mounted: function mounted() {
+            var that = this
+            
+        },
+    })
+</script>
+
+</html>

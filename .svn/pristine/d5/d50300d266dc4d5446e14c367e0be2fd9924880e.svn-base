@@ -1,0 +1,212 @@
+/* 头部 */
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    font-weight: bold;
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+html,body,.wrap{
+    height: 100%;
+    background: #f2f2f2;
+}
+/* 头部图片 */
+.headImg{
+    height: 190px;
+    padding: 50px 0 0px 0;
+    background: url("../../image/myBg.png") no-repeat;
+    background-size: cover; 
+    background-position: 0% 100%;
+    /*  background: #000;
+    border-radius: 0 0 20px 20px; */
+    color: #fff;
+    box-sizing: border-box;
+}
+.my-head-imgbox{
+    width: 54px;
+    height: 54px;
+}
+.my-head-imgbox img{
+    width: 100%;
+}
+
+.ui-row-flex-ver .ui-col {
+    width: 100%;
+    height: auto;
+}
+.head-h1{
+    font-size: 1.2em;
+}
+.head-h1-tag{
+    height: 16px;
+    line-height: 16px;
+    padding: 0 6px;
+    font-size: 0.8em;
+    color: #fff;
+    background: #d5b178;
+    border-radius:7px 7px 7px 0 ;
+}
+.head-tag-kitch{
+    background: #6eb92c;
+}
+.head-tag{
+    height: 16px;
+    padding: 0 6px;
+    line-height: 16px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    border:1px solid #fff;
+}
+.head-fans{
+    margin-right: 10px;
+    font-size: 0.9em;
+}
+.head-right-msg{
+    
+}
+.head-tag-blown{
+    background: #deb273;
+    border:1px solid #deb273;
+}
+.head-right-item{
+    text-align: right;
+}
+.badge-dot{
+    position: absolute;
+    right: 0;
+    top: 3px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #f00;
+}
+.bage-dot-out{
+    position: relative;
+}
+.head-tag-point{
+    padding: 1px 6px;
+    border-radius: 9px;
+}
+
+/* 余额 */
+.my-content{
+    font-size: 14px;
+}
+.my-money-out{
+    width: 96%;
+    margin: -50px auto 10px;
+    border-radius: 4px;
+}
+.my-money-row{
+    padding: 14px 0;
+    text-align: center;
+    background: #fff;
+}
+.my-money-num{
+    color: #d2bf97;
+    font-size: 1.2em;
+}
+
+/* 我的订单 */
+.my-order-tab{
+    width: 96%;
+    margin: auto;
+    border-radius: 4px;
+}
+.my-order-row{
+    height: 40px;
+    line-height: 38px;
+    font-size: 1.1em;
+    font-weight: bold;
+    background: #fff;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+.my-order-normal{
+    background: #f9f9f9;
+}
+.my-order-select{
+    background: #fff;
+    color: #6eb92c;
+}
+.my-order-select::after{
+    display: block;
+    content: "";
+    width: 30%;
+    height: 2px;
+    margin: auto;
+    background: #6eb92c;
+}
+.my-money-radius{
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 50%;
+    background: #f2f2f2;
+}
+
+/* 我的服务 */
+.chef-main-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+.chef-head-left{
+    display: flex;
+    align-items: center;
+}
+.chef-main-head .icon-qianbi{
+    color: #6eb92c;
+}
+.chef-left-text{
+    margin-left: 6px;
+    margin-right: 10px;
+    font-size: 1.1em;
+}
+.my-servers{
+    background: #fff;
+    margin: 10px 0;
+    border-bottom: 1px solid #fff;
+}
+
+/* 球状列表 */
+.flex-onlyone{
+    width: 25%;
+}
+.balllist-items-icon{
+    position: relative;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+}
+.balllist-items-icon .iconfont{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 1.6em;
+}
+.rot-text{
+    position: absolute;
+    top: 4px;
+    right: 10px;
+    height: 14px;
+    line-height: 15px;
+    padding: 0 4px;
+    font-size: 12px;
+    color: #fff;
+    background: #6eb92c;
+    border-radius: 7px;
+}

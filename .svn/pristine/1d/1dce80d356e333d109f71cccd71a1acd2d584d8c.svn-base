@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>商品收藏</title>
+	<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+	<link rel="stylesheet" href="../css/frozenui.css">
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.collectgood.css" />
+</head>
+
+<body>
+	<div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode="tapmodeclass">
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>商品收藏</span>
+            </div>
+        </header>
+		<!-- 导购 -->
+		<div class="shopHead">
+			<label class="ui-checkbox">
+				<input type="checkbox" v-model="checks[0]">
+			</label>
+			<span class="shopName">厨连联自营店</span>
+		</div>
+		<!-- 购买的产品 -->
+
+
+		<!-- <div class="product"> -->
+		<div class="chef-form-card">
+			<label class="ui-checkbox">
+				<input type="checkbox" v-model="checks[0][0]">
+			</label>
+			<div class="chef-form-leftimg">
+				<img src="" alt="">
+			</div>
+			<div class="chef-right-content">
+				<p class="chef-head1"> 广式双炒双温节能灶</p>
+				<div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+				<div class="chef-head3">
+					<span class="forum-foot-bg">九折</span>
+					<span class="forum-foot-bg">上门安装</span>
+				</div>
+				<div class="chef-head4 ">
+					<p class="swiper-red">￥
+						<span>258</span>
+						<span class="swiper-del">￥536</span>
+						
+					</p>
+				</div>
+			</div>
+		</div>
+		<!-- 导购 -->
+		<div class="shopHead shopMar">
+			<label class="ui-checkbox">
+				<input type="checkbox" v-model="checks[1]">
+			</label>
+			<span class="shopName">厨连联自营店</span>
+		</div>
+		<div class="chef-form-card">
+			<label class="ui-checkbox">
+				<input type="checkbox" v-model="checks[1][0]">
+			</label>
+			<div class="chef-form-leftimg">
+				<img src="" alt="">
+			</div>
+			<div class="chef-right-content">
+				<p class="chef-head1"> 广式双炒双温节能灶</p>
+				<div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+				<div class="chef-head3">
+					<span class="forum-foot-bg">九折</span>
+					<span class="forum-foot-bg">上门安装</span>
+				</div>
+				<div class="chef-head4 ">
+					<p class="swiper-red">￥
+						<span>258</span>
+						<span class="swiper-del">￥536</span>
+						<div class="numberBox">
+							<span class="count">-</span>
+							<span class="nubBox">1</span>
+							<span class="count1">+</span>
+						</div>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="chef-form-card">
+			<label class="ui-checkbox">
+				<input type="checkbox" v-model="checks[1][1]">
+			</label>
+			<div class="chef-form-leftimg">
+				<img src="" alt="">
+			</div>
+			<div class="chef-right-content">
+				<p class="chef-head1"> 广式双炒双温节能灶</p>
+				<div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+				<div class="chef-head3">
+					<span class="forum-foot-bg">九折</span>
+					<span class="forum-foot-bg">上门安装</span>
+				</div>
+				<div class="chef-head4 ">
+					<p class="swiper-red">￥
+						<span>258</span>
+						<span class="swiper-del">￥536</span>
+						<div class="numberBox">
+							<span class="count">-</span>
+							<span class="nubBox">1</span>
+							<span class="count1">+</span>
+						</div>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+	var userId = window.localStorage.getItem("userId");
+
+	var wrap = new Vue({
+		el: "#wrap",
+		data: {
+			URL: "",
+			checks:[[[]],[[],[]]]
+		},
+		computed: {
+
+		},
+		watch: {
+			checks:function (){
+				console.log(this.checks)
+			}
+		},
+		methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+		},
+		created: function created() {
+			var that = this
+			this.selectedCity = window.localStorage.getItem("selectedCity")
+			this.$nextTick(function () {
+				apiready = function () {
+					var header = that.$refs.header;
+					$api.fixStatusBar(header);
+					that.URL = $api.URL()
+					//上拉加载
+					api.addEventListener({
+						name: 'scrolltobottom',
+						extra: {
+							threshold: 50 //距离底部距离
+						}
+					}, function (ret, err) {
+						/* if (that.bottomLists.end[that.bottomLists.activeIndex]) {
+							api.toast({
+								msg: '没有更多了',
+								duration: 2000,
+								location: 'middle'
+							});
+						} else {
+							that.changeBottomList(that.bottomLists.activeIndex)
+						} */
+					});
+				}
+			})
+		},
+		mounted: function mounted() {
+
+			//this.initSwiperTop()
+		},
+	})
+
+</script>
+
+</html>

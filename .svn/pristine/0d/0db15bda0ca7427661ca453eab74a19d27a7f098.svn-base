@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>邀请者页面</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.kindsArticle.css" />
+</head>
+
+<body>
+    <div id="wrap" class="wrap">
+		<!-- 邀请得积分 -->
+        <header class="page-head">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span >活动规则</span>
+            </div>
+        </header>
+        <div class="rich-text" ref="richText" v-html="articleCon">
+            
+        </div>
+    </div>
+
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            defautCateId: 0,
+            articleCon:""
+        },
+        methods: {
+            goBack: function () {
+                api.closeWin();
+            },
+            //获取模块名称
+            getAll_category: function getAll_category() {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=get_gcategory_all',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        
+
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    that.URL = $api.URL()
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.articleCon = `<p>
+    <span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);"></span>
+</p>
+<p style="text-align: center;">
+    <strong>参加须知：</strong>
+</p>
+<p>
+    <span style="font-size: 14px;">1、邀请者必须实名认证，申请成为厨小店店主</span>
+</p>
+<p>
+    <span style="font-size: 14px;">2、被邀请者领奖品说明：未认证厨师及餐饮店的用户需要下单满48元奖品随下单商品一起送达；认证为厨师及餐饮店用户直接填写收货地址，奖品于48小时内送达。</span>
+</p>
+<p>
+    <span style="font-size: 14px;">3、活动城市：台州临海市（临海地区所有人员）</span>
+</p>
+<p>
+    <span style="font-size: 14px;">三、奖励规则</span>
+</p>
+<p>
+    <span style="font-size: 14px;">在活动期间，好友首购额大于588元，除佣金外平台奖励10元，48小时内</span>
+</p>
+<p>
+    <span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);"><br/></span><br/>
+</p>
+<p>
+    <strong><span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">其他规则：</span></strong><br/><span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">1、邀请者必须实名认证，申请成为厨小店店主</span><br/><span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">2<span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">、</span>被邀请者领奖品说明：未认证厨师及餐饮店的用户需要下单满48元奖品随下单商品一起送达；认证为厨师及餐饮店用户直接填写收货地址，奖品于48小时内送达</span><br/><span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">4<span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">、</span>佣金和平台奖励都放入厨连联用户我的余额里，用户可用于购买平台的商品，也可以直接提现。</span><br/><span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">5<span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">、</span>对于以任何不下载当方式参与活动的用户，包括但不限于侵犯第三人合法权益、作弊、扰乱系统、实施网络医专、批量注册、用机器注册账户、用机器模拟客户端等，厨连联有权取消其参与和获得的奖金资格。</span><br/><span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">6<span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">、</span>按照《中华人民共和国个人所得税法》规定，因参加本次活动个人获得的奖励后应向税务机关缴纳的偶然所有税奖由厨连联公司代扣代缴纳。您最终收到的奖金金额为代扣缴完毕的税后金额。</span><br/><span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">7<span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">、</span>活动期间，如出现不可抗力或情势变更的情况，（包括但不限于重大灾害事件、黑客攻击、系统故障、活动受政府机关指令需要停止举办或调整的），厨连联可依相关法律法规的规定主张免责。</span><br/><span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">8<span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">、</span>活动其他未尽事宜，请咨询客服。</span><br/><span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">9<span style="color: rgb(51, 51, 51); font-family: 微软雅黑; font-size: 14px; background-color: rgb(255, 255, 255);">、</span>本次活动与苹果公司无关，活动最终解释权为厨连联所有。</span>
+</p>`
+                }
+            })
+        },
+    })
+</script>
+
+</html>

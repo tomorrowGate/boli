@@ -1,0 +1,42 @@
+.page-head{
+    background-color:transparent;
+    color: #fff;
+}
+.head-center{
+    font-weight: normal;
+}
+.create-my-works{
+    position: absolute;
+    right: 0;
+    top:50%;
+    height: 18px;
+    line-height: 18px;
+    padding: 2px 14px;
+    border-radius: 10px 0 0 10px;
+    background: rgba(0,0,0,0.4);
+    transform: translateY(-50%);
+    font-size: 0.7em;
+}
+html,body,.wrap{
+    height: 100%;
+}
+.wrap{
+    background: url("../../image/myinfoCreate.png") no-repeat;
+    background-size: cover;
+    background-position:center;
+}
+.cretecen-btns{
+    position: absolute;
+    width: 100%;
+    bottom: 17vw;
+}
+.cretecen-btns-item{
+    width: 80%;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    border-radius: 25px;
+    text-align: center;
+    margin: 10px auto;
+    background: rgba(130,190,77,0.8);
+}

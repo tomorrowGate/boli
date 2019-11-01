@@ -1,0 +1,95 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+
+/* 厨师名片 */
+.chef-detail-info{
+    position: relative;
+    background-size:100% 100%;
+}
+.chef-trends-head{
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: 0 15px;
+}
+.trends-head-imgbox{
+    width: 70px;
+    height: 70px;
+    background: skyblue;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.trends-head-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.trends-center-name{
+    font-weight: bold;
+}
+.trends-light{
+    color: #999;
+    font-size: 0.9em;
+}
+.trends-head-right{
+    position: absolute;
+    right:10px;
+    top:50%;
+    height: 16px;
+    line-height: 16px;
+    padding: 0px 8px;
+    border:1px solid #6eb92c;
+    border-radius: 9px;
+    color: #6eb92c;
+    transform: translateY(-50%);
+}
+.trends-head-foot{
+    display: flex;
+    width: 80%;
+    padding: 10px 0;
+    margin: auto;
+}
+.head-footer-item{
+    width: 50%;
+    text-align: center;
+}
+.head-footer-item+.head-footer-item{
+    border-left: 1px solid #999;
+}
+
+
+.chef-hotslist-head{
+    display: flex;
+    background: #fff;
+    font-size: 0.9em;
+}
+.hotslist-head-item{
+    width: 33.3%;
+    /* padding: 5px 0; */
+    margin: 10px 0;
+    font-size: 1.1em;
+    text-align: center;
+}
+.hotslist-head-active{
+    position: relative;
+    color: #6eb92c;
+}
+.hotslist-head-active::after{
+    position: absolute;
+    display: block;
+    content:"";
+    width: 40%;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    border:1px solid  #6eb92c;
+}

@@ -1,0 +1,49 @@
+/* 优惠券弹框 */
+.dia-coupon-real{
+    height: 90vw;
+    font-size: 14px;
+}
+.dia-shopcard-content{
+    padding: 10px 4px;
+}
+.coupon-item{
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.gray-coup{
+    -webkit-filter: grayscale(80%);
+    filter: grayscale(80%);
+}
+.coupin-item-left{
+    width: 66%;
+    padding: 5px 20px;
+    background: #fbeded;
+    font-size: 0.8em;
+    color: #d96b6c;
+    border-radius: 10px 0 0 10px;
+}
+.coupon-item-money{
+    font-size: 1.1em;
+    color: #d96b6c;
+}
+.money-real{
+    font-size: 1.8em;
+}
+.coupin-item-right{
+    width: 33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fbeded;
+    color: #d96b6c;
+    border-radius: 4px 10px 10px 4px;
+}
+.coupon-item-receive{
+    font-size: 1.2em;
+}
+.coupon-bottom-canele{
+    background: #eee;
+    color: #000;
+}

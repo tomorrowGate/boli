@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的学习</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.study.css" />
+</head>
+
+<body>
+    <div id="collect">
+
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>我的学习</span>
+            </div>
+        </header>
+        
+        <!-- 名厨介绍 -->
+        <div class="introduce">
+            <div class="history">
+                <div class="history-ball">
+                    <i class="iconfont icon-bofang"></i>
+                </div>
+                <div class="history-ball-text">播放历史</div>
+            </div>
+            <div class="history">
+                <div class="history-ball">
+                    <i class="iconfont icon-shizhong"></i>
+                </div>
+                <div class="history-ball-text">我的收藏</div>
+            </div>
+            <div class="history">
+                <div class="history-ball">
+                    <i class="iconfont icon-yuyue1"></i>
+                </div>
+                <div class="history-ball-text">已购教学</div>
+            </div>
+            <div class="history">
+                <div class="history-ball">
+                    <i class="iconfont icon-question"></i>
+                </div>
+                <div class="history-ball-text">了解教学</div>
+            </div>
+        </div>
+
+        <div class="chef-nocloccet hide">
+            <div class="chef-nocloccet-imgbox">
+                <img src="../image/novideos.png" alt="">
+            </div>
+            <div class="chef-nocloccet-text">
+                暂无视频信息
+            </div>
+        </div>
+
+        <div class="swiper-slide trends-body" id="trends-body" tapmode>
+            <!-- 名厨讲堂-->
+            <div class="chef-collect-timetotal">
+                <div class="chef-collect-lookd">浏览记录</div>
+                <div class="chef-collect-time">一周内</div>
+                <div class="chef-form-formlist" v-for="(v,i) in a" :key="i">
+                    <div class="form-formlist-item">
+                        <div class="chef-form-card">
+                            <div class="chef-form-leftimg">
+                                <img src="" alt="">
+                            </div>
+                            <div class="chef-right-content">
+                                <div class="chef-head1">
+                                    <div class="chef-head1-name">中国菜肴的八种烹饪法则</div>
+                                </div>
+                                <div class="chef-head2 chef-forum-light">教你探究中式烹饪的秘诀</div>
+                                <div class="chef-head3 chef-forum-light forum-foot-explain">
+                                    <i class="iconfont"></i>
+                                    <span class="forum-foot-name">周伯通</span>
+                                    |
+                                    <span class="forum-foot-level">国家一级厨师</span>
+                                </div>
+                                <div class="chef-head4 ">
+                                    <i class="iconfont"></i>
+                                    <span class="">14925</span>人已观看
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chef-right-del">
+                            删除
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/jroll.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    (function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    })();
+
+
+    var collectMain = new Vue({
+        el: "#collect",
+        data: {
+            URL:"",
+            userId:0,
+            a: 10,
+            isChefForum:1,
+            weekAgo:[],//一周以前
+            yearsAgo:[]//更早
+        },
+        methods: {
+            goBack:function goBack(){
+                api.closeWin();
+            },
+            changeCollect:function changeCollect(type){
+                this.isChefForum = type
+                this.a = this.isChefForum==1 ? 10:3
+                this.$nextTick(function(){
+                    this.slideDel()
+                })
+               
+            },
+            slideDel:function slideDel() {
+                var items = document.querySelectorAll(".chef-form-formlist");
+                console.log(items.length)
+                var current = null; 
+                for (var i = 0, l = items.length; i < l; i++) {
+                    var j = new JRoll(items[i], {
+                        scrollX: true,
+                        bounce: false,
+                        preventDefault:false
+                    });
+                    j.on("scrollStart", function () {
+                        if (current && current !== this) {
+                            current.scrollTo(0, 0, 100);
+                            current = null;
+                        }
+                    });
+                    j.on("scroll", function(e) {
+                        if (this.x === 0 && !current) {
+                            /* this.call(jroll, e); */
+                        } else {
+                            current = this;
+                        }
+                    });
+                    j.on("scrollEnd", function () {
+                        if (this.x > -50) {
+                            this.scrollTo(0, 0, 100);
+                            current = null;
+                        } else {
+                            this.scrollTo(this.maxScrollX, 0, 100);
+                        }
+                    })
+                };
+            },
+            getWeekago:function getWeekago(type){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appvideo&act=play_on_week',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id:that.user_id,
+                            type :type
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.weekAgo = ret.retval//不能拜师
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else{
+                        that.isShowApprentice = true//可以拜师
+                        
+                    }
+                });
+            },
+            getYearsago:function getYearsago(type){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appvideo&act=play_history',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id:that.user_id,
+                            type :type
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.yearsAgo = ret.retval//不能拜师
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else{
+                        that.isShowApprentice = true//可以拜师
+                        
+                    }
+                });
+            },
+            
+        },
+        computed:{
+           /*  a:function(){
+                this.isChefForum?this.active = "hotslist-head-active" :''
+            } */
+           
+        },
+        created:function created() {
+            var that = this
+            this.$nextTick(function(){
+                apiready = function () {
+                    that.URL = $api.URL();
+                    that.userId = window.localStorage.getItem("userId")
+                    var header = that.$refs["header"];
+                    $api.fixStatusBar(header);
+                    that.getWeekago(1)
+                }
+            })
+           
+        },
+        mounted:function mounted() {
+            this.slideDel()
+        },
+    });
+
+</script>
+
+</html>
