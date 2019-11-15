@@ -114,11 +114,11 @@
             </div>
         </div>
         <!-- 限时抢购头部 -->
-        <div class="chef-main-head"  v-if="killGoodsArr.length">
+        <div class="chef-main-head">
             <div class="chef-head-left">
                 <i class="iconfont icon-qianbi"></i>
                 <div class="chef-left-text">限时抢购</div>
-                <div>
+                <div v-if="!noKillGoods">
                     <div v-if="countTime.endText.length>0">
                         <span class="timeNub">{{countTime.endText}}</span>
                     </div>
@@ -136,7 +136,7 @@
 
         </div>
         <!-- 限时抢购 -->
-        <div class="swiper-container swiper-rush" v-if="killGoodsArr.length">
+        <div class="swiper-container swiper-rush" v-if="noKillGoods">
             <div class="no-kikk-goods" v-if="noKillGoods">
                 暂无秒杀
             </div>
@@ -783,7 +783,7 @@
 
                     }
                 }, function (ret, err) {
-                    //console.log(JSON.stringify(ret));
+                    console.log(JSON.stringify(ret));
                     if (ret && ret.done) {
                         that.defautCateId=ret.retval[0].cate_id
                         ret.retval.forEach(function (v, i) {

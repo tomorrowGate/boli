@@ -236,7 +236,7 @@
                     </div>
                     <div
                     class="ui-col kitch-item"
-                    @click="openKindsPage('essay',{articleId:36,articleType:'kitchAgreement'})"
+                    @click="goAftersale"
                     tapmode="tapmodeclass">
                         <div class="myinfo kitch-imgbox">
                             <img src="../image/kitchenEquity.png" alt="" class="">
