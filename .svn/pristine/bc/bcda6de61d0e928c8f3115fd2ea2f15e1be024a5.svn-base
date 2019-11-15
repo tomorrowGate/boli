@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的资产</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/my.assets.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部 -->
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>我的资产</span>
+            </div>
+            <div class="money-detail" @click="goMoneyDetail" tapmode>资产明细</div>
+        </header>
+        <!-- 头部图片 -->
+        <div class="asset-outcon">
+            <div class="headImg">
+                <!--  <img src="../image//invitationDown.png" alt=""> -->
+                <div class="headerImg-center">
+                    <p class="invitat-app-down headImg-text">{{(moneyInfo.already_commission*1).toFixed(2)}} </p>
+                    <p class="invitat-vip headImg-text">累计获得收益（元）</p>
+                </div>
+            </div>
+            <!-- 余额 -->
+            <div class="assets-moneys ui-row-flex ui-whitespace">
+                <div class="ui-col">
+                    <div class="">{{(moneyInfo.money*1).toFixed(2)}}</div>
+                    <div class="col-bottom-text">余额（元）</div>
+                </div>
+                <div class="ui-col ">
+                    <div class="">{{(moneyInfo.commission*1).toFixed(2)}}</div>
+                    <div class="col-bottom-text">待到账佣金（元）</div>
+                </div>
+                <div class="ui-col ">
+                    <div class="">{{moneyInfo.jpay?(moneyInfo.jpay*1).toFixed(2):0}}</div>
+                    <div class="col-bottom-text">积分余额</div>
+                </div>
+                <div class="ui-col ">
+                    <div class="">{{(moneyInfo.out_commission*1).toFixed(2)}}</div>
+                    <div class="col-bottom-text">已到账佣金（元）</div>
+                </div>
+            </div>
+        </div>
+        
+        <!--  邀请得积分  -->
+        <div class="integral">
+            <P class="getIntegral">您的12月收益月报已出</P>
+            <P class="integralText">了解资产收益 乐享财富积累</P>
+            
+            <span class="tolook" @click="goMoneyDetail" tapmode>去看看</span>
+        </div>
+        
+        <button class="integralBtn" @click="goKitchenStore">充值</button>
+        <button class="integralBtn integralBtn-withdrawal" @click="goTixian" tapmode>提现</button>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            moneyInfo:[],
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            goKitchenStore: function goset() {
+                api.openWin({
+                    name: 'kitchen.store',
+                    url: './kitchen.store.html',
+                    bounces: false,
+                    reload: true,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    }
+                });
+            },
+            goTixian:function(){
+                api.openWin({
+                    name: 'cash.tixian',
+                    url: './cash.tixian.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                    type:"push",               
+                    subType:"from_right",   
+                    duration:300             
+                    }
+                });
+            },
+            goMoneyDetail:function(){
+                api.openWin({
+                    name: 'my.assetdet',
+                    url: './my.assetdet.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",               
+                        subType:"from_right",      
+                        duration:300               
+                    }
+                });
+            },
+            //跳转
+			goAssetsDetail:function goAssetsDetail(type){
+                api.openWin({
+                    name: 'myassets.details',
+                    url: './myassets.details.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",               
+                        subType:"from_right",       
+                        duration:300                
+                    },
+                    pageParam:{
+                        profitPeriod:type
+                    }
+                });
+            },
+            //获取资产消息
+            getMoneyInfo:function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=myinfo&act=get_commission',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id:userId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.moneyInfo = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.getMoneyInfo()
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.cuisine.css" />
+    <title>菜系标签</title>
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部 -->
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>菜系标签</span>
+            </div>
+        </header>
+        <div class="cuisineHead">
+            <p>我的菜系：</p>
+            <div class="cuisineChoice">
+                <div class="cuisineChoiceItem" v-for="(v,i) in chooseCus" :key="v.id">
+                    <!-- <input type="checkbox" :id="v.id" :name="v.id" class="chk_1" :value="v.name" v-model="v.checked"/> 
+                    <label :for="v.id" class="cuisineBtn">{{v.name}} <span class="cus-del" @click="delBtn(v.id)">x</span></label>  -->
+                    <span class="cuisineBtn">{{v.name}} <span class="cus-del" @click="delBtn(v.id)">x</span></span> 
+                </div> 
+            </div>
+        </div>
+        <!-- 选择菜系 -->
+        <div class="cuisineHead">
+            <p>请选择菜系</p>
+            <div class="cuisineChoice">
+                <div class="cuisineChoiceItem" v-for="(v,i) in cusInfos" :key="v.id">
+                    <input type="checkbox" @change="chooseCusArr(v,v.checked)" :id="v.id" :name="v.id" class="chk_1" :value="v.name" v-model="v.checked"/> 
+                    <label :for="v.id" class="cuisineBtn">{{v.name}}</label> 
+                </div> 
+            </div>
+        </div>
+        <div class="increase">
+            <input class="increaseIpt" 
+            :class="{ 'customCui-under' : isCusTrim}" 
+            type="text" 
+            v-model="customCui" 
+            placeholder="添加自定义菜系"
+            ref="customCui">
+            <button class="increaseBtn" @click="addCustom">添加</button>
+        </div>
+        <div class="cuisine-head-bottom cuisineHead" v-if="false">
+            <p>自定义菜系：</p>
+            <div class="cuisineChoice">
+                <div class="cuisineChoiceItem">
+                    <input 
+                    type="radio" 
+                    id="checkbox_a7" 
+                    class="chk_1" 
+                    value="checkbox_a7"  
+                    v-model="checkedNames"
+                    /> 
+                    <label for="checkbox_a1" class="cuisineBtn">融合菜</label> 
+                </div> 
+            </div>
+        </div>
+        <button class="preservation" type="button" name="button" @click="saveCuisine">保存</button>
+    </div>
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var portrait = window.localStorage.getItem('portrait');//头像
+    
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            checkedNames:"",
+            customCui:"",
+            isCusTrim:false,
+
+            cusInfos:[],
+            chooseCus:[],
+        },
+        computed: {
+        },
+        methods: {
+            goBack: function goBack() {
+                api.execScript({
+                    name:"chef.settled",
+                    script:"get_user_info();"
+                });
+                api.closeWin()
+            },
+            getCusInfo:function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=appstaff&act=get_all_tags',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values:{
+                            user_id:userId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.cusInfos = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            chooseCusArr:function(value,isChecked){
+               if(isChecked){
+                   this.chooseCus.push(value)
+               }else{
+                    this.delBtn(value.id)
+               }
+            },
+            delBtn:function(id){
+                var that = this
+                this.chooseCus.forEach(function(v,i){
+                    if(v.id==id){
+                        that.chooseCus.splice(i,1)
+                    }
+                });
+                this.cusInfos.forEach(function(v,i){
+                    if(v.id==id){
+                        v.checked = !v.checked
+                    }
+                });
+            },
+            openKindsPage:function(page,pageParams){
+                //pageArr={page:page,pageParamKey:[]}
+                api.openWin({
+                    name: page,
+                    url: './'+page+'.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",                
+                        subType:"from_right",      
+                        duration:300                
+                    },
+                    pageParam: pageParams
+                });
+            },
+            addCustom:function(){
+                var that = this
+                if(this.customCui.length==0){
+                    this.isCusTrim = true
+                    this.$refs.customCui.focus()
+                }else{
+                    var cusOnj={id:"1000",name:that.customCui}
+                    //ajax
+                    this.chooseCus.push(cusOnj)
+                    //this.goBack()
+                }
+            },
+            saveCuisine:function(){
+                var that = this
+                console.log(this.chooseCus)
+                /* if(!this.checkedNames){
+                    api.toast({
+                        msg: '请确保信息真实有效',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    return
+                } */
+                return
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=add_staff',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values:{
+                            portrait:that.portrait,
+                            real_name2:that.userInfos.real_name2,
+                            sex:that.sex,
+                            tags:that.userInfos.tags,
+                            company:that.userInfos.company,
+                            job:that.userInfos.job,
+                            photo:that.userInfos.photo,
+                            user_id:userId
+                        }
+                        
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        api.toast({
+                            msg: "提交成功",
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.getCusInfo()
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+
+</script>
+
+</html>

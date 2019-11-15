@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/effeckt.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.attestation.css" />
+    <title>实名认证</title>
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部 -->
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode="tapmodeclass">
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>实名认证</span>
+            </div>
+        </header>
+        <div class="ui-tooltips ui-tooltips-warn" v-show="serverErr">
+            <div class="ui-tooltips-cnt ui-border-b">
+                <i></i>无法连接服务器，请检查你的网络设置。
+                <a class="ui-icon-close" @click="serverErr=false" tapmode></a>
+            </div>
+        </div>
+        <!-- 信息栏 -->
+        <div class="infobar">
+            <p class="inforbarText">您的身份信息仅用于实名认证<br/> 我们保证您的信息安全不会被泄露
+                <br/> 并且不会用于任何其他用途
+            </p>
+        </div>
+        <div class="profile effeckt-list" data-effeckt-type="from-above">
+            <label class="profile-data" for="">姓  名</label>
+            <div class="profile-out-input">
+                <transition 
+                    enter-active-class="new-item" 
+                    leave-active-class="remove-item" 
+                    :duration="[200,200]">
+                    <div class="isNameErr" v-show="isNameErr" ></div>
+                </transition>
+                <input 
+                type="text" 
+                name="idName" 
+                class="profile-input" 
+                placeholder="请填写证件上的真实姓名" 
+                @input="changeBtnColor"
+                v-model="idName">
+            </div>
+            
+            
+        </div>
+        <div class="profile effeckt-list" data-effeckt-type="from-above">
+            <label  class="profile-data" for="">身份证</label>
+            <div class="profile-out-input">
+                <transition 
+                    enter-active-class="new-item" 
+                    leave-active-class="remove-item" 
+                    :duration="[500,500]">
+                    <div class="isNameErr" v-show="isIdErr" ></div>
+                </transition>
+                <input 
+                type="text" 
+                name="idCard" 
+                class="profile-input" 
+                placeholder="请填写身份证号" 
+                @input="changeBtnColor"
+                v-model="idCard">
+            </div>
+        </div>
+        <div 
+        :class="['button-nor',greenBtn?'greenBtn':'','profileBtn']"
+        @click="attestation"
+        v-show="isKeyboardShow">申请认证</div>
+    </div>
+   
+    <script type="text/javascript" src="../script/api.js"></script>
+    <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../script/lib/layer.js"></script>
+    <script type="text/javascript" src="../script/lib/layer_style.js"></script>
+    <script type="text/javascript" src="../script/lib/vue.min.js"></script>
+    <script type="text/javascript">
+	    var userId = window.localStorage.getItem("userId");
+        var wrap = new Vue({
+            el:"#wrap",
+            data:{
+                idName:"",
+                idCard:"",
+                isNameErr:false,
+                isIdErr:false,
+                serverErr:false,
+                showHeight:0,
+                isKeyboardShow:true,
+                documentHeight:document.body.height,
+                greenBtn:false
+            },
+            watch: {
+               showHeight:function() {
+                  if(this.documentHeight-this.showHeight>10){
+                    this.isKeyboardShow = false
+                  }else{
+                    this.isKeyboardShow = true
+                  }
+                }
+            },
+            methods: {
+                goBack: function goBack() {
+                    api.closeWin()
+                },
+                attestation:function attestation(){
+                    var that = this
+                    if(!this.verifyName(this.idName)){
+                        this.isNameErr = true
+                        /* api.toast({
+                            msg: '请检查一下您的姓名',
+                            duration: 2000,
+                            location: 'bottom'
+                        }); */
+                        return
+                    }else{
+                        this.isNameErr = false
+                    }
+                    if( !this.verifyCard(this.idCard)){
+                        this.isIdErr = true
+                        /* api.toast({
+                            msg: '请检查一下您的身份证',
+                            duration: 2000,
+                            location: 'bottom'
+                        }); */
+                        return
+                    }else{
+                        this.isIdErr = false
+                    }
+                    //console.log()
+                    api.ajax({
+                        url: that.URL+'index.php?app=myinfo&act=smrz',
+                        method: 'post',
+                        cache: false,
+                        timeout: 30,
+                        dataType: 'json',
+                        returnAll: false,
+                        data: {
+                            values: {
+                                user_id: userId,
+                                real_name2: that.idName,
+                                id_card: that.idCard
+                            }
+                        }
+                    },function(ret,err){
+                        if (ret && ret.done) {
+                            layer.open({
+                                content: '已申请',
+                                style: 'color:#6eb92c;',
+                            });
+                            setTimeout(function(){
+                                that.goBack();
+                            },1000)
+                        } else if (ret) {
+                            api.toast({
+                                msg: ret.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        } else {
+                            //this.serverErr = true
+                            api.toast({
+                                msg: "身份证号码有误，请重新输入",
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        };
+                    });
+                },
+                changeBtnColor:function(){
+                    if(this.verifyName(this.idName)&&this.verifyCard(this.idCard)){
+                        this.greenBtn = true
+                    }else{
+                        this.greenBtn = false
+                    }
+                },
+                verifyName: function VerifyName(string){
+                    var regName =/^[\u4e00-\u9fa5]{2,4}$/;  
+                    console.log(regName.test(string))
+                    return regName.test(string)
+                },
+                verifyCard: function VerifyName(string){
+                    var regIdNo = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+                    console.log( regIdNo.test(string))
+                    return regIdNo.test(string)
+                },
+                //获取用户信息
+                getInfo:function getInfo(){
+                    var that = this
+                    api.ajax({
+                    url : URL + 'index.php?app=myinfo&act=get_info',
+                        method : 'post',
+                        cache : false,
+                        timeout : 30,
+                        dataType : 'json',
+                        returnAll : false,
+                        data : {
+                        values : {
+                                user_id:userId
+                                }
+                        }
+                    },function(ret,err){
+                    if(ret.retval){
+                        that.idName = ret.retval.real_name2
+                        that.idCard = ret.retval.id_card
+                    }else{
+                        
+                    }
+                    });
+                }
+            },
+            created: function created() {
+                var that = this
+                this.$nextTick(function () {
+                    apiready = function () {
+                        var header = that.$refs.header;
+                        $api.fixStatusBar(header);
+                        that.URL = $api.URL()
+                        that.getInfo()
+                    }
+                })
+            },
+            mounted: function mounted() {
+                var that = this
+                window.onresize = function(){
+                    that.showHeight = document.body.height
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

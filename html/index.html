@@ -135,10 +135,10 @@
                 },
                 title: {
                     text: '商城',
-                    size: 12.0,
+                    size: 14.0,
                     normal: '#c6c6c6',
                     selected: '#6eb92c',
-                    marginB: 4.0,
+                    marginB: 6.0,
                 }
             },  {
                 w: api.winWidth / 5.0,
@@ -153,10 +153,10 @@
                 },
                 title: {
                     text: '名厨',
-                    size: 12.0,
+                    size: 14.0,
                     normal: '#c6c6c6',
                     selected: '#6eb92c',
-                    marginB: 4.0
+                    marginB: 6.0
                 }
             },{
                 w: api.winWidth / 5.0,
@@ -171,10 +171,10 @@
                 },
                 title: {
                     text: '社交',
-                    size: 12.0,
+                    size: 14.0,
                     normal: '#c6c6c6',
                     selected: '#6eb92c',
-                    marginB: 4.0
+                    marginB: 6.0
                 }
             },{
                 w: api.winWidth / 5.0,
@@ -189,10 +189,10 @@
                 },
                 title: {
                     text: '人脉',
-                    size: 12.0,
+                    size: 14.0,
                     normal: '#c6c6c6',
                     selected: '#6eb92c',
-                    marginB: 4.0
+                    marginB:6.0
                 }
             }, {
                 w: api.winWidth / 5.0,
@@ -207,10 +207,10 @@
                 },
                 title: {
                     text: '我的',
-                    size: 12.0,
+                    size: 14.0,
                     normal: '#c6c6c6',
                     selected: '#6eb92c',
-                    marginB: 4.0
+                    marginB: 6.0
                 }
             }],
             selectedIndex: 0
@@ -229,13 +229,13 @@
                         name: 'group2'
                     });
                   }
-                  if(ret.index !== 2&& ret.index != 1){
+                  if(ret.index !== 2|| ret.index != 1){
                     api.closeFrameGroup({
                         name: 'group2'
                     });
 
                   }
-                  if(ret.index !== 3 && ret.index != 1){
+                  if(ret.index !== 3 || ret.index != 1){
                     api.closeFrameGroup({
                         name: 'group_connection'
                     });
@@ -487,6 +487,19 @@
         var NVTabBar = api.require('NVTabBar');
         NVTabBar.setSelect({
           index: 1,
+      });
+    }
+    function setMyinfo(){
+        //alert(5566)
+        api.closeFrameGroup({
+        name: 'group1'
+       });
+       api.closeFrameGroup({
+        name: 'group2'
+       });
+        var NVTabBar = api.require('NVTabBar');
+        NVTabBar.setSelect({
+          index: 4,
       });
     }
 </script>

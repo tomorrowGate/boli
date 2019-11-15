@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的厨小店</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.kitchenhome.css">
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+        <div class="green">
+            <div class="icon-left">
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="header">我的厨小店</div>
+            <div id="wrap" class="flex-wrap flex-vertical">
+                <!--头部-->
+
+                <div class="case2">
+                    <div class="my_info clearfix">
+                        <div class="info_l">
+                            <img src="../image/default_portrait.png" class="portrait" id="portrait">
+                        </div>
+                        <div class="info_m">
+                            <div class="info1"><span id="user_name">皮卡丘</span>
+                                <span class="jb" id="level">厨师</span>
+                                <span class="jb_1" id="level_1">厨小店</span>
+                            </div>
+                            <div>
+                                <span class="border-w">邀请码:
+                                    <span id="invite_code"> 021456788</span>
+                                </span>
+                                <span class="border-b" onclick="copyHref()" tapmode>复制</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 我的账单区 -->
+        <div class="bill">
+            <div class="profit">
+                <span>
+                    <span class="profitNumber">48.00</span>
+                    <span>本月收益(元)</span>
+                </span>
+                <span class="examine">查看全部资产<i class="">➡</i></span>
+            </div>
+            <div class="billFlex">
+                <div class="billItem b_right">
+                    <span>2.55</span>
+                    <p>累计收益(元)</p>
+                </div>
+                <div class="billItem">
+                    <span>5.45</span>
+                    <p>今日订单数</p>
+                </div>
+                <div class="billItem b_left">
+                    <span>48.00</span>
+                    <p>余额</p>
+                </div>
+            </div>
+        </div>
+        <!-- 搜索 -->
+        <div class="search-head">
+            <div class="search-main">
+                <i class="iconfont icon-search"></i>
+                <input class="search-virtual" placeholder="搜索教学、用户、内容" tapmode>
+                </input>
+            </div>
+            <div class="search-real">搜索</div>
+        </div>
+        <!-- 发货状态 -->
+        <div class="chef-detail-info">
+            <div class="chef-hotslist-head" ref="chef-hotslist-head">
+                <p :class="['hotslist-head-item',isDet==1?'hotslist-head-active':'']" @click="changeDis(1)"
+                    tapmode="tapmodeclass">待发货</p>
+                <p :class="['hotslist-head-item',isDet==2?'hotslist-head-active':'']" @click="changeDis(2)"
+                    tapmode="tapmodeclass">待收货</p>
+                <p :class="['hotslist-head-item',isDet==3?'hotslist-head-active':'']" @click="changeDis(3)"
+                    tapmode="tapmodeclass">已完成</p>
+                <p :class="['hotslist-head-item',isDet==4?'hotslist-head-active':'']" @click="changeDis(4)"
+                    tapmode="tapmodeclass">全部</p>
+            </div>
+        </div>
+        <!-- 订单选项 -->
+        <div class="shopHead">
+            <span class="shopName">订单编号：1321323132</span>
+            <span class="cargoStatus">买家已签收</span>
+        </div>
+        <!-- <div class="product"> -->
+        <div class="chef-form-card" v-for="(v,i) in 6" :key="i">
+            <div class="after-goods-item">
+
+                <div class="chef-form-leftimg">
+                    <img src="" alt="">
+                </div>
+                <div class="chef-right-content">
+                    <div class="tag">
+                        <p class="chef-head1"> 广式双炒双温节能灶</p>
+                        <span class="how">x1</span>
+                    </div>
+                    <div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+                    <div class="chef-head3">
+                        <span class="forum-foot-bg">九折</span>
+                        <span class="forum-foot-bg">上门安装</span>
+                    </div>
+                    <div class="chef-head4 ">
+                        <p class="swiper-red">￥
+                            <span>258</span>
+                            <span class="swiper-del">￥536</span>
+                        </p>
+                        <p class="earnRed">
+                            <span class="earn">应赚</span>
+                            <span>25</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="after-goods-bottom">
+                <div class="after-goods">
+                    <span class="after-bottom-texts"> 2019-08-20</span>
+                    <p class="after-bottom-text">
+                        <span class="after-text-right">共1件 总计：</span>
+                        <span class="after-text-left">￥25800</span>
+                    </p>
+                </div>
+                <div class="after-goods-normal">
+                    <button class="after-goods-btn">分享好友</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var wrap = new Vue({
+        el: '#wrap',
+        data: {
+            isDet: 1,
+            imgDefalt: '../image/headimgDef.png',
+            focusText: "关注",
+            isShowDia: false,
+            sf_id: 0,//师傅id
+            MastInfo: [],
+            isShowApprentice: true
+        },
+        computed: {
+            imgsrc: function () {
+                console.log(this.MastInfo.photo)
+                if (this.MastInfo && this.MastInfo.photo) {
+                    var realimg = this.URL + this.MastInfo.photo
+                    return realimg
+                } else {
+                    console.log(this.imgDefalt)
+                    return this.imgDefalt
+                }
+            }
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin();
+            },
+            //点击视频详情
+            goTeachDet: function goTeachDet() {
+                api.openWin({
+                    name: 'chef.instructional',
+                    url: './chef.instructional.html',
+                    bounces: false,
+                    pageParam: { key: 'value' }
+                });
+            },
+            isApprenticed: function () {
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=pd_sf',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            sf_id: that.sf_id
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.isShowApprentice = false//不能拜师
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        that.isShowApprentice = true//可以拜师
+
+                    }
+                });
+            },
+            getMasterInfo: function () {
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=get_staff_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            sf_id: that.sf_id
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.MastInfoExper = ret.retval[1]
+                        that.MastInfo = ret.retval[0]
+                        console.log(JSON.stringify(that.MastInfoExper))
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            changeDis: function changeDis(type) {
+                this.isDet = type
+                //var pageParam = ['chef.detailcomponent','chef.videocomponent','chef.trendcomponent','chef.menucomponent']
+                api.setFrameGroupIndex({
+                    name: 'group1',
+                    index: type - 1,
+                    scroll: true,
+                });
+            },
+            focus: function focus() {
+                var that = this
+                api.ajax({
+                    url: 'ajax_url',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false
+                }, function (ret, err) {
+                    if (ret) {
+                        // TODO 
+                        that.focusText = "已关注"
+                    } else {
+
+                    };
+                });
+            },
+            payStudy: function payStudy() {
+                this.isShowDia = true
+            },
+            closeDia: function closeDia() {
+                this.isShowDia = false
+            },
+            payReal: function payReal() {
+                this.isShowDia = false
+                api.ajax({
+                    url: 'ajax_url',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false
+                }, function (ret, err) {
+                    if (ret) {
+                        // TODO 
+                    } else {
+                        api.alert({
+                            msg: ('错误码：' + err.code + '；错误信息：' + err.msg + '网络状态码：' + err.statusCode)
+                        });
+                    };
+                });
+            },
+            openFrameGroup: function openFrameGroup(i) {
+                var that = this
+                var top = this.$refs['chef-hotslist-head'].getBoundingClientRect().bottom
+                api.openFrameGroup({
+                    name: 'group1',
+                    rect: {
+                        marginTop: top + 10,
+                        marginBottom: 0,
+                        w: 'auto'
+                    },
+                    scrollEnabled: true,
+                    bounces: false,
+                    frames: [
+                        {
+                            name: 'myinfo.msgcomponent1',
+                            url: 'myinfo.msgcomponent.html',
+                            pageParam: {
+                                type: 1
+                            },
+                            bounces: false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                        {
+                            name: 'myinfo.msgcomponent2',
+                            url: 'myinfo.msgcomponent.html',
+                            pageParam: {
+                                type: 2
+                            },
+                            bounces: false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                        {
+                            name: 'myinfo.msgcomponent3',
+                            url: 'myinfo.msgcomponent.html',
+                            pageParam: {
+                                type: 3
+                            },
+                            bounces: false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                        {
+                            name: 'myinfo.msgcomponent4',
+                            url: 'myinfo.msgcomponent.html',
+                            pageParam: {
+                                type: 4
+                            },
+                            bounces: false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                    ]
+                }, function (ret, err) {
+                    if (ret.index > -1) {
+                        that.isDet = ret.index + 1
+                    }
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            apiready = function () {
+                that.URL = $api.URL();
+                that.sf_id = api.pageParam.sf_id;
+                that.userId = window.localStorage.getItem("userId")
+                var header = that.$refs["header"];
+                headerH = $api.fixStatusBar(header);
+                //headerH要先获取，再触发openFrameGroup
+                that.openFrameGroup()
+                that.getMasterInfo()
+
+            }
+        },
+        mounted: function mounted() {
+            var that = this
+
+        },
+    })
+</script>
+
+</html>

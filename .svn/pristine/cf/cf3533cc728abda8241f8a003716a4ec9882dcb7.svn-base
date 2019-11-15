@@ -1,0 +1,626 @@
+html,
+body {
+    height: 100%;
+    background-color: #fff;
+}
+[v-cloak]{
+    display: none
+}
+/* 头部搜索 */
+header{
+    background: #6eb92c;
+}
+.search-head {
+    height: 44px;
+    width: 100%;
+    color: #fff;
+    line-height: 44px;
+    font-size: 14px;
+}
+.search-bg {
+    background-color: #6eb92c;
+    height: 44px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.search-main {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+.down_icon {
+    font-size: 1.1em
+}
+.icon-search{
+    margin-right: 4px
+}
+.search-virtual {
+    width: 60%;
+    height: 30px;
+    line-height: 29px;
+    padding: 0 10px;
+    background-color: #fff;
+    border-radius: 15px;
+    font-size: 1.1em;
+    color: #999;
+}
+
+/* 轮播图 */
+.swiper{
+    width: 96vw;
+    height: 48vw;
+    margin:10px auto;
+    border-radius: 10px;
+}
+.swiper-top{
+    width: 100%;
+    height: 100%;
+}
+.swiper-pagination-bullet{
+    width: 12px;
+    border-radius: 4px;
+    background: #fff;
+    opacity: 1;
+}
+.swiper-pagination-bullet-active{
+    background: #6eb92c;
+}
+.swiper-top-imgbox{
+    width: 100%;
+    height: 100%;
+}
+.swiper-top-imgbox img{
+    width: 100%;
+    
+}
+.swiper-container-horizontal>.swiper-pagination-bullets
+, .swiper-pagination-custom, .swiper-pagination-fraction{
+    bottom: 6px;
+}
+/* 球状列表 */
+.chef-ball-list{
+    width: 96vw;
+    margin:10px auto;
+    font-size: 14px;
+    color: #999;
+}
+.swiper-ball-items{
+    display: flex;
+    flex-wrap: wrap;
+}
+.swiper-ball-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    padding:10px 0;
+}
+.swiper-ball-imgbox{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 6px;
+}
+.swiper-ball-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    /* background: skyblue; */
+}
+.swiper-ball-text{
+    text-align: center;
+}
+
+/* 热点头条 */
+.swiper-notice-out{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 52px;
+    border-top:1px solid #dcdcdc;
+}
+.swiper-notice-imgbox{
+    width: 52px;
+    height: 52px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.swiper-notice-imgbox img{
+    width: 100%;
+    height: 100%;
+}
+.swiper-notice-content{
+    width: calc( 100% - 90px );
+    height: 40px;
+    line-height: 40px;
+    font-size: 0.8em;
+    border-left: 1px solid #666;
+    padding-left: 16px;
+}
+.swiper-notice{
+    width: 100%;
+    height: 100%;
+}
+.swiper-notice-text{
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+
+}
+
+/* 平台须知  */
+.platform{
+    padding:15px 0;
+    background: #efefef;
+
+}
+.platform-know-out{
+    padding:10px;
+    background: #fff;
+}
+.platform-bg{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    border-radius: 50px;
+    color: #51948d;
+    background: #dbf5f4;
+}
+.platform-left{
+    margin-left: 40px;
+}
+.platform-top{
+    font-size: 1.1em;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.platform-bottom{
+    font-size: 0.8em;
+    letter-spacing: 1px;
+}
+.platform-right{
+    font-size: 1.5em;
+    margin-right: 20px;
+}
+/* 名厨汇聚 头部*/
+.chef-main-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #dfdfdf;
+}
+.chef-head-left{
+    display: flex;
+    align-items: center;
+}
+.chef-main-head .icon-qianbi{
+    color: #6eb92c;
+}
+.chef-left-text{
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-left: 6px;
+}
+.chef-head-more{
+    color: #a3a3a3;
+}
+/* 名厨汇聚 厨师卡片*/
+.chef-cards{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px 10px;
+    border-bottom: 1px solid #dfdfdf;
+}
+.chef-card-out{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.chef-card{
+    width: 33%;
+    margin: auto;
+    background: #f6f6f6;
+    box-shadow: 0 0 10px #ccc;
+}
+.chef-card-bg{
+    padding: 10px 0;
+    background: #fff;
+}
+.chef-card-imgbox{
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    margin: auto;
+}
+.chef-card-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: skyblue;
+}
+.chef-card-detail{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0 ;
+}
+.chef-detail-name{
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+.chef-detail-text{
+    color: #999;
+    margin-bottom: 4px;
+    font-size: 0.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.chef-detail-follow{
+    height: 16px;
+    line-height: 17px;
+    padding: 0px 10px;
+    border-radius: 8px;
+    color: #6eb92c;
+    margin-bottom: 4px;
+    font-size: 0.9em;
+    border:1px solid #6eb92c;
+}
+
+/*  厨师列表  */
+.chef-busy-out{
+    padding: 20px 10px;
+}
+.chef-busy-card{
+    display: flex;
+    padding: 20px 0;
+}
+.chef-leftimg{
+    width: 90px;
+    height: 180px;
+    margin-right: 10px;
+    background: skyblue;
+}
+.chef-leftimg img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.chef-right-content{
+    position: relative;
+    width: calc( 100% - 110px );
+    color: #999;
+}
+.chef-head1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.chef-head1-name{
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #000;
+}
+.chef-head1-follow{
+    font-size: 0.8em;
+}
+.chef-light{
+    font-size: 0.9em;
+    line-height: 32px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.chef-head4{
+    line-height: 24px;
+    font-size: 0.9em;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.chef-foot{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #6eb92c;
+}
+.chef-foot-left{
+    font-size: 0.9em;
+}
+.chef-foot-right{
+    display: flex;
+}
+.chef-right-btn{
+    height: 16px;
+    line-height: 16px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    margin: 0 4px;
+    border: 1px solid #6eb92c;
+}
+.chef-busy-footer{
+    display: flex;
+    border-top: 1px solid #ddd;
+    padding: 20px 10px;
+    justify-content: space-around;
+}
+.chef-footer-item{
+    width: 48%;
+    padding: 10px 0;
+    font-weight: bold;
+    background: #f7f7f7;
+    text-align: center;
+}
+
+.chef-forum{
+    background: #efefef;
+    padding: 15px 0;
+}
+.chef-form-in{
+    background: #fff;
+}
+
+/* 名厨讲堂 */
+/* 头部为 chef-main-head*/
+.chef-form-body{
+    padding: 10px; 
+    background: linear-gradient(to bottom,#fff, #fafafa); 
+}
+.forum-item{
+    width: 180px;
+    /* height: 150px; */
+    padding: 1px 0;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 0 10px #eee ;
+}
+.chef-forum-slide{
+    width: auto;
+    margin-right:15px; 
+}
+.forum-item-imgbox{
+    position: relative;
+    width: 180px;
+    height: 90px;
+    border-radius: 6px;
+}
+.forum-item-tagtop{
+    position: absolute;
+    top:6px;
+    right: 8px;
+    padding:1px 8px;
+    border-radius: 8px;
+    font-size: 0.8em;
+}
+.forum-item-pay{
+    background: #6eb92c;
+    color: #fff;
+    font-size: 0.8em;
+}
+.forum-item-free{
+    background: #fff;
+    color: #666;
+}
+.forum-item-tagbottom{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    text-align: right;
+    padding: 0 5px;
+    background: linear-gradient(to right,#fff, #6b6b6b); 
+    color: #fff;
+    font-size: 0.8em;
+    box-sizing: border-box;
+}
+.forum-item-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+.forum-item-explain{
+    padding: 5px 10px;
+}
+.forum-explain-title{
+    padding: 4px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.forum-explain-foot{
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    color: #999;
+}
+.forum-foot-imgbox{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 4px;
+    background: skyblue;
+}
+.forum-foot-imgbox img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%
+}
+.forum-length-imgbox{
+    width: 100%;
+}
+.forum-length-imgbox img{
+    width: 100%;
+}
+.forum-foot-explain{
+    display: flex;
+}
+.forum-foot-name{
+    margin-right: 5px;
+}
+.forum-foot-level{
+    margin-left: 5px;
+}
+
+/* 讲堂列表 */
+.chef-form-formlist{
+    padding:30px 0;
+}
+.chef-form-card{
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+.chef-form-leftimg{
+    width: 120px;
+    height: 80px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background: skyblue;
+}
+.chef-form-leftimg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+.chef-forum-light{
+    font-size: 0.9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.chef-form-formlist .chef-head1-name{
+    font-size: 1em;
+}
+.chef-form-formlist .chef-busy-footer{
+    border:none;
+}
+/* 底部轮播图 */
+.chef-forum-swiper{
+    width: 96vw;
+    height: 32vw;
+}
+.forum-swiper-recommend{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: skyblue;
+}
+.forum-foot-swiper{
+    width: 100%;
+    height: 100%;
+}
+.swiper-container-horizontal>.chef-forum-recommend{
+    transform: translateX(calc( 100vw - 200%) );
+    width: auto;
+}
+.chef-forum-swiper .swiper-pagination-bullet{
+    background: #fff;
+    opacity: 1;
+}
+.chef-forum-swiper .swiper-pagination-bullet-active{
+    background: #6eb92c;
+}
+
+/*教学推荐卡片*/
+.teaching-recommend-card{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px ;
+    justify-content: space-between;
+}
+.teaching-card-item{
+    width: calc( 50vw - 16px);
+    height: calc( (50vw - 16px) * 15 / 18);
+}
+.teaching-card-item .forum-item-imgbox{
+    width: calc( 50vw - 16px);
+    height: calc( 25vw - 8px);
+}
+
+/* 热点资讯、行业动态、最近活动 */
+.chef-hotslist{
+    margin-top:40px;
+}
+.chef-hotslist-head{
+    position: sticky;
+    top:62px;
+    display: flex;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    z-index: 2;
+}
+.hotslist-head-item{
+    width: 33.3%;
+    /* padding: 5px 0; */
+    margin: 5px 0;
+    font-size: 1.1em;
+    text-align: center;
+}
+.hotslist-head-active{
+    position: relative;
+    color: #6eb92c;
+}
+.hotslist-head-active::after{
+    position: absolute;
+    display: block;
+    content:"";
+    width: 40%;
+    left: 50%;
+    bottom: -5px;
+    transform: translateX(-50%);
+    border:1px solid  #6eb92c;
+}
+.chef-hotslist-body{
+
+}
+.hotslist-body-item{
+    padding: 10px ;
+    font-size: 0.8em;
+}
+.hotslist-item-title{
+    padding: 10px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.hotslist-item-imgboxs{
+    display: flex;
+    align-items: center;
+}
+.hotslist-imgboxs-imgbox{
+    width: 120px;
+    height: 80px;
+    background: skyblue;
+}
+.hotslist-imgboxs-imgbox+.hotslist-imgboxs-imgbox{
+    margin-left: 4px;
+
+}
+.hotslist-imgboxs-imgbox img{
+    width: 100%;
+    height: 100%;
+}
+.hotslist-item-footer{
+    display: flex;
+    justify-content:  flex-end ;
+}
+.hotslist-footer-item{
+    margin-right: 16px;
+}

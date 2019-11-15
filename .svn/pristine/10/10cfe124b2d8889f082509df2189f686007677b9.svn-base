@@ -1,0 +1,126 @@
+html,body{
+    background: #f2f2f2;
+}
+
+
+/* 头部图片 */
+.headImg{
+    position: relative;
+    background: url("../../image/my.asset.png") no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 20px;
+}
+.headerImg-center{
+    margin-top: 15px;
+    text-align: center;
+    line-height: 36px;
+}
+.headImg-text{
+    font-size: 25px;
+}
+.btnFlex{
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    margin: 20px auto;
+}
+.headBtn{
+    color: #fff;
+    border: 1px solid #fff;
+    text-align: center;
+    padding: 5px 16px;
+    border-radius: 40px;
+}
+/* 猜我喜欢 */
+.like{
+    text-align: center;
+    line-height: 45px;
+}
+.guessLike{
+    margin: 0 20px;
+}
+/* 全部最新热卖列表 */
+.bestSellers{
+    background: #f2f2f2;
+    padding: 10px ;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap:wrap;
+}
+.bestSellers-item{
+    height: calc( 50vw + 64px);
+    width: calc( 50vw - 15px);
+    font-size: 0.9em;
+    background: #fff;
+    margin-bottom: 10px;
+}
+.bestSellers-img{
+    height:calc( 50vw - 15px);
+    width: calc( 50vw - 15px);;
+    box-sizing: border-box;
+}
+.bestSellers-img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+.bestSellers-item-bottom{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+.introduce{
+    margin:3px 5px 0px 5px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+.bestSellers-red{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 0.9em;
+    /* background: #0f0; */
+}
+.bestSellers-del{
+    color: #a3a3a3;
+    font-size: 0.8em;
+    text-decoration:line-through;
+}
+.salesVolume{
+    width: 100%;
+    padding: 0 10px;
+    color: #a3a3a3;
+    font-size: 0.8em;
+    text-align: right;
+    box-sizing: border-box;
+}
+.bestSellers-text{
+    color: #ff0000;
+    margin-right: 4px;
+}
+.introduce-text{
+    height: 36px;
+    font-size: 14px;
+    margin-top: 3px;
+}
+.introduce-left{
+    padding: 0 4px;
+    font-size: 14px;
+    line-height: 15px;
+    width: 100%;
+}
+.foot-add-more{
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    background: #f2f2f2;
+    font-size: 0.8em;
+    color: #999;
+}

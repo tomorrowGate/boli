@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>商品收藏</title>
+	<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+	<link rel="stylesheet" href="../css/frozenui.css">
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.coupton.css" />
+</head>
+
+<body>
+	<div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode="tapmodeclass">
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>优惠券</span>
+            </div>
+        </header>
+		<div class="dia-shopcard-real dia-coupon-real">
+            <div class="dia-shopcard-top dia-coupton-top" @touchmove.prevent>
+                <p class="coupton-title"></p>
+            </div>
+            <div class="dia-shopcard-content">
+                <div :class="['coupon-item',v.is_have==1?'gray-coup':'']" v-for="(v,i) in couponArr" :key="i" >
+                    <div class="coupin-item-left">
+                        <div class="coupon-item-money">￥<span class="money-real">{{v.coupon_value}}</span></div>
+                        <div class="coupon-usetime">使用期限：{{v.start_time}} - {{v.end_time}}</div>
+                        <div class="coupon-use-condition">{{v.coupon_name}}</div>
+                    </div>
+                    <div 
+                    class="coupin-item-right" 
+                    @click="receiveCoupon(v.coupon_id,v.is_have,i)" 
+                    tapmode
+                    v-show="!v.is_have">
+                        <div class="coupon-item-receive">领 取</div>
+                    </div>
+                    <div 
+                    class="coupin-item-right" 
+                    @click="receiveCoupon(v.coupon_id,v.is_have,i)" 
+                    tapmode
+                    v-show="v.is_have">
+                        <div class="coupon-item-receive">已领取</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+	var userId = window.localStorage.getItem("userId");
+
+	var wrap = new Vue({
+		el: "#wrap",
+		data: {
+			URL: "",
+            couponArr:[6,6,6,6,6],
+            start:0
+		},
+		computed: {
+
+		},
+		watch: {
+			checks:function (){
+				console.log(this.checks)
+			}
+		},
+		methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            //获取优惠券s
+            getCoupons:function getCoupons(){
+                var that =this
+                api.ajax({
+                    url : that.URL + 'index.php?app=appcoupon&act=getAllCoupon',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id : userId,
+                        }
+                    }
+                }, function(ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret&&ret.done) {
+                        that.couponArr = ret.retval
+                    } else {
+                        
+                    }
+                });
+            },
+            receiveCoupon:function receiveCoupon(id, is_have,i){
+                var that = this
+                if (is_have == 1) {
+                    api.toast({
+                        msg : '你已经领过了',
+                        duration : 2000,
+                        location : 'middle'
+                    });
+                    return;
+                }
+                api.ajax({
+                    url : that.URL + 'index.php?app=appcoupon&act=getCoupons',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id : userId,
+                            coupon_id : id
+                        }
+                    }
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if(ret&&ret.done){
+                        //that.couponArr[i].is_have = 1
+                        console.log(i)
+                        Vue.set(that.couponArr[i], 'is_have', 1)
+                        api.toast({
+                            msg : "领取成功",
+                            duration : 2000,
+                            location : 'middle'
+                        });
+
+                    }else{
+                        api.toast({
+                            msg : ret.msg,
+                            duration : 2000,
+                            location : 'middle'
+                        });
+                    }
+                });
+            },
+		},
+		created: function created() {
+			var that = this
+			this.$nextTick(function () {
+				apiready = function () {
+					var header = that.$refs.header;
+					$api.fixStatusBar(header);
+					that.URL = $api.URL()
+                    that.getCoupons()
+					//上拉加载
+					api.addEventListener({
+						name: 'scrolltobottom',
+						extra: {
+							threshold: 50 //距离底部距离
+						}
+					}, function (ret, err) {
+						/* if (that.bottomLists.end[that.bottomLists.activeIndex]) {
+							api.toast({
+								msg: '没有更多了',
+								duration: 2000,
+								location: 'middle'
+							});
+						} else {
+							that.changeBottomList(that.bottomLists.activeIndex)
+						} */
+					});
+				}
+			})
+		},
+		mounted: function mounted() {
+		},
+	})
+
+</script>
+
+</html>

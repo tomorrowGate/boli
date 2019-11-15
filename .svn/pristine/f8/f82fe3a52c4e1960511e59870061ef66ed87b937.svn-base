@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.forum.css" />
+    <title>名厨讲堂</title>
+</head>
+
+<body>
+    <div id="wrap">
+    <!-- 头部 -->
+    <header class="page-head" ref="header">
+        <div class="back" @click="goBack" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>名厨讲堂</span>
+        </div>
+    </header>
+
+    <!-- 头部搜索 -->
+    <div class="search-head">
+        <div class="search-main">
+            <i class="iconfont icon-search"></i>
+            <input type="text" class="search-virtual" v-model="searchText" placeholder="搜索商品" tapmode>
+            </input>
+        </div>
+        <div class="search-real">搜索</div>
+    </div>
+
+    <!-- 轮播图 -->
+    <div class="swiper">
+        <div class="swiper-container swiper-top">
+            <div class="swiper-wrapper" id="adv">
+                <div class="swiper-slide" tapmode v-for="(v,i) in topBanner" :key="i">
+                    <div class="swiper-slide-imgbox" >
+                        <img :src="URL+v.file_path" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <!-- 名厨介绍 -->
+    <div class="introduce">
+        <div class="history" @click="goPages(1)">
+            <div class="history-ball">
+                <i class="iconfont icon-bofang1"></i>
+            </div>
+            <div class="history-ball-text">播放历史</div>
+        </div>
+        <div class="history" @click="goPages(2)">
+            <div class="history-ball">
+                <i class="iconfont icon-shizhong"></i>
+            </div>
+            <div class="history-ball-text">我的收藏</div>
+        </div>
+        <div class="history" @click="goPages(4)">
+            <div class="history-ball">
+                <i class="iconfont icon-question"></i>
+            </div>
+            <div class="history-ball-text">已购教学</div>
+        </div>
+        <div class="history" @click="goPages(3)">
+            <div class="history-ball">
+                <i class="iconfont icon-question"></i>
+            </div>
+            <div class="history-ball-text">了解讲堂</div>
+        </div>
+    </div>
+    <!-- 佣金讲堂 -->
+    <!-- <div class="platform"></div> -->
+    <!-- 大师开讲 -->
+    <div class="chef-forum">
+        <div class="chef-form-in">
+            <div class="chef-main-head">
+                <div class="chef-head-left">
+                    <i class="iconfont icon-qianbi"></i>
+                    <div class="chef-left-text">大师开讲</div>
+                </div>
+                <!-- <div class="chef-head-more">
+                    更多
+                    <i class="iconfont icon-htbArrowright"></i>
+                </div> -->
+            </div>
+            <!-- 讲堂轮播列表 -->
+            <div class="swiper-container chef-form-body">
+                <div class="swiper-wrapper" id="forum">
+                    <div class="swiper-slide chef-forum-slide" v-for="(v,i) in mastSpeak" :key='i' @click="oneForumDet" tapmode>
+                        <div class="forum-item">
+                            <div class="forum-item-imgbox">
+                                <span class="forum-item-tagtop forum-item-pay" v-if="v.pay==0">免费</span>
+                                <span class="forum-item-tagtop forum-item-pay" v-if="v.pay!=0">付费</span>
+                                <!-- <video :src="URL+v.video" :poster="URL+v.video_img"></video> -->
+                                <img :src="URL+v.video_img" alt="" class="">
+                                <span class="forum-item-tagbottom">{{v.watch_count}}人已观看</span>
+                            </div>
+                            <div class="forum-item-explain">
+                                <p class="forum-explain-title">{{v.title}}</p>
+                                <div class="forum-explain-foot">
+                                    <div class="forum-foot-imgbox">
+                                        <img src="" alt="">
+                                    </div>
+                                    <div class="forum-foot-explain">
+                                        <span class="forum-foot-name">{{v.real_name2}}</span> |
+                                        <span class="forum-foot-level">{{v.cook_level}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chef-main-head">
+                <div class="chef-head-left">
+                    <i class="iconfont icon-qianbi"></i>
+                    <div class="chef-left-text">精品讲堂</div>
+                </div>
+            </div>
+            <!-- 精品讲堂 -->
+            <div class="chef-form-card"  @click="oneForumDet" v-for="(v,i) in excellentclass" :key="i">
+                <div class="chef-form-leftimg">
+                    <img :src="URL+v.video_img" alt="">
+                </div>
+                <div class="chef-right-content">
+                    <div class="chef-head1">
+                        <div class="chef-head1-name">{{v.title}}</div>
+                    </div>
+                    <div class="chef-head2 chef-forum-light">教你探究中式烹饪的秘诀</div>
+                    <div class="chef-head3 chef-forum-light forum-foot-explain">
+                        <i class="iconfont"></i>
+                        <span class="forum-foot-name">{{v.real_name2}}</span>
+                        |
+                        <span class="forum-foot-level">{{v.cook_level}}</span>
+                    </div>
+                    <div class="chef-head4 chef-forum-light">
+                        <i class="iconfont"></i>
+                        <span class="">{{v.watch_count}}</span>人已观看
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    (function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    })();
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL:"",
+            userId:0,
+            searchText:"",
+            start:0,
+            topBanner: {},
+            mastSpeak:[],//大师开讲
+            excellentclass:[],//精品课堂
+        },
+        methods: {
+            goBack:function goBack(){
+                api.closeWin();
+            },
+            goPages:function goPages(type){
+                var pageurls = ["chef.collect","chef.collect","chef.teachhelp"]
+                api.openWin({
+                    name: pageurls[type-1]+type.toString(),
+                    url:  pageurls[type-1]+'.html',
+                    bounces: false,
+                    pageParam: {}
+                });
+            },
+            //获得头部轮播
+            getTopBanner: function getTopBanner() {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=home_lunbo',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.topBanner = ret.retval
+                        that.$nextTick(function(){
+                            that.initSwiperTop()
+                        })
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //初始化头部轮播图
+            initSwiperTop: function swiperNotice() {
+                var swiperTop = new Swiper('.swiper-top', {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    observer: true,
+                    observeParents: true,
+                    on: {
+                        click: function () {
+                            const realIndex = this.realIndex;
+                            //that.handleClickSlide(realIndex); 
+                        }
+                    },
+                    preventLinksPropagation: false   // 阻止点击事件冒泡
+                });
+            },
+             //初始化大师开讲轮播图
+            initMastSay: function initMastSay() {
+                var mastSay = new Swiper('.chef-form-body', {
+                    slidesPerView: 'auto',
+                    observer: true,
+                    observeParents: true,
+                    on: {
+                        click: function () {
+                            const realIndex = this.realIndex;
+                            //that.handleClickSlide(realIndex); 
+                        }
+                    },
+                    preventLinksPropagation: false   // 阻止点击事件冒泡
+                });
+            },
+            //大师开讲
+            getMastSpeak:function getMastSpeak(){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appvideo',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.mastSpeak = ret.retval
+                        that.$nextTick(function(){
+                            that.initMastSay()
+                        })
+                    } 
+                });
+            },
+            //精品课堂
+            getExcellentclass:function getExcellentclass(start){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appvideo&act=boutique',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            start:start
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.excellentclass = ret.retval
+                    } 
+                });
+            },
+            oneForumDet:function oneForumDet(){
+                api.openWin({
+                    name: 'chef.lectureRoom',
+                    url: './chef.lectureRoom.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        
+                    }
+                });
+            }
+        },
+        created:function created(){
+            var that = this
+            this.$nextTick(function(){
+                apiready = function () {
+                    that.URL = $api.URL();
+                    that.userId = window.localStorage.getItem("userId")
+                    var header = that.$refs.header;
+                    //适配iOS 7+，Android 4.4+状态栏
+                    headerH = $api.fixStatusBar(header);
+                    that.getTopBanner()
+                    that.getMastSpeak()
+                    that.getExcellentclass(that.start)
+                }
+               
+            })
+            
+        },
+        mounted:function mounted() {
+            
+        },
+    })
+
+</script>
+
+</body>
+
+</html>

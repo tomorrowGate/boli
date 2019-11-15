@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>付款</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<style>
+			html, body {
+				background-color: #fff;
+			}
+			.pay_con {
+				padding: 10px;
+			}
+			.succeed {
+				text-align: center;
+				padding: 10px 0;
+			}
+			.succeed_i {
+				height: 40px;
+				width: 40px;
+				border-radius: 22px;
+				margin-bottom: 10px;
+				border: 2px solid #f49082;
+			}
+			.succeed i {
+				font-size: 2em;
+				color: #f49082;
+			}
+			.succeed img {
+				height: 70px;
+				width: 70px;
+				margin: 10px;
+			}
+			.order_info {
+				padding: 10px 0;
+			}
+			.line_img {
+				height: 5px;
+				width: 100%;
+				background: url('../image/line.png') no-repeat;
+				background-size: 100% 100%
+			}
+			.buy {
+				padding: 15px 0;
+			}
+			.pay_way dt {
+				padding-bottom: 10px
+			}
+			.pay_way dd {
+				height: 40px;
+				line-height: 40px
+			}
+			.pay_way dd img {
+				width: 30px;
+				height: 30px;
+				vertical-align: middle;
+			}
+			input[type='radio'] {
+				vertical-align: middle;
+				width: 20px;
+				height: 40px;
+				-webkit-appearance: none;
+				outline: 0 !important;
+				display: inline-block;
+				background: url("../image/uncheck.png") no-repeat center;
+				background-size: 16px 16px;
+				/* position: relative;
+				 top:-2px; */
+			}
+			input[type='radio']:checked {
+				background: url("../image/checked.png") no-repeat center;
+				background-size: 16px 16px
+			}
+			.sub_div {
+				text-align: center;
+				margin-top: 20px;
+			}
+			.sub_div span {
+				width: 70%;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				付款
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<!---------选择付款方式----------->
+		<div class="pay_con">
+			<div class="succeed">
+				<span class="succeed_i"><i class="iconfont icon-wancheng1"></i></span>
+				<h4>订单提交成功！</h4>
+				<p class="default_color3">
+					您的订单已成功生成，选择您想用的支付方式进行支付
+				</p>
+			</div>
+			<div class="order_info">
+				<p>
+					订单号：<span class="order_sn" id="order_id">order_id</span>
+				</p>
+				<p>
+					订单总价：&yen;<span class="order_amout" id="order_amout">order_amount</span>
+				</p>
+			</div>
+			<div class="line_img"></div>
+			<div class="buy">
+				<dl class="pay_way" id="pay_way">
+					<dt class="font_w1">
+						选择支付方式并付款
+					</dt>
+					<!--线上付款-->
+					<!--<dd>
+					<p>
+					<input type="radio" name="payment_id" checked value="{$payment.payment_id}"  id="payment_{$payment.payment_code}" class="radio">
+					<label for="payment_{$payment.payment_code}"><img src="../image/payments/{$payment.payment_code}/logo.png"><span>（在线支付）</span></label>
+					</p>
+					</dd>
+					<dd>
+					<p>
+					<input type="radio" name="payment_id" checked value="{$payment.payment_id}"  id="payment_{$payment.payment_code}" class="radio">
+					<label for="payment_{$payment.payment_code}"><img src="../image/payments/{$payment.payment_code}/logo.png"><span>（在线支付）</span></label>
+					</p>
+					</dd>-->
+					<!--线下付款-->
+					<!--<dd>
+					<p>
+					<input type="radio" name="payment_id" value="{$payment.payment_id}"  id="payment_{$payment.payment_code}" class="radio">
+					<label for="payment_{$payment.payment_code}"><img src="../image/payments/{$payment.payment_code}/logo.png"><span>（线下支付）</span></label>
+					</p>
+					</dd>-->
+				</dl>
+			</div>
+			<div class="sub_div">
+				<span class="btn_default2" style="background-color: #f22d1d;"onclick="gotoPay()" tapmode>确认支付</span>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		//返回上一页
+		function goBack() {
+
+		  api.closeToWin({
+			name: 'root'
+		});
+			//			api.closeWin();
+		}
+
+		var URL = "";
+		var orderId;
+		var actual_price;
+		var payment_id = 0;
+		var wxappid = "";
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+			orderId = api.pageParam.orderId;
+			actual_price = api.pageParam.actual_price;
+			console.log(actual_price);
+			//$api.html($api.byId("order_amout"), actual_price);
+			$("#order_amout").html(actual_price);
+			$("#order_id").html(orderId);
+			//$api.html($api.byId("order_id"), orderId);
+			//判断是否授权
+			getSMInfo();
+		};
+		//加载付款方式信息
+		function getPayment() {
+			api.ajax({
+				url : URL + 'index.php?app=cashier&order_id=' + orderId,
+				method : 'get',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						ajax : 1
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret && ret.done) {
+					$api.html($api.byId("order_id"), ret.retval[0].order_sn);
+					$("#order_amout").html(actual_price);
+					//$api.html($api.byId("order_amout"), ret.retval[0].order_amount);
+					$("#pay_way").html("");
+					if (ret.retval[0].payment_id) {
+						payment_id = ret.retval[0].payment_id;
+						var str = "";
+						//	$.each(ret.retval[1].online, function(i, item) {
+						var item = ret.retval[1];
+						str = '<dd><p>';
+						str += '<input type="radio" checked name="payment_id" value=' + item.payment_id + '  id="payment_' + item.payment_code + '" class="radio" >';
+						str += '<label for="payment_' + item.payment_code + '"><img src="' + URL + '/includes/payments/' + item.payment_code + '/logo.gif"></label><span>（' + item.payment_name + '）</span>';
+						str += '</p></dd>';
+						$api.append($api.byId("pay_way"), str);
+						console.log(str);
+						//});
+						//	gotoPay();
+					} else {
+						var str = "";
+						$.each(ret.retval[1].online, function(i, item) {
+							str = '<dd><p>';
+							if (i == 0) {
+								str += '<input type="radio" checked name="payment_id" value=' + item.payment_id + '  id="payment_' + item.payment_code + '" class="radio" >';
+							} else {
+								str += '<input type="radio" name="payment_id" value=' + item.payment_id + '  id="payment_' + item.payment_code + '" class="radio">';
+							}
+							str += '<label for="payment_' + item.payment_code + '"><img src="' + URL + '/includes/payments/' + item.payment_code + '/logo.gif"></label><span>（' + item.payment_name + '）</span>';
+							str += '</p></dd>';
+							$api.append($api.byId("pay_way"), str);
+						});
+						$.each(ret.retval[1].offline, function(i, item) {
+							str = '<dd><p>';
+							if (i == 0) {
+								str += '<input type="radio" checked name="payment_id" value=' + item.payment_id + '  id="payment_' + item.payment_code + '" class="radio">';
+							} else {
+								str += '<input type="radio" name="payment_id" value=' + item.payment_id + '  id="payment_' + item.payment_code + '" class="radio">';
+							}
+							str += '<label for="payment_' + item.payment_code + '"><img src="../image/payments/' + item.payment_code + '/logo.png"></label><span>（' + item.payment_name + '）</span>';
+							str += '</p></dd>';
+							$api.append($api.byId("pay_way"), str);
+						});
+					}
+				}
+			});
+		}
+
+		//获取用户实名信息
+		function getSMInfo() {
+			api.ajax({
+				url : URL + 'index.php?app=myinfo&act=get_info',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.retval.appopenid == "" || ret.retval.appopenid == null) {
+					//					console.log("未授权==========>>>" + ret.retval.real_name2 + ret.retval.id_card);
+					//					wechart_log();
+					wxappid = "";
+				} else {
+					console.log("==========已授权==========" + ret.retval.appopenid);
+					wxappid = ret.retval.appopenid;
+					//初始加载列表
+				}
+				getPayment();
+			});
+		}
+
+		function wechart_log() {
+			var wx = api.require('wx');
+			var code = '';
+			wx.isInstalled(function(ret, err) {
+				if (!ret.installed) {
+					api.toast({
+						msg : "当前设备未安装微信客户端,目前只支持微信支付,请安装微信客户端！",
+						duration : 2000,
+						location : 'bottom'
+					});
+					return;
+				} else {
+					wx.auth({
+						//apiKey : ''
+					}, function(ret, err) {
+						if (ret.status) {
+							wx.getToken({
+								//apiKey : '',
+								//apiSecret : '',
+								code : ret.code
+							}, function(ret, err) {
+								if (ret.status) {
+									api.showProgress({
+										style : 'default',
+										animationType : 'fade',
+										title : '授权成功',
+										text : '绑定处理中...',
+										modal : true
+									});
+									wx.getUserInfo({
+										accessToken : ret.accessToken,
+										openId : ret.openId
+									}, function(ret, err) {
+										if (ret.status) {
+											// 绑定成功
+											var openid = ret.openid;
+											var nickname = ret.nickname;
+											var headimgurl = ret.headimgurl;
+											var unionid = ret.unionid;
+											WXbindAccount(openid, nickname, headimgurl, unionid);
+											api.hideProgress();
+										}
+									});
+								} else {
+									api.toast({
+										msg : "授权失败！" + err.code,
+										duration : 2000,
+										location : 'bottom'
+									});
+								}
+							});
+						} else {
+							api.toast({
+								msg : "授权失败！" + err.code,
+								duration : 2000,
+								location : 'bottom'
+							});
+						}
+					});
+				}
+			});
+		}
+
+		function WXbindAccount(openid, nickname, headimgurl, unionid) {
+			console.log("==unionid=>>>" + unionid);
+			api.ajax({
+				url : URL + 'index.php?app=appajax&act=wx_login_hasuid',
+				method : 'post',
+				data : {
+					values : {
+						user_id : userId,
+						openid : openid,
+						nickname : nickname,
+						headimgurl : headimgurl,
+						unionid : unionid
+					}
+				}
+			}, function(ret, err) {
+				console.log(ret);
+				if (ret.done) {
+					wxappid = openid;
+					api.toast({
+						msg : ret.msg,
+						duration : 2000,
+						location : 'bottom'
+					});
+					//初始加载列表
+					getPayment();
+				} else {
+					api.toast({
+						msg : ret.msg,
+						duration : 2000,
+						location : 'bottom'
+					});
+				}
+			});
+		}
+
+		function gotoPay() {
+			var payment_code = '';
+			//			if (payment_id == 0 || payment_id == "") {
+			payment_id = $("input[name='payment_id']:checked").val();
+			payment_code = $("input[name='payment_id']:checked").attr("id");
+			//			}
+			console.log(wxappid);
+			if (payment_code == "payment_wxpay" && wxappid == "") {
+				//			    	api.toast({
+				//						msg :"微信尚未授权，请重新使用微信登录，绑定账号",
+				//						duration : 2000,
+				//						location : 'bottom'
+				//					});
+				//					return;
+				wechart_log();
+			}
+			console.log(URL + 'index.php?app=cashier&act=goto_pay&order_id=' + orderId + "=====" + payment_id + "===" + userId);
+			api.ajax({
+				url : URL + 'index.php?app=cashier&act=goto_pay&order_id=' + orderId,
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						payment_id : payment_id,
+						ajax : 1
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				console.log(JSON.stringify(err));
+				if (ret.done) {
+					if (payment_code == "payment_wxpay") {
+						var params = ret.retval[2].jsApiParameters;
+						console.log(JSON.stringify(params));
+						if (wxappid == "") {
+							console.log("未授权==========>>>");
+							//wechart_log();
+							//wx_pay(params);
+						} else {
+							wx_pay(params);
+						}
+					} else if (payment_code == "payment_alipayapp") {
+						console.log("123123");
+						var params = ret.retval[2].alipayAppParameters;
+						zfb_pay(params);
+					} else if (payment_code == "payment_jpay") {
+						var params = ret.retval[2];
+						console.log(params);
+						jf_pay(params);
+					}
+					//console.log("mchId:" + params.mch_id + "prepay_id:" + params.prepay_id + "nonceStr:" + params.nonce_str + "timeStamp:" + params.timeStamp + "sign:" + params.sign_app);
+				} else {
+					api.toast({
+						msg : ret.msg,
+						duration : 2000,
+						location : 'bottom'
+					});
+				}
+			});
+		}
+
+		function jf_pay(params) {
+		var to_user=params.to_user;
+		var to_user_id=params.to_user_id;
+		var price=params.price;
+		var order_id=params.order_id;
+		var return_url=params.return_url;
+		var notify_url=params.notify_url;
+			api.ajax({
+				url : URL + 'index.php?app=jpay&act=pay',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						to_user : to_user,
+						to_user_id : to_user_id,
+						price : price,
+						order_id : order_id,
+						return_url : return_url,
+						notify_url : notify_url,
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				console.log(JSON.stringify(err));
+				if(ret.done){
+				   api.toast({
+	                   msg:ret.retval
+                   });
+					api.openWin({
+						name: 'myinfo.orderForm',
+						url: './myinfo.orderForm.html',
+						bounces: false,
+						animation: {
+							type: "push",
+							subType: "from_right",
+							duration: 300
+						},
+						pageParam: {
+							orderId : order_id,
+							price:price
+						}
+					});
+				}else{
+					api.toast({
+	                   msg:ret.msg
+                   });
+				}
+
+			});
+		}
+
+		function wx_pay(params) {
+			var wxPay = api.require('wxPay');
+			wxPay.payOrder({
+				//apiKey : '',
+				orderId : params.prepay_id,
+				mchId : params.mch_id,
+				nonceStr : params.nonce_str,
+				timeStamp : params.timeStamp,
+				package : 'Sign=WXPay',
+				sign : params.sign_app,
+			}, function(ret, err) {
+				if (ret.status) {
+					//支付成功
+					console.log("支付成功");
+					api.openWin({
+						name: 'myinfo.orderForm',
+						url: './myinfo.orderForm.html',
+						bounces: false,
+						animation: {
+							type: "push",
+							subType: "from_right",
+							duration: 300
+						},
+						pageParam: {
+							orderId : order_id,
+							price: actual_price
+						}
+					});
+				} else {
+					api.toast({
+						msg : '支付失败,未授权,请使用微信授权登陆。错误代码：' + err.code,
+						duration : 2000,
+						location : 'bottom'
+					});
+					//alert(err.code);
+					console.log(err.code);
+				}
+			});
+		}
+
+		function zfb_pay(params) {
+			//开发者通过 payOrder 方法来进行支付，自己处理订单信息以及签名过程
+			console.log("自己处理订单信息以及签名过程请求:");
+			var aliPayPlus = api.require('aliPayPlus');
+			aliPayPlus.payOrder({
+				orderInfo : params
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.code == "9000") {
+					//change_cash(order_id);
+					api.alert({
+						title : '支付结果',
+						msg : "支付成功",
+						buttons : ['确定']
+					});
+
+					api.openWin({
+						name: 'myinfo.orderForm',
+						url: './myinfo.orderForm.html',
+						bounces: false,
+						animation: {
+							type: "push",
+							subType: "from_right",
+							duration: 300
+						},
+						pageParam: {
+							orderId : order_id,
+							price: actual_price
+						}
+					});
+					//					api.execScript({
+					//				        name:"root",
+					//				        script:"setFirst();"
+					//				     });
+				} else if (ret.code == "6001") {
+					api.alert({
+						title : '支付结果',
+						msg : "取消支付",
+						buttons : ['确定']
+					}, function() {
+						api.closeWin({
+							name : 'order.confirm'
+						})
+						api.openWin({
+							name : 'myorder',
+							url : './myorder.html',
+							bounces : false,
+							reload : true,
+							animation : {
+								type : "push", //动画类型（详见动画类型常量）
+								subType : "from_right", //动画子类型（详见动画子类型常量）
+								duration : 300 //动画过渡时间，默认300毫秒
+							},
+							pageParam : {
+								orderState : 1 //通过var orderState=api.pageParam.orderState; 调用
+							}
+						});
+					});
+				} else if (ret.code == "4000") {
+					api.alert({
+						title : '支付结果',
+						msg : "订单支付失败",
+						buttons : ['确定']
+					});
+					api.openWin({
+						name : 'myorder',
+						url : './myorder.html',
+						bounces : false,
+						reload : true,
+						animation : {
+							type : "push", //动画类型（详见动画类型常量）
+							subType : "from_right", //动画子类型（详见动画子类型常量）
+							duration : 300 //动画过渡时间，默认300毫秒
+						},
+						pageParam : {
+							orderState : 1 //通过var orderState=api.pageParam.orderState; 调用
+						}
+					});
+				} else if (ret.code == "6002") {
+					api.alert({
+						title : '支付结果',
+						msg : "网络连接出错",
+						buttons : ['确定']
+					});
+					api.openWin({
+						name : 'myorder',
+						url : './myorder.html',
+						bounces : false,
+						reload : true,
+						animation : {
+							type : "push", //动画类型（详见动画类型常量）
+							subType : "from_right", //动画子类型（详见动画子类型常量）
+							duration : 300 //动画过渡时间，默认300毫秒
+						},
+						pageParam : {
+							orderState : 1 //通过var orderState=api.pageParam.orderState; 调用
+						}
+					});
+				} else {
+					api.alert({
+						title : '支付结果',
+						msg : "网络连接出错",
+						buttons : ['确定']
+					});
+					api.openWin({
+						name : 'myorder',
+						url : './myorder.html',
+						bounces : false,
+						reload : true,
+						animation : {
+							type : "push", //动画类型（详见动画类型常量）
+							subType : "from_right", //动画子类型（详见动画子类型常量）
+							duration : 300 //动画过渡时间，默认300毫秒
+						},
+						pageParam : {
+							orderState : 1 //通过var orderState=api.pageParam.orderState; 调用
+						}
+					});
+				}
+				//api.closeWin();
+			});
+		}
+	</script>
+</html>

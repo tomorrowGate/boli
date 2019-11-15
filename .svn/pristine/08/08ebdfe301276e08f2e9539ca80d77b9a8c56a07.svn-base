@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    html, body {
+				background-color: #f4f4f4;
+				height: 100%;
+				padding-bottom:20%;
+			}
+			.row {
+				margin: 0px;
+				padding: 0px;
+			}
+			.zl{
+			/*width:95%;*/
+				margin:3% 5%;
+				border-left:4px solid #599524;
+
+				}
+				.ipt {
+					line-height: 20px;
+				}
+				.bq {
+					background-color: #599524;
+					border-radius: 50%;
+					width: 20px;
+					height: 20px;
+					text-align: center;
+					color: #fff;
+					margin-left: 3%;
+				}
+				.ipt1{
+    	width:70%;
+    	margin-left:15%;
+    	line-height:30px;
+    	background-color:#599524;
+    	color:#fff;
+    	border-radius:40px;
+    	margin-top:20%;
+    	margin-bottom:20%;
+    	}
+    	
+    </style>
+</head>
+<body>
+	<header>
+			<div class="header">
+				上传教学
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<!--主料-->
+		<div class="container" id="zl" style="background-color: #fff;width:100%">
+		<div class="row zl" style="" onclick="tjzl()">&nbsp;&nbsp;&nbsp;主料：</div>
+		
+		<div class="row " style="padding:3% 0px;border-top:1px solid #cecece">
+		<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写主料" class="ipt" /></div>
+		<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt" /></div>
+		</div>
+		
+		</div>
+		<!--辅料-->
+		<div class="container" id="fl" style="background-color: #fff;width:100%;margin-top:5%">
+		<div class="row zl" style="" onclick="tjfl()">&nbsp;&nbsp;&nbsp;辅料：</div>
+		
+		<div class="row " style="padding:3% 0px;border-top:1px solid #cecece">
+		<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写辅料" class="ipt" /></div>
+		<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt" /></div>
+		</div>
+		
+		</div>
+		<!--调料-->
+		<div class="container" id="tl" style="background-color: #fff;width:100%;margin-top:5%">
+		<div class="row zl" style="" onclick="tjtl()">&nbsp;&nbsp;&nbsp;调料：</div>
+		
+		<div class="row " style="padding:3% 0px;border-top:1px solid #cecece">
+		<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写调料" class="ipt" /></div>
+		<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt" /></div>
+		</div>
+		
+		</div>
+		<!--做法-->
+		<div class="container" id="zf" style="background-color: #fff;width:100%;margin-top:5%">
+		<div class="row zl" style="" onclick="zf()">&nbsp;&nbsp;&nbsp;做法：</div>
+		<div class="row " style="padding:3% 0px;border-top:1px solid #cecece">	
+		<span class="bq">1</span><input type="text" placeholder="填写做法" style="padding-left:3%;width:90%;" />
+		</div>
+		</div>
+		
+		<input type="button" value="下一步" class="ipt1" onclick="xyb()"/>
+		
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+var userId = window.localStorage.getItem("userId");
+		//用户id
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		var URL = "";
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+		};
+		
+//		主料增加
+		function tjzl(){
+		var str='<div class="row " style="padding:3% 0px;border-top:1px solid #cecece">';
+		str+='<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写主料" class="ipt" /></div>';
+		str+='<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt" /></div></div>';
+        $("#zl").append(str);
+
+		}
+		
+//		辅料增加
+		function tjfl(){
+		var str='<div class="row " style="padding:3% 0px;border-top:1px solid #cecece">';
+		str+='<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写辅料" class="ipt" /></div>';
+		str+='<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt" /></div></div>';
+        $("#fl").append(str);
+
+		}
+		
+		
+//		调料添加
+		function tjtl(){
+		var str='<div class="row " style="padding:3% 0px;border-top:1px solid #cecece">';
+		str+='<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写调料" class="ipt" /></div>';
+		str+='<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt" /></div></div>';
+        $("#tl").append(str);
+
+		}
+		
+//		做法
+       var cnt=1;
+		function zf(){
+		
+          var i=++cnt;
+	var str='<div class="row " style="padding:3% 0px;border-top:1px solid #cecece">';
+		str+='<span class="bq">'+i+'</span><input type="text" placeholder="填写做法" style="padding-left:3%;width:90%;" />';
+		str+='</div>';
+        cnt=i;
+        $("#zf").append(str);
+
+		}
+		
+		function xyb(){
+		 api.openWin({
+          name: '作品介绍',
+          url: './zpjs.html',
+          bounces: false,
+          pageParam: {}
+        });
+		
+		
+		
+		}
+		
+		
+		
+		
+		
+</script>
+</html>

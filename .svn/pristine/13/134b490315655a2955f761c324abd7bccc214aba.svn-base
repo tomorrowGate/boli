@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的教学</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	body,html{
+    		background-color:#f2f2f2;
+    		height:100%
+    	}
+    	.row{
+    	margin:0px;
+    	padding:0px;
+    	}
+    	.xt{
+    	height:10px; 
+    	background-color:#f2f2f2;
+    	
+    	}
+    	.ipt1{
+    	width:90%;
+    	margin-left:5%;
+    	font-size:17px;
+    	padding:10px 0px;
+    	
+    	}
+    	.cx{
+    	color:#898989;
+    	padding-left:5%;
+    	margin: 3% 0px;
+    	width:75%;
+    	}
+    	.tj{
+    	color:#599524;
+    	border:1px solid #599524;
+    	border-radius:30px;
+    	text-align:center;
+    	width:20%;
+    	margin-top:3%;
+    	padding:0.5%
+    	}
+    	.zpjs{
+			width:90%;
+			margin-left:5%;
+			color:#8c8c8c;
+			background-color:#fff;
+			margin-top:5%;
+			height:50%;
+			}
+    	.ipt{
+    	width:70%;
+    	margin-left:15%;
+    	line-height:30px;
+    	background-color:#599524;
+    	color:#fff;
+    	border-radius:40px;
+    	margin-top:20%;
+    	}
+    	.inpt{
+    	width:70%;
+    	margin-left:15%;
+    	line-height:30px;
+    	background-color:#f8f8f8;
+    	color:#fff;
+    	border-radius:40px;
+    	margin-top:20%;
+    	}
+    	.xzcx {
+				border: 1px solid #599524;
+				border-radius: 20px;
+				padding: 2px 0px;
+				text-align: center;
+				margin-left: 3%;
+				font-size:13px;
+				margin-top:4%;
+				color:#599524;
+			}
+      .chose_img{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin:10px 0;
+          line-height: 25px;
+          font-size: 0.8em;
+          color: #999;
+          height: 5em;
+          width: 5em;
+          text-align: center;
+          border:1px solid #b1b1b1;
+       }
+       .show_image{ display:none; }
+       .show_image img{ height:100px;margin-bottom: 20px;margin-right:0.5em }
+      .submit_btn {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #333;
+        color: #fff;
+        text-align: center;
+        height: 44px;
+        line-height: 44px;
+        font-size: 0.9em
+      }
+    </style>
+</head>
+<body>
+	<header>
+      <div class="header">我的教学</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+   
+    <!--作品名输入-->
+    <div class="row" style=";background-color:#fff;">
+    <input type="text" class="ipt1" placeholder="作品名" />
+    </div>
+    <div class="row xt"></div>
+    <!--作品介绍-->
+    <div class="container" style="background-color:#fff;height:50%;">
+		<textarea id="zpjs" class="zpjs" >介绍一下你的作品吧（如：作品特色、卖点、创意、制作的要点、研发的经验等） </textarea>
+		
+		</div>
+    
+
+     <div class="row" >
+    <input type="button" value="下一步"  class="ipt" onclick="gotocl()" /></div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+ var userId=window.localStorage.getItem("userId"); //用户id
+    $(function() {  //消除300ms点击延迟
+      FastClick.attach(document.body);
+    });
+       //返回上一页
+      function goBack(){
+          api.closeWin();
+      }
+       var URL="";
+	apiready = function(){
+		URL=$api.URL();
+      var header = $api.dom('header');
+      //适配iOS 7+，Android 4.4+状态栏
+      $api.fixStatusBar(header);
+      
+    
+	};
+
+		$("#zpjs").click(function (){
+            $("#zpjs").val('');
+             })
+	
+	function gotocl(){
+	               api.ajax({
+                    url: that.URL + '/index.php?app=appfind&act=add_teaching',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values:{
+                            user_id:userId
+                        }
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret.done) {
+                        var id = ret.retval;
+						 api.openWin({
+					          name: '填写菜材料',
+					          url: './condiments.html',
+					          bounces: false,
+					          pageParam: {
+					             id：id,
+					          }
+					        });
+                    } else {
+                        var timer = setTimeout(function(){
+                            api.toast({
+                                msg: ret.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                            clearTimeout(timer)
+                        },2000)
+                        
+                    }
+                });
+      };
+      
+      
+      
+
+</script>
+</html>

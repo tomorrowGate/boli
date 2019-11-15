@@ -34,10 +34,10 @@
          .tag{ padding:0 0.5em;border-radius: 3px;color:#ff0000;background-color: #ffe1ec;font-size:0.7em;margin-right:0.5em; }
          .tag_odd{ padding:0 0.5em;border-radius: 3px;color:#a17fff;background-color: #f4f0ff; font-size:0.7em;margin-right:0.5em; }
          .sales{ color:#8d8d8d;font-size:0.9em; }
-         .item_val{position: absolute;right:0;top:-11px;}
-         .item_val1{position: absolute;right:3.8em;top:-11px;}
-         .buy_btn{ padding:2px 0.5em;color:#fff;background-color: #6eb92c ;border-radius: 5px;font-size:1em;}
-         .buy_btn1,.buy_btn2{ padding:2px;color:#fff;background-color: #fff;color: #6eb92c ;border:1px solid #6eb92c ; border-radius: 5px;font-size:1em;}
+         .item_val{position: absolute;right:0;top:0px;}
+         .item_val1{position: absolute;right:3.8em;top:0px;}
+         .buy_btn{ padding:2px 8px;color:#fff;background-color: #6eb92c ;border-radius: 5px;font-size:14px;}
+         .buy_btn1,.buy_btn2{ padding:2px;color:#fff;background-color: #fff;color: #6eb92c ;border:1px solid #6eb92c ; border-radius: 5px;font-size:14px;}
          .buy_btn2{ color:#fff;background-color: #6eb92c ; }
          .good_desc{ color:#8d8d8d;font-size: 0.8em }
          .relative{position: relative;}
@@ -49,6 +49,9 @@
          .good_title{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;font-weight: bold}
          .dianji { pointer-events: none; }
          .category_item{ font-weight: bold }
+         .earn{
+           font-size: 0.8em;
+         }
       </style>
   </head>
   <body>
@@ -85,7 +88,7 @@
     <div id="goods_list">
 
 
-       <!--<div class="good_item relative clearfix">
+       <!-- <div class="good_item relative clearfix">
         <div class="good_img">
           <img src="../image/good_img.png" width="90" height="90" >
         </div>
@@ -99,7 +102,11 @@
                         <span class="tag_odd">包邮</span>
                     </P>
                     <p class="sales"><span >销量:36</span></p>
-                    <p class="relative" ><span class="col_good_price">&yen;&nbsp;258</span><del class="col_old_price">&yen;536</del><span class="item_val buy_btn">立即购买</span></p>
+                    <p class="relative" >
+                      <span class="col_good_price">&yen;&nbsp;258</span>
+                      <del class="col_old_price">&yen;536</del>
+                    </p>
+                    <div class="relative"><span class="item_val buy_btn">立即购买</span></div> 
         </div>
       </div>
 
@@ -118,10 +125,17 @@
                         <span class="tag_odd">包邮</span>
                     </P>
                     <p class="sales"><span >销量:36</span></p>
-                    <p class="relative" ><span class="col_good_price">&yen;&nbsp;258</span><span class="col_old_price">赚&yen;36</span><span class="item_val1 buy_btn1">省钱购</span><span class="item_val buy_btn2">分享赚</span></p>
+                    <p class="relative" >
+                      <span class="col_good_price">&yen;&nbsp;258</span>
+                      <span class="col_old_price">赚&yen;36</span>
+                    </p>
+                    <div class="relative">
+                        <span class="item_val1 buy_btn1">省钱购</span>
+                        <span class="item_val buy_btn2">分享赚</span>
+                    </div> 
         </div>
-      </div>-->
-
+      </div>
+ -->
 
     </div>
   </body>
@@ -291,20 +305,24 @@
  						var now_time=Date.parse(new Date())/1000;
 		                    if(data_allgoods[i].sp_goods_id!=null&&data_allgoods[i].start_time<now_time&&data_allgoods[i].end_time>now_time){
 		                    	if(ugrade==0||ugrade==1){
-		                    		str+='<span class="col_good_price">&yen;&nbsp;'+data_allgoods[i].sp_goods_price+'</span><del class="col_old_price">&yen;'+data_allgoods[i].oprice+'</del><span class="item_val buy_btn">立即购买</span>';
-		                    	}else{
+		                    		str+='<span class="col_good_price">&yen;&nbsp;'+data_allgoods[i].sp_goods_price+'</span><del class="col_old_price">&yen;'+data_allgoods[i].oprice+'</del>';
+                            str+='<div class="relative"><span class="item_val buy_btn">立即购买</span></div>'
+                          }else{
 			                    	//var member_price=data_goods[i].member_price.split("-");
 			                    	//var zhuan=member_price[0]-member_price[ugrade];
-			                    	str+='<span class="col_good_price">&yen;&nbsp;'+data_allgoods[i].sp_goods_price+'</span><span class="col_old_price">赚&yen;'+zhuan+'</span><span class="item_val buy_btn2">省钱购</span>';
-		                    	}
+			                    	str+='<span class="col_good_price">&yen;&nbsp;'+data_allgoods[i].sp_goods_price+'</span><span class="col_old_price"><span class="earn">赚</span>&yen;'+zhuan+'</span>';
+                            str+='<div class="relative"><span class="item_val buy_btn2">省钱购</span></div>'
+                          }
 		                    }else{
 			                    if(ugrade==0||ugrade==1){
 		                    		str+='<span class="col_good_price">&yen;&nbsp;'+data_allgoods[i].price+'</span><del class="col_old_price">&yen;'+data_allgoods[i].oprice+'</del><span class="item_val buy_btn">立即购买</span>';
-		                    	}else{
+                            str+='<div class="relative"><span class="item_val buy_btn">立即购买</span></div> '
+                          }else{
 			                    	var member_price=data_allgoods[i].member_price.split("-");
 			                    	var zhuan=member_price[0]-member_price[ugrade];
-			                    	str+='<span class="col_good_price">&yen;&nbsp;'+member_price[ugrade]+'</span><span class="col_old_price">赚&yen;'+zhuan+'</span><span class="item_val1 buy_btn1">省钱购</span><span class="item_val buy_btn2" onclick="fun.goShare()" tapmode>分享赚</span>';
-		                    	}
+			                    	str+='<span class="col_good_price">&yen;&nbsp;'+member_price[ugrade]+'</span><span class="col_old_price"><span class="earn">赚</span>&yen;'+zhuan+'</span>';
+                            str+='<div class="relative"><span class="item_val1 buy_btn1">省钱购</span><span class="item_val buy_btn2">分享赚</span></div>'
+                          }
 	                    	}
 
 
@@ -414,24 +432,31 @@
 						var now_time = Date.parse(new Date()) / 1000;
 						if (data_goods[i].sp_goods_id != null && data_goods[i].start_time < now_time && data_goods[i].end_time > now_time) {
 							if (ugrade == 0 || ugrade == 1) {
-								str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].sp_goods_price + '</span><del class="col_old_price">&yen;' + data_goods[i].oprice + '</del><span class="item_val buy_btn">立即购买</span>';
+                if(kitchStore==1){
+                  str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].price + '</span><span class="col_good_price"><span class="earn">赚</span>&yen;' + (data_goods[i].settlement_price*0.35).toFixed(2) + '</span>';
+                  str2 += '<div class="relative"><span class="item_val buy_btn">立即购买</span></div> '
+                }else{
+                  str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].sp_goods_price + '</span><del class="col_old_price">&yen;' + data_goods[i].oprice + '</del>';
+                  str2 += '<div class="relative"><span class="item_val buy_btn">立即购买</span></div> '
+                }
 							} else {
 								//var member_price=data_goods[i].member_price.split("-");
 								//var zhuan=member_price[0]-member_price[ugrade];
-								str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].sp_goods_price + '</span><span class="col_old_price">赚&yen;' + zhuan + '</span><span class="item_val buy_btn2">省钱购</span>';
+								str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].sp_goods_price + '</span><span class="col_old_price"><span class="earn">赚</span>&yen;' + zhuan + '</span><span class="item_val buy_btn2">省钱购</span>';
 							}
 						} else {
 							if (ugrade == 0 || ugrade == 1) {
                 if(kitchStore==1){
-                  str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].price + '</span><span class="col_good_price">赚&yen;' + (data_goods[i].settlement_price*0.35).toFixed(2) + '</span><span class="item_val buy_btn">立即购买</span>';
+                  str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].price + '</span><span class="col_good_price"><span class="earn">赚</span>&yen;' + (data_goods[i].settlement_price*0.35).toFixed(2) + '</span><span class="item_val buy_btn">立即购买</span>';
                 }else{
-                  str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].price + '</span><del class="col_old_price">&yen;' + data_goods[i].oprice + '</del><span class="item_val buy_btn">立即购买</span>';
+                  str2 += '<span class="col_good_price">&yen;&nbsp;' + data_goods[i].price + '</span><del class="col_old_price">&yen;' + data_goods[i].oprice + '</del>';
+                  str2 += '<div class="relative"><span class="item_val buy_btn">立即购买</span></div> '
                 }
 								
 							} else {
 								var member_price = data_goods[i].member_price.split("-");
 								var zhuan = member_price[0] - member_price[ugrade];
-								str2 += '<span class="col_good_price">&yen;&nbsp;' + member_price[ugrade] + '</span><span class="col_old_price">赚&yen;' + zhuan + '</span><span class="item_val1 buy_btn1">省钱购</span><span class="item_val buy_btn2" onclick="fun.goShare()" tapmode>分享赚</span>';
+								str2 += '<span class="col_good_price">&yen;&nbsp;' + member_price[ugrade] + '</span><span class="col_old_price"><span class="earn">赚</span>&yen;' + zhuan + '</span><span class="item_val1 buy_btn1">省钱购</span><span class="item_val buy_btn2" onclick="fun.goShare()" tapmode>分享赚</span>';
 							}
 						}
 
@@ -522,7 +547,7 @@
 
 
                       //getGoods(i+1,ret.retval[i].cate_id);
-                      //$("#category_list").append('<div class="swiper-slide"><span class="category_item category_'+(i+1)+' active " onclick="getGoods('+(i+1)+','+ret.retval[i].cate_id+')" tapmode>'+ret.retval[i].cate_name+'</span></div>');
+                      // $("#category_list").append('<div class="swiper-slide"><span class="category_item category_'+(i+1)+' active " onclick="getGoods('+(i+1)+','+ret.retval[i].cate_id+')" tapmode>'+ret.retval[i].cate_name+'</span></div>');
                   }else{
                     $("#category_list").append('<div class="swiper-slide"><span class="category_item category_'+(i+1)+'" onclick="getGoods('+(i+1)+','+ret.retval[i].cate_id+')" tapmode>'+ret.retval[i].cate_name+'</span></div>');
                   }

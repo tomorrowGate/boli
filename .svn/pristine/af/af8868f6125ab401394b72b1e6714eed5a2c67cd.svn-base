@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>订单详情</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.details.css" />
+</head>
+
+<body>
+    <!-- 头部 -->
+    <header class="page-head" ref="header">
+        <div class="back" @click="goBack" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>订单详情</span>
+        </div>
+    </header>
+    <div class="headBg">
+        <button class="headBtn">等待买家签收</button>
+    </div>
+    <!-- 快递运输状态 -->
+    <div class="express">
+        <address class="expressAdd">
+            <i class="addRight">⭕</i>
+            <span>到达目的地网点浙江德清县公司，快件已送达，有问题请联系13306768638，已签收</span>
+            <i class="addLeft">⭕</i>
+        </address>
+        <p class="addTime">2019-08-20</p>
+    </div>
+    <!-- 收货地址 -->
+    <div class="receiving">
+        <p class="receivingWX">
+            <span>微信昵称：</span>
+            <span class="phone">158****3268</span>
+        </p>
+        <div class="receivingAdd">
+            <i>⭕</i>
+            <div class="receivingLocation">
+                <p><span class="receivingName">张三</span><span class="phone">182****5024</span></p>
+                <p>浙江省 湖州市 德清县 ****</p>
+            </div>
+        </div>
+    </div>
+    <!-- 已选商品 -->
+    <div class="after-goods">
+        <div class="after-goods-item">
+            <div class="chef-form-leftimg">
+                <img src="" alt="">
+            </div>
+            <div class="chef-right-content">
+                <div class="tag">
+                    <p class="chef-head1"> 广式双炒双温节能灶</p>
+                </div>
+                <div class="chef-head2">20kw商用电磁炉双头电磁灶炉15kw</div>
+                <div class="chef-head3">
+                    <span class="forum-foot-bg">九折</span>
+                    <span class="forum-foot-bg">上门安装</span>
+                </div>
+                <div class="chef-head4 ">
+                    <p class="swiper-red">￥
+                        <span>258</span>
+                        <span class="swiper-del">￥536</span>
+                    </p>
+                    <p class="earnRed">
+                        <span class="earn">应赚</span>
+                        <span>25</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 商品金额 -->
+    <div class="price">
+        <div class="priceItem">
+            <span>商品金额</span>
+            <span>￥17.90</span>
+        </div>
+        <div class="priceItem">
+            <span>订单合计</span>
+            <span>￥17.90</span>
+        </div>
+        <div class="priceTotal">
+            <span>支付金额：</span>
+            <span class="priceNum">￥17.90</span>
+        </div>
+    </div>
+    <!-- 联系客服 -->
+    <div class="service">
+        <p><i class="addRight">⭕</i>联系客服</p>
+        <i class="">⭕</i>
+    </div>
+    <!-- 订单编号等 -->
+    <div class="nub">
+        <p class="nubFlex">
+            <span>订单编号：<span>628768673571397807</span>
+            </span>
+            <button class="copy">复制</button>
+        </p>
+        <p>下单时间：<span>2019-10-14 19:04:33</span></p>
+        <p>支付时间：<span>2019-10-14 19:04:33</span></p>
+    </div>
+</body>
+
+</html>

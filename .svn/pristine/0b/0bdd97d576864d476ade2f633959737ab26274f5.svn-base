@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>账号安全</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css"/>
+		<style type="text/css">
+		  html,body {
+	        background-color: #f4f4f4;
+	      }
+		  .top_title{ margin:20px 0 30px 0;text-align: center;padding:0 20px;font-size: 0.9em }
+	      .ip{ width:calc(90% - 5em);height:40px;line-height: 40px;outline: none;border:none; }
+	      .ip1{ width:120px;height:40px;line-height: 40px;outline: none;border:none;  }
+	      .content{ font-size: 0.95em;background: #fff;padding:0; }
+	      .list_item{ width:90%;margin:0 5%;padding:3px 0;border-bottom: 1px solid #eaeaea;position:relative;}
+	      .list_item label{ width:5em; }
+          .Captcha{ position:absolute;right:20px;top:10px;height:24px;line-height:24px;width:80px;border-radius: 5px;border:1px solid #666;color:#666; }
+	      .notice{ font-size: 0.8em;color:#b1b1b1;height:40px;line-height:20px;padding:5px 15px; }
+	      .sub_botton{ text-align: center;position:fixed;left:0;right:0;bottom:15%;}
+	      .btn_tj{ width:80%;height:50px;line-height: 50px;border-radius: 25px;padding:0;background-color: #333;color:#fff; }
+		</style>
+	</head>
+	<body>
+	    <!--<div id='header'>
+	      <div class="back" tapmode="back-active" onclick="api.closeWin()" ></div>
+	        <h1>修改手机号</h1>
+	        <div class="adpt"></div>
+	    </div>-->
+	    <header>
+		    <div class="header">修改手机号</div>
+		    <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+		  </header>
+		<div id="wrap">
+
+				<form  id="form1" role="form" class="form-horizontal">
+				<div class="content">
+                    <div class="telephone_div">
+						<div class="list_item border-b">
+							<label>旧手机号</label>
+							<input type="text" name="telephone" id="telephone" class="ip" placeholder="请输入原手机号">
+						</div>
+						<div class="list_item border-b">
+							<label>验证码</label>
+							<input type="text" name="check_code" id="check_code" class="ip1" placeholder="请输入验证码">
+							<input class="Captcha" type="button" value="获取验证码" onclick="getCode(this)" tapmode />
+						</div>
+						<div class="list_item border-b">
+							<label>新手机号</label>
+							<input type="text" name="telephone_new" id="telephone_new" class="ip" placeholder="请输入新手机号">
+						</div>
+					</div>
+					<!--<div class="password_div">
+						<div class="list_item border-b">
+							<label>旧密码</label>
+							<input type="text" name="password_old" id="password_old" class="ip" placeholder="请输入旧登录密码">
+						</div>
+						<div class="list_item border-b">
+							<label>新密码</label>
+							<input type="text" name="password_new" id="password_new" class="ip" placeholder="请输入新登录密码">
+						</div>
+						<div class="list_item border-b">
+							<label>确认密码</label>
+							<input type="text" name="password_check" id="password_check" class="ip" placeholder="请再次输入新登录密码">
+						</div>
+					</div>-->
+					<div class="paycode_div">
+						<div class="list_item border-b">
+							<label>旧密码</label>
+							<input type="password" name="paycode_old" id="paycode_old" class="ip" placeholder="请输入旧支付密码">
+						</div>
+						<div class="list_item border-b">
+							<label>新密码</label>
+							<input type="password" name="paycode_new" id="paycode_new" class="ip" placeholder="请输入新支付密码">
+						</div>
+						<div class="list_item border-b">
+							<label>确认密码</label>
+							<input type="password" name="paycode_check" id="paycode_check" class="ip" placeholder="请再次输入新支付密码">
+						</div>
+					</div>
+					</div>
+					<p class="notice">温馨提示：验证码请用原手机号接收，如手机号不能使用请联系平台客服。</p>
+					<div class="sub_botton clearfix">
+						<input type="button" class="btn col-xs-12 btn_tj" value="提交"  onclick="bind()" tapmode />
+					</div>
+				</form>
+
+		</div>
+		<script type="text/javascript" src="../script/api.js"></script>
+		<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../script/lib/layer.js"></script>
+		<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+		<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+		<script type="text/javascript" src="../script/lib/tips.js"></script>
+		<script type="text/javascript">
+			var URL = "";
+			var  modifyType;
+			var userId = window.localStorage.getItem("userId");
+			$(function() {//消除300ms点击延迟
+				FastClick.attach(document.body);
+			});
+			apiready = function() {
+				var header = $api.dom('header');
+				 modifyType = api.pageParam.modifyType;
+				 if(modifyType=='telephone'){
+                   $("#header h1").html('修改手机号');
+                   $(".telephone_div").show();
+                   $(".password_div").hide();
+                   $(".paycode_div").hide();
+                   $(".notice").show();
+				 }else if(modifyType=='password'){
+                   $("#header h1").html('修改登录密码');
+                   $(".telephone_div").hide();
+                   $(".password_div").show();
+                   $(".paycode_div").hide();
+                   $(".notice").hide();
+				 }else if(modifyType=='paycode'){
+                   $("#header h1").html('修改支付密码');
+                   $(".telephone_div").hide();
+                   $(".password_div").hide();
+                   $(".paycode_div").show();
+                   $(".notice").hide();
+				 }
+				//适配iOS 7+，Android 4.4+状态栏
+				$api.fixStatusBar(header);
+				URL = $api.URL();
+				if (localStorage.getItem('telephone')) {
+					api.openWin({
+						name : 'index',
+						url : './index.html',
+						bounces : false,
+						reload : true,
+						animation : {
+							type : "push", //动画类型（详见动画类型常量）
+							subType : "from_right", //动画子类型（详见动画子类型常量）
+							duration : 300 //动画过渡时间，默认300毫秒
+						}
+					});
+				}
+			}
+			//返回上一页
+			var goBack = function() {
+				api.closeWin();
+			}
+			var fun = {};
+			//获取验证码
+			var _telphone = "";
+			//暂存手机号码
+			var _code = "";
+			var Num;
+			//验证码
+			function getCode(objThis) {
+				Num = "";
+				for (var i = 0; i < 6; i++) {
+					Num += Math.floor(Math.random() * 10);
+				}
+				var telephone = $("#telephone").val();
+				if (telephone == "" || telephone == null || telephone == undefined) {
+					MyToast('请输入手机号码');
+				} else if (!(/^1[345789]\d{9}$/.test(telephone))) {
+					MyToast('手机号格式错误');
+				} else {
+					$(objThis).prop("disabled", true);
+					api.ajax({
+						url : URL + '/index.php?app=sms&act=aliyun_sms',
+						method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+							values : {
+								telphone : telephone,
+								verify : Num
+							}
+						}
+					}, function(ret, err) {
+						console.log(JSON.stringify(ret));
+						console.log(err);
+							if (ret.done) {
+								_code = ret.retval.yzm;
+								console.log(_code);
+								//MyToast("");
+								api.toast({
+									msg : "发送成功",
+									duration : 2000,
+									location : 'middle'
+								});
+								//alert('发送成功');
+								countDown();
+								//倒计时
+								$("#code").val(Num);
+							} else {
+								  $(".Captcha").removeAttr("disabled");
+                                   $(".Captcha").addClass('active');
+                                   //MyToast("");
+                                   api.toast({
+									msg : "发送失败",
+									duration : 2000,
+									location : 'middle'
+								});
+							}
+					});
+				}
+			}
+
+			//倒计时
+			function countDown() {
+				var i = 60;
+				$(".Captcha").val(i + "s");
+				$(".Captcha").css({
+					"color" : "#ccc"
+				});
+				var _timer = setInterval(function() {
+					if (i > 0) {
+						i--;
+						$(".Captcha").val(i + "s");
+					} else {
+						clearInterval(_timer);
+						$(".Captcha").val("重新获取");
+						$(".Captcha").removeAttr("disabled");
+						$(".Captcha").css({
+							"color" : "#666"
+						});
+					}
+				}, 1000)
+			}
+
+			//登录
+			function bind() {
+//				console.log(URL);
+//				var telephone = $("#telephone").val();
+//				//手机号码
+//				var check_code = $("#check_code").val();
+//				if (telephone == "" || telephone == null || telephone == undefined) {
+//					MyToast('请输入手机号码');
+//				} else if (!(/^1[345789]\d{9}$/.test(telephone))) {
+//					MyToast('手机号格式错误');
+//				} else if (check_code == "" || check_code == null || check_code == undefined) {
+//					MyToast('请输入验证码');
+//				} else {
+//					pd_phone(telephone);
+//				}
+				 if(modifyType=='telephone'){
+                   //$("#header h1").html('修改手机号');
+                   	modifyTel();
+
+				 }else if(modifyType=='password'){
+                 //  $("#header h1").html('修改登录密码');
+
+				 }else if(modifyType=='paycode'){
+                  // $("#header h1").html('修改支付密码');
+                   	modifyPayPasw();
+				 }
+			}
+			//修改手机号码
+			function modifyTel(){
+				var oldTel=localStorage.getItem('telephone');
+				var telephone=$("#telephone").val();
+				var telephone_new=$("#telephone_new").val();
+//				if(telephone!=oldTel){
+//					//toast_define('');
+//					api.toast({
+//						msg : "原手机号码填写错误",
+//						duration : 2000,
+//						location : 'middle'
+//					});
+//					return;
+//				}
+//				if(telephone_new==oldTel){
+//					//toast_define('');
+//					api.toast({
+//						msg : "前后手机号码一致",
+//						duration : 2000,
+//						location : 'middle'
+//					});
+//					return;
+//				}
+				var check_code = $("#check_code").val();
+				if (!(/^1[345789]\d{9}$/.test(telephone_new))) {
+					//toast_define('');
+					api.toast({
+						msg : "手机号格式错误",
+						duration : 2000,
+						location : 'middle'
+					});
+					return;
+				} else if (check_code == "" || check_code == null || check_code == undefined) {
+					//toast_define('');
+					api.toast({
+						msg : "请输入验证码",
+						duration : 2000,
+						location : 'middle'
+					});
+					return;
+				}else if(_code!=check_code){
+					//toast_define('');
+					api.toast({
+						msg : "验证码错误",
+						duration : 2000,
+						location : 'middle'
+					});
+					return;
+				}
+				api.ajax({
+					url : URL + 'index.php?app=myinfo&act=editUsernameByUser',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							new_phone : telephone_new,
+							old_phone:telephone,
+								user_id : userId,
+						}
+					}
+				}, function(ret, err) {//alert(JSON.stringify(ret))
+				console.log(JSON.stringify(ret));
+				console.log(JSON.stringify(err));
+					if(ret&&ret.done){
+						//toast_define();
+						api.toast({
+							msg : ret.retval,
+							duration : 2000,
+							location : 'middle'
+						});
+						window.localStorage.setItem("phone_mob",telephone_new);
+//						 api.execScript({
+//						   name:"infomation",
+//						   script:"getInfo();"
+//						 });
+						 window.localStorage.clear();
+				        api.sendEvent({ //登录状态改变退出
+				          name: 'loginOut'
+				        });
+				       
+				        api.openWin({
+				          name: 'login',
+				          url: './login.html',
+				          allowEdit: true,
+				          slidBackEnabled: false
+				        });
+
+					}else{
+						//toast_define();
+						api.toast({
+							msg : ret.msg,
+							duration : 2000,
+							location : 'middle'
+						});
+					}
+
+				})
+			}
+
+			//修改支付密码
+			function modifyPayPasw(){
+				var paycode_old=$("#paycode_old").val();
+				var paycode_new=$("#paycode_new").val();
+				var paycode_check=$("#paycode_check").val();
+				// if(paycode_old==paycode_new){
+				// 	toast_define('两次支付密码一致');
+				// 	return;
+				// }
+				if(paycode_new!=paycode_check){
+					toast_define('密码与确认密码不一致');
+					return;
+				}
+				var reg=new RegExp("^[0-9]{6}$");
+				if(!reg.test(paycode_new)){
+					api.toast({
+						msg : "密码格式错误",
+						duration : 2000,
+						location : 'middle'
+					});
+					return;
+				}
+				if(paycode_new.length!=6){
+					api.toast({
+						msg : "密码长度不对",
+						duration : 2000,
+						location : 'middle'
+					});
+					return;
+				}
+				api.ajax({
+					url : URL + 'index.php?app=myinfo&act=setConpassword',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							user_id : userId,
+							is_edit :0,
+							old_con_password:paycode_old,
+							con_password:paycode_new,
+							con_password2:paycode_check
+						}
+					}
+				}, function(ret, err) {
+					if(ret&&ret.done){
+						toast_define(ret.msg);
+						window.localStorage.setItem("con_password", ret.retval);
+
+						api.closeWin({
+                        });
+					}else{
+						toast_define(ret.msg);
+					}
+				})
+			}
+			function pd_phone(telephone) {
+				api.ajax({
+					url : URL + 'index.php?app=appajax&act=pd_phone',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							telephone : telephone,
+						}
+					}
+				}, function(ret, err) {//alert(JSON.stringify(ret))
+					if (ret.done) {
+						//MyToast("绑定成功");
+						api.toast({
+	                        msg:'绑定成功'
+                        });
+						//window.localStorage.setItem("telephone", telephone);
+						//用户手机号码
+						api.openWin({
+							name : 'invite.code',
+							url : './invite.code.html',
+							bounces : false,
+							reload : true,
+							animation : {
+								type : "push", //动画类型（详见动画类型常量）
+								subType : "from_right", //动画子类型（详见动画子类型常量）
+								duration : 300 //动画过渡时间，默认300毫秒
+							},
+							pageParam : {
+								//user_id : user_id, //新注册用户user_id
+								openid : openid,
+								telephone : telephone
+							},
+						});
+					} else {
+						MyToast(ret.msg);
+					};
+				});
+			}
+
+			function login_to() {
+				var telephone = $("#telephone").val();
+				api.ajax({
+					url : URL + 'index.php?app=appajax&act=login',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							name : telephone,
+							password : '12345678',
+						}
+					}
+				}, function(ret, err) {//alert(JSON.stringify(ret))
+					if (ret) {
+						if (!ret[0].error) {
+							MyToast("登录成功");
+							/*window.localStorage.setItem("loginPwd",password); //密码*/
+							window.localStorage.setItem('UID', ret[0].id);
+							//用户id
+							window.localStorage.setItem("telephone", telephone);
+							//用户手机号码
+							window.localStorage.setItem('real_name', ret[0].real_name);
+							//昵称
+							window.localStorage.setItem('real_name2', ret[0].real_name2);
+							//真实姓名
+							window.localStorage.setItem('ugrade', ret[0].ugrade);
+							//用户等级
+							window.localStorage.setItem('portrait', ret[0].portrait);
+							//用户头像
+							window.localStorage.setItem('level_name', ret[0].level_name);
+							//用户等级对应的名称
+							window.localStorage.setItem('invite_code', ret[0].invite_code);
+							//用户邀请码
+							window.localStorage.setItem('ECM_ID', ret[0].ECM_ID);
+							//唯一序列号
+							window.localStorage.setItem('HTTP_USER_AGENT', ret[0].HTTP_USER_AGENT);
+							//声明头部
+							//算法真实*20，拆成2份 id4个前混合+真实id1+数字2个+真是id2+后6个
+							var x = 10000000000;
+							var y = 100000;
+							var rand = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+							var rand2 = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+							var rand3 = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+							var muser_id = ret[0].id * 20 + "";
+							var muser_id1 = muser_id.slice(0, 1);
+							var muser_id2 = muser_id.slice(1, muser_id.length);
+							var p_muser_id = rand.slice(0, 4) + muser_id1 + rand2.slice(0, 2) + muser_id2 + rand3.slice(0, 6);
+							window.localStorage.setItem('userId', p_muser_id);
+							//用户id
+							// alert(p_muser_id)
+							api.openWin({
+								name : 'index',
+								url : './index.html',
+								bounces : false,
+								reload : true,
+								animation : {
+									type : "push", //动画类型（详见动画类型常量）
+									subType : "from_right", //动画子类型（详见动画子类型常量）
+									duration : 300 //动画过渡时间，默认300毫秒
+								}
+							});
+						} else {
+						}
+					} else {
+						MyToast("网络超时，请稍后再试");
+					};
+				});
+			}
+		</script>
+	</body>
+</html>

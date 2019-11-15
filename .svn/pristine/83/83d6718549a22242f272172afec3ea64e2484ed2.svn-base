@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的动态</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.trends.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部 -->
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode="tapmodeclass">
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>我的动态</span>
+            </div>
+            <div class="head-right" @click="goRelease" tapmode="tapmodeclass">
+                发布
+            </div>
+        </header>
+        <!-- 名厨动态 -->
+        <div class="chef-trends" v-for="(v,i) in staffAtc" :key="i">
+            <div class="chef-trends-head">
+                <div class="trends-head-imgbox">
+                    <img :src="v.portrait?(URL+v.portrait):(imgDefalt)" alt="">
+                </div>
+                <div class="trends-head-center">
+                    <div class="trends-center-top">
+                        <span class="trends-center-name">{{v.real_name}}</span>
+                        <span class="trends-center-iden trends-light">{{v.cook_level}}</span>
+                    </div>
+                    <div class="trends-center-bottom trends-light">
+                        <span class="trends-center-date">{{v.add_time}}</span>
+                        <!-- <span class="trends-center-time">13:30</span> -->
+                    </div>
+                </div>
+                <div class="trends-head-right" v-if="false">
+                    <div class="trends-head-focus">{{'关注'}}</div>
+                </div>
+            </div>
+            <div class="chef-hotslist-body">
+                <div class="hotslist-body-item">
+                    <div class="hotslist-item-title" @click="goTrendcomment(v.article_id)">
+                        {{v.content}}
+                    </div>
+                    <div class="hotslist-item-imgboxs">
+                        <div class="hotslist-imgboxs-imgbox" v-for="(value,index) in v.img_url" @click="openGallery(imgArr,index)" tapmode="tapmodeclass">
+                            <img :src="value.file_path" alt="">
+                        </div>
+                    </div>
+                    <div class="hotslist-item-footer">
+                        <div class="hotslist-footer-item">
+                            <i class="iconfont icon-guankan"></i>
+                            <span class="hotslist-footer-look" :ref="v.article_id">{{v.watch}}</span>
+                        </div>
+                        <div class="hotslist-footer-item" @click="goTrendcomment(v.article_id)" tapmode="tapmodeclass">
+                            <i class="iconfont icon-pinglun2"></i>
+                            <span class="hotslist-footer-comment">{{v.pin_count}}</span>
+                        </div>
+                        <div class="hotslist-footer-item" @click="addThumbs(v.article_id)" :data-canthumbs="false" tapmode="tapmodeclass">
+                            <i class="iconfont icon-zan"></i>
+                            <span class="hotslist-footer-fabulous" :ref="v.article_id">{{v.zan_count}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var wrap = new Vue({
+        el: '#wrap',
+        data: {
+            imgDefalt: '../image/headimgDef.png',
+            userId:'',
+            sf_id:0,
+            URL:'',
+            start:0,
+            staffAtc:[1,1,1,1,1,1,1],
+            isShowApprentice:true,
+            photoBrowser:null
+        },
+        computed:{
+            imgArr:function(){
+                var that = this
+                var imgArr = []
+                this.staffAtc.forEach(function(value,i){
+                    value.img_url.forEach(function(item,index){
+                        imgArr.push(item.file_path)
+                    })
+                })
+                return  imgArr
+            }
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            //判断图片是否存在
+            validateImage:function validateImage(url){    
+                var xmlHttp ;
+                if (window.ActiveXObject){
+                     xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                 }else if (window.XMLHttpRequest){
+                     xmlHttp = new XMLHttpRequest();
+                 } 
+                xmlHttp.open("Get",url,false);
+                xmlHttp.send();
+                return (xmlHttp.status==404)?false:true;
+            },
+            goRelease:function(){
+                api.openFrame({
+                    name: 'find.my',
+                    url: './find.my.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        h: 'auto'
+                    },
+                    pageParam: {
+                    }
+                });
+            },
+            getMyCircle:function (start){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appfind&act=get_my_article',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            start:start
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.staffAtc = ret.retval
+                        that.staffAtc.forEach(function(value,i){
+                            value.img_url.forEach(function(item,index){
+                                item.file_path = that.URL +  item.file_path
+                            })
+                        })
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            addWatch:function addWatch(article_id){
+                var that = this
+                that.$refs[article_id][0].innerHTML = that.$refs[article_id][0].innerHTML*1 + 1
+                api.ajax({
+                    url: that.URL + 'index.php?app=boli_homepage&act=Click_To_Watch',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            artic_id: article_id,
+                            parent_id:15,
+                        }
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        
+                    } 
+                });
+            },
+            openGallery:function(imgurl,activeIndex){
+            var that = this
+            //console.log(JSON.stringify(imgurl))
+            this.photoBrowser.open({
+                images : imgurl,
+                activeIndex : activeIndex,
+                placeholderImg : 'widget://image/apicloud.png',
+                bgColor : '#000'
+            }, function(ret) {
+                    if (ret.eventType == 'click') {
+                        that.photoBrowser.close();
+                    }
+                });
+            },
+            goTrendcomment:function(artic_id){
+                this.addWatch(artic_id)
+                api.openWin({
+                    name: 'chef.trendcomment',
+                    url: 'chef.trendcomment.html',
+                    bounces: false,
+                    pageParam: {artic_id : artic_id}
+                });
+            },
+            goApprentice:function goApprentice(){
+                var that = this
+                api.openWin({
+                    name: 'chef.apprentice',
+                    url: './chef.apprentice.html',
+                    bounces: false,
+                    pageParam: {sf_id : that.sf_id}
+                });
+            },
+            addThumbs:function addThumbs(artic_id){
+                var that = this
+                var thisThumbs = that.$refs[artic_id][1]
+                console.log(thisThumbs.dataset.canthumbs)
+                //vue的渲染机制，thisThumbs.dataset.canthumbs在渲染前永远是String类型
+                if(thisThumbs.dataset.canthumbs=="false"){
+                    thisThumbs.innerHTML = thisThumbs.innerHTML*1 - 1
+                    thisThumbs.dataset.canthumbs="true"
+                }else{
+                    //可以点赞
+                    thisThumbs.innerHTML = thisThumbs.innerHTML*1 + 1
+                    thisThumbs.dataset.canthumbs="false"
+                }
+                return
+                api.ajax({
+                    url: that.URL + 'index.php?app=boli_homepage&act=set_zan',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            artic_id:artic_id,
+                            user_id:that.userId,
+                        }
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function(){
+                apiready = function () {
+                    that.URL = $api.URL();
+                    that.photoBrowser = api.require('photoBrowser');
+                    that.sf_id = api.pageParam.sf_id;
+                    that.userId = window.localStorage.getItem("userId")
+                    that.getMyCircle(that.start)
+                }
+            })
+        },
+        mounted: function mounted() {
+           
+
+        },
+    })
+
+</script>
+
+</html>

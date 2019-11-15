@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>烹饪必备</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.cooking.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>烹饪必备</span>
+            </div>
+        </header>
+
+        <!-- 轮播图 -->
+        <div class="swiper">
+            <div class="swiper-container swiper-top">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" tapmode v-for="(v,i) in topBanner" :key="i">
+                        <div class="swiper-slide-imgbox">
+                            <img :src="URL+v.file_path" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <div class="chef-ball-list">
+            <div class="swiper-container swiper-ball-list">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide swiper-ball-items" tapmode>
+                        <div 
+                        class="swiper-ball-item" 
+                        v-for="(v,i) in cookArrs" 
+                        :key="i" 
+                        @click="goCategory(v.parent_id,v.cate_id)"
+                        tapmode>
+                            <div class="swiper-ball-imgbox">
+                                <img :src="URL+v.cate_images" alt="">
+                            </div>
+                            <div class="swiper-ball-text">{{v.cate_name}}</div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide swiper-ball-items" tapmode>
+                        <div class="swiper-ball-item">
+                            <div class="swiper-ball-imgbox">
+                                <img src="../image/mallCookMore.png" alt="">
+                            </div>
+                            <div class="swiper-ball-text">更多</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 全部最新热卖 -->
+        <div class="chef-hotslist-head" ref="chef-hotslist-head">
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==0?'hotslist-head-active':'']" @click="changeBottomList(0)">全部</p>
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==1?'hotslist-head-active':'']"  @click="changeBottomList(1)">最新</p>
+            <p :class="['hotslist-head-item',bottomLists.activeIndex==2?'hotslist-head-active':'']" @click="changeBottomList(2)">热卖</p>
+        </div>
+        
+        <!-- 商品展示 -->
+        <div class="chef-form-formlist">
+            <div 
+                class="chef-form-card"  
+                v-for="(v,i) in bottomLists.showList" 
+                :key="i"
+                @click="goGoodsDet(v.goods_id)">
+                <div class="chef-form-leftimg">
+                    <img  v-lazy="v.default_image" alt="">
+                </div>
+                <div class="chef-right-content">
+                    <div class="chef-head1">
+                        <div class="chef-head1-name">{{v.goods_name}}</div>
+                    </div>
+                    <div class="chef-head2 chef-forum-light">{{v.goods_name}}</div>
+                    <div class="chef-head3 chef-forum-light forum-foot-explain">
+                        <!-- <i class="iconfont"></i> -->
+                        <span class="forum-foot-name">{{v.tags}}</span>
+                    </div>
+                    <div class="chef-head4 ">
+                        <p class="swiper-red ">
+                            <span :class="{graytext: kitchStore}">￥{{v.price}}</span>
+                            <span v-if="kitchStore" class="kitchStore">
+                                <span class="mall-earn"> 赚</span> 
+                                <span class="">{{(v.settlement_price*0.35).toFixed(2)}}</span> 
+                            </span>
+                            <span class="swiper-del" v-else="kitchStore">￥{{v.oprice}}</span>
+                        </p>
+                        <p class="chef-head2 sales-volume">销量{{v.orders}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue-lazyload.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+	var kitchStore=window.localStorage.getItem('kitchStore');
+    Vue.use(VueLazyload, {
+        loading: '../image/cacheImg.jpg'
+    })
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            topBanner: {},
+            imgDefalt: '../image/headimgDef.png',
+            swiperTop: null,
+            kitchStore:0,
+            bottomLists:{
+                activeIndex: 0,
+                list: [[], [], []],
+                start: [0, 0, 0],
+                end:[false,false,false],
+                showList: []
+            },
+            cookArrs:[],
+        },
+        computed: {
+
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            goCategory: function goCategory(parent_id,cate_id){
+            api.openWin({
+                name: 'category.view',
+                url: './category.view.html',
+                bounces: false,
+                animation:{
+                    type:"push",                //动画类型（详见动画类型常量）
+                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                    duration:300                //动画过渡时间，默认300毫秒
+                },
+                pageParam: {
+                    parent_id: parent_id,//商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                    cate_id: cate_id,//商品id,在goods.view.html页面通过var goodId=api.pageParam.goodId; 调用
+                	all_flag:0
+                }
+            });
+        },
+            //初始化头部轮播图
+            initSwiperTop: function swiperNotice() {
+                this.swiperTop = new Swiper('.swiper-top', {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    observer: true,
+                    observeParents: true,
+                    on: {
+                        click: function () {
+                            const realIndex = this.realIndex;
+                            //that.handleClickSlide(realIndex); 
+                        }
+                    },
+                    preventLinksPropagation: false   // 阻止点击事件冒泡
+                });
+            },
+            //获得头部轮播
+            getTopBanner: function getTopBanner() {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=home_lunbo',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.topBanner = ret.retval
+                        that.$nextTick(function () {
+                            that.initSwiperTop()
+                        })
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            
+            //进入商品详情
+            goGoodsDet: function goGoodsDet(id,isKill,endTime) {
+                //console.log(id)
+                api.openWin({
+                    name: 'mall.description',
+                    url: './mall.description.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        goodId: id,
+                        seckill:isKill,
+                        endTime:endTime
+                    }
+                });
+            },
+            changeBottomList: function (i) {
+                var that = this
+                this.bottomLists.activeIndex = i
+                var funcArr = ["get_all_goods_new", "get_new_goods", "get_hot_goods"]
+                /* console.log('激活的index='+this.bottomLists.activeIndex)
+                console.log('start'+that.bottomLists.start[that.bottomLists.activeIndex]) */
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=' + funcArr[i],
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: { start: that.bottomLists.start[i] }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        if(ret.retval.length<=0){
+                            that.bottomLists.end[i] = true
+                        }else{
+                            ret.retval.forEach(function(v,index){
+                                v.price = v.price<=1?v.price:parseInt(v.price)
+                                v.oprice = v.oprice<=1?v.oprice:parseInt(v.oprice)
+                                v.default_image = v.default_image.length?that.URL+v.default_image:"../image/cacheImg.jpg"
+                                that.bottomLists.list[i].push(v)
+                            })
+                            that.bottomLists.start[i] += 6;
+                            that.bottomLists.end[i] = false
+                        }
+                        that.bottomLists.showList = that.bottomLists.list[i]
+                        
+                    } else if (ret) {
+                        //that.noKillGoods = true
+                        //暂无秒杀
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            getCooksArr:function getCooksArr(){
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=get_cy_gcategory',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {  }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.cookArrs = ret.retval
+                        
+                    } else if (ret) {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //打开页面组
+            openFrameGroup:function openFrameGroup(i){
+                var that = this
+                var funcArr = ["get_all_goods_new", "get_new_goods", "get_hot_goods"]
+                this.bottomLists.activeIndex = i
+                api.openFrame({
+                    name: 'mall.goodcomponent.'+funcArr[i],
+                    url: './mall.goodcomponent.html',
+                    rect: {
+                        x: 0,
+                        marginTop: that.top+10, // frame页面距离win顶部的高度
+                        marginBottom: 0, // frame页面距离win底部的高度
+                    },
+                    overScrollMode:'scrolls',
+                    pageParam: {
+                        url:funcArr[i],
+                        param:0
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.kitchStore = kitchStore
+                    that.top = that.$refs['chef-hotslist-head'].getBoundingClientRect().bottom
+                    that.getTopBanner()
+                    that.getCooksArr()
+                    //that.openFrameGroup(0)
+                    $('.swiper-wrapper').on('touchstart', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: false
+                        });
+                    });
+                    $('.swiper-wrapper').on('touchend', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: true
+                        });
+                    });
+                    
+                    that.changeBottomList(that.bottomLists.activeIndex)
+                     //上拉加载
+                     api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 50 //距离底部距离
+                        }
+                    }, function (ret, err) {
+                        if (that.bottomLists.end[that.bottomLists.activeIndex] ) {
+                            api.toast({
+                                msg: '没有更多了',
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+                        } else {
+                            
+                            that.changeBottomList(that.bottomLists.activeIndex)
+                        }
+                    });
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

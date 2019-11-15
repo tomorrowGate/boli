@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的厨小店</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.kitchenhome.css">
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+        <div class="green">
+            <header class="page-head" ref="header">
+                <div class="back" @click="goBack" tapmode="tapmodeclass">
+                    <i class="iconfont icon-back"></i>
+                </div>
+                <div class="head-center">
+                    <span>我的厨小店</span>
+                </div>
+            </header>
+            <div class="flex-wrap flex-vertical">
+                <!--头部-->
+                <div class="case2">
+                    <div class="my_info clearfix">
+                        <div class="info_l">
+                            <img :src="portrait" class="portrait" id="portrait">
+                        </div>
+                        <div class="info_m">
+                            <div class="info1"><span id="user_name">{{userInfos.real_name2}}</span>
+                                <span class="jb" id="level">厨师</span>
+                                <span class="jb_1">厨小店</span>
+                            </div>
+                            <div>
+                                <span class="border-w">邀请码:
+                                    <span id="invite_code"> {{userInfos.invite_code}}</span>
+                                </span>
+                                <span class="border-b" @click="copyHref" tapmode="tapmodeclass">复制</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 我的账单区 -->
+        <div class="bill">
+            <div class="profit">
+                <span>
+                    <span class="profitNumber">{{(userInfos.orders_price*1).toFixed(2)}}</span>
+                    <span>本月收益(元)</span>
+                </span>
+                <span class="examine">查看全部资产<i class="">➡</i></span>
+            </div>
+            <div class="billFlex">
+                <div class="billItem b_right">
+                    <span>{{(userInfos.already_commission*1).toFixed(2)}}</span>
+                    <p>累计收益(元)</p>
+                </div>
+                <div class="billItem">
+                    <span>{{userInfos.orders_count}}</span>
+                    <p>今日订单数</p>
+                </div>
+                <div class="billItem b_left">
+                    <span>{{(userInfos.money*1).toFixed(2)}}</span>
+                    <p>余额</p>
+                </div>
+            </div>
+        </div>
+        <!-- 搜索 -->
+        <div class="search-head">
+            <div class="search-main">
+                <i class="iconfont icon-search"></i>
+                <input class="search-virtual" placeholder="搜索教学、用户、内容" tapmode />
+            </div>
+            <div class="search-real">搜索</div>
+        </div>
+        <!-- 发货状态 -->
+        <div class="chef-detail-info">
+            <div class="chef-hotslist-head" ref="chef-hotslist-head">
+                <p :class="['hotslist-head-item',bottomLists.activeIndex==0?'hotslist-head-active':'']"
+                    @click="changeBottomList(0)" tapmode="tapmodeclass">全部</p>
+                <p :class="['hotslist-head-item',bottomLists.activeIndex==2?'hotslist-head-active':'']"
+                    @click="changeBottomList(2)" tapmode="tapmodeclass">待发货</p>
+                <p :class="['hotslist-head-item',bottomLists.activeIndex==3?'hotslist-head-active':'']"
+                    @click="changeBottomList(3)" tapmode="tapmodeclass">待收货</p>
+                <p :class="['hotslist-head-item',bottomLists.activeIndex==4?'hotslist-head-active':'']"
+                    @click="changeBottomList(4)" tapmode="tapmodeclass">已完成</p>
+            </div>
+        </div>
+        <div class="" v-for="(v,i) in bottomLists.showList" :key="i">
+            <div class="" v-for="(value,index) in v.order_goods" :key="index">
+                <!-- 订单选项 -->
+                <div class="shopHead">
+                    <span class="shopName">订单编号：{{v.order_sn}}</span>
+                    <span class="cargoStatus" v-show="v.status == 20">待发货</span>
+                    <span class="cargoStatus" v-show="v.status == 30">待收货</span>
+                    <span class="cargoStatus" v-show="v.status == 40">交易关闭</span>
+                </div>
+                <div class="chef-form-card">
+                    <div class="after-goods-item">
+                        <div class="chef-form-leftimg">
+                            <img :src="URL+value.goods_image" alt="">
+                        </div>
+                        <div class="chef-right-content">
+                            <div class="tag">
+                                <p class="chef-head1">{{value.goods_name}}</p>
+                                <span class="how">x{{value.quantity}}</span>
+                            </div>
+                            <div class="chef-head2">{{value.extension_content}}</div>
+                            <!-- <div class="chef-head3">
+                                <span class="forum-foot-bg">九折</span>
+                                <span class="forum-foot-bg">上门安装</span>
+                            </div> -->
+                            <div class="chef-head4 ">
+                                <p class="swiper-red">
+                                    <span class="">￥</span> 
+                                    <span class="">{{value.price}}</span>
+                                </p>
+                                <p class="earnRed">
+                                    <span class="earn">应赚</span>
+                                    <span>{{v.order_pv2}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="after-goods-bottom">
+                        <div class="after-goods">
+                            <span class="after-bottom-texts"> {{v.add_time}}</span>
+                            <p class="after-bottom-text">
+                                <span class="after-text-right">共{{value.quantity}}件 总计：</span>
+                                <span class="after-text-left">￥{{v.order_amount}}</span>
+                            </p>
+                        </div>
+                        <!-- <div class="after-goods-normal">
+                            <button class="after-goods-btn">分享好友</button>
+                        </div> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var userId = window.localStorage.getItem("userId");
+    var portrait = window.localStorage.getItem('portrait');//头像
+    var wrap = new Vue({
+        el: '#wrap',
+        data: {
+            isDet: 1,
+            imgDefalt: '../image/headimgDef.png',
+            portrait: "",
+            userInfos: {},
+            bottomLists: {
+                activeIndex: 0,
+                list: [[], [], [],[],[]],
+                start: [0, 0, 0,0,0],
+                end: [false, false, false,false,false],
+                showList: []
+            },
+            bottomText: "正在努力加载..."
+        },
+        computed: {
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin();
+            },
+            //判断图片是否存在 
+            checkImgExists: function (imgurl) {
+                var that = this
+                var ImgObj = new Image();
+                if (imgurl && imgurl.substr(0, 7).toLowerCase() == "http://") {
+                    ImgObj.src = imgurl;
+                } else {
+                    ImgObj.src = this.URL + imgurl;
+                }
+                setTimeout(function () {
+                    if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {
+                        if (imgurl.substr(0, 7).toLowerCase() == "http://") {
+                            that.portrait = imgurl
+                        } else {
+                            that.portrait = that.URL + imgurl
+                        }
+                        return true;
+                    } else {
+                        that.portrait = that.imgDefalt
+                        return false;
+                    }
+                }, 300)
+            },
+            getUserInfo: function () {
+                var that = this
+
+                api.ajax({
+                    url: that.URL + 'index.php?app=myinfo&act=get_my_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: userId
+                        }
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        var portrait = ret.retval.portrait
+                        that.userInfos = ret.retval
+                        that.checkImgExists(portrait)
+                        //console.log(portrait)
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        //alert(JSON.stringify(err))
+                        var timer = setTimeout(function () {
+                            api.toast({
+                                msg: err.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                            clearTimeout(timer)
+                        }, 2000)
+
+                    }
+                });
+            },
+            copyHref: function copyHref() {
+                var content = this.$refs.invite_code.innerHTML
+                var clipBoard = api.require('clipBoard');
+                clipBoard.set({
+                    value: content
+                }, function (ret, err) {
+                    if (ret) {
+                        api.toast({
+                            msg: '复制成功',
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: '复制失败',
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            changeBottomList: function (i) {
+                var that = this
+                this.bottomLists.activeIndex = i
+                console.log(that.bottomLists.start[i])
+                console.log(i)
+                api.ajax({
+                    url: that.URL + 'index.php?app=myinfo&act=get_team_orders',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            start: that.bottomLists.start[i],
+                            user_id: userId,
+                            type: i
+                        }
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    console.log(JSON.stringify(err));
+                    if (ret.done) {
+                        if (ret.retval.length <= 0) {
+                            that.bottomLists.end[i] = true
+                            console.log(12);
+                        } else {
+                            ret.retval.forEach(function (v, index) {
+                                //v.default_image = v.default_image.length ? that.URL + v.default_image : "../image/cacheImg.jpg"
+                                that.bottomLists.list[i].push(v)
+                            })
+                            that.bottomLists.start[i] += 6;
+                            that.bottomLists.end[i] = false
+                        }
+                        that.bottomLists.showList = that.bottomLists.list[i]
+
+                    } else {
+                        that.bottomLists.end[i] = true
+                         console.log(2356);
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            apiready = function () {
+                that.URL = $api.URL();
+                var header = that.$refs["header"];
+                headerH = $api.fixStatusBar(header);
+                that.getUserInfo()
+
+                that.changeBottomList(that.bottomLists.activeIndex)
+                //上拉加载
+                api.addEventListener({
+                    name: 'scrolltobottom',
+                    extra: {
+                        threshold: 50 //距离底部距离
+                    }
+                }, function (ret, err) {
+                    if (that.bottomLists.end[that.bottomLists.activeIndex]) {
+                        that.bottomText = "——————到底线了——————"
+                        api.toast({
+                            msg: '没有更多了',
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    } else {
+
+                        that.changeBottomList(that.bottomLists.activeIndex)
+                    }
+                });
+            }
+        },
+        mounted: function mounted() {
+            var that = this
+
+        },
+    })
+</script>
+
+</html>

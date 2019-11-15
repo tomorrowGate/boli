@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>提现绑定</title>
+      <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+      html,body {
+        background-color: #f4f4f4;
+      }
+      .out_div{ margin:10px 0;background-color: #fff }
+      .out_div1{ margin:10px;background-color: #f4f4f4 }
+      .item span{height:40px;line-height: 40px;}
+      .ip{ width:60%;padding:0 10px;height:40px;line-height: 40px;font-size: 0.9em; color:#666;}
+      .sub_btn{ width:100%;text-align: center;margin:30px 0; }
+      .sub_btn span{ width:70%;height:40px;line-height: 40px;color:#fff;border-radius: 20px;background-color: #ccc;background-color:#666; }
+      .sub_btn .active{background-color:#292929;}
+      .wx{
+        text-align: center;
+      }
+      .up-pic{
+        width: 120px;
+        height: 120px;
+        margin: 10px auto;
+        text-align: center;
+        border:1px dashed #333;
+      }
+      .line{
+        width: 120px;
+        height: 0;
+      }
+      .line::before,
+      .line::after{
+        content: "";
+        display: block;
+        width: 80%;
+        height: 0;
+        border-top:2px solid #999;
+      }
+      .line::before{
+        transform: translate(12px,60px) rotateZ(90deg);
+      }
+      .line::after{
+        transform: translate(14px,60px);
+      }
+      #my_portrait{ width:120px;height:120px;}
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="header">绑定</div>
+      <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+    </header>
+    <div class="zfb hide">
+      <div class="out_div clearfix">
+        <div class="item"><span class="zfb">账号 ：</span><span><input type="text" name="zfb_sn" class="zfb_sn ip" placeholder="请输入支付宝账号"  id="zfb" ></span></div>
+      </div>
+    </div>
+      
+      <!-- <div class="out_div1 clearfix">
+        <div class="item"><span>身份证信息（必填） </span></div>
+      </div>
+      <div class="out_div clearfix">
+        <div class="item"><span id="ID_name">姓名 </span><span><input type="text" name="ID_name" class="ID_name ip" placeholder="请输入您的姓名" ></span></div>
+        <div class="item"><span id="ID_num">身份证号 </span><span><input type="text" name="ID_num" class="ID_num ip" placeholder="请输入身份证号码" ></span></div>
+      </div> -->
+
+      <div class="wx hide">
+        
+        <div class="up-pic" onclick="showAction()">
+          <div class="line"></div>
+          <img src="#" id="my_portrait" />
+        </div>
+        <span class="up-msg">请上传收款二维码</span>
+      </div>
+      
+
+      <div class="bank-card hide">
+        <div class="out_div clearfix">
+          <div class="item"><span class="bannk">银行卡号: </span><span><input type="text" name="bank_sn" class="bank_sn ip" placeholder="请输入卡号" id="bank_sn"></span></div>
+        </div>
+        <div class="out_div clearfix">
+          <div class="item"><span class="bank">开户姓名: </span><span><input type="text" name="bank_sn" class="bank_sn ip" placeholder="请输入开户人" id="bank_user_name" ></span></div>
+        </div>
+        <div class="out_div clearfix">
+          <div class="item"><span class="bank">开户银行 :</span><span><input type="text" name="bank_sn" class="bank_sn ip" placeholder="请输入开户银行名称" id="bank_name"></span></div>
+        </div>
+      </div>
+      
+      
+      <div class="sub_btn" onclick="tj_info()"><span class="active">提交</span></div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+  <script type="text/javascript">
+    var userId = window.localStorage.getItem("userId"); //用户id
+
+      $(function () {  //消除300ms点击延迟
+        FastClick.attach(document.body);
+      });
+      //返回上一页
+      function goBack() {
+        api.sendEvent({
+    name: 'cash.tixian'
+});
+			api.historyBack({
+				//frameName : 'hangqing_view'
+			}, function(ret, err) {
+				if (!ret.status) {
+					api.closeWin();
+				}
+			})
+      }
+      var URL = "";
+      var tixianType;
+      apiready = function () {
+        tixianType = api.pageParam.tixianType
+        URL = $api.URL();
+        var header = $api.dom('header');
+        //适配iOS 7+，Android 4.4+状态栏
+        $api.fixStatusBar(header);
+        if (tixianType == 'zfb') {
+          $(".header").html("绑定支付宝");
+          $(".type_no").html("支付宝账号：");
+
+          $(".zfb").removeClass("hide");
+        }
+        if (tixianType == 'wechat') {
+          $(".header").html("绑定微信");
+          $(".type_no").html("微信账号：");
+
+          $(".wx").removeClass("hide");
+        }
+        if (tixianType == 'bank') {
+          $(".header").html("绑定银行卡");
+          $(".type_no").html("卡号：");
+
+          $(".bank-card").removeClass("hide");
+        }
+		get_my_skfs();
+      };
+
+      function getId() {
+        api.ajax({
+          url: URL + 'index.php?app=#',
+          method: 'post',
+          cache: false,
+          timeout: 30,
+          dataType: 'json',
+          returnAll: false,
+          data: {
+            values: {
+              user_id: userId,
+            }
+          }
+        }, function (ret, err) {
+          if (ret && ret.done) {
+            console.log(JSON.stringify(ret));
+            $("#ID_name").val(ret.retval.name);
+            $("#ID_num").val(ret.retval.ID);
+
+          } else {
+            console.log(err);
+          }
+
+        });
+      }
+
+      // 上传图片
+      function showAction() {
+
+        api.actionSheet({
+          title: '上传图片',
+          cancelTitle: '取消',
+          buttons: ['拍照', '从手机相册选择']
+        }, function (ret, err) {
+          if (ret) {
+            getPicture(ret.buttonIndex);
+          }
+        });
+      }
+
+      function getPicture(sourceType) {
+        $(".line").addClass("hide");
+      if (sourceType == 1) {// 拍照
+        api.getPicture({
+          sourceType : 'camera',
+          encodingType : 'jpg',
+          mediaValue : 'pic',
+          allowEdit : false,
+          destinationType : 'base64',
+          quality : 100,
+          saveToPhotoAlbum : true
+        }, function(ret, err) {
+         if (ret) {
+            $("#my_portrait").attr('src', ret.base64Data);
+            console.log(ret.base64Data);
+          } else {
+            api.toast(JSON.stringify(err));
+          }
+        });
+      } else if (sourceType == 2) {// 从相机中选择
+        api.getPicture({
+          sourceType : 'library',
+          encodingType : 'jpg',
+          mediaValue : 'pic',
+          allowEdit : false,
+          destinationType : 'base64',
+          quality : 100,
+          /* targetWidth: 80,
+           targetHeight: 80*/
+        }, function(ret, err) {
+          if (ret) {
+            if (ret) {
+              $("#my_portrait").attr('src', ret.base64Data);
+              console.log(ret.base64Data);
+            } else {
+              api.toast(JSON.stringify(err));
+            }
+          } else {
+            api.toast(JSON.stringify(err));
+          }
+        });
+      }
+    }
+    
+    //获取绑定的收款信息
+     //获取我的收款方式
+		function get_my_skfs(){
+			api.ajax({
+					url : URL + 'index.php?app=homepage&act=get_my_skfs2',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							user_id : userId,
+						}
+					}
+				}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+					if(ret.done){
+							 if (tixianType == 'zfb') {
+					          if(ret.retval.alipay!=null&&ret.retval.alipay!=""){
+					          	$("#zfb").val(ret.retval.alipay);
+					          }
+					        }
+					        if (tixianType == 'wechat') {
+								if(ret.retval.wxpay!=null&&ret.retval.wxpay!=""){
+								   $("#my_portrait").attr('src', ret.retval.wxpay);
+								}
+					        }
+					        if (tixianType == 'bank') {
+					        	if(ret.retval.bank_sn!=null&&ret.retval.bank_sn!=""){
+								   $("#bank_sn").val(ret.retval.bank_sn);
+								}
+								if(ret.retval.bank_name!=null&&ret.retval.bank_name!=""){
+								   $("#bank_name").val(ret.retval.bank_name);
+								}
+								if(ret.retval.user_name!=null&&ret.retval.user_name!=""){
+								   $("#bank_user_name").val(ret.retval.user_name);
+								}
+					        }
+							
+//							if(ret.retval.bank_name==null||ret.retval.bank_name==""){
+//								$('#bank').addClass('hide');
+//							}						
+						
+						//跳转
+						
+					
+					}else{
+					api.toast({
+	                        msg: "系统异常",
+	                        duration: 2000,
+	                        location: 'middle'
+	                });
+	                
+					}
+				});
+		}
+    //保存绑定信息
+    function tj_info(){
+    var bank_name=$.trim($("#bank_name").val());
+    var bank_sn=$.trim($("#bank_sn").val());
+    var bank_user_name=$.trim($("#bank_user_name").val());
+    var alipay=$.trim($("#zfb").val());
+    var wxpay=$("#my_portrait").attr('src');
+    
+    if(tixianType=="bank"){
+	    if(bank_name==null||bank_name==""){
+	    	api.toast({
+		        msg: "请填写开户行名称",
+		        duration: 2000,
+		        location: 'middle'
+		   });
+		   return;
+	    }
+	    if(bank_sn==null||bank_sn==""||parseInt(bank_sn)==false){
+	    	api.toast({
+		        msg: "请填写正确的银行卡号",
+		        duration: 2000,
+		        location: 'middle'
+		   });
+		   return;
+	    }
+	    if(bank_user_name==null||bank_user_name==""){
+	    	api.toast({
+		        msg: "请填写开户人姓名",
+		        duration: 2000,
+		        location: 'middle'
+		   });
+		   return;
+	    }
+    }
+    
+    if(tixianType=="zfb"){
+    	if(alipay==null||alipay==""){
+	    	api.toast({
+		        msg: "请填写支付宝号",
+		        duration: 2000,
+		        location: 'middle'
+		   });
+		   return;
+		   }
+    }
+    
+    if(tixianType=="wechat"){
+    	if(wxpay==null||wxpay==""){
+	    	api.toast({
+		        msg: "请上传您的微信收款码",
+		        duration: 2000,
+		        location: 'middle'
+		   });
+		   return;
+		 }
+    }
+    if(tixianType==null||tixianType==""){
+    	return;
+    }
+    
+    //alert(tixianType);
+    	api.ajax({
+					url : URL + 'index.php?app=homepage&act=save_skfs',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							user_id : userId,
+							type:tixianType,
+							bank_name:bank_name,
+							bank_sn:bank_sn,
+							bank_user_name:bank_user_name,
+							alipay:alipay,
+							wxpay:wxpay,
+						}
+					}
+				}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+					if(ret.done){
+						api.toast({
+	                        msg: ret.retval,
+	                        duration: 2000,
+	                        location: 'middle'
+	                }); 
+					
+					}else{
+					api.toast({
+	                        msg: ret.msg,
+	                        duration: 2000,
+	                        location: 'middle'
+	                });
+	                
+					}
+				});
+    }
+
+  </script>
+  </html>

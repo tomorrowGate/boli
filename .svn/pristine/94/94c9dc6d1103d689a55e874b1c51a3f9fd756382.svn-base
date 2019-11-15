@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>厨师入驻</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.settled.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode="tapmodeclass">
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>厨师入驻</span>
+            </div>
+        </header>
+
+        <div class="chef-settled-main">
+            <!-- 个人资料填写完整 -->
+            <div class="settled-main-top">
+                <div class="settled-top-equity">
+                    <i class="iconfont"></i>
+                    <span class="equity-light">名厨权益</span>
+                </div>
+                <div class="settled-top-title">
+                    <div class="settled-title-main">
+                        <span class="settled-title-h1">个人资料填写完整</span>
+                        <span class="settled-h1-status settled-h1-no" v-if="!isInfoComplet">未完成</span>
+                        <span class="settled-h1-status settled-h1-yes" v-if="isInfoComplet">已完成</span>
+                    </div>
+                    <div class="settled-title-supplement">使用真实头像&姓名，有助于增加你的人脉</div>
+                </div>
+                <div class="settled-top-form">
+                    <div 
+                    class="settled-form-item settled-form-portrait" 
+                    @click="openKindsPage('infomation.modify',{infoType:'portrait'})" 
+                    tapmode="tapmodeclass2">
+                        <div class="settled-item-key">头像</div>
+                        <div class="settled-item-value settled-item-portrait">
+                            <img :src="portrait" alt="">
+                        </div>
+                        <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                    </div>
+                    <div 
+                    class="settled-form-item" 
+                    @click="openKindsPage('infomation.modify',{infoType:'nickname'})"  
+                    tapmode="tapmodeclass">
+                        <div class="settled-item-key">姓名</div>
+                        <div class="settled-item-value">{{real_name2}}</div>
+                        <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                    </div>
+                    <div 
+                    class="settled-form-item"
+                     @click="openKindsPage('infomation.modify',{infoType:'sex'})"  
+                     tapmode="tapmodeclass">
+                        <div class="settled-item-key">性别</div>
+                        <div class="settled-item-value">{{sex}}</div>
+                        <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                    </div>
+                    <div 
+                    class="settled-form-item"
+                     @click="openKindsPage('chef.cuisine')"  
+                     tapmode="tapmodeclass">
+                        <div class="settled-item-key">菜系</div>
+                        <div class="settled-item-value">{{tags}}</div>
+                        <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                    </div>
+                    <div 
+                    class="settled-form-item" 
+                    @click="openKindsPage('infomation.modify',{infoType:'company'})"  
+                    tapmode="tapmodeclass">
+                        <div class="settled-item-key">单位</div>
+                        <div class="settled-item-value">{{company}}</div>
+                        <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                    </div>
+                    <div 
+                    class="settled-form-item" 
+                    @click="openKindsPage('infomation.modify',{infoType:'position'})"  
+                    tapmode="tapmodeclass">
+                        <div class="settled-item-key">职位</div>
+                        <div class="settled-item-value">{{job}}</div>
+                        <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 实名认证 -->
+            <div class="settled-main-center">
+                <div class="settled-top-title">
+                    <div class="settled-title-main">
+                        <span class="settled-title-h1">实名认证</span>
+                        <span class="settled-h1-status settled-h1-no" v-if="!userInfos.is_shiming">未完成</span>
+                        <span class="settled-h1-status settled-h1-yes" v-if="userInfos.is_shiming">已完成认证</span>
+                    </div>
+                    <div class="settled-title-supplement">
+                        您的身份信息仅用于实名认证，我们保证您的信息安全不会被泄漏，并且不会用于任何其他用途
+                    </div>
+                </div>
+                <div class="settled-center-btn" @click="goRealname" tapmode v-if="!userInfos.is_shiming">去完成实名</div>
+                <div class="settled-center-btn" tapmode v-if="userInfos.is_shiming">已完成实名</div>
+            </div>
+
+            <!-- 上传教学 -->
+            <div class="settled-main-center">
+                <div class="settled-top-title">
+                    <div class="settled-title-main">
+                        <span class="settled-title-h1">上传菜谱</span>
+                        <span class="settled-h1-status settled-h1-no" v-if="!userInfos.isTeach">未完成</span>
+                        <span class="settled-h1-status settled-h1-yes" v-if="userInfos.isTeach">已完成</span>
+                    </div>
+                    <div class="settled-title-supplement">
+                        上传一个菜谱以供审核
+                    </div>
+                </div>
+                <div class="settled-center-btn" @click="upVideo" v-if="!userInfos.isTeach" tapmode>去上传教学</div>
+                <div class="settled-center-btn" v-if="userInfos.isTeach" tapmode>已完成</div>
+            </div>
+
+            <!-- 职业证明 -->
+            <div class="settled-main-center">
+                <div class="settled-top-title">
+                    <div class="settled-title-main">
+                        <span class="settled-title-h1">职业证明</span>
+                        <span class="settled-h1-status settled-h1-no">未完成</span>
+                    </div>
+                    <div class="settled-title-supplement">
+                        <p class="settled-professional-certificate">用于验证您的单位及职务信息 </p>
+                        <p class="settled-professional-certificate">推荐上传工牌、名片、工作证、身穿厨师服和餐厅LOGO 的合照</p>
+                    </div>
+                </div>
+                <div class="imgbox-flex">
+                    <div class="settled-center-imgup" @click="upProve" tapmode>
+                        <div class="settled-imgup-i"><i class="iconfont"></i></div>
+                        <div class="settled-imgup-text">上传照片</div>
+                    </div>
+                    <div class="settled-center-imgup settle-job-imgbox" v-show="jobPhoto">
+                        <div class="settled-imgup-i"><i class="iconfont"></i></div>
+                        <img :src="jobPhoto" alt="">
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- 提交审核 -->
+            <div class="settled-main-bottom">
+                <div class="settled-top-equity">
+                    <div class=" ui-form-item-checkbox ui-border-b">
+                        <label class="ui-checkbox" for="iPromise">
+                            <input type="checkbox" id="iPromise" v-model="iPromise">
+                        </label>
+                        <span class="equity-light">我保证上述信息真实有效</span>
+                    </div>
+                </div>
+                <div class="settled-bottom-submit" @click="submitForm">提交审核</div>
+                <div class="settled-bottom-foot">
+                    厨连联会对用户身份真实性进行核实，如有疑问，请联系客服（微信号：XXXXXX）
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var portrait = window.localStorage.getItem('portrait');//头像
+    
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            imgDefalt: '../image/headimgDef.png',
+            portrait:"",
+            userInfos:{},
+            isTeach:false,
+            iPromise:false,
+            jobPhoto:"",
+        },
+        computed: {
+            real_name2:function(){
+                var userInfos = this.userInfos
+                if(userInfos.real_name2&&userInfos.real_name2!="null"&&userInfos.real_name2!="undefind"){
+                    return userInfos.real_name2
+                }else{
+                    return "去填写"
+                }
+            },
+            sex:function(){
+                var sexArr=["保密","男","女"]
+                return sexArr[this.userInfos.gender]
+            },
+            tags:function(){
+                var userInfos = this.userInfos
+                if(userInfos.tags&&userInfos.tags.length&&userInfos.tags!="null"&&userInfos.tags!="undefind"){
+                    return userInfos.tags
+                }else{
+                    return "去填写"
+                }
+            },
+            company:function(){
+                var userInfos = this.userInfos
+                if(userInfos.company&&userInfos.company!="null"&&userInfos.company!="undefind"){
+                    return userInfos.company
+                }else{
+                    return "去填写"
+                }
+            },
+            
+            job:function(){
+                var userInfos = this.userInfos
+                if(userInfos.job&&userInfos.job!="null"&&userInfos.job!="undefind"){
+                    return userInfos.job
+                }else{
+                    return "去填写"
+                }
+            },
+            isInfoComplet:function(){
+                var userInfos = this.userInfos
+                if(userInfos.real_name&&portrait&&userInfos.gender&&userInfos.tags&&userInfos.tags.length&&userInfos.job&&userInfos.company){
+                    return true
+                }else{
+                    return false
+                }
+            },
+            
+        },
+        methods: {
+            goBack: function goBack() {
+                api.execScript({
+                    name:"index",
+                    frameName:"myinfo",
+                    script:"get_user_info();"
+                });
+                api.closeWin()
+            },
+            CheckImgExists:function(imgurl){//判断图片是否存在  
+                var that = this
+                var ImgObj = new Image(); 
+                if(imgurl.substr(0,7).toLowerCase() == "http://"){
+                    ImgObj.src = imgurl;
+                    this.portrait = imgurl
+                }else{
+                    ImgObj.src = this.URL+imgurl;
+                    this.portrait = this.URL+imgurl
+                }
+                setTimeout(function(){
+                    if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {  
+                        return true;  
+                    } else {  
+                        this.portrait = this.imgDefalt
+                        return false;
+                    }  
+                },300)
+            },
+            getUserInfo:function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=myinfo&act=get_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values:{
+                            user_id:userId
+                        }
+                        
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        var portrait = ret.retval.portrait
+                        that.userInfos = ret.retval
+                        that.CheckImgExists(portrait)
+                        console.log(portrait)
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            openKindsPage:function(page,pageParams){
+                //pageArr={page:page,pageParamKey:[]}
+                api.openWin({
+                    name: page,
+                    url: './'+page+'.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",                
+                        subType:"from_right",      
+                        duration:300                
+                    },
+                    pageParam: pageParams
+                });
+            },
+            goRealname: function goRealname() {
+                api.openWin({
+                    name: 'chef.attestation',
+                    url: './chef.attestation.html',
+                    bounces: false,
+                    reload: true,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    }
+                });
+            },
+            upVideo: function upVideo() {
+                api.openWin({
+                    name: 'person.teaching',
+                    url: './person.teaching.html',
+                    bounces: false,
+                    reload: true,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    }
+                });
+            },
+            upProve: function upProve() {
+                var that = this
+                api.actionSheet({
+                    title: '上传图片',
+                    cancelTitle: '取消',
+                    buttons: ['拍照', '从手机相册选择']
+                }, function (ret, err) {
+                    if (ret) {
+                        that.getPicture(ret.buttonIndex);
+                    }
+                });
+            },
+            getPicture: function getPicture(sourceType) {
+                var that = this
+                if (sourceType == 1) {// 拍照
+                    api.getPicture({
+                        sourceType: 'camera',
+                        encodingType: 'jpg',
+                        mediaValue: 'pic',
+                        allowEdit: false,
+                        destinationType: 'base64',
+                        quality: 50,
+                        saveToPhotoAlbum: true
+                    }, function (ret, err) {
+                        if (ret) {
+                            /* $("#my_portrait").attr('src', ret.base64Data);
+                            $("#add_img").addClass('hide');
+                            $("#upload_img").removeClass('hide'); */
+                            //console.log(ret.base64Data);
+                        } else {
+                            api.toast(JSON.stringify(err));
+                        }
+                    });
+                } else if (sourceType == 2) {// 从相机中选择
+                    api.getPicture({
+                        sourceType: 'library',
+                        encodingType: 'jpg',
+                        mediaValue: 'pic',
+                        allowEdit: false,
+                        destinationType: 'base64',
+                        quality: 50,
+                        /*targetHeight: 80*/
+                    }, function (ret, err) {
+                        // console.log(ret.base64Data);
+                        if (ret) {
+                            that.jobPhoto = ret.base64Data
+                            /*  $("#my_portrait").attr('src', ret.base64Data);
+                             $("#add_img").addClass('hide');
+                             $("#upload_img").removeClass('hide'); */
+                        } else {
+                            api.toast(JSON.stringify(err));
+                        }
+                    });
+                }
+            },
+            isTeaching:function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=appstaff&act=is_teaching',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values:{
+                            user_id:userId
+                        }
+                        
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.isTeach = ret.retval.is_teaching
+                    } else if (ret) {
+                        console.log(ret.msg)
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            submitForm:function(){
+                var that = this
+                /* var errType=[this.isInfoComplet,this.]
+                var toastArr=["个人资料未完成认证","实名认证未完成认证","菜谱未完成上传","职业证明未完成"]
+                if(!isInfoComplet){
+                    toast
+                } */
+                console.log(this.iPromise)
+                if(!this.iPromise){
+                    api.toast({
+                        msg: '请确保信息真实有效',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    return
+                }
+                return
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=add_staff',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values:{
+                            portrait:that.portrait,
+                            real_name2:that.userInfos.real_name2,
+                            sex:that.sex,
+                            tags:that.userInfos.tags,
+                            company:that.userInfos.company,
+                            job:that.userInfos.job,
+                            photo:that.userInfos.photo,
+                            user_id:userId
+                        }
+                        
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        api.toast({
+                            msg: "提交成功",
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.portrait = that.CheckImgExists(portrait)?portrait:that.imgDefalt
+                    that.getUserInfo()
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+
+    function get_user_info(){
+        console.log(wrap)
+        wrap.getUserInfo()
+    }
+    //get_user_info()
+</script>
+
+</html>

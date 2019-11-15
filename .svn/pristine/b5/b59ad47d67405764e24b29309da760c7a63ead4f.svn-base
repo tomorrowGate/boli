@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<title>讲堂</title>
+	<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css" />
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/chefs/chef.lectureRoom.css" />
+</head>
+
+<body>
+<div id="wrap">
+	<!-- 视频详情 -->
+	<div class="chef-detail-teach" ref="header">
+		<div class="detail-teach-videos">
+			<div class="detail-teach-videobox">
+				<!--<video src=""></video>
+					<span class="detail-video-tag video-tag">付费</span>-->
+				<i class="iconfont icon-back" @click="goBack"></i>
+                <video 
+                class="video" 
+                :src="URL+videoInfo.video" 
+                @click="openVideo(URL+videoInfo.video)"
+                preload="true"
+                :poster="URL+videoInfo.video_img"></video>
+			</div>
+			<div class="detail-video-bottom">
+				<div class="detail-video-name">
+					{{videoInfo.title}}
+				</div>
+				<div class="video-video-detail">
+					<div class="video-video-left">
+						<i class="iconfont"></i>
+						<span class="video-left-text">{{videoInfo.real_name2}}</span>|<span class="video-left-text">{{videoInfo.cook_level}}</span>
+                        <span class="video-left-tag video-tag" v-if="videoInfo.pay==0">免费</span>
+                        <span class="video-left-tag video-tag" v-else="videoInfo.pay==0">付费</span>
+					</div>
+				</div>
+				<div class="video-video-detail">
+					<div class="video-video-left">
+						<i class="iconfont"></i>
+						<span class="video-left-text">时长</span>:<span class="video-left-text">30：00</span>
+					</div>
+					<div class="video-video-right">
+						<i class="iconfont"></i>
+						<span class="video-right-text">{{videoInfo.wachs}}人已预约</span>
+					</div>
+				</div>
+				<div class="video-detail-pay" v-if="!isVideoBuy">
+					<span class="video-pay-num">{{videoInfo.zpay}}</span>
+					<span class="video-pay-normal">积分</span>
+					<span class="video-pay-num"> / </span>
+					<span class="video-pay-num">{{videoInfo.price}}</span>
+					<span class="video-pay-normal">元</span>
+				</div>
+				<div class="video-detail-pay" v-if="isVideoBuy">
+					<span class="video-pay-normal">已购买</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 厨师名片 -->
+	<div class="chef-detail-info">
+		<div class="chef-main-head">
+			<div class="chef-head-left">
+				<i class="iconfont icon-qianbi"></i>
+				<div class="chef-left-text">
+					主讲
+				</div>
+			</div>
+		</div>
+		<div class="chef-trends-head">
+			<div class="trends-head-imgbox">
+				<img :src="portrait" alt="">
+			</div>
+			<div class="trends-head-center">
+				<div class="trends-center-top">
+					<span class="trends-center-name">{{videoInfo.real_name2}}</span>
+				</div>
+				<div class="trends-center-bottom trends-light">
+					<span class="trends-center-iden trends-light">{{videoInfo.cook_level}}</span>
+				</div>
+			</div>
+			<div class="trends-head-right">
+				<div class="trends-head-focus" @click="addFocus">
+					{{isFocus?'已关注':'关注'}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 详情-->
+	<div class="chef-main-head">
+		<div class="chef-head-left">
+			<i class="iconfont icon-qianbi"></i>
+			<div class="chef-left-text">
+				本期简介
+			</div>
+		</div>
+	</div>
+	<p class="synopsis">{{videoInfo.content}}</p>
+
+	<!-- 底部付费 -->
+	<div class="instructional-teaching-foot">
+		<div class="instructional-collect-real">
+			<i class="iconfont"></i>
+			<span class="teaching-foot-text" @click="collctIt">收藏</span>
+        </div>
+        <!--  -->
+		<div class="instructional-collect-style" v-if="!isVideoBuy">
+			<span class="teaching-foot-text"  @click="payReal(isNeedPay)">{{isNeedPay==0?'学习':'付费学习'}}</span>
+        </div>
+		<div class="instructional-collect-style" v-if="isVideoBuy">
+            <span class="teaching-foot-text"  @click="payReal(isNeedPay)">学习</span>
+        </div>
+	</div>
+
+    <div class="hide" id="dialog" ref="dialog">
+        gooooooood
+    </div>
+	
+        <!-- 弹框 -->
+        <transition 
+        enter-active-class="animated fadeIn" 
+        leave-active-class="animated fadeOut" 
+        :duration="200">
+            <div 
+            class="ui-dialog ui-dialog-operate ui-dialog-operate-icon show" 
+            v-show="isShowDia" >
+                <div class="ui-dialog-cnt"  @touchmove.prevent>
+                    <div class="dialog-x" @click="closeDia">x</div>
+                    <div class="detail-video-bottom">
+                        <div class="detail-video-name">{{videoInfo.title}}</div>
+                        <div class="video-video-detail">
+                            <div class="video-video-left">
+                                <i class="iconfont"></i>
+                                <span class="video-left-text">{{videoInfo.real_name2}}</span>|<span class="video-left-text">{{videoInfo.cook_level}}</span>
+                                <span class="video-left-tag video-tag">付费</span>
+                            </div>
+                        </div>
+                        <div class="video-detail-pay">
+                            <span class="video-pay-num">{{videoInfo.zpay}}</span>
+                            <span class="video-pay-normal">积分</span>
+                            <span class="video-pay-num"> / </span>
+                            <span class="video-pay-num">￥{{videoInfo.price}}</span>
+                            <span class="video-pay-normal">元</span>
+                        </div>
+                    </div>
+                    <div class="dialog-foot-pay">
+                        <div class="instructional-detal-title">
+                            <p class="detal-title-p">付款方式</p>
+                        </div>
+                        <div class="ui-form-item ui-form-item-checkbox ui-border-b">
+                            <label for="balance" class="ui-col-90">
+                                <i class="iconfont ui-col ui-col-25"></i>
+                                积分
+                            </label>
+                            <label class="ui-checkbox ui-col ui-col-10">
+                                <input type="radio" id="balance" v-model="payType" value="jfpay">
+                            </label>
+                        </div>
+                        <div class="ui-form-item ui-form-item-checkbox ui-border-b">
+                            <label for="zfb" class="ui-col-90">
+                                <i class="iconfont ui-col ui-col-25"></i>
+                                支付宝
+                            </label>
+                            <label class="ui-checkbox ui-col ui-col-10">
+                                <input type="radio" id="zfb" v-model="payType" value="zfb">
+                            </label>
+                        </div>
+                        <div class="ui-form-item ui-form-item-checkbox ui-border-b">
+                            <label for="wx" class="ui-col-90">
+                                <i class="iconfont ui-col ui-col-25"></i>
+                                微信
+                            </label>
+                            <label class="ui-checkbox ui-col ui-col-10">
+                                <input type="radio" id="wx" v-model="payType" value="wx">
+                            </label>
+                        </div>
+                        <div class="pay-study" @click="goToPay" tapmode>付费学习</div>
+                    </div>
+                    
+                </div>
+            </div>
+        </transition>
+
+	</div>
+	
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/layer.js"></script>
+<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+	$(function () {//消除300ms点击延迟
+		FastClick.attach(document.body);
+	});
+    var userId = window.localStorage.getItem("userId"); //用户id
+	var wrap = new Vue({
+        el:"#wrap",
+        data:{
+			URL:"",
+			isDet: 1,
+            imgDefalt:'../image/headimgDef.png',
+            focusText: "关注",
+            isShowDia:false,
+            videoId:0,
+            videoInfo:{},
+            portrait:"",
+            videoPlayer:null,
+            isVideoBuy:0,//未购买
+            isFocus:0,//未关注
+            isNeedPay:0,//是否收费
+            payType:""
+        },
+        methods: {
+            goBack:function goBack(){
+                api.closeWin();
+            }, 
+            checkImgExists:function(imgurl){//判断图片是否存在  
+                var that = this
+                var ImgObj = new Image(); 
+                if(imgurl.substr(0,7).toLowerCase() == "http://"){
+                    ImgObj.src = imgurl;
+                }else{
+                    ImgObj.src = this.URL+imgurl;
+                }
+                setTimeout(function(){
+                    if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {  
+                        if(imgurl.substr(0,7).toLowerCase() == "http://"){
+                            that.portrait = imgurl
+                        }else{
+                            that.portrait = that.URL+imgurl
+                        }
+                        return true;  
+                    } else {  
+                        that.portrait = that.imgDefalt
+                        return false;
+                    }  
+                },300)
+            },
+            //根据视频id获取视频信息
+            getVideoInfo:function getVideoInfo(){
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=appvideo&act=video_view',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            id: that.videoId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.checkImgExists(ret.retval.portrait)
+                        that.videoInfo = ret.retval
+                        that.sf_id = ret.retval.sf_id
+                        that.isNeedPay = ret.retval.pay
+                        that.getFocus()
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //是否关注
+            getFocus:function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=pd_follow',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            sf_id: that.sf_id,
+                            user_id:userId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.isFocus = ret.retval
+                    } else if (ret) {
+                        console.log(ret.msg)
+                        
+                    } else {
+                        console.log(err.msg)
+                    }
+                });
+            },
+            //获取是否购买
+            getVideoBuy:function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appvideo&act=pay_video',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            id: that.videoId,
+                            user_id:userId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.isVideoBuy = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            openVideo:function(url){
+                var that = this
+                if(this.isVideoBuy||this.isNeedPay){
+                    this.videoPlayer.play({
+                        texts: {
+                            head: {
+                                title: that.videoInfo.title
+                            }
+                        },
+                        styles: {
+                            head: { 
+                                bg: 'rgba(0.5,0.5,0.5,0.7)', 
+                                height: 44,
+                                titleSize: 16,
+                                titleColor: '#fff',
+                                backSize: 20,
+                                backImg: 'widget://image/back.png', 
+                                setSize: 20,
+                                setImg: 'widget://image/set.png' 
+                            },
+                            
+                        },
+                        path: url,
+                        autoPlay:true
+                    },function(ret, err) {
+                        //alert(JSON.stringify(ret));
+                        if (ret) {
+                            //alert(JSON.stringify(ret));
+                        } else {
+                            //alert(JSON.stringify(err));
+                        }
+                    });
+                }else{
+                    alert("先买")
+                }
+                
+            },
+			//点击视频详情
+            goTeachDet: function goTeachDet() {
+                api.openWin({
+                    name: 'chef.instructional'+Math.random(),
+                    url: './chef.instructional.html',
+                    bounces: false,
+                    pageParam: {}
+                });
+            },
+			collctIt:function collctIt(){
+               /*  var that = this
+                layer.open({
+                type: 1 //Page层类型
+                ,area: ['500px', '300px']
+                ,title: '你好，layer。'
+                ,shade: 0.6 //遮罩透明度
+                ,maxmin: true //允许全屏最小化
+                ,anim: 1 //0-6的动画形式，-1不开启
+                ,content: that.$refs.dialog,
+                });    */
+			},
+            focus: function focus() {
+                this.focusText = "已关注"
+            },
+            closeDia:function closeDia(){
+                this.isShowDia = false
+            },
+            payReal:function payReal(isNeedPay){
+                if(isNeedPay==0||this.isVideoBuy==1){//免费的
+                    this.openVideo(this.URL+this.videoInfo.video)
+                }else{
+                    this.isShowDia = true
+                }
+                return
+                api.ajax({
+                    url: 'ajax_url',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll:false
+                },function(ret,err){
+                    if (ret) {
+                        // TODO 
+                    } else {
+                        api.alert({
+                            msg:('错误码：'+err.code+'；错误信息：'+err.msg+'网络状态码：'+err.statusCode)
+                        });
+                    };
+                });
+            },
+            addFocus:function addFocus(){
+                var that =this
+                api.ajax({
+                    url : that.URL + 'index.php?app=appstaff&act=follow',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id : userId,
+                            sf_id : that.sf_id,
+                        }
+                    }
+                }, function(ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret.done) {
+                        console.log(ret.retval);
+                        if (ret.retval == 2) {
+                            console.log(ret.retval.length);
+                            that.isFocus = true
+                            api.toast({
+                                msg : '关注成功',
+                                duration : 2000,
+                                location : 'middle'
+                            });
+                        } else if (ret.retval == 1) {
+                            console.log(ret.retval.length);
+                            that.isFocus = false
+                            api.toast({
+                                msg : '取消关注',
+                                duration : 2000,
+                                location : 'middle'
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg : '关注失败',
+                            duration : 2000,
+                            location : 'middle'
+                        });
+                    }
+                });
+            },
+            goToPay:function(){
+                var that = this
+                console.log(this.payType)
+                api.ajax({
+                    url : that.URL + 'index.php?app=capital&act=createRechargeOrder',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : { 
+                            zpay: that.videoInfo.zpay,
+                            cz_money : that.videoInfo.price,
+                            user_id : userId,
+                            pay_type : that.payType,
+                            ajax : 1,
+                            v_id:that.videoInfo.id
+                        }
+                    }
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret));
+                    console.log(JSON.stringify(err));
+                    if (ret.done) {
+                    var order_id=ret.retval[0].order_id;
+                        if (that.payType == "wx") {
+                            var params = ret.retval[2].jsApiParameters;
+                            that.wx_pay(params);
+                        } else if(that.payType == "zfb"){
+                            var params = ret.retval[2].alipayAppParameters;
+                            that.zfb_pay(params,order_id)
+                        } else{
+                            api.toast({
+                                msg: ret.retval,
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+                            that.getVideoBuy()
+                            that.isShowDia = false
+                            that.openVideo(that.URL+that.videoInfo.video)
+                        }
+                    }else{
+                        api.toast({
+                            msg:ret.msg
+                        });
+                    }
+                });
+            },
+            wx_pay:function wx_pay(params) {
+			//console.log("mchId:" + params.mch_id + "prepay_id:" + params.prepay_id + "nonceStr:" + params.nonce_str + "timeStamp:" + params.timeStamp + "sign:" + params.sign_app);
+                var wxPay = api.require('wxPay');
+                var that = this
+                wxPay.payOrder({
+                    //apiKey : '',
+                    orderId : params.prepay_id,
+                    mchId : params.mch_id,
+                    nonceStr : params.nonce_str,
+                    timeStamp : params.timeStamp,
+                    package : 'Sign=WXPay',
+                    sign : params.sign_app,
+                }, function(ret, err) {
+                    if (ret.status) {
+                        //支付成功
+                        api.toast({
+                            msg: '支付成功',
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                        that.getVideoBuy()
+                        setTimeout(function(){
+                            that.openVideo(that.URL+that.videoInfo.video)
+                        },2000);
+                    } else {
+                        api.toast({
+                            msg : '支付失败,错误代码：' + err.code,
+                            duration : 2000,
+                            location : 'bottom'
+                        });
+                        //alert(err.code);
+                        console.log(err.code);
+                    }
+                });
+            },
+            zfb_pay:function zfb_pay(params,order_id) {
+                //开发者通过 payOrder 方法来进行支付，自己处理订单信息以及签名过程
+                console.log("自己处理订单信息以及签名过程请求:");
+                var aliPayPlus = api.require('aliPayPlus');
+                aliPayPlus.payOrder({
+                    orderInfo : params
+                }, function(ret, err) {
+                console.log(JSON.stringify(ret));
+                    if (ret.code == "9000") {
+                        api.toast({
+                            msg: '支付成功',
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                        that.getVideoBuy()
+                        setTimeout(function(){
+                            that.openVideo(that.URL+that.videoInfo.video)
+                        },2000);
+                    } else if(ret.code == "6001") {
+                        api.alert({
+                            title : '支付结果',
+                            msg : "取消付款",
+                            buttons : ['确定']
+                        });
+                    }else if(ret.code == "4000") {
+                        api.alert({
+                            title : '支付结果',
+                            msg : "订单支付失败",
+                            buttons : ['确定']
+                        });
+                    }else if(ret.code == "6002") {
+                        api.alert({
+                            title : '支付结果',
+                            msg : "网络连接出错",
+                            buttons : ['确定']
+                        });
+                    }else{
+                        api.alert({
+                            title : '支付结果',
+                            msg : "网络连接出错",
+                            buttons : ['确定']
+                        });
+                    }
+                    //api.closeWin();
+                });
+            }
+        },
+        created:function created(){
+            
+        },
+        mounted:function mounted() {
+            var that = this
+            this.$nextTick(function(){
+                apiready = function () {
+                    that.URL = $api.URL();
+                    var header = that.$refs.header;
+                    that.videoId = api.pageParam.id
+                    $api.fixStatusBar(header);
+                    that.videoPlayer = api.require('videoPlayer');
+                    that.getVideoInfo()
+                    that.getVideoBuy()
+                    api.setCustomRefreshHeaderInfo({
+                        bgColor: '#F6F6F6',
+                        images: {
+                            pull: 'widget://image/refresh/pulling.png',
+                            transform: [
+                                'widget://image/refresh/transform0.png',
+                                'widget://image/refresh/transform1.png',
+                                'widget://image/refresh/transform2.png',
+                                'widget://image/refresh/transform3.png',
+                                'widget://image/refresh/transform4.png',
+                                'widget://image/refresh/transform5.png',
+                                'widget://image/refresh/transform6.png'
+                            ],
+                            load: [
+                                'widget://image/refresh/loading0.png',
+                                'widget://image/refresh/loading1.png',
+                                'widget://image/refresh/loading2.png',
+                                'widget://image/refresh/loading3.png',
+                                'widget://image/refresh/loading4.png',
+                            ]
+                        }
+                    }, function (ret, err) {
+
+                    });
+                }
+            })
+            
+        },
+    })
+	
+</script>
+
+</html>

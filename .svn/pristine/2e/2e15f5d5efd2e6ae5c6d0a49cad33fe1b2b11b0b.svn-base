@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+  <title>设置</title>
+  <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+  <style>
+    html,
+    body {
+      background-color: #f4f4f4;
+    }
+
+    /* 徽章 */
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      border-radius: 4px;
+      box-shadow: 0 0 1px 1px #bdbdbd;
+      position: relative;
+      top: -10px;
+      left: 0px;
+      display: inline-block;
+      font-size: 12px;
+      text-align: center;
+      background-color: #FF5722;
+      color: #fff;
+    }
+
+    .out_div {
+      margin-top: 10px;
+      padding: 0 10px;
+    }
+
+    .set_list li {
+      height: 40px;
+      line-height: 40px;
+    }
+
+    .border_b {
+      border-bottom: 1px solid #f4f4f4
+    }
+
+    .my_btn {
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    #loginout {
+      color: #888;
+      background-color: #fff;
+      border: 1px solid #888;
+      border-radius: 5px;
+      text-align: center;
+      width: 60%;
+      height: 40px;
+      line-height: 40px;
+    }
+    .light-text{
+        margin-top: 50px;
+        font-size: 0.9em;
+        color: #c7c7c7;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header">账户与安全</div>
+    <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+  </header>
+  <div class="out_div clearfix">
+    <ul class="set_list">
+      <li onclick="goBindphone()" tapmode><span class="t_l">修改手机号
+          <!--<span class="badge-dot"></span>--></span><span class="t_r font_s2 font_c1"><i
+            class="iconfont icon-htbArrowright"></i></span></li>
+    </ul>
+  </div>
+  <div class="out_div clearfix">
+    <ul class="set_list">
+
+      <li class="border_b" class="border_b" onclick="goIndenty()" tapmode>
+        <span class="t_l">修改支付密码</span>
+        <span class="t_r font_s2 font_c1">
+          <span id="mobphone">未认证</span>&nbsp;<i class="iconfont icon-htbArrowright"></i>
+        </span>
+      </li>
+      <li class="border_b" class="border_b" onclick="goBindPays('zfb')" tapmode>
+        <span class="t_l">绑定支付宝</span>
+        <span class="t_r font_s2 font_c1">
+          <span id="zfbBind">未绑定</span>&nbsp;<i class="iconfont icon-htbArrowright"></i>
+        </span>
+      </li>
+      <li class="border_b" class="border_b" onclick="goBindPays('wechat')" tapmode>
+        <span class="t_l">修改微信号</span>
+        <span class="t_r font_s2 font_c1">
+          <span id="wxBind">未绑定</span>&nbsp;<i class="iconfont icon-htbArrowright"></i>
+        </span>
+      </li>
+      <li class="border_b" class="border_b" onclick="goBindPays('bank')" tapmode>
+        <span class="t_l">修改银行卡</span>
+        <span class="t_r font_s2 font_c1">
+          <span id="bankBind">未绑定</span>&nbsp;<i class="iconfont icon-htbArrowright"></i>
+        </span>
+      </li>
+    </ul>
+  </div>
+  <footer class="light-text mobphone">温馨提示：请正确填写您的新民和证件号码，后续需要使用此类信息进行验证</footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  var userId = window.localStorage.getItem("userId"); //用户id
+  $(function () { //消除300ms点击延迟
+    FastClick.attach(document.body);
+  });
+  //返回上一页
+  function goBack() {
+    api.closeWin();
+  }
+  var URL = "";
+  apiready = function () {
+    URL = $api.URL();
+    var header = $api.dom('header');
+    //适配iOS 7+，Android 4.4+状态栏
+    $api.fixStatusBar(header);
+    //初始加载列表
+    getInfo();
+    is_vx();
+  };
+
+  //加载帮助列表
+  function getInfo() {
+    api.ajax({
+      url: URL + 'index.php?app=myinfo&act=get_info',
+      method: 'post',
+      cache: false,
+      timeout: 30,
+      dataType: 'json',
+      returnAll: false,
+      data: {
+        values: {
+          user_id: userId,
+        }
+      }
+    }, function (ret, err) {
+      //alert(JSON.stringify(ret));
+      if (ret && ret.done) {
+        if (ret.retval.phone_mob != null) {
+          /* $("#mobphone").html("已绑定"); */
+        }
+      }
+    });
+  }
+
+  //是否绑定支付宝等
+  function getInfo() {
+    api.ajax({
+      url: URL + '/index.php?app=homepage&act=get_my_skfs',
+      method: 'post',
+      cache: false,
+      timeout: 30,
+      dataType: 'json',
+      returnAll: false,
+      data: {
+        values: {
+          user_id: userId,
+        }
+      }
+    }, function (ret, err) {
+      //alert(JSON.stringify(ret));
+      if (ret && ret.done) {
+        if (ret.retval.alipay != null) {
+          $("#zfbBind").html("已绑定");
+        }
+        if (ret.retval.wxpay != null) {
+          $("#wxBind").html("已绑定");
+        }
+        if (ret.retval.bank_sn != null) {
+          $("#bankBind").html("已绑定");
+        }
+      }else if(ret){
+        $("#zfbBind").html("未绑定");
+        $("#wxBind").html("未绑定");
+        $("#bankBind").html("未绑定");
+      }else{
+          api.toast({
+              msg: '获取信息失败',
+              duration: 2000,
+              location: 'bottom'
+          });
+      }
+    });
+  }
+
+  function is_vx() {
+    api.ajax({
+      url: URL + 'index.php?app=myinfo&act=is_sjvx',
+      method: 'post',
+      cache: false,
+      timeout: 30,
+      dataType: 'json',
+      returnAll: false,
+      data: {
+        values: {
+          user_id: userId,
+        }
+      }
+    }, function (ret, err) {
+      console.log(JSON.stringify(ret));
+      if (ret && ret.done) {
+        if (ret.retval.is_vx) {
+          $("#myweixin").html("已绑定");
+          $("#goBindweixin").bind('click', function () {
+            api.openWin({
+              name: 'mywechat',
+              url: './mywechat.html',
+              bounces: false,
+              animation: {
+                type: "push", //动画类型（详见动画类型常量）
+                subType: "from_right", //动画子类型（详见动画子类型常量）
+                duration: 300 //动画过渡时间，默认300毫秒
+              }
+            });
+          });
+        } else {
+          $("#myweixin").html("未绑定");
+          //                  		api.toast({
+          //				                msg: '未绑定',
+          //				                duration: 2000,
+          //				                location: 'middle'
+          //				             });
+        }
+      }
+    });
+  }
+
+  function goBindPays(type){
+    api.openWin({
+      name: 'bind.tixian.form',
+      url: './bind.tixian.html',
+      bounces: false,
+      animation: {
+        type: "push", 
+        subType: "from_right",
+        duration: 300 
+      },
+      reload: true,
+      pageParam: {
+        tixianType:type
+      },
+    });
+  }
+
+  function goBindphone() {
+    api.openWin({
+      name: 'verification.phone',
+      url: './verification.phone.html',
+      bounces: false,
+      animation: {
+        type: "push", //动画类型（详见动画类型常量）
+        subType: "from_right", //动画子类型（详见动画子类型常量）
+        duration: 300 //动画过渡时间，默认300毫秒
+      },
+      reload: true
+    });
+  }
+
+  function goIndenty() {
+    api.openWin({
+      name: 'identity.form',
+      url: './identity.form.html',
+      bounces: false,
+      animation: {
+        type: "push", //动画类型（详见动画类型常量）
+        subType: "from_right", //动画子类型（详见动画子类型常量）
+        duration: 300 //动画过渡时间，默认300毫秒
+      },
+      reload: true
+    });
+  }
+
+  function goAccount(){
+    api.openWin({
+      name: 'identity.form',
+      url: './identity.form.html',
+      bounces: false,
+      animation: {
+        type: "push", //动画类型（详见动画类型常量）
+        subType: "from_right", //动画子类型（详见动画子类型常量）
+        duration: 300 //动画过渡时间，默认300毫秒
+      },
+      reload: true
+    });
+  }
+
+
+</script>
+
+</html>

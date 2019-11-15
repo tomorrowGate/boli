@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>行业资讯</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.industry.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack()" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span >行业资讯</span>
+            </div>
+        </header>
+
+        <!-- 轮播图 -->
+        <div class="swiper">
+            <div class="swiper-container swiper-top">
+                <div class="swiper-wrapper" id="adv">
+                    <div class="swiper-slide" v-for="(v,i) in topBanner" :key="i" tapmode>
+                        <div class="swiper-top-imgbox">
+                            <img :src="URL+v.file_path" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <div class="chef-main-recomend">
+            <!-- 热点资讯、行业动态、最近活动 -->
+            <div class="chef-hotslist">
+                <div class="chef-hotslist-head">
+                    <p :class="['hotslist-head-item',bottomLists.activeIndex==0?'hotslist-head-active':'']" 
+                        @click="changeBottomList(0)" tapmode>热点资讯</p>
+                    <p :class="['hotslist-head-item',bottomLists.activeIndex==1?'hotslist-head-active':'']"
+                        @click="changeBottomList(1)" tapmode>行业动态</p>
+                    <p :class="['hotslist-head-item',bottomLists.activeIndex==2?'hotslist-head-active':'']"
+                        @click="changeBottomList(2)" tapmode>最新活动</p>
+                </div>
+                <div class="chef-hotslist-body">
+                    <div class="hotslist-body-item" v-for="(v,i) in bottomLists.showList" :key="i"
+                        @click="goEssay(v.article_id)">
+                        <div class="hotslist-item-title">
+                            {{v.title}}
+                        </div>
+                        <div class="hotslist-item-imgboxs">
+                            <div class="hotslist-imgboxs-imgbox" v-for="(value,index) in v.img_url" :key="index">
+                                <img :src="URL+value.file_path" alt="">
+                            </div>
+                        </div>
+                        <div class="hotslist-item-footer">
+                            <div class="hotslist-footer-item">
+                                <i class="iconfont icon-guankan"></i>
+                                <span class="hotslist-footer-look">{{v.watch}}</span>
+                            </div>
+                            <div class="hotslist-footer-item">
+                                <i class="iconfont icon-pinglun2"></i>
+                                <span class="hotslist-footer-comment">0</span>
+                            </div>
+                            <div class="hotslist-footer-item">
+                                <i class="iconfont icon-zan"></i>
+                                <span class="hotslist-footer-fabulous">{{v.zan}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    
+    var userId = window.localStorage.getItem("userId"); //用户id
+    var wrap = new Vue({
+        el:"#wrap",
+        data:{
+            URL:"",
+            topBanner: {},
+            bottomLists: {
+                activeIndex: 0,
+                list: [[], [], []],
+                start: [0, 0, 0],
+                end:[false,false,false],
+                showList: []
+            },
+            bottomText:"正在努力加载..."
+        },
+        methods: {
+            goBack:function goBack(){
+                api.closeWin();
+            },
+            //跳转文章页面
+            goEssay: function goEssay(Id) {
+                api.openWin({
+                    name: 'essay',
+                    url: './essay.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        articleId: Id, //文章id
+                        articleType: '1'
+                    }
+                });
+            },
+            //获得头部轮播
+            getTopBanner: function getTopBanner() {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=home_lunbo',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.topBanner = ret.retval
+                        console.log( ret.retval.length)
+                        that.$nextTick(function(){
+                            that.initSwiperTop()
+                        })
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //初始化头部轮播图
+            initSwiperTop: function swiperNotice() {
+                var swiperTop = new Swiper('.swiper-top', {
+                    slidesPerView: 1,
+                    spaceBetween: 0,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    observer: true,
+                    observeParents: true,
+                    on: {
+                        click: function () {
+                            const realIndex = this.realIndex;
+                            //that.handleClickSlide(realIndex); 
+                        }
+                    },
+                    preventLinksPropagation: false   // 阻止点击事件冒泡
+                });
+            },
+            changeBottomList: function (i) {
+                var that = this
+                this.bottomLists.activeIndex = i
+                var cateArr = [23,16,22]
+                /* console.log('激活的index='+this.bottomLists.activeIndex)
+                console.log('start'+that.bottomLists.start[that.bottomLists.activeIndex]) */
+                api.ajax({
+                    url: that.URL + '/index.php?app=boli_homepage&act=get_news',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: { 
+                            start: that.bottomLists.start[i] ,
+                            userId: userId,
+                            cate_id: cateArr[i]
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        if(ret.retval.length<=0){
+                            that.bottomLists.end[i] = true
+                        }else{
+                            ret.retval.forEach(function(v,index){
+                                //v.default_image = v.default_image.length?that.URL+v.default_image:"../image/cacheImg.jpg"
+                                that.bottomLists.list[i].push(v)
+                            })
+                            that.bottomLists.start[i] += 6;
+                            that.bottomLists.end[i] = false
+                        }
+                        //that.hotInfomation = ret.retval
+                        that.bottomLists.showList = that.bottomLists.list[i]
+                        
+                    } else if (ret) {
+                        //that.noKillGoods = true
+                        //暂无秒杀
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+        },
+        created:function created(){
+            
+        },
+        mounted:function mounted() {
+            var that = this
+            this.$nextTick(function(){
+                apiready = function () {
+                    that.URL = $api.URL();
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.getTopBanner()
+                    that.changeBottomList(that.bottomLists.activeIndex)
+                    api.setCustomRefreshHeaderInfo({
+                        bgColor: '#F6F6F6',
+                        images: {
+                            pull: 'widget://image/refresh/pulling.png',
+                            transform: [
+                                'widget://image/refresh/transform0.png',
+                                'widget://image/refresh/transform1.png',
+                                'widget://image/refresh/transform2.png',
+                                'widget://image/refresh/transform3.png',
+                                'widget://image/refresh/transform4.png',
+                                'widget://image/refresh/transform5.png',
+                                'widget://image/refresh/transform6.png'
+                            ],
+                            load: [
+                                'widget://image/refresh/loading0.png',
+                                'widget://image/refresh/loading1.png',
+                                'widget://image/refresh/loading2.png',
+                                'widget://image/refresh/loading3.png',
+                                'widget://image/refresh/loading4.png',
+                            ]
+                        }
+                    }, function (ret, err) {
+
+                    });
+
+                    $('.swiper-wrapper').on('touchstart', function (e) {
+                        console.log(api.setWinAttr)
+                        api.setWinAttr({
+                            bounces: false
+                        });
+                    });
+                    $('.swiper-wrapper').on('touchend', function (e) {
+                        api.setWinAttr({
+                            bounces: true
+                        });
+                    });
+                    
+                    //上拉加载
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 50 //距离底部距离
+                        }
+                    }, function (ret, err) {
+                        if (that.bottomLists.end[that.bottomLists.activeIndex] ) {
+                            that.bottomText = "——————到底线了——————"
+                            api.toast({
+                                msg: '没有更多了',
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+                        } else {
+                            
+                            that.changeBottomList(that.bottomLists.activeIndex)
+                        }
+                    });
+                }
+                
+            })
+            
+        },
+    })
+
+</script>
+
+</html>

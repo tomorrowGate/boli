@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>厨师入驻</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/kitchen.store.css" />
+</head>
+<body>
+    <div id="wrap" class="wrap">
+    <header class="page-head" ref="header">
+        <div class="back" @click="goBack" tapmode>
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span >开通厨小店</span>
+        </div>
+    </header>
+
+    <div class="chef-settled-main">
+            <!-- 个人资料填写完整 -->
+        <div class="settled-main-top">
+            <div class="settled-top-equity">
+                <i class="iconfont icon-question"></i>
+                <span class="equity-light">名厨权益</span> 
+            </div>
+            <div class="settled-top-title">
+                <div class="settled-title-main">
+                    <span class="settled-title-h1">个人资料填写完整</span>
+                    <span class="settled-h1-status settled-h1-no" v-if="!isInfoComplet">未完成</span>
+                    <span class="settled-h1-status settled-h1-yes" v-if="isInfoComplet">已完成</span>
+                </div>
+                <div class="settled-title-supplement">使用真实头像&姓名，有助于增加你的人脉</div>
+            </div>
+            <div class="settled-top-form">
+                <div 
+                class="settled-form-item settled-form-portrait" 
+                @click="openKindsPage('infomation.modify',{infoType:'portrait'})" 
+                tapmode="tapmodeclass2">
+                    <div class="settled-item-key">头像</div>
+                    <div class="settled-item-value settled-item-portrait">
+                        <img :src="portrait" alt="">
+                    </div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+                <div 
+                class="settled-form-item" 
+                @click="openKindsPage('infomation.modify',{infoType:'real_name'})"  
+                tapmode="tapmodeclass">
+                    <div class="settled-item-key">姓名</div>
+                    <div class="settled-item-value">{{real_name2}}</div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+                <div 
+                class="settled-form-item"
+                    @click="openKindsPage('infomation.modify',{infoType:'sex'})"  
+                    tapmode="tapmodeclass">
+                    <div class="settled-item-key">性别</div>
+                    <div class="settled-item-value">{{sex}}</div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+                <div 
+                class="settled-form-item"
+                    @click="openKindsPage('chef.cuisine')"  
+                    tapmode="tapmodeclass">
+                    <div class="settled-item-key">菜系</div>
+                    <div class="settled-item-value"> <span class="" v-for="(v,i) in tags" :key="i">{{v.name}}  &nbsp;</span></div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+                <div 
+                class="settled-form-item" 
+                @click="openKindsPage('infomation.modify',{infoType:'company'})"  
+                tapmode="tapmodeclass">
+                    <div class="settled-item-key">单位</div>
+                    <div class="settled-item-value">{{company}}</div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+                <div 
+                class="settled-form-item" 
+                @click="openKindsPage('infomation.modify',{infoType:'position'})"  
+                tapmode="tapmodeclass">
+                    <div class="settled-item-key">职位</div>
+                    <div class="settled-item-value">{{job}}</div>
+                    <div class="settled-item-rightarr"> <i class="iconfont icon-htbArrowright"></i> </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- 实名认证 -->
+        <div class="settled-main-center">
+            <div class="settled-top-title">
+                <div class="settled-title-main">
+                    <span class="settled-title-h1">实名认证</span>
+                    <span class="settled-h1-status settled-h1-no" v-if="!userInfos.is_shiming">未完成</span>
+                    <span class="settled-h1-status settled-h1-yes" v-if="userInfos.is_shiming">已完成认证</span>
+                </div>
+                <div class="settled-title-supplement">
+                    您的身份信息仅用于实名认证，我们保证您的信息安全不会被泄漏，并且不会用于任何其他用途
+                </div>
+            </div>
+            <div class="settled-center-btn" @click="goRealname" tapmode v-if="1||!userInfos.is_shiming">去完成实名</div>
+            <!-- <div class="settled-center-btn" tapmode v-if="userInfos.is_shiming">已完成实名</div> -->
+        </div>
+    
+        <!-- 提交审核 -->
+        <div class="settled-main-bottom">
+            <div class="settled-top-equity">
+                <div class=" ui-form-item-checkbox ui-border-b">
+                    <label class="ui-checkbox"  for="iPromise">
+                        <input type="checkbox" id="iPromise" v-model="iPromise">
+                    </label>
+                    <span class="equity-light-normal">
+                        我已仔细阅读并同意
+                    </span> 
+                    <span class="equity-light" @click="goKitchenAgreement">《厨小店用户协议》</span>  
+                </div>
+            </div>
+            <div class="settled-bottom-submit" @click="submitForm">申请开通</div>
+        </div>
+
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var portrait= window.localStorage.getItem('portrait');//头像
+    function get_user_info(){
+        wrap.getUserInfo()
+    } 
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            imgDefalt: '../image/headimgDef.png',
+            portrait:"",
+            userInfos:{},
+            iPromise:false,
+        },
+        computed: {
+            real_name2:function(){
+                var userInfos = this.userInfos
+                if(userInfos.real_name2&&userInfos.real_name2!="null"&&userInfos.real_name2!="undefind"){
+                    return userInfos.real_name2
+                }else{
+                    return "去填写"
+                }
+            },
+            sex:function(){
+                var sexArr=["保密","男","女"]
+                return sexArr[this.userInfos.gender]
+            },
+            tags:function(){
+                var userInfos = this.userInfos
+                if(userInfos.tags&&userInfos.tags.length&&userInfos.tags!="null"&&userInfos.tags!="undefind"){
+                    return userInfos.tags
+                }else{
+                    return "去填写"
+                }
+            },
+            company:function(){
+                var userInfos = this.userInfos
+                if(userInfos.company&&userInfos.company!="null"&&userInfos.company!="undefind"){
+                    return userInfos.company
+                }else{
+                    return "去填写"
+                }
+            },
+            
+            job:function(){
+                var userInfos = this.userInfos
+                if(userInfos.job&&userInfos.job!="null"&&userInfos.job!="undefind"){
+                    return userInfos.job
+                }else{
+                    return "去填写"
+                }
+            },
+            isInfoComplet:function(){
+                var userInfos = this.userInfos
+                if(userInfos.real_name!="null"&&portrait!="null"&&userInfos.gender!="null"&&userInfos.tags!="null"&&userInfos.job!="null"&&userInfos.company!="null"){
+                    return true
+                }else{
+                    return false
+                }
+            },
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            goRealname: function goRealname() {
+                api.openWin({
+                    name: 'chef.attestation',
+                    url: './chef.attestation.html',
+                    bounces: false,
+                    reload: true,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    }
+                });
+            },
+            goKitchenAgreement:function(){
+                api.openWin({
+                    name: 'mall.kindsArticle',
+                    url: './mall.kindsArticle.html',
+                    bounces: false,
+                    reload: true,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam:{
+                        articleName:"厨小店协议",
+                        articleCon:"kitchenAgreement"
+                    }
+                });
+            },
+            checkImgExists:function(imgurl){//判断图片是否存在  
+                var that = this
+                var ImgObj = new Image(); 
+                if(imgurl&&imgurl.substr(0,7).toLowerCase() == "http://"){
+                    ImgObj.src = imgurl;
+                }else{
+                    ImgObj.src = this.URL+imgurl;
+                }
+                setTimeout(function(){
+                    if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {  
+                        if(imgurl.substr(0,7).toLowerCase() == "http://"){
+                            that.portrait = imgurl
+                        }else{
+                            that.portrait = that.URL+imgurl
+                        }
+                        return true;  
+                    } else {  
+                        that.portrait = that.imgDefalt
+                        return false;
+                    }  
+                },300)
+                
+            },
+            getUserInfo:function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=myinfo&act=get_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values:{
+                            user_id:userId
+                        }
+                        
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        var portrait = ret.retval.portrait
+                        that.userInfos = ret.retval
+                        that.checkImgExists(portrait)
+                        var tagsArr = []
+                        if(ret.retval.tags){
+                            ret.retval.tags.forEach(function(v,i){
+                                tagsArr.push(v.id)
+                            })
+                            that.subTags = tagsArr.join(',')
+                        }
+                        console.log(portrait)
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            submitForm:function(){
+                var that = this
+                console.log(this.iPromise)
+                if(!this.iPromise){
+                    api.toast({
+                        msg: '请确保信息真实有效',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    return
+                }
+                api.ajax({
+                    url: that.URL + 'index.php?app=appvstore&act=apply_vstore',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values:{
+                            portrait:that.portrait,
+                            real_name2:that.userInfos.real_name2,
+                            sex:that.sex,
+                            tags:that.subTags,
+                            company:that.userInfos.company,
+                            job:that.userInfos.job,
+                            user_id:userId,
+                        }
+                        
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(err));
+                    if (ret.done) {
+                        api.toast({
+                            msg: "提交成功,请耐心等待审核",
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                        // setTimeout(function(){
+                        //     that.goBack()
+                        // },2000)
+                        setTimeout(function(){
+                            api.execScript({
+                                name: 'root',
+                                script: "setMyinfo()"
+                            });
+                            api.closeToWin({
+                                name: 'root'
+                            });
+                        },2000)
+                    } else {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                        setTimeout(function(){
+                            api.execScript({
+                                name: 'root',
+                                
+                                script: "setMyinfo()"
+                            });
+                            api.closeToWin({
+                                name: 'root'
+                            });
+                        },2000)
+                        
+                    }
+                });
+            },
+            openKindsPage:function(page,pageParams){
+                //pageArr={page:page,pageParamKey:[]}
+                api.openWin({
+                    name: page,
+                    url: './'+page+'.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",                
+                        subType:"from_right",      
+                        duration:300                
+                    },
+                    pageParam: pageParams
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.portrait = that.checkImgExists(portrait)?portrait:that.imgDefalt
+                    that.getUserInfo()
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

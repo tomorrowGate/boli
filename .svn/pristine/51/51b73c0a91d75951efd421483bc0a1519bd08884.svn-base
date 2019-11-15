@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>邀请好友注册</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.register.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部 -->
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>邀请好友注册</span>
+            </div>
+        </header>
+        <!-- 头部图片 -->
+        <div class="headImg">
+           <!--  <img src="../image//invitationDown.png" alt=""> -->
+           <p class="invitat-vip headImg-text">邀请vip会员</p>
+           <p class="invitat-app-down headImg-text">邀请好友下载厨连联APP</p>
+        </div>
+        <!-- 邀请得积分 -->
+        <div class="integral">
+            <P class="getIntegral">邀请得积分</P>
+            <P class="integralText">邀请好友注册得积分奖励</P>
+            <P class="getIntegral">好友下单获得更多奖励</P>
+            <P class="integralText">厨小店用户好友在平台购买商品，获得积分及佣金奖励</P>
+            <button class="integralBtn" onclick="fnOpenshare()">邀请好友注册得奖励</button>
+            <p class="recruitName">会员招募令</p>
+            <div class="recruit">
+                <div>
+                    <p class="recruitText">已邀人数</p>
+                    <p>{{shareInfo.tuijian_count}}</p>
+                </div>
+                <div>
+                    <p class="recruitText">总奖励 (元)</p>
+                    <p>{{shareInfo.already_commission}}</p>
+                </div>
+                <div>
+                    <p class="recruitText">已发奖励 (元)</p>
+                    <p>{{shareInfo.out_commission}}</p>
+                </div>
+            </div>
+        </div>
+        <!-- 分享以下商品邀请好友更有效 -->
+        <h5 class="title">分享以下商品邀请好友更有效</h5>
+        <!-- 全部最新热卖列表 -->
+        <div class="bestSellers">
+            <div 
+            class="bestSellers-item" 
+            v-for="(v,i) in bottomLists.showList" 
+            :key="i"
+            @click="goGoodsDet(v.goods_id)" >
+                <div class="bestSellers-img">
+                    <img :src="URL+v.default_image" alt="">
+                </div>
+                <div class="bestSellers-item-bottom">
+                    <p class="introduce">{{v.goods_name}}</p>
+                    <p class="bestSellers-red introduce">
+                        <span>
+                            <span class="bestSellers-text">￥{{v.price}}</span>
+                            <span class="bestSellers-del">￥{{v.oprice}}</span>
+                        </span>
+                        
+                        <span class="salesVolume">销量{{v.orders}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+	var portrait=window.localStorage.getItem('portrait');
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            defautCateId: 0,
+            bottomLists: {
+                activeIndex: 0,
+                list: [[], [], []],
+                start: [0, 0, 0],
+                end: [false, false, false],
+                showList: [],
+            },
+            shareInfo:{},//分享信息
+        },
+        methods: {
+            goBack: function () {
+                api.closeWin();
+            },
+            //获取模块名称
+            getAll_category: function getAll_category() {
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=get_gcategory_all',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.defautCateId = ret.retval[0].cate_id
+                        ret.retval.forEach(function (v, i) {
+                            if (v.goods_infos.length) {
+                                v.goods_infos.forEach(function (value, index) {
+                                    if (value.tags.length) {
+                                        value.tags = value.tags.split(",")
+                                        //console.log(value.tags)
+                                    }
+                                    value.oprice = value.oprice <= 1 ? value.oprice : parseInt(value.oprice)
+                                    value.price = value.price <= 1 ? value.price : parseInt(value.price)
+                                })
+                            }
+                        })
+                        that.category = ret.retval
+
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            //进入商品详情
+            goGoodsDet: function goGoodsDet(id, isKill, endTime) {
+                //console.log(id)
+                api.openWin({
+                    name: 'mall.description',
+                    url: './mall.description.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        goodId: id,
+                        seckill: isKill,
+                        endTime: endTime
+                    }
+                });
+            },
+            changeBottomList: function () {
+                var that = this
+                var i = 0
+                this.bottomLists.activeIndex = i
+                var funcArr = ["get_all_goods_new", "get_new_goods", "get_hot_goods"]
+                api.ajax({
+                    url: that.URL + '/index.php?app=homepage&act=' + funcArr[i],
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: { start: that.bottomLists.start[i] }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        if (ret.retval.length <= 0) {
+                            that.bottomLists.end[i] = true
+                        } else {
+                            ret.retval.forEach(function (v, index) {
+                                v.price = v.price <= 1 ? v.price : parseInt(v.price)
+                                v.oprice = v.oprice <= 1 ? v.oprice : parseInt(v.oprice)
+                                that.bottomLists.list[i].push(v)
+                            })
+                            that.bottomLists.start[i] += 6;
+                            that.bottomLists.end[i] = false
+                        }
+                        that.bottomLists.showList = that.bottomLists.list[i]
+
+                    } else if (ret) {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            
+	
+            
+            
+            
+            
+            
+            getShareData:function getShareData(){
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=myinfo&act=get_commission',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: { user_id: userId }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.shareInfo = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.changeBottomList(that.bottomLists.activeIndex)
+                    that.getShareData()
+                    //上拉加载
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 50 //距离底部距离
+                        }
+                    }, function (ret, err) {
+                        if (that.bottomLists.end[that.bottomLists.activeIndex]) {
+                            api.toast({
+                                msg: '没有更多了',
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        } else {
+
+                            that.changeBottomList(that.bottomLists.activeIndex)
+                        }
+                    });
+                    api.setCustomRefreshHeaderInfo({
+                        bgColor: '#F6F6F6',
+                        images: {
+                            pull: 'widget://image/refresh/pulling.png',
+                            transform: [
+                                'widget://image/refresh/transform0.png',
+                                'widget://image/refresh/transform1.png',
+                                'widget://image/refresh/transform2.png',
+                                'widget://image/refresh/transform3.png',
+                                'widget://image/refresh/transform4.png',
+                                'widget://image/refresh/transform5.png',
+                                'widget://image/refresh/transform6.png'
+                            ],
+                            load: [
+                                'widget://image/refresh/loading0.png',
+                                'widget://image/refresh/loading1.png',
+                                'widget://image/refresh/loading2.png',
+                                'widget://image/refresh/loading3.png',
+                                'widget://image/refresh/loading4.png',
+                            ]
+                        }
+                    }, function (ret, err) {
+                        setTimeout('api.refreshHeaderLoadDone()', '500');
+                    });
+                }
+            })
+        },
+        mounted: function mounted() {
+
+            //this.initSwiperTop()
+        },
+    })
+    
+          function fnOpenshare(){
+			/* api.execScript({
+				name:"index",
+				frameName: 'vip2member',
+				script:  "fnOpenshare();"
+				});*/
+				var dialogBox = api.require('dialogBox');
+				dialogBox.actionMenu({
+				rect : {
+					h : 150
+				},
+				texts : {
+					cancel : '取消'
+				},
+				items : [{
+					text : '微信',
+					icon : 'widget://image/wechat.png'
+				}, {
+					text : '微信朋友圈',
+					icon : 'widget://image/wpyq.png'
+				}, {
+					text : 'QQ',
+					icon : 'widget://image/qq.png'
+				}, {
+					text : 'QQ空间',
+					icon : 'widget://image/qzone.png'
+				}, {
+					text : '微博',
+					icon : 'widget://image/weibo.png'
+				}, {
+					text : '分享海报',
+					icon : 'widget://image/erweima.png'
+				}, {
+					text : '复制链接',
+					icon : 'widget://image/copylink.png'
+				}],
+				styles : {
+					bg : '#FFF',
+					column : 5,
+					itemText : {
+						color : '#000',
+						size : 12,
+						marginT : 8
+					},
+					itemIcon : {
+						size : 60
+					},
+					cancel : {
+						bg : 'fs://icon.png',
+						color : '#000',
+						h : 44,
+						size : 14
+					}
+				},
+				tapClose : true
+			}, function(ret, err) {
+
+				if (ret) {
+					console.log(JSON.stringify(ret));
+					if (ret.eventType == "cancel") {
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 0) {
+						get_goods_info(userId, "session");
+						//fnopenWechat("weixin",title,text,url,img);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 1) {
+						get_goods_info(userId, "timeline");
+						//fnopenWechat("weixin",title,text,url,img);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 2) {
+						get_goods_info(userId, "QFriend");
+						//fnopenQq(gID);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 3) {
+						get_goods_info(userId, "QZone");
+						//fnopenQq(gID);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 4) {
+						get_goods_info(userId, "sinaWb");
+						//fnopenWeibo(gID);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 5) {
+						fnopenErweima(userId);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+					if (ret.eventType == "click" && ret.index == 6) {
+						//fnopenCopylink(userId);
+						var dialogBox = api.require('dialogBox');
+						dialogBox.close({
+							dialogName : 'actionMenu'
+						});
+					}
+				} else {
+					//alert(JSON.stringify(err));
+				}
+			});
+			} 
+			
+			function get_goods_info(userId, tag) {
+			var url="";
+			var img="";
+			if(portrait.substr(0,7).toLowerCase() == "http://" ){
+                 img =portrait;
+            }else{
+                 img = URL + portrait;
+            }
+            var invite_code = localStorage.getItem("invite_code");
+            var real_name = localStorage.getItem("real_name");
+			var url ="http://app.zjboli.net/index.php?app=qrcode&invite_code="+invite_code+"&id="+invite_code;
+			var title = real_name;
+			var text = real_name+"邀请您加入厨连联大家庭";
+			//微信
+			if (tag == "session") {
+				fnopenWechat(tag, title, text, url, img);
+			} else if (tag == "timeline") {//微信朋友圈
+				fnopenWechat(tag, title, text, url, img);
+			} else if (tag == "QFriend") {
+				fnopenQq(tag, title, text, url, img);
+			}else if (tag == "QZone") {
+				fnopenQq(tag, title, text, url, img);
+			}else if (tag == "sinaWb") {
+				fnopenWeibo(tag, title, text, url, img);
+			}
+		}
+		//微信分享
+		function fnopenWechat(tar, title, text, url, img) {
+	
+		console.log("===>>>分享"+img);
+		console.log("===>>>分享"+tar);
+		console.log("===>>>分享"+title);
+		console.log("===>>>分享"+text);
+		console.log("===>>>分享"+url);
+			filename = (new Date()).valueOf() + '.' + img.substring(img.lastIndexOf('.') + 1);
+			api.download({
+				url : img,
+				savePath : 'fs://' + filename,
+				report : false,
+				cache : true,
+				allowResume : true
+			}, function(ret, err) {
+				var wx = api.require('wx');
+				wx.isInstalled(function(ret) {
+					if (ret.installed) {
+						api.toast({
+							msg : '分享中，请稍候',
+							duration : 2000,
+							location : "middle"
+						});
+					} else {
+						api.toast({
+							msg : '没有安装微信，无法进行分享',
+							duration : 2000,
+							location : "middle"
+						});
+					}
+				});
+				wx.shareWebpage({
+					apiKey : '',
+					scene : tar,
+					title : title,
+					description : text,
+					thumb : 'fs://' + filename,
+					contentUrl : url
+				}, function(ret, err) {
+					if (ret.status) {
+						api.toast({
+							msg : '分享成功',
+							duration : 2000,
+							location : "middle"
+						});
+					}
+				});
+			});
+		}
+
+		//QQ分享
+			function fnopenQq(tar, title, text, url, img) {
+			var qq = api.require('QQPlus');
+			qq.installed(function(ret) {
+				if (ret.status) {
+					api.toast({
+						msg : '分享中，请稍候',
+						duration : 2000,
+						location : "middle"
+					});
+				} else {
+					api.toast({
+						msg : '没有安装QQ，无法进行分享',
+						duration : 2000,
+						location : "middle"
+					});
+				}
+			});
+			qq.shareNews({
+				url : url,
+				title : title,
+				description : text,
+				imgUrl : img,
+				type : tar
+			}, function(ret, err) {
+				if (ret.status) {
+					api.toast({
+						msg : '分享成功',
+						duration : 2000,
+						location : "middle"
+					});
+				}
+			});
+		}
+		//新浪微博分享
+		function fnopenWeibo(tar, title, text, url, img) {
+			filename = (new Date()).valueOf() + '.' + img.substring(img.lastIndexOf('.') + 1);
+			api.download({
+				url : img,
+				savePath : 'fs://' + filename,
+				report : false,
+				cache : true,
+				allowResume : true
+			}, function(ret, err) {
+				var weibo = api.require('weibo');
+				weibo.shareImage({
+					text : title + text + url,
+					imageUrl : 'fs://' + filename
+				}, function(ret, err) {
+					if (ret.status) {
+						api.toast({
+							msg : '分享成功',
+							duration : 2000,
+							location : "middle"
+						});
+					}
+				});
+			});
+		}
+
+		function fnopenErweima(user_id) {
+			api.openWin({
+				name : 'appshare.ewm',
+				url : './appshare.ewm.html',
+				bounces : false,
+				pageParam : {
+					user_id : user_id
+				},
+				animation : {
+					type : "push", //动画类型（详见动画类型常量）
+					subType : "from_right", //动画子类型（详见动画子类型常量）
+					duration : 300 //动画过渡时间，默认300毫秒
+				}
+			});
+		}
+            
+            
+            
+</script>
+
+</html>

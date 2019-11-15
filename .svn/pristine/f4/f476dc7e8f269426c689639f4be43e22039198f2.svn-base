@@ -1,0 +1,38 @@
+html,body{
+    background: #f2f2f2;
+}
+.headerImg-center{
+    padding: 10px;
+    box-sizing: border-box;
+    border-bottom:10px solid #f2f2f2
+}
+.invitat-app-down{
+    font-size: 0.8em;
+}
+.invitat-money{
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+.invitat-vip{
+    width: 80%;
+    text-indent: 10px;
+    font-size: 2em;
+    border-bottom: 1px solid #ddd;
+}
+.wrap{
+    background: #fff;
+}
+
+.integralBtn{
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    width: 80%;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 25px;
+    text-align: center;
+    background: #6fba2c;
+    color: #fff;
+    transform: translate(-50%);
+}

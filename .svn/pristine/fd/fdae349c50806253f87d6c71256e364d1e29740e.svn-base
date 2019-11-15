@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>管理收货地址</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<style>
+			html, body {
+				/* background-color: #efefef; */
+			}
+			.null {
+				text-align: center;
+				padding-top: 30%;
+				color: #666;
+			}
+			.out_div {
+				margin-top: 10px;
+			}
+			.address_box {
+				background-color: #fff;
+				margin: 10px;
+				border-radius: 5px;
+				padding: 10px;
+				position: relative;
+			}
+			.address_info {
+				padding-bottom: 20px;
+				border-bottom: 1px solid #f2f2f2
+			}
+			.address_info p {
+				height: 30px;
+				line-height: 30px;
+			}
+			.oprate {
+				padding: 10px 0 0 0;
+			}
+			.new-add{
+				position: fixed;
+				bottom: 0px;
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				background: #6fba2c;
+				text-align: center;
+				color: #fff;
+				font-size: 0.9em;
+				z-index:3
+			}
+			.address-top{
+				display: flex;
+				justify-content: space-between;
+				color: #000;
+				font-size: 15px;
+			}
+			.address-middle{
+				font-size: 14px;
+			}
+			.address-btns{
+				margin-left:16px ;
+			}
+			.ui-radio input:before {
+				width: 20px;
+				height: 20px;
+			}
+			.ui-radio input:checked:after {
+				top: 4px;
+				left: 4px;
+				background: #c8ad8f;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				管理收货地址
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+			<div class="DIV_R1" onclick="goAddaddr()" tapmode>
+				添加
+			</div>
+		</header>
+		<div class="null hide">
+			<p><img src="../image/address.png" width="60%"  />
+			</p>
+			<p>
+				您还没有收货地址哦~
+			</p>
+		</div>
+		<div class="clearfix" id="address_list">
+
+		</div>
+		<footer class="new-add">新增收货地址</footer>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		var URL = "";
+		var comefrom;
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+			comefrom=api.pageParam.comefrom;//如果comefrom=orderConfirm表示从确认订单页面选择收货地址跳转而来
+
+			//加载帮助列表
+
+
+			//初始加载列表
+			getAddress();
+		};
+
+		console.log(userId)
+		function getAddress() {
+				api.ajax({
+					url : URL + '/index.php?app=appaddress',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							user_id : userId,
+						}
+					}
+				}, function(ret, err) {
+					console.log(JSON.stringify(ret));
+					if (ret && ret.done) {
+						if (ret.retval.length == 0) {
+							$("#address_list").html("");
+							$(".null").removeClass("hide");
+						} else {
+							$(".null").addClass("hide");
+							var str = "";
+							//$api.append($api.byId("address_list"), '');
+							$.each(ret.retval, function(i, item) {
+								if(item.status!=1){
+								str += '<div class="address_box" >';
+								str += '<div class="address_info" onclick="checkAddr(\'' +item.addr_id+'\')">';
+								str += '<p class="address-top"> <span class="">' + item.consignee + '</span><span class="">' + item.phone_mob + '</span></p>';
+								str += '<p class="address-middle">' + item.region_name + '</p>';
+								str += '<p class="address-middle">' + item.address + '</p>';
+								str += '</div>';
+								str += '<div class="oprate clearfix">';
+								str += '<div class="t_l" onclick="save_def(' + item.addr_id + ')">';
+								if (item.status==2) {
+									str += '<label class="ui-radio" for="default_addr"><input type="radio"  name="default_addr" value="' + item.addr_id + '" checked="checked"></label>&nbsp;默认地址</div>';
+								} else {
+									str += '<label class="ui-radio" for="default_addr"><input type="radio" name="default_addr" value="' + item.addr_id + '"></label>&nbsp;默认地址</div>';
+								}
+								str += '<div class="t_r">';
+								str += '<span class="address-btns" onclick="goEditaddr(' + item.addr_id + ')" tapmode><i class="iconfont icon-bianji"></i>编辑</span>';
+								str += '<span class="address-btns" onclick="goDropaddr(' + item.addr_id + ')" tapmode><i class="iconfont icon-shanchu"></i>删除</span>';
+								str += '</div>';
+								str += ' </div>';
+								str += ' </div>';
+								}
+							});
+							$("#address_list").html(str);
+						}
+					}
+				});
+			}
+
+
+        //返回确认订单
+        function checkAddr(addrId){
+          var jsfun = 'getAddressinfo("' + addrId+ '");';
+           if(comefrom=='orderConfirm'){
+           	api.execScript({
+               name: 'order.confirm',
+               script: jsfun
+           });
+           }
+          api.closeWin();
+        }
+		//添加地址
+		function goAddaddr() {
+			api.openWin({
+				name : 'address.form',
+				url : './address.form.html',
+				bounces : false,
+				animation : {
+					type : "push", //动画类型（详见动画类型常量）
+					subType : "from_right", //动画子类型（详见动画子类型常量）
+					duration : 300 //动画过渡时间，默认300毫秒
+				}
+			});
+		}
+
+		//编辑地址
+		function goEditaddr(addrId) {
+			api.openWin({
+				name : 'address.form',
+				url : './address.form.html',
+				bounces : false,
+				animation : {
+					type : "push", //动画类型（详见动画类型常量）
+					subType : "from_right", //动画子类型（详见动画子类型常量）
+					duration : 300 //动画过渡时间，默认300毫秒
+				},
+				pageParam : {
+					addrId : addrId //通过var addrId=api.pageParam.addrId; 调用
+				}
+			});
+		}
+
+		//删除地址
+		function goDropaddr(addrId) {
+			api.confirm({
+				msg : '您确定要删除该收货地址吗？',
+				buttons : ['确定', '取消']
+			}, function(ret, err) {
+				var index = ret.buttonIndex;
+				if (index == 1) {
+					api.ajax({
+						url : URL + '/index.php?app=appaddress&act=drop_address',
+						method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+							values : {
+								user_id : userId,
+								addr_id : addrId
+							}
+						}
+					}, function(ret, err) {
+						 console.log(JSON.stringify(ret));
+						if (ret.done) {
+							api.toast({
+								msg : '删除成功!',
+								duration : 2000,
+								location : 'bottom'
+							});
+							getAddress();
+						}
+					})
+				}
+			});
+		}
+		function save_def(id){
+			api.ajax({
+					url : URL + '/index.php?app=myinfo&act=up_addr_sta',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							user_id : userId,
+							addr_id:id
+						}
+					}
+				}, function(ret, err) {
+					//console.log(JSON.stringify(ret));
+					if (ret && ret.done) {
+						api.toast({
+								msg : '设置成功!',
+								duration : 2000,
+								location : 'bottom'
+							});
+						getAddress();
+					}
+				});
+		}
+	</script>
+</html>

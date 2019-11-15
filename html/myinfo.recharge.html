@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的资产</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/my.recharge.css" />
+</head>
+
+<body>
+    <div id="wrap" class="wrap">
+        <!-- 头部 -->
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+            <div class="head-center">
+                <span>充值</span>
+            </div>
+        </header>
+        <!-- 头部图片 -->
+        <div class="asset-outcon">
+            <div class="headerImg-center">
+                <p class="invitat-app-down ">充值金额</p>
+                <p class="invitat-money">
+                    ￥<input type="text" class="invitat-vip" v-model = "rechargeMoney"/>
+                </p>
+            </div>
+            <!-- 余额 -->
+            <div class="recharge-type">
+                <div class="recharge-type-text">充值方式</div>
+
+                <div class="col-bottom-text hide">
+                    <div class="recharge-card">
+                        <div class="recharge-pic"></div>
+                        <div class="recharge-card-out">
+                            <div class="recharge-card-top">浙江农信储蓄卡（7365）</div>
+                            <div class="recharge-card-bottom">当日交易限额 ￥10000.00</div>
+                        </div>
+                    </div>
+                    <i class="iconfont icon-htbArrowright"></i>
+                </div>
+                
+                <div class="col-bottom-text "><span class="col-bottom-bind">请绑定银行卡</span> <i class="iconfont icon-htbArrowright"></i></div>
+            </div>
+        </div>
+        <button class="integralBtn" @click="goKitchenStore">充值</button>
+        <button class="integralBtn" @click="goKitchenStore">确定</button>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            moneyInfo:[],
+            rechargeMoney:20
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            goKitchenStore: function goset() {
+                api.openWin({
+                    name: 'kitchen.store',
+                    url: './kitchen.store.html',
+                    bounces: false,
+                    reload: true,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    }
+                });
+            },
+            goTixian:function(){
+                api.openWin({
+                    name: 'cash.tixian',
+                    url: './cash.tixian.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                    type:"push",               
+                    subType:"from_right",   
+                    duration:300             
+                    }
+                });
+            },
+            //跳转
+			goAssetsDetail:function goAssetsDetail(type){
+                api.openWin({
+                    name: 'myassets.details',
+                    url: './myassets.details.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",               
+                        subType:"from_right",       
+                        duration:300                
+                    },
+                    pageParam:{
+                        profitPeriod:type
+                    }
+                });
+            },
+            //获取资产消息
+            getMoneyInfo:function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + '/index.php?app=myinfo&act=get_commission',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id:userId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.moneyInfo = ret.retval
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.getMoneyInfo()
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+</script>
+
+</html>

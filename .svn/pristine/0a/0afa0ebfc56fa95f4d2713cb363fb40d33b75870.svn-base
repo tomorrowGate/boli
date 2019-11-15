@@ -1,0 +1,376 @@
+html,
+body {
+    overflow-x: hidden;
+    background-color: #f2f2f2;
+    font-size: 14px;
+}
+
+/* 头部 */
+.green {
+    background: #6fba2c;
+}
+
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+    color: #fff;
+}
+
+.icon-left {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    color: #fff;
+}
+
+.flex-wrap {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.flex-vertical {
+    -webkit-box-orient: vertical;
+    -webkit-flex-flow: column;
+    flex-flow: column;
+}
+
+.my_info {
+    width: 100%;
+    position: relative;
+    color: #fff;
+}
+
+.portrait {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    border: 1px solid #fff;
+}
+
+.info_l {
+    float: left;
+    padding: 7px 5px 20px 0;
+}
+
+.info_m {
+    float: left;
+    padding: 0 20px 20px 5px
+}
+
+.info1 {
+    margin: 5px 0;
+}
+
+
+#user_name {
+    font-size: 1.1em;
+    vertical-align: middle;
+}
+
+.jb {
+    background-color: #d2ad73;
+    border-radius: 20px 20px 20px 0px;
+    padding: 0px 5px;
+    text-align: center;
+    font-size: 0.8em;
+}
+
+.jb_1 {
+    background-color: #6fba2c;
+    border-radius: 20px 20px 20px 0px;
+    padding: 0px 5px;
+    text-align: center;
+    font-size: 0.8em;
+}
+
+.border-w {
+    border: 1px solid #fff;
+    height: 17px;
+    line-height: 17px;
+    border-radius: 10px;
+    background-color: transparent;
+    padding: 0 8px;
+    font-size: 0.8em;
+}
+
+.border-b {
+    height: 17px;
+    line-height: 17px;
+    border-radius: 10px;
+    background-color: #d2ad73;
+    padding: 0 8px;
+    font-size: 0.8em
+}
+
+.case2 {
+    background-color: #6fba2c;
+    margin: 0px;
+    padding: 50px 15px 0 15px;
+    color: #fff;
+    border-radius: 0px 0px 10% 10%;
+    background: url(../image/vip_bg.png) 0 0 no-repeat;
+    background-size: 100% 320px;
+    margin-bottom: 20px;
+
+}
+
+/* 我的账单区 */
+.bill {
+    font-size: 0.9em;
+    width: 96%;
+    margin: -30px auto 10px;
+    border-radius: 4px;
+    background: #fff;
+    padding: 10px 0 10px 10px;
+    box-sizing: border-box;
+}
+
+.profit {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.profitNumber {
+    color: #6fba2c;
+    font-size: 1.3em;
+}
+
+.examine {
+    color: #ccc;
+    background: #f2f2f2;
+    height: 22px;
+    line-height: 22px;
+}
+
+.billFlex {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.billItem {
+    text-align: center;
+    width: 30%;
+}
+
+.b_right {
+    border-right: 1px solid #f2f2f2;
+}
+
+.b_left {
+    border-left: 1px solid #f2f2f2;
+}
+
+/* 搜索 */
+
+.search-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 10px;
+    background: #fff;
+    margin-bottom: 1px;
+    font-size: 0.9em;
+}
+
+.search-main {
+    position: relative;
+    width: 86%;
+    background: #f2f2f2;
+    border: 1px solid #f2f2f2;
+    border-radius: 15px;
+}
+
+.search-virtual {
+    margin-left: 20px;
+    width: calc(100% - 32px);
+    height: 15px;
+    padding: 5px;
+    
+}
+
+.icon-search {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-60%)
+}
+
+/* 发货状态 */
+.chef-detail-info {
+    position: relative;
+    background-size: 100% 100%;
+    margin-bottom: 1px;
+}
+
+.chef-hotslist-head {
+    display: flex;
+    background: #fff;
+    font-size: 0.9em;
+}
+
+.hotslist-head-item {
+    width: 33.3%;
+    /* padding: 5px 0; */
+    margin: 10px 0;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.hotslist-head-active {
+    position: relative;
+    color: #6eb92c;
+}
+
+.hotslist-head-active::after {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 50%;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    border: 1px solid #6eb92c;
+}
+
+/* 订单选项 */
+.shopHead {
+    padding: 0 10px;
+    line-height: 42px;
+    font-size: 0.9em;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+}
+.cargoStatus{
+    color: #ff0000;
+}
+
+.shopMar {
+    margin-top: 8px;
+}
+
+.chef-form-card {
+    padding: 10px 10px;
+    background: #ffffff;
+    margin-bottom: 8px;
+}
+
+.after-goods-item {
+    display: flex;
+    padding-bottom: 6px;
+    align-items: center;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.shopIcn {
+    align-items: center;
+}
+
+.chef-form-leftimg {
+    width: 120px;
+    height: 110px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background: skyblue;
+}
+
+.chef-form-leftimg img {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.chef-right-content {
+    line-height: 20px;
+    width: 70%;
+    position: relative;
+}
+.tag{
+    display: flex;
+    justify-content: space-between;
+}
+.chef-head1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.how{
+    color: #ccc;
+}
+.chef-head2 {
+    color: #a3a3a3;
+    font-size: 0.6em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 24px;
+}
+
+.chef-head3 {
+    font-size: 0.6em;
+    color: #a3a3a3;
+}
+
+.forum-foot-bg {
+    background: #d96b6c;
+    padding: 0 5px;
+    margin-right: 2px;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.chef-head4 {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.swiper-red {
+    color: #ff0000;
+    position: relative;
+
+}
+
+.swiper-del {
+    margin-left: 3px;
+    font-size: 0.6em;
+    color: #a3a3a3;
+    text-decoration: line-through;
+}
+.earnRed{
+    color: #ff0000;
+}
+.earn{
+    font-size: 0.9em;
+}
+.after-goods-bottom{
+    font-size: 0.9em;
+}
+.after-goods{
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 0;
+}
+.after-bottom-texts{
+    color: #ccc;
+}
+.after-text-right{
+    color: #ccc;
+    margin-right: -10px;
+}
+.after-goods-normal{
+    display: flex;
+    justify-content: flex-end;
+}
+.after-goods-btn{
+    border: 1px solid #6fba2c;
+    color: #6fba2c;
+    padding: 4px;
+    border-radius: 5px;
+}

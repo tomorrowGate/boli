@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>我的</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部图片 -->
+        <div>
+            <div class="headImg">
+                <div class="ui-row-flex ui-whitespace">
+                    <div class="ui-col" @click="openKindsPage('infomation')">
+                        <div class="my-head-imgbox">
+                            <img :src="portrait" alt="">
+                        </div>
+                    </div>
+                    <div class="ui-col ui-col-4">
+                        <div class="ui-row-flex ui-whitespace ui-row-flex-ver">
+                            <div class="ui-col flex-spans">
+                                <span class="head-h1">{{userInfos.real_name?userInfos.real_name:"未填写"}}</span> 
+                                <span class="head-h1-tag" v-show="userInfos.is_staff">厨师</span>
+                                <span class="head-h1-tag head-tag-kitch"  v-show="kitchStore==1">厨小店</span>
+                            </div>
+                            <div class="ui-col">
+                                <span class="head-tag">邀请码: <span class="" ref="invite_code">{{userInfos.invite_code}}</span></span>
+                                <span class="head-tag head-tag-blown" @click="copyHref" tapmode="tapmodeclass">复制</span> 
+                            </div>
+                            <div class="ui-col"><span class="head-fans">粉丝 {{userInfos.fensi?userInfos.fensi:"0"}}</span>  <span class="head-fans">关注 {{userInfos.guan}}</span></div>
+                        </div>
+                    </div>
+                    <div class="ui-col">
+                        <div class="head-right-item bage-dot-out">
+                            <i class="iconfont icon-xiaoxi" @click="goMessage" tapmode="tapmodeclass">
+                                <span class="badge-dot" v-show="megDotShow"></span>
+                            </i>
+                        </div>
+                        <div class="head-right-point head-right-item">
+                            <span class="head-tag head-tag-point" @click="goMyPoint" tapmode="tapmodeclass">赚积分</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="my-content">
+            <div class="ui-grid ui-grid-trisect my-money-out">
+                <ul class="ui-border-b" @click="openKindsPage('my.assets')">
+                    <li>
+                        <div class="ui-grid-info ui-border-r my-money-row" tapmode="tapmodeclass2">
+                            <span class="my-money-num">{{userInfos.money}}</span>
+                            <div>余额</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ui-grid-info ui-border-r my-money-row" tapmode="tapmodeclass2">
+                            <span class="my-money-num">{{userInfos.already_commission}}</span>
+                            <div>收益</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ui-grid-info ui-border-r my-money-row" tapmode="tapmodeclass2">
+                            <span class="my-money-num">{{userInfos.zpay}}</span>
+                            <div>积分</div>
+                        </div>
+                    </li>
+                </ul>
+            </div> 
+
+            <div class="ui-tab my-order-tab">
+                <div class="ui-row-flex my-order-row">
+                    <div 
+                        :class="['ui-col', 'my-order-normal',swiperActive==0?'my-order-select':'']" 
+                        @click="changeOrderTitle(0)" 
+                        tapmode="tapmodeclass">我的订单</div>
+
+                    <div 
+                    :class="['ui-col', 'my-order-normal',swiperActive==1?'my-order-select':'']" 
+                        @click="goAftersale" 
+                        tapmode="tapmodeclass"> 设备安装</div>
+                </div>
+                <div class="swiper-container swiper-line">
+                    <!-- 我的订单 -->
+                    <div class="swiper-wrapper">
+                        <div class="ui-row-flex swiper-slide  swiper-no-swiping">
+                            <div 
+                            class="ui-col"
+                            @click="goMyorders(1)"
+                            tapmode="tapmodeclass">
+                                <div class="ui-grid-info ui-border-r my-money-row" >
+                                    <span class="my-money-radius">
+                                        <i class="iconfont icon-fukuan"></i>
+                                        <span class="rot-text order-rot-text" v-show="userInfos.pending_count">{{userInfos.pending_count}}</span>
+                                    </span>
+                                    <div>待付款</div>
+                                </div>
+                            </div>
+                            <div 
+                            class="ui-col"
+                            @click="goMyorders(2)"
+                            tapmode="tapmodeclass">
+                                <div class="ui-grid-info ui-border-r my-money-row">
+                                    <span class="my-money-radius">
+                                        <i class="iconfont icon-peisong"></i>
+                                        <span class="rot-text order-rot-text" v-show="userInfos.accepted_count">{{userInfos.accepted_count}}</span>
+                                    </span>
+                                    <div>待配送</div>
+                                </div>
+                            </div>
+                            <div 
+                            class="ui-col"
+                            @click="goMyorders(3)"
+                            tapmode="tapmodeclass">
+                                <div class="ui-grid-info ui-border-r my-money-row">
+                                    <span class="my-money-radius">
+                                        <i class="iconfont icon-peisongzhong"></i>
+                                        <span class="rot-text order-rot-text" v-show="userInfos.shipped_count">{{userInfos.shipped_count}}</span>
+                                    </span>
+                                    <div>配送中</div>
+                                </div>
+                            </div>
+                            <div class="ui-col">
+                                <div 
+                                class="ui-grid-info ui-border-r my-money-row"
+                                @click="goMyorders(4)"
+                                tapmode="tapmodeclass">
+                                    <span class="my-money-radius">
+                                        <i class="iconfont icon-yiwancheng"></i>
+                                        <span class="rot-text order-rot-text" v-show="userInfos.finished_count">{{userInfos.finished_count}}</span>
+                                    </span>
+                                    <div>已完成</div>
+                                </div>
+                            </div>
+                            <div class="ui-col"
+                            @click="goAftersale"
+                            tapmode="tapmodeclass">
+                                <div  class="ui-grid-info ui-border-r my-money-row">
+                                    <span class="my-money-radius">
+                                        <i class="iconfont icon-daipingjia"></i>
+                                        <!-- <span class="rot-text order-rot-text ">5</span> -->
+                                    </span>
+                                    <div>待评价</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 设备安装 -->
+                        <div class="ui-row-flex swiper-slide  swiper-no-swiping">
+                                <div 
+                                class="ui-col"
+                                @click="goMyorders(1)"
+                                tapmode="tapmodeclass">
+                                    <div  class="ui-grid-info ui-border-r my-money-row" >
+                                        <span class="my-money-radius"><i class="iconfont icon-fukuan"></i></span>
+                                        <div>待付款</div>
+                                    </div>
+                                </div>
+                                <div 
+                                class="ui-col"
+                                @click="goMyorders(2)"
+                                tapmode="tapmodeclass">
+                                    <div class="ui-grid-info ui-border-r my-money-row">
+                                        <span class="my-money-radius"><i class="iconfont icon-peisong"></i></span>
+                                        <div>待发货</div>
+                                    </div>
+                                </div>
+                                <div 
+                                class="ui-col"
+                                @click="goMyorders(3)"
+                                tapmode="tapmodeclass">
+                                    <div class="ui-grid-info ui-border-r my-money-row">
+                                        <span class="my-money-radius"><i class="iconfont icon-peisongzhong"></i></span>
+                                        <div>待安装</div>
+                                    </div>
+                                </div>
+                                <div class="ui-col">
+                                    <div 
+                                    class="ui-grid-info ui-border-r my-money-row"
+                                    @click="goMyorders(4)"
+                                    tapmode="tapmodeclass">
+                                        <span class="my-money-radius"><i class="iconfont icon-yiwancheng"></i></span>
+                                        <div>已完成</div>
+                                    </div>
+                                </div>
+                                <div class="ui-col"
+                                @click="goAftersale"
+                                tapmode="tapmodeclass">
+                                    <div  class="ui-grid-info ui-border-r my-money-row">
+                                        <span class="my-money-radius"><i class="iconfont icon-daipingjia"></i></span>
+                                        <div>待评价</div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 我是厨小店 -->
+            <div class="my-servers "  v-show="kitchStore==1">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">我的厨小店</div>
+                        <span class="kitchen-authentic">线上认证</span>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div 
+                    class="ui-col kitch-item"
+                    @click="openKindsPage('myinfo.kitchenhome')"
+                    tapmode="tapmodeclass">
+                        <div class="myinfo kitch-imgbox">
+                            <img src="../image/kitchenMain.png" alt="" class=""> 
+                        </div>
+                        <div class="">
+                            <div class="">
+                                <span class="kitch-maintext">小店主页<i class="iconfont icon-htbArrowright"></i></span>
+                            </div>
+                            <div class="kitchen-light-font">我的厨小店详情</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col kitch-item"
+                    @click="openKindsPage('myinfo.myworks')"
+                    tapmode="tapmodeclass">
+                        <div class="myinfo kitch-imgbox">
+                            <img src="../image/kitchenEquity.png" alt="" class=""> 
+                        </div>
+                        <div class="">
+                            <div class="">
+                                <span class="kitch-maintext">我的权益<i class="iconfont icon-htbArrowright"></i></span>
+                            </div>
+                            <div class="kitchen-light-font">我的厨小店权益</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="kitchen-bottom">
+                    <div class="kitchen-bottom-left">今天有<span class="kitchen-red">15</span>位好友购买了商品</div>
+                    <div class="kitchen-bottom-right">查看详情<i class="iconfont icon-htbArrowright"></i></div>
+                </div>
+            </div>
+
+            <!-- 我的服务 -->
+            <div class="my-servers">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">我的服务</div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('myinfo.trends')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info my-money-row" >
+                            <div class="balllist-items-icon"><i class="iconfont icon-wodedongtai"></i></div>
+                            <div>我的动态</div>
+                        </div>
+                    </div>
+                    <!--  @click="openKindsPage('myinfo.study')" -->
+                    <div 
+                    class="ui-col"
+                    @click="goAftersale"
+                    tapmode="tapmodeclass">
+                        <div  class="ui-grid-info my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-xuexi"></i></div>
+                            <div>我的学习</div>
+                        </div>
+                    </div>
+                    <!--  @click="openKindsPage('myinfo.underline')" -->
+                    <div 
+                    class="ui-col"
+                    @click="goAftersale"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-yuyue1"></i></div>
+                            <div>线下预约</div>
+                        </div>
+                    </div>
+                    <!-- myinfo.msg -->
+                    <div 
+                    class="ui-col"
+                    @click="goAftersale"
+                    tapmode="tapmodeclass">
+                        <div  class="ui-grid-info my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-07"></i></div>
+                            <div>我的消息</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('myinfo.circle')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-wodequanzi"></i></div>
+                            <div>我的圈子</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('cart')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-gouwuche"></i></div>
+                            <div>购物车</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('myinfo.collectgood')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-wuxiaoxing-kong"></i></div>
+                            <div>物品收藏</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('myinfo.coupton')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-youhuiquan1"></i></div>
+                            <div>优惠券</div>
+                        </div>
+                    </div>
+                </div>
+                <div 
+                class="ui-row-flex ">
+                    <div 
+                    class="flex-onlyone"
+                    @click="openKindsPage('myinfo.afterbuy')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-tuikuan"></i></div>
+                            <div>退款售后</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 我的维修 -->
+            <div class="my-servers" v-show="userInfos.im_aliww==2">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">我的维修</div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('maintain',{orderState:1})"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-shipin"></i></div>
+                            <div>待维修</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('maintain',{orderState:2})"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-ren1"></i></div>
+                            <div>已完成</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 我的维保 -->
+            <div class="my-servers" v-show="userInfos.im_aliww==2">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">我的维保</div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('protect',{orderState:1})"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-shipin"></i></div>
+                            <div>待维保</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('protect',{orderState:2})"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-ren1"></i></div>
+                            <div>已完成</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <!-- 我的会员 -->
+            <div class="my-servers" v-show="userInfos.store_id">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">我的会员</div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('myinfo.myworks')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-shipin"></i></div>
+                            <div>会员管理</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('myinfo.createcen')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-ren1"></i></div>
+                            <div>我的设备</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 厨师服务 -->
+            <div class="my-servers">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">厨师服务</div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('chef.detail',{sf_id:userInfos.sf_id,pageType:'chef'})"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-shipin"></i></div>
+                            <div>我的作品</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('myinfo.createcen',{sf_id:userInfos.sf_id,pageType:'chef'})"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-ren1"></i></div>
+                            <div>创作中心</div>
+                        </div>
+                    </div>
+                    <!-- openKindsPage('myinfo.master') -->
+                    <div 
+                    class="ui-col"
+                    @click="goAftersale"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-yuyue1"></i></div>
+                            <div>我的师门</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- 我的设备 -->
+            <div class="my-servers">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">我的设备</div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('my_devices')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-diannao"></i></div>
+                            <div>设备管理</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('preService')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-naozhong"></i></div>
+                            <div>预约维修</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('myAfterSer')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-shouhou1"></i></div>
+                            <div>我的售后</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('alertRecord')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-gaojing"></i></div>
+                            <div>告警记录</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他服务 -->
+            <div class="my-servers">
+                <div class="chef-main-head">
+                    <div class="chef-head-left">
+                        <i class="iconfont icon-qianbi"></i>
+                        <div class="chef-left-text">其他服务</div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('chef.settled')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon">
+                                <i class="iconfont icon-renzheng2"></i>
+                                <span class="rot-text" v-show="userInfos.is_staff!=1">HOT</span>
+                                <span class="rot-text" v-show="userInfos.is_staff==1">已开通</span>
+                            </div>
+                            <div>厨师认证</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('kitchen.open',{pageType:'kitchStore'})"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon">
+                                <i class="iconfont icon-new-store-open"></i>
+                                <span class="rot-text" v-show="kitchStore!=1">HOT</span>
+                                <span class="rot-text" v-show="kitchStore==1">已开通</span>
+                            </div>
+                            <div>开通厨小店</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('mall.register')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-yaoqinghaoyoufuben"></i></div>
+                            <div>邀请好友</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('service',{sorce: 'myinfo'})"
+                    tapmode="tapmodeclass"
+                    >
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-kefu1"></i></div>
+                            <div>联系客服</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-row-flex ">
+                    <div 
+                    class="ui-col"
+                    @click="goAftersale"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-woshiqiye"></i></div>
+                            <div>我是名厨</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('suggest')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-yijianfankui"></i></div>
+                            <div>意见反馈</div>
+                        </div>
+                    </div>
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('article',{articleType:'help'})"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-question"></i></div>
+                            <div>使用帮助</div>
+                        </div>
+                    </div> 
+                    <div 
+                    class="ui-col"
+                    @click="openKindsPage('set')"
+                    tapmode="tapmodeclass">
+                        <div class="ui-grid-info ui-border-r my-money-row">
+                            <div class="balllist-items-icon"><i class="iconfont icon-shezhi1"></i></div>
+                            <div>系统设置</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    //var portrait = JSON.parse(window.localStorage.getItem('portrait'));//头像
+    var portrait = window.localStorage.getItem('portrait');//头像
+    /* console.log(portrait) */
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            topBanner: {},
+            imgDefalt: '../image/headimgDef.png',
+            swiperLine: null,
+            swiperActive:0,
+            userInfos:{},
+            portrait:"",
+            kitchStore:0,
+            megDotShow:false,
+            badgeState:{
+                order_num:{//订单信息
+                    pending_count:0,//未付款
+                    accepted_count:0,//待配送
+                    shipped_count:0,//配送中
+                    finished_count:0//已完成
+                }
+            },
+        },
+        computed: {
+
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            checkImgExists:function(imgurl){//判断图片是否存在  
+                var that = this
+                var ImgObj = new Image(); 
+                if(imgurl&&imgurl.substr(0,7).toLowerCase() == "http://"){
+                    ImgObj.src = imgurl;
+                }else{
+                    ImgObj.src = this.URL+imgurl;
+                }
+                setTimeout(function(){
+                    if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {  
+                        if(imgurl.substr(0,7).toLowerCase() == "http://"){
+                            that.portrait = imgurl
+                        }else{
+                            that.portrait = that.URL+imgurl
+                        }
+                        return true;  
+                    } else {  
+                        that.portrait = that.imgDefalt
+                        return false;
+                    }  
+                },300)
+            },
+            isLogin:function isLogin(){
+                var that = this
+                console.log(window.localStorage.getItem("userId"))
+                if(!userId){
+                    var timer = setTimeout(function(){
+                        api.openWin({
+                            name : 'login',
+                            url : './login.html',
+                            allowEdit:true,
+                            slidBackEnabled:false
+                        });
+                        api.toast({
+                            msg: '请先登录!',
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                        clearTimeout(timer)
+                    },500)
+                }else{
+                    that.getUserInfo()
+                }
+                
+            },
+            getUserInfo:function(){
+                var that = this
+                
+                api.ajax({
+                    url: that.URL + '/index.php?app=myinfo&act=get_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values:{
+                            user_id:userId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        var portrait = ret.retval.portrait
+                        that.userInfos = ret.retval
+                        that.checkImgExists(portrait)
+                        //console.log(portrait)
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        //alert(JSON.stringify(err))
+                        var timer = setTimeout(function(){
+                            api.toast({
+                                msg: err.msg,
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                            clearTimeout(timer)
+                        },2000)
+                        
+                    }
+                });
+            },
+            //是否开通厨小店
+            isLittleKitchen :function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appvstore',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: userId
+                        }
+                    }
+                }, function (ret, err) {
+                    if (ret && ret.done) {
+                       that.kitchStore = ret.retval
+                       window.localStorage.setItem("kitchStore",ret.retval)//本地存储是否厨小店
+                    } else if (ret) {
+                        console.log(ret.msg)
+                    } else {
+                        console.log(err.msg)
+                    }
+                });
+            },
+            copyHref:function copyHref(){
+                var content=this.$refs.invite_code.innerHTML
+                var clipBoard = api.require('clipBoard');
+                clipBoard.set({
+                    value: content
+                }, function(ret, err) {
+                    if (ret) {
+                        api.toast({
+                            msg: '复制成功',
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }else{
+                        api.toast({
+                            msg: '复制失败',
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            initSwiperLine:function(){
+                this.swiperLine = new Swiper('.swiper-line', {
+                    noSwiping : true,
+                });
+            },
+            goMessage:function goMessage(){
+                api.openWin({
+                    name: 'myMessage',
+                    url: './myMessage.html',
+                    bounces: false,
+                    reload:true,
+                    overScrollMode:'scroll',
+                    animation:{
+                        type:"push",                
+                        subType:"from_right",      
+                        duration:300               
+                    },
+                    pageParam: {
+                        articleType: 'message' 
+                    }
+                });
+            },
+            goMyPoint:function goMyPoint(){
+                api.openWin({
+                    name: 'myPoint',
+                    url: './myPoint.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",            
+                        subType:"from_right",    
+                        duration:300             
+                    },
+                    pageParam: {
+                        articleType: 'point' 
+                    }
+                });
+            },
+            goKitchenStore: function goKitchenStore() {
+                api.openWin({
+                    name: 'kitchen.store',
+                    url: './kitchen.store.html',
+                    bounces: false,
+                    reload: true,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    }
+                });
+            },
+            changeOrderTitle:function(i){
+                this.swiperActive = i
+                this.swiperLine.slideTo(i, 300, false)
+            },
+            goMyorders:function(orderState){
+                api.openWin({
+                    name: 'myorder',
+                    url: './myorder.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",                
+                        subType:"from_right",      
+                        duration:300                
+                    },
+                    pageParam: {
+                        orderState: orderState
+                    }
+                });
+            },
+            goAftersale:function(){
+                api.toast({
+                    msg: '敬请期待',
+                    duration: 2000,
+                    location: 'middle'
+                });
+            },
+            openKindsPage:function(page,pageParams){
+                if(pageParams&&pageParams.pageType=='chef'&&!pageParams.sf_id){
+                    api.toast({
+                        msg: '您还不是厨师,请先认证',
+                        duration: 2000,
+                        location: 'middle'
+                    });
+                    return
+                }
+                if(pageParams&&pageParams.pageType=='kitchStore'&&this.kitchStore==1){
+                    api.toast({
+                        msg: '您已经开通了厨小店~',
+                        duration: 2000,
+                        location: 'middle'
+                    });
+                    return
+                }
+                api.openWin({
+                    name: page,
+                    url: './'+page+'.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",                
+                        subType:"from_right",      
+                        duration:300                
+                    },
+                    pageParam: pageParams
+                });
+            },
+            get_msg_status:function get_msg_status(){
+                var that = this
+                api.ajax({
+                    url : that.URL + 'index.php?app=myinfo&act=get_msg_status',
+                        method : 'post',
+                        cache : false,
+                        timeout : 30,
+                        dataType : 'json',
+                        returnAll : false,
+                        data : {
+                            values : {
+                                user_id:userId
+                                    }
+                            }
+                },function(ret,err){
+                    if(!ret.done){
+                        that.megDotShow = true
+                    }else{
+                        that.megDotShow = false
+                    }
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    api.setCustomRefreshHeaderInfo({
+                        bgColor: '#F6F6F6',
+                        images: {
+                            pull: 'widget://image/refresh/pulling.png',
+                            transform: [
+                                'widget://image/refresh/transform0.png',
+                                'widget://image/refresh/transform1.png',
+                                'widget://image/refresh/transform2.png',
+                                'widget://image/refresh/transform3.png',
+                                'widget://image/refresh/transform4.png',
+                                'widget://image/refresh/transform5.png',
+                                'widget://image/refresh/transform6.png'
+                            ],
+                            load: [
+                                'widget://image/refresh/loading0.png',
+                                'widget://image/refresh/loading1.png',
+                                'widget://image/refresh/loading2.png',
+                                'widget://image/refresh/loading3.png',
+                                'widget://image/refresh/loading4.png',
+                            ]
+                        }
+                    }, function (ret, err) {
+                        that.getUserInfo()
+                        that.isLittleKitchen()
+                        setTimeout('api.refreshHeaderLoadDone()', '2000');
+                    });
+                    that.isLittleKitchen()
+                    that.isLogin()
+                    //that.getUserInfo()
+                }
+            })
+        },
+        mounted: function mounted() {
+            this.initSwiperLine()
+        },
+    })
+
+    
+    function get_user_info(){
+        console.log(wrap)
+        wrap.getUserInfo()
+    }
+</script>
+
+</html>

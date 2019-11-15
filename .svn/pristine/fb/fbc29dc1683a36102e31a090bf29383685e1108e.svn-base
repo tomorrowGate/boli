@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>我的订单</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<style>
+			html, body {
+				background-color: #fff;
+			}
+			header{ position:relative;}
+			.top_tab {
+				font-size: 0.8em
+			}
+			.top_tab span {
+				height: 30px;
+				line-height: 30px;
+				width: 5em;
+				border: 1px solid #21bdc9;
+				background-color: #f2f2f2;
+			}
+			.top_tab .active {
+				color: #fff;
+				background-color: #21bdc9
+			}
+			.null {
+				text-align: center;
+				padding-top: 30%;
+				color: #666;
+			}
+			.top_nav {
+				padding: 10px 10px 5px 10px;
+				background-color: #fff;
+			}
+			.top_nav .nav_item {
+				float: left;
+				width: 33.33%;
+				text-align: center;
+			}
+			.top_nav .nav_item span {
+				border: none;
+				height: 40px;
+				line-height: 40px;
+				padding: 0 5px;
+			}
+			.top_nav .active span {
+				border-bottom: 1px solid #21bdc9;
+				color: #21bdc9;
+			}
+			.out_div {
+				margin-top: 10px;
+				padding:5px;
+			}
+			#monet_list {
+				padding: 5px 0;
+				background-color: #f2f2f2;
+			}
+			.money_item{ width:100%; }
+			.profit_item{
+	        margin-bottom: 10px;
+					padding:0 5%;
+					border-top: 1px solid #f2f2f2
+	    }
+			.r6{
+	    	padding:0px;
+	    	width:100%;
+	    	line-height:30px;
+	    }
+
+	    .item_l{
+	        padding-left:10px;
+	        float:left;
+	        font-size: 0.9em;
+
+	    }
+	    .item_r{
+	        padding-right:10px;
+	        float:right;
+	        text-align:right;
+	        font-size: 0.9em;
+					color:#21bdc9
+	    }
+	    .ms{
+	        color:#a3a3a3;
+					padding-right:10px
+	    }
+	    .xt{
+	    	border-bottom:1px solid #e9e9e9;
+	    }
+
+        </style>
+    </head>
+
+    <body>
+        <header>
+			<div class="header">提现记录</div>
+			<div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+        </header>
+        <div class="top_nav clearfix hide">
+			<div class="nav_item item_1" onclick="chageMoneyState('1')" tapmode>
+				<span>已提现</span>
+			</div>
+			<div class="nav_item item_2" onclick="chageMoneyState('2')" tapmode>
+				<span>待提现</span>
+			</div>
+        </div>
+        <div class="null">
+			<p><img src="../image/order.png" width="60%"  />
+			</p>
+			<p>
+				暂无提现记录哦~
+			</p>
+        </div>
+        <div id="money_list" class="clearfix">
+            
+		</div>
+    </body>
+    
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript" src="../script/lib/template.js"></script>
+    <script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+		//用户id
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		var sta;
+		var URL = "";
+		var moneyState;
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+			//初始加载列表
+			//chageMoneyState('0');
+			getMoneys();
+			//上拉加载
+      api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 50 //距离底部距离
+            }
+        }, function(ret, err) {
+            console.log("上拉加载");
+             if(data_liushui!=null){
+        	if(data_liushui.length<10){
+        	api.toast({
+	                  msg: '没有更多了',
+	                  duration: 2000,
+	                  location: 'bottom'
+	                });
+              }else{
+                start+=10;
+
+          		setTimeout('getMoneys()', '300');
+            }
+         }
+        });
+		};
+		//加载列表
+		//加载列表
+		var start=0;
+		var data_liushui=null;
+		function getMoneys() {
+			api.ajax({
+				url : URL + 'index.php?app=homepage&act=tixian_liushui',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId,
+						start:start
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				//console.log(ret.retval.length);
+				if (ret && ret.done) {
+					if (ret.retval.length == 0) {
+						$("#money_list").html("");
+						$(".null").removeClass("hide");
+					} else {
+						data_liushui=ret.retval;
+						$(".null").addClass("hide");
+
+						$.each(ret.retval, function(i, item) {
+							var add_time = formatDateTime(item.add_time);
+						var str='<div class="profit_item">';
+							 str+='<div class="r6 xt clearfix" >';
+								 str+='<div class="item_l ms">'+add_time+'</div>';
+								 str+='<div class="item_r">'+item.money+'</div>';
+							str+=' </div>';
+							 str+='<div class="r6 clearfix">';
+								str+=' <div class="item_l ms">'+item.log_text+'</div>';
+							 str+='</div>';
+						 str+='</div>';
+						 if(i==0){
+							$api.html($api.byId("money_list"), str);
+						 }else{
+							$api.append($api.byId("money_list"), str);
+						 }
+						})
+					}
+				}else{
+					$("#money_list").html("");
+					$(".null").removeClass("hide");
+				}
+			});
+		}
+
+        //切换状态
+		function chageMoneyState(cId) {
+			sta=cId;
+			$(".nav_item").removeClass("active");
+			$(".item_" + cId).addClass("active");
+			if (cId == 0) {
+				$(".exchange").removeClass("hide");
+			} else {
+				$(".exchange").addClass("hide");
+			}
+			getMoneys(cId);
+		}
+//时间戳转换
+			 		function formatDateTime(timeStamp) {
+			 			var date = new Date();
+			 			date.setTime(timeStamp * 1000);
+			 			var y = date.getFullYear();
+			 			var m = date.getMonth() + 1;
+			 			m = m < 10 ? ('0' + m) : m;
+			 			var d = date.getDate();
+			 			d = d < 10 ? ('0' + d) : d;
+			 			var h = date.getHours();
+			 			h = h < 10 ? ('0' + h) : h;
+			 			var minute = date.getMinutes();
+			 			var second = date.getSeconds();
+			 			minute = minute < 10 ? ('0' + minute) : minute;
+			 			second = second < 10 ? ('0' + second) : second;
+			 			//return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+			 			return y+'-'+m+'-'+d+' '+h+':'+minute;
+			 	};
+    </script>
+</html>

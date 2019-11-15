@@ -1,0 +1,79 @@
+html,body{
+    background: #f2f2f2;
+}
+.headerImg-center{
+    padding: 10px;
+    box-sizing: border-box;
+    border-bottom:10px solid #f2f2f2
+}
+.invitat-app-down{
+    font-size: 0.8em;
+}
+.invitat-money{
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+.invitat-vip{
+    width: 80%;
+    text-indent: 10px;
+    font-size: 2em;
+    border-bottom: 1px solid #ddd;
+}
+.wrap{
+    background: #fff;
+}
+/* 余额 */
+.recharge-type{
+    font-size: 14px;
+}
+.recharge-type-text{
+    height: 40px;
+    padding: 0 10px;
+    line-height: 40px;
+}
+.recharge-card{
+    display: flex;
+}
+.recharge-pic{
+    width: 16px;
+    height: 16px;
+    background: skyblue;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: 8px;
+}
+.recharge-card-top{
+    line-height: 30px;
+}
+.recharge-card-bottom{
+    line-height: 30px;
+}
+.col-bottom-text .iconfont{
+    position: absolute;
+    top:50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+.col-bottom-text{
+    position: relative;
+    width: 100%;
+    padding:20px 10px 30px 10px;
+    height: 90px;
+    box-sizing: border-box;
+}
+.col-bottom-bind{
+    color: #67c1fd;
+}
+.integralBtn{
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    width: 80%;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 25px;
+    text-align: center;
+    background: #6fba2c;
+    color: #fff;
+    transform: translate(-50%);
+}

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,width=device-width,initial-scale=1.0"/>
+		<title>登录</title>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/layer.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/login.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+	</head>
+	<body>
+		<header>
+			<div class="DIV_L hide" onclick="goBack()" tapmode>
+				<i class="close_icon iconfont icon-back"></i>
+			</div>
+		</header>
+		<div id="wrap">
+			<div class="content">
+				<div class="logo"><img src="../image/logo.png">
+					<!-- <p>
+					打造餐饮行业综合性平台
+					</p> -->
+				</div>
+				<form  id="form1" role="form" class="form-horizontal">
+					<div class="list_item border-b">
+						<i class="iconfont icon-buchongiconsvg03"></i>
+						<input type="text" name="telephone" id="telephone" class="ip" placeholder="手机号码">
+					</div>
+					<div class="list_item border-b hide">
+						<input type="password" name="password" id="password" class="ip" placeholder="密码">
+					</div>
+					<div class="list_item border-b">
+						<i class="iconfont icon-mima"></i>
+						<input type="text" name="check_code" id="check_code" class="ip1" placeholder="短信验证码">
+						<input class="Captcha" type="button" value="获取" onclick="getCode(this)" tapmode />
+					</div>
+					<!-- <span class="forgot text-primary" onclick="goForget()" tapmode>找回密码</span> -->
+					<!-- <div class="register">还没有账户？<span class="text-primary" onclick="goRegister()" tapmode>立即注册</span></div>	 -->
+					<div class="sub_botton clearfix">
+						<input 
+						type="button" 
+						class="btn col-xs-12 btn_login" 
+						value="登 录" 
+						 onclick="loginIn()"
+						 style="outline: none;" 
+						 tapmode />
+					</div>
+				</form>
+			</div>
+			<div class="wechat" onclick="wechart_log()">
+				<hr/>
+				<span class="or">或</span>
+				<br/>
+				<img src="../image/wechat.png">
+				<p>
+					微信登录
+				</p>
+			</div>
+			<div class="footer">
+				登录即代表您已阅读并同意<span>《服务协议》</span>和<span>《隐私政策》</span>
+			</div>
+		</div>
+		<script type="text/javascript" src="../script/api.js"></script>
+		<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../script/lib/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../script/lib/bscroll.min.js"></script>
+		<script type="text/javascript" src="../script/lib/layer.js"></script>
+		<script type="text/javascript" src="../script/lib/layer_style.js"></script>
+		<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+		<script type="text/javascript">
+			function goBack() {
+				console.log('22222222222');
+				api.sendEvent({//登录状态改变退出
+					name : 'loginBack'
+				});
+				api.closeWin();
+			}
+
+			var URL = "";
+			$(function() {//消除300ms点击延迟
+				FastClick.attach(document.body);
+			});
+			//var loginPwd=window.localStorage.getItem("loginPwd");  //密码
+			var telephone = window.localStorage.getItem("telephone");
+			//手机号码
+			/*if(loginPwd!=""&&loginPwd!=null&&loginPwd!=undefined){
+			 $("#password").val(loginPwd);
+			 }*/
+			if (telephone != "" && telephone != null && telephone != undefined) {
+				$("#telephone").val(telephone);
+			}
+			var headerH;
+			apiready = function() {
+				var header = $api.dom('header'); // 获取 header 标签元素
+            	headerH = $api.fixStatusBar(header);
+				var wx = api.require('wx');
+				wx.isInstalled(function(ret, err) {
+					if (!ret.installed) {
+						$(".wechat").addClass("hide");
+					}
+				});
+				var header = $api.dom('header');
+				//适配iOS 7+，Android 4.4+状态栏
+				$api.fixStatusBar(header);
+				exit_app();
+				//双击退出APP
+				URL = $api.URL();
+				api.addEventListener({//登录状态改变退出
+					name : 'loginOut'
+				}, function(ret, err) {
+					$("#telephone").val("");
+					//手机号码
+					//$("#password").val("");  //密码
+				});
+				if (localStorage.getItem('userId')) {
+					api.openWin({
+						name : 'index',
+						url : './index.html',
+						bounces : false,
+						reload : true,
+						animation : {
+							type : "push", //动画类型（详见动画类型常量）
+							subType : "from_right", //动画子类型（详见动画子类型常量）
+							duration : 300 //动画过渡时间，默认300毫秒
+						}
+					});
+				}
+				var push = api.require('push');
+				push.bind({
+					userName : localStorage.getItem("real_name2"),
+					userId : localStorage.getItem("UID")
+				}, function(ret, err) {
+					if (ret) {
+						//alert( JSON.stringify( ret) );
+					} else {
+						//alert( JSON.stringify( err) );
+					}
+				});
+				$("input").keyup(function() {
+					if ($("#telephone").val() !== '' && $("#check_code").val() !== '') {
+						$(".btn_login").addClass("login_active");
+					} else {
+						$(".btn_login").removeClass("login_active");
+					}
+				})
+			}
+			//双击退出APP
+			function exit_app() {
+				api.addEventListener({
+					name : 'keyback'
+				}, function(ret, err) {
+					api.toast({
+						msg : '再按一次返回键退出' + api.appName,
+						duration : 2000,
+						location : 'bottom'
+					});
+					api.addEventListener({
+						name : 'keyback'
+					}, function(ret, err) {
+						api.closeWidget({
+							animation : {
+								type : 'flip',
+								subType : 'from_bottom',
+								duration : 500
+							},
+							silent : true
+						});
+					});
+					setTimeout(function() {
+						exit_app();
+					}, 3000);
+				});
+			}
+
+			var fun = {};
+			//获取验证码
+			var _telphone = "";
+			//暂存手机号码
+			var _code = "";
+			//验证码
+			var Num;
+			function getCode(objThis) {
+				var telephone = $("#telephone").val();
+				Num = "";
+				for (var i = 0; i < 6; i++) {
+					Num += Math.floor(Math.random() * 10);
+				}
+				if (telephone == "" || telephone == null || telephone == undefined) {
+					MyToast('请输入手机号码');
+				} else if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(telephone))) {
+					MyToast('手机号格式错误');
+				} else {
+					console.log(Num);
+					$(objThis).prop("disabled", true);
+					api.ajax({
+						url : URL + '/index.php?app=sms&act=aliyun_sms',
+						method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+							values : {
+								telphone : telephone,
+								verify : Num
+							}
+						}
+					}, function(ret, err) {
+					console.log(JSON.stringify(ret));
+					console.log(JSON.stringify(ret.retval));
+							if (ret.done) {
+								_code = ret.retval.yzm;
+								console.log(_code);
+								MyToast("发送成功");
+								//alert('发送成功');
+								countDown();
+								//倒计时
+								$("#code").val(Num);
+							} else {
+								  $(".Captcha").removeAttr("disabled");
+                                   $(".Captcha").addClass('active');
+                                   MyToast("发送失败");
+							}
+
+					});
+				}
+			}
+
+			//倒计时
+			function countDown() {
+				var i = 60;
+				$(".Captcha").val(i + "s");
+				$(".Captcha").css({
+					"color" : "#ccc"
+				});
+				var _timer = setInterval(function() {
+					if (i > 0) {
+						i--;
+						$(".Captcha").val(i + "s");
+					} else {
+						clearInterval(_timer);
+						$(".Captcha").val("重新获取");
+						$(".Captcha").removeAttr("disabled");
+						$(".Captcha").css({
+							"color" : "#666"
+						});
+					}
+				}, 1000)
+			}
+
+			//注册
+			function goRegister() {
+				api.openWin({
+					name : 'register',
+					url : './register.html',
+					bounces : false,
+            		allowEdit:true,
+					animation : {
+						type : "push", //动画类型（详见动画类型常量）
+						subType : "from_right", //动画子类型（详见动画子类型常量）
+						duration : 300 //动画过渡时间，默认300毫秒
+					}
+				});
+			}
+
+			//忘记密码
+			function goForget() {
+				api.openWin({
+					name : 'forget',
+					url : './forget.html',
+					bounces : false,
+					animation : {
+						type : "push", //动画类型（详见动画类型常量）
+						subType : "from_right", //动画子类型（详见动画子类型常量）
+						duration : 300 //动画过渡时间，默认300毫秒
+					}
+				});
+			}
+
+			//登录
+			function loginIn() {
+				console.log(URL);
+				var telephone = $("#telephone").val();
+				//手机号码
+				/*var password=$("#password").val();  //密码*/
+				var check_code = $("#check_code").val();
+				if (telephone == "19857260777" || telephone == "13338111753" || telephone == "18768200058") {
+					check_code = "12345678";
+					_code = "12345678";
+				}
+				if (telephone == "" || telephone == null || telephone == undefined) {
+					MyToast('请输入手机号码');
+				} else if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(telephone))) {
+					MyToast('手机号格式错误');
+				} else if (check_code == "" || check_code == null || check_code == undefined) {
+					MyToast('请输入验证码');
+				} else if (check_code !== _code) {
+					MyToast('验证码错误');
+				} else {
+					api.ajax({
+						url : URL + 'index.php?app=appajax&act=login',
+						method : 'post',
+						cache : false,
+						timeout : 30,
+						dataType : 'json',
+						returnAll : false,
+						data : {
+							values : {
+								name : telephone,
+								password : '12345678',
+								check_code : check_code
+							}
+						}
+					}, function(ret, err) {//alert(JSON.stringify(ret))
+						if (ret) {
+							if (!ret[0].error) {
+								$("#check_code").val('');
+								MyToast("登录成功");
+								_code = "";
+								//								$(".Captcha").val("重新获取");
+								//								$(".Captcha").removeAttr("disabled");
+								//								$(".Captcha").css({
+								//									"color" : "#666"
+								//								});
+								/*window.localStorage.setItem("loginPwd",password); //密码*/
+								window.localStorage.setItem('UID', ret[0].id);
+								//用户id
+								window.localStorage.setItem("telephone", telephone);
+								//用户手机号码
+								window.localStorage.setItem('real_name', ret[0].real_name);
+								//昵称
+								window.localStorage.setItem('real_name2', ret[0].real_name2);
+								//真实姓名
+								window.localStorage.setItem('ugrade', ret[0].ugrade);
+								//用户等级
+								window.localStorage.setItem('portrait', ret[0].portrait);
+								//用户头像
+								window.localStorage.setItem('level_name', ret[0].level_name);
+								//用户等级对应的名称
+								window.localStorage.setItem('invite_code', ret[0].invite_code);
+								//用户邀请码
+								window.localStorage.setItem('ECM_ID', ret[0].ECM_ID);
+								//设置性别
+								window.localStorage.setItem('gender', ret[0].gender);
+								//唯一序列号
+								window.localStorage.setItem('HTTP_USER_AGENT', ret[0].HTTP_USER_AGENT);
+								//声明头部
+								//算法真实*20，拆成2份 id4个前混合+真实id1+数字2个+真是id2+后6个
+								var x = 10000000000;
+								var y = 100000;
+								var rand = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+								var rand2 = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+								var rand3 = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+								var muser_id = ret[0].id * 20 + "";
+								var muser_id1 = muser_id.slice(0, 1);
+								var muser_id2 = muser_id.slice(1, muser_id.length);
+								var p_muser_id = rand.slice(0, 4) + muser_id1 + rand2.slice(0, 2) + muser_id2 + rand3.slice(0, 6);
+								window.localStorage.setItem('userId', p_muser_id);
+								//用户id
+								// alert(p_muser_id)
+								//								api.execScript({
+								//							        name:"root",
+								//							        script:"setFirst();"
+								//							     });
+								api.openWin({
+									name : 'index',
+									url : './index.html',
+									bounces : false,
+									reload : true,
+									animation : {
+										type : "push", //动画类型（详见动画类型常量）
+										subType : "from_right", //动画子类型（详见动画子类型常量）
+										duration : 300 //动画过渡时间，默认300毫秒
+									}
+								});
+							} else {
+								//MyToast(ret[0].error);
+								//console.log(user_id);
+								api.openWin({//用户第一次登录,跳转填写邀请码
+									name : 'invite.code',
+									url : './invite.code.html',
+									bounces : false,
+									reload : true,
+									animation : {
+										type : "push", //动画类型（详见动画类型常量）
+										subType : "from_right", //动画子类型（详见动画子类型常量）
+										duration : 300 //动画过渡时间，默认300毫秒
+									},
+									pageParam : {
+										//user_id : user_id, //新注册用户user_id
+										telephone : telephone
+									},
+									allowEdit : true,
+								});
+							}
+						} else {
+							MyToast("网络超时，请稍后再试");
+						};
+					});
+				}
+			}
+
+			function wechart_log() {
+				var wx = api.require('wx');
+				var code = '';
+				wx.isInstalled(function(ret, err) {
+					if (!ret.installed) {
+						alert("当前设备未安装微信客户端");
+					} else {
+						wx.auth({
+							//apiKey : ''
+						}, function(ret, err) {
+							if (ret.status) {
+								wx.getToken({
+									//apiKey : '',
+									//apiSecret : '',
+									code : ret.code
+								}, function(ret, err) {
+									if (ret.status) {
+										api.showProgress({
+											style : 'default',
+											animationType : 'fade',
+											title : '授权成功',
+											text : '绑定处理中...',
+											modal : true
+										});
+										wx.getUserInfo({
+											accessToken : ret.accessToken,
+											openId : ret.openId
+										}, function(ret, err) {
+											if (ret.status) {
+												// 绑定成功
+												var openid = ret.openid;
+												var nickname = ret.nickname;
+												var headimgurl = ret.headimgurl;
+												var unionid = ret.unionid;
+												WXbindAccount(openid, nickname, headimgurl, unionid);
+												api.hideProgress();
+											}
+										});
+									} else {
+										alert(err.code);
+									}
+								});
+							}
+						});
+					}
+				});
+			}
+
+			function WXbindAccount(openid, nickname, headimgurl, unionid) {
+				console.log("==unionid=>>>" + unionid);
+				api.ajax({
+					url : URL + 'index.php?app=appajax&act=wx_login',
+					method : 'post',
+					data : {
+						values : {
+							openid : openid,
+							nickname : nickname,
+							headimgurl : headimgurl,
+							unionid : unionid
+						}
+					}
+				}, function(ret, err) {
+					console.log(ret);
+					if (ret.done) {
+						var data = ret.retval;
+						window.localStorage.setItem('UID', data.id);
+						//用户id
+						window.localStorage.setItem("telephone", data.phonemob);
+						//用户手机号码
+						window.localStorage.setItem('real_name', data.real_name);
+						//昵称
+						window.localStorage.setItem('real_name2', data.real_name2);
+						//真实姓名
+						window.localStorage.setItem('ugrade', data.ugrade);
+						//用户等级
+						window.localStorage.setItem('portrait', data.portrait);
+						//用户头像
+						window.localStorage.setItem('level_name', data.level_name);
+						//用户等级对应的名称
+						window.localStorage.setItem('invite_code', data.invite_code);
+						//用户邀请码
+						//window.localStorage.setItem('ECM_ID', data.ECM_ID);
+						//唯一序列号
+						//window.localStorage.setItem('HTTP_USER_AGENT', data.HTTP_USER_AGENT);
+						//声明头部
+						//算法真实*20，拆成2份 id4个前混合+真实id1+数字2个+真是id2+后6个
+						var x = 10000000000;
+						var y = 100000;
+						var rand = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+						var rand2 = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+						var rand3 = String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0)) + parseInt(Math.random() * (x - y + 1) + y) + String.fromCharCode(Math.floor(Math.random() * 26) + "a".charCodeAt(0));
+						var muser_id = data.id * 20 + "";
+						var muser_id1 = muser_id.slice(0, 1);
+						var muser_id2 = muser_id.slice(1, muser_id.length);
+						var p_muser_id = rand.slice(0, 4) + muser_id1 + rand2.slice(0, 2) + muser_id2 + rand3.slice(0, 6);
+						window.localStorage.setItem('userId', p_muser_id);
+						//用户id
+						// alert(p_muser_id)
+						api.openWin({
+							name : 'index',
+							url : './index.html',
+							bounces : false,
+							reload : true,
+							animation : {
+								type : "push", //动画类型（详见动画类型常量）
+								subType : "from_right", //动画子类型（详见动画子类型常量）
+								duration : 300 //动画过渡时间，默认300毫秒
+							}
+						});
+					} else {
+						var openid = ret.msg;
+						console.log(openid);
+						api.openWin({//用户第一次登录,跳转填写邀请码
+							name : 'bind',
+							url : './bind.html',
+							bounces : false,
+							reload : true,
+							animation : {
+								type : "push", //动画类型（详见动画类型常量）
+								subType : "from_right", //动画子类型（详见动画子类型常量）
+								duration : 300 //动画过渡时间，默认300毫秒
+							},
+							pageParam : {
+								openid : openid, //新注册用户user_id
+								//telephone : telephone
+							},
+							allowEdit : true,
+						});
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

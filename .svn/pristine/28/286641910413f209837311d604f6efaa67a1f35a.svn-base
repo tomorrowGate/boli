@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style>
+		html,
+		body {
+			background-color: #f4f4f4;
+			height: 100%;
+			padding-bottom: 20%;
+		}
+
+		.container-self{
+			width: 100%;
+			margin-bottom: 10px;
+			background: #fff;
+			box-sizing: border-box;
+		}
+
+		.row {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		.zl {
+			position: relative;
+			margin: 3% 5%;
+			border-left: 4px solid #6fba2c;
+
+		}
+
+		.ipt {
+			line-height: 20px;
+		}
+
+		.bq {
+			background-color: #6fba2c;
+			border-radius: 50%;
+			width: 20px;
+			height: 20px;
+			text-align: center;
+			color: #fff;
+			margin-left: 3%;
+		}
+
+		.ipt1 {
+			width: 70%;
+			margin-left: 15%;
+			line-height: 30px;
+			background-color: #6fba2c;
+			color: #fff;
+			border-radius: 40px;
+			margin-top: 20%;
+		}
+
+		.add {
+			position: absolute;
+			right: 0px;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<div class="header">
+			上传教学
+		</div>
+		<div class="DIV_L" onclick="goBack()" tapmode>
+			<i class="iconfont icon-back"></i>
+		</div>
+	</header>
+	<!--主料-->
+	<div class="container container-self" id="zl">
+		<div class="row zl" style="" onclick="tjzl()">&nbsp;&nbsp;&nbsp;主料：<span class="add">添加</span></div>
+
+		<div class="row zl_box" style="padding:3% 0px;border-top:1px solid #cecece">
+			<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写主料"
+					class="ipt" id="material_0" /></div>
+			<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt"
+					id="con1_0" /></div>
+		</div>
+	</div>
+	<!--辅料-->
+	<!-- <div class="container container-self" id="fl">
+		<div class="row zl" style="" onclick="tjfl()">&nbsp;&nbsp;&nbsp;辅料：<span class="add">添加</span></div>
+
+		<div class="row fl_box" style="padding:3% 0px;border-top:1px solid #cecece">
+			<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写辅料"
+					class="ipt" id="accessories_0" /></div>
+			<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt"
+					id="con2_0" /></div>
+		</div>
+
+	</div> -->
+	<!--调料-->
+	<!-- <div class="container container-self" id="tl">
+		<div class="row zl" style="" onclick="tjtl()">&nbsp;&nbsp;&nbsp;调料：<span class="add">添加</span></div>
+
+		<div class="row tl_box" style="padding:3% 0px;border-top:1px solid #cecece">
+			<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写调料"
+					class="ipt" id="seasoning_0" /></div>
+			<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt"
+					id="con3_0" /></div>
+		</div>
+
+	</div> -->
+	<!--做法-->
+	<!-- <div class="container container-self" id="zf">
+		<div class="row zl" style="" onclick="zf()">&nbsp;&nbsp;&nbsp;做法：</div>
+		<div class="row " style="padding:3% 0px;border-top:1px solid #cecece">
+			<textarea placeholder="填写做法" style="padding-left:3%;width:90%;" id="practice" name="practice"></textarea>
+		</div>
+	</div> -->
+
+	<input type="button" value="下一步" class="ipt1" onclick="xyb()" />
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+	var id = "";
+	var index = 0;
+	var index2 = 0;
+	var index3 = 0;
+	var type
+	var userId = window.localStorage.getItem("userId");
+	//用户id
+	$(function () {//消除300ms点击延迟
+		FastClick.attach(document.body);
+	});
+	//返回上一页
+	function goBack() {
+		api.closeWin();
+	}
+
+	var URL = "";
+	apiready = function () {
+		URL = $api.URL();
+		id = api.pageParam.id;
+		type = api.pageParam.type;
+		var header = $api.dom('header');
+		//适配iOS 7+，Android 4.4+状态栏
+		$api.fixStatusBar(header);
+	};
+
+	//		主料增加
+	function tjzl() {
+		index++;
+		var str = '<div class="row zl_box" style="padding:3% 0px;border-top:1px solid #cecece">';
+		str += '<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写主料" class="ipt" id="material_' + index + '"/></div>';
+		str += '<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt" id="con1_' + index + '"/></div></div>';
+		$("#zl").append(str);
+
+	}
+
+	//		辅料增加
+	function tjfl() {
+		index2++;
+		var str = '<div class="row fl_box" style="padding:3% 0px;border-top:1px solid #cecece">';
+		str += '<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写辅料" class="ipt" id="accessories_' + index + '"/></div>';
+		str += '<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt" id="con2_' + index + '"/></div></div>';
+		$("#fl").append(str);
+
+	}
+
+
+	//		调料添加
+	function tjtl() {
+		index3++;
+		var str = '<div class="row tl_box" style="padding:3% 0px;border-top:1px solid #cecece">';
+		str += '<div class="col-xs-6" style="border-right:1px solid #cecece"><input type="text" placeholder="填写调料" class="ipt" id="seasoning_' + index + '"></div>';
+		str += '<div class="col-xs-6" style="border-left:1px solid #cecece"><input type="text" placeholder="用量" class="ipt" id="con3_' + index + '"/></div></div>';
+		$("#tl").append(str);
+
+	}
+
+
+
+
+
+
+	function xyb() {
+		var practice = $("#practice").val();
+		//主料
+		var array_zl = [];
+		var array_fl = [];
+		var array_tl = [];
+		$("#zl .zl_box").each(function (i, item) {
+			var obj = {};
+			obj['material'] = $("#material_" + i).val();
+			obj['con1'] = $("#con1_" + i).val();
+			array_zl.push(obj);
+
+		})
+
+		//辅料
+		$("#fl .fl_box").each(function (i, item) {
+			var obj = {};
+			obj['accessories'] = $("#accessories_" + i).val();
+			obj['con2'] = $("#con2_" + i).val();
+			array_fl.push(obj);
+
+		})
+
+		//调料
+		$("#tl .tl_box").each(function (i, item) {
+			var obj = {};
+			obj['seasoning'] = $("#seasoning_" + i).val();
+			obj['con3'] = $("#con3_" + i).val();
+			array_tl.push(obj);
+
+		})
+		api.ajax({
+			url: URL + '/index.php?app=appfind&act=add_science',
+			method: 'post',
+			cache: false,
+			timeout: 30,
+			dataType: 'json',
+			returnAll: false,
+			data: {
+				values: {
+					material: array_zl,
+					accessories: array_fl,
+					seasoning: array_tl,
+					practice: practice,
+					id: id
+				}
+			}
+		}, function (ret, err) {
+			console.log(JSON.stringify(ret));
+			if (ret.done) {
+				api.openWin({
+					name: 'zpjs',
+					url: './zpjs.html',
+					bounces: false,
+					pageParam: {
+						id: id,
+						type: type
+					}
+				});
+			} else {
+				var timer = setTimeout(function () {
+					api.toast({
+						msg: ret.msg,
+						duration: 2000,
+						location: 'middle'
+					});
+					clearTimeout(timer)
+				}, 2000)
+
+			}
+		});
+
+	}
+
+
+
+
+
+</script>
+
+</html>

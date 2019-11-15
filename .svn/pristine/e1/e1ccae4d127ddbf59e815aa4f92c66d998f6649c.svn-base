@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+  <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    	html, body {
+				background-color: #f4f4f4;
+				height: 100%;
+			}
+			.row {
+				margin: 0px;
+				padding: 0px;
+			}
+			.zpjs{
+			width:90%;
+			margin-left:5%;
+			color:#8c8c8c;
+			background-color:#fff;
+			margin-top:5%;
+			height:50%;
+			}
+			.ipt1{
+    	width:70%;
+    	margin-left:15%;
+    	line-height:30px;
+    	background-color:#599524;
+    	color:#fff;
+    	border-radius:40px;
+    	margin-top:20%;
+    	margin-bottom:20%;
+    	}
+    </style>
+</head>
+<body>
+	<header>
+			<div class="header">
+				上传教学
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<!--作品介绍-->
+		<div class="container" style="background-color:#fff;height:50%;">
+		<textarea id="zpjs" class="zpjs" >介绍一下你的作品吧（如：作品特色、卖点、创意、制作的要点、研发的经验等） </textarea>
+		
+		</div>
+		<input type="button" value="发布" class="ipt1" onclick="xyb()"/>
+		
+		
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+	var userId = window.localStorage.getItem("userId");
+		//用户id
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		var URL = "";
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+		};
+		
+		
+		$("#zpjs").click(function (){
+            $("#zpjs").val('');
+             })
+		
+		
+		function xyb(){
+		var zpjs=$("#zpjs").val();
+//		alert(zpjs);
+		if(zpjs==''||zpjs==null){
+		zpjs='暂无'
+					}
+		api.confirm({
+  title: '上传失败，是否重试？',
+  msg: '',
+//style:{ rightBtn:{ color:#599524},},
+ 
+  buttons: [ '取消', '重试' ],
+   rightBtn :{              
+
+        color: '#599524',      
+       }
+}, function ( err,ret ) {
+  var index = err.buttonIndex;
+//alert(index);
+  if (index ==2) {
+    tk();
+  }else{
+  return false
+  }
+})
+		}
+		
+		function tk(){
+		api.toast( {
+  msg: '发布中',
+  duration: 2000,
+//location: 'middle'
+} );
+		
+		}
+</script>
+</html>

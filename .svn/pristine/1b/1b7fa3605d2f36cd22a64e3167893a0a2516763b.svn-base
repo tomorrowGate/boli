@@ -1,0 +1,8 @@
+html,body,.wrap{
+    width: 100%;
+    overflow-x:hidden ;
+}
+.rich-text{
+    padding: 10px;
+    box-sizing: border-box;
+}

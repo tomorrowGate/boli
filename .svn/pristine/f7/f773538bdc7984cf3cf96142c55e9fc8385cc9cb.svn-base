@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>充值</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<style>
+			html, body {
+				background-color: #f4f4f4;
+			}
+			.adpt {
+				font-size: 0.8em
+			}
+			.out_div {
+				margin: 0 0 10px 0;
+			}
+			label {
+				width: 100%;
+				padding: 10px 0;
+				border-bottom: 1px solid #efefef
+			}
+			.count {
+				height: 70px;
+				line-height: 60px;
+				font-size: 1.2em;
+				font-weight: bold
+			}
+			.ip2 {
+				width: 70%;
+				padding-left: 10px;
+				height: 60px;
+				line-height: 60px;
+				outline: none;
+				font-size: 1.5em;
+			}
+			.bank_list {
+				padding: 15px 0 25px 0;
+			}
+			.noBank {
+				color: #3cb1f5;
+			}
+			.noBank i {
+				float: right;
+				color: #666;
+			}
+			.pay_bank {
+				padding: 10px 0;
+				position: relative;
+			}
+			.pay_bank .bank_img {
+				height: 20px;
+				width: 20px;
+				margin-right: 10px;
+				float: left;
+				position: relative;
+				top: 6px;
+			}
+			.pay_bank .bank_info {
+				width: calc(100% - 60px);
+				float: left;
+			}
+			.pay_bank .bank_info p {
+				height: 30px;
+				line-height: 30px;
+			}
+			.pay_bank .bank_info p:last-child {
+				color: #888;
+			}
+			.pay_bank i {
+				position: absolute;
+				right: 0;
+				top: 30px;
+			}
+			.sub_btn {
+				width: 100%;
+				text-align: center;
+				margin: 80px 0;
+			}
+			.sub_btn span {
+				width: 80%;
+				height: 50px;
+				line-height: 50px;
+				color: #fff;
+				border-radius: 25px;
+				background-color: #ccc;
+			}
+			.sub_btn .active {
+				background-color: #292929;
+			}
+			.c_check {
+				width: 20px;
+				height: 20px;
+				float: right;
+				right: 0px;
+				background: #649f33;
+				color: #fff;
+			}
+			input[type='radio'] {
+				vertical-align: middle;
+				width: 20px;
+				height: 40px;
+				-webkit-appearance: none;
+				outline: 0 !important;
+				display: inline-block;
+				background: url("../image/uncheck1.png") no-repeat center;
+				background-size: 16px 16px;
+				position: relative;
+				top: -2px;
+			}
+			input[type='radio']:checked {
+				background: url("../image/checked1.png") no-repeat center;
+				background-size: 16px 16px
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				充值
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+			<!--  <div class="DIV_R font_s2">提现记录</div> -->
+		</header>
+		<div class="out_div clearfix">
+			<p>
+				充值金额
+			</p>
+			<div class="count">
+				<span>&yen;</span>
+				<input type="text" name="money_cz" class="ip2" id="money_cz">
+			</div>
+		</div>
+		<div class="out_div clearfix">
+			<p>
+				充值方式
+			</p>
+			<div class="bank_list"tapmode>
+				<!--<p class="noBank">
+				请绑定银行卡<i class="iconfont icon-htbArrowright"></i>
+				</p>-->
+				<div class="pay_bank clearfix hide"   >
+					<img src="../image/bank_1.png" class="bank_img" onclick="goBankAdd()">
+					<div class="bank_info">
+						<p onclick="goBankAdd()">
+							浙江农信储蓄卡 (7365)
+						</p>
+						<!-- <p>
+						当日交易限额&yen;10000.00
+						</p>-->
+					</div>
+					<input type="radio" class="c_check" name="method" value="bank" id="bank"/>
+				</div>
+				<div class="pay_bank clearfix">
+					<img src="../image/zfb.jpg" class="bank_img">
+					<div class="bank_info">
+						<p>
+							支付宝
+						</p>
+						<!-- <p>
+						当日交易限额&yen;10000.00
+						</p>-->
+					</div>
+					<input type="radio" class="c_check" name="method"value="zfb" id="zfb" checked="checked"/>
+				</div>
+				<div class="pay_bank clearfix">
+					<img src="../image/wechat.png" class="bank_img">
+					<div class="bank_info">
+						<p>
+							微信
+						</p>
+						<!-- <p>
+						当日交易限额&yen;10000.00
+						</p>-->
+					</div>
+					<input type="radio" class="c_check" name="method" value="wechat" id="wechat"/>
+				</div>
+			</div>
+		</div>
+		<div class="sub_btn" onclick="tj()">
+			<span class="active">提交充值</span>
+		</div>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript" src="../script/lib/tips.js"></script>
+	<script type="text/javascript">
+	    var wxappid="";
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		var URL = "";
+		var articleType;
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('#header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+			getSMInfo();
+		};
+		
+		//获取用户实名信息
+		function getSMInfo() {
+			api.ajax({
+				url : URL + 'index.php?app=myinfo&act=get_info',
+				method : 'post',
+				cache : false,
+				timeout : 30,
+				dataType : 'json',
+				returnAll : false,
+				data : {
+					values : {
+						user_id : userId
+					}
+				}
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.retval.appopenid == "" || ret.retval.appopenid == null) {
+					console.log("未授权==========>>>" + ret.retval.real_name2 + ret.retval.id_card);
+					//wechart_log();
+				} else {
+					console.log("==========已授权==========" + ret.retval.appopenid);
+					wxappid = ret.retval.appopenid;
+					//初始加载列表
+				}
+				
+			});
+		}
+		
+		function wechart_log() {
+			var wx = api.require('wx');
+			var code = '';
+			wx.isInstalled(function(ret, err) {
+				if (!ret.installed) {
+					api.toast({
+						msg : "当前设备未安装微信客户端,目前只支持微信支付,请安装微信客户端！",
+						duration : 2000,
+						location : 'bottom'
+					});
+					return;
+				} else {
+					wx.auth({
+						//apiKey : ''
+					}, function(ret, err) {
+						if (ret.status) {
+							wx.getToken({
+								//apiKey : '',
+								//apiSecret : '',
+								code : ret.code
+							}, function(ret, err) {
+								if (ret.status) {
+									api.showProgress({
+										style : 'default',
+										animationType : 'fade',
+										title : '授权成功',
+										text : '绑定处理中...',
+										modal : true
+									});
+									wx.getUserInfo({
+										accessToken : ret.accessToken,
+										openId : ret.openId
+									}, function(ret, err) {
+										if (ret.status) {
+											// 绑定成功
+											var openid = ret.openid;
+											var nickname = ret.nickname;
+											var headimgurl = ret.headimgurl;
+											var unionid = ret.unionid;
+											WXbindAccount(openid, nickname, headimgurl, unionid);
+											api.hideProgress();
+										}
+									});
+								} else {
+									api.toast({
+										msg : "授权失败！" + err.code,
+										duration : 2000,
+										location : 'bottom'
+									});
+								}
+							});
+						} else {
+							api.toast({
+								msg : "授权失败！" + err.code,
+								duration : 2000,
+								location : 'bottom'
+							});
+						}
+					});
+				}
+			});
+		}
+
+
+		function tj() {
+				var method = $("input[name='method']:checked").val();
+		        if (method == "wechat") {
+				  getSMInfo();
+			    }
+				//var fruit=$("input[name='Fruit']:checked").val();
+				var money_cz = $("#money_cz").val();
+				if (parseFloat(money_cz).toString() == "NaN" || parseFloat(money_cz).toString() == "NaN") {
+					api.toast({
+						msg : "请输入充值金额",
+						duration : 2000,
+						location : 'middle'
+					});
+					return;
+				}
+				if (money_cz <= 0) {
+					api.toast({
+						msg : "不能为0或负数,最少1元",
+						duration : 2000,
+						location : 'middle'
+					});
+					return;
+				}
+				if (/^\d+(\.\d{1,2})?$/.test(money_cz)) {
+				} else {
+					api.toast({
+						msg : "请输入正确的提现金额",
+						duration : 2000,
+						location : 'middle'
+					});
+					return;
+				}
+				console.log(userId);
+				api.ajax({
+					url : URL + 'index.php?app=order&act=create_order',
+					method : 'post',
+					cache : false,
+					timeout : 30,
+					dataType : 'json',
+					returnAll : false,
+					data : {
+						values : {
+							user_id : userId,
+							cz_money : money_cz,
+							type : method,
+							ajax:1
+						}
+					}
+				}, function(ret, err) {
+					console.log(JSON.stringify(ret));
+					console.log(JSON.stringify(err));
+					if (method == "wechat") {
+						var params = ret.retval[2].jsApiParameters;
+						console.log(JSON.stringify(params));
+						wx_pay(params);
+					} else if (method == "zfb") {
+						console.log("123123");
+						var params = ret.retval[2].alipayAppParameters;
+						zfb_pay(params);
+					} 							 
+				});
+		}
+		
+function WXbindAccount(openid, nickname, headimgurl, unionid) {
+			console.log("==unionid=>>>" + unionid);
+			api.ajax({
+				url : URL + 'index.php?app=appajax&act=wx_login_hasuid',
+				method : 'post',
+				data : {
+					values : {
+						user_id : userId,
+						openid : openid,
+						nickname : nickname,
+						headimgurl : headimgurl,
+						unionid : unionid
+					}
+				}
+			}, function(ret, err) {
+				console.log(ret);
+				if (ret.done) {
+					wxappid = openid;
+					api.toast({
+						msg : ret.msg,
+						duration : 2000,
+						location : 'bottom'
+					});
+					//初始加载列表
+					//getPayment();
+				} else {
+					api.toast({
+						msg : ret.msg,
+						duration : 2000,
+						location : 'bottom'
+					});
+				}
+			});
+		}
+
+	function wx_pay(params) {
+			var wxPay = api.require('wxPay');
+			wxPay.payOrder({
+				//apiKey : '',
+				orderId : params.prepay_id,
+				mchId : params.mch_id,
+				nonceStr : params.nonce_str,
+				timeStamp : params.timeStamp,
+				package : 'Sign=WXPay',
+				sign : params.sign_app,
+			}, function(ret, err) {
+				if (ret.status) {
+					//支付成功
+					console.log("支付成功");
+					api.openWin({
+						name: 'myinfo.orderForm',
+						url: './myinfo.orderForm.html',
+						bounces: false,
+						animation: {
+							type: "push",
+							subType: "from_right",
+							duration: 300
+						},
+						pageParam: {
+							orderId : orderId,
+							price: actual_price
+						}
+					});
+				} else {
+					api.toast({
+						msg : '支付失败,未授权,请使用微信授权登陆。错误代码：' + err.code,
+						duration : 2000,
+						location : 'bottom'
+					});
+					//alert(err.code);
+					console.log(err.code);
+				}
+			});
+		}
+
+		function zfb_pay(params) {
+			//开发者通过 payOrder 方法来进行支付，自己处理订单信息以及签名过程
+			console.log("自己处理订单信息以及签名过程请求:");
+			var aliPayPlus = api.require('aliPayPlus');
+			aliPayPlus.payOrder({
+				orderInfo : params
+			}, function(ret, err) {
+				console.log(JSON.stringify(ret));
+				if (ret.code == "9000") {
+					//change_cash(order_id);
+					api.alert({
+						title : '支付结果',
+						msg : "支付成功",
+						buttons : ['确定']
+					});
+
+					api.openWin({
+						name: 'myinfo.orderForm',
+						url: './myinfo.orderForm.html',
+						bounces: false,
+						animation: {
+							type: "push",
+							subType: "from_right",
+							duration: 300
+						},
+						pageParam: {
+							orderId : orderId,
+							price: actual_price
+						}
+					});
+					//					api.execScript({
+					//				        name:"root",
+					//				        script:"setFirst();"
+					//				     });
+				} else if (ret.code == "6001") {
+					api.alert({
+						title : '支付结果',
+						msg : "取消支付",
+						buttons : ['确定']
+					}, function() {
+						api.closeWin({
+							name : 'order.confirm'
+						})
+						api.openWin({
+							name : 'myorder',
+							url : './myorder.html',
+							bounces : false,
+							reload : true,
+							animation : {
+								type : "push", //动画类型（详见动画类型常量）
+								subType : "from_right", //动画子类型（详见动画子类型常量）
+								duration : 300 //动画过渡时间，默认300毫秒
+							},
+							pageParam : {
+								orderState : 1 //通过var orderState=api.pageParam.orderState; 调用
+							}
+						});
+					});
+				} else if (ret.code == "4000") {
+					api.alert({
+						title : '支付结果',
+						msg : "订单支付失败",
+						buttons : ['确定']
+					});
+					api.openWin({
+						name : 'myorder',
+						url : './myorder.html',
+						bounces : false,
+						reload : true,
+						animation : {
+							type : "push", //动画类型（详见动画类型常量）
+							subType : "from_right", //动画子类型（详见动画子类型常量）
+							duration : 300 //动画过渡时间，默认300毫秒
+						},
+						pageParam : {
+							orderState : 1 //通过var orderState=api.pageParam.orderState; 调用
+						}
+					});
+				} else if (ret.code == "6002") {
+					api.alert({
+						title : '支付结果',
+						msg : "网络连接出错",
+						buttons : ['确定']
+					});
+					api.openWin({
+						name : 'myorder',
+						url : './myorder.html',
+						bounces : false,
+						reload : true,
+						animation : {
+							type : "push", //动画类型（详见动画类型常量）
+							subType : "from_right", //动画子类型（详见动画子类型常量）
+							duration : 300 //动画过渡时间，默认300毫秒
+						},
+						pageParam : {
+							orderState : 1 //通过var orderState=api.pageParam.orderState; 调用
+						}
+					});
+				} else {
+					api.alert({
+						title : '支付结果',
+						msg : "网络连接出错",
+						buttons : ['确定']
+					});
+					api.openWin({
+						name : 'myorder',
+						url : './myorder.html',
+						bounces : false,
+						reload : true,
+						animation : {
+							type : "push", //动画类型（详见动画类型常量）
+							subType : "from_right", //动画子类型（详见动画子类型常量）
+							duration : 300 //动画过渡时间，默认300毫秒
+						},
+						pageParam : {
+							orderState : 1 //通过var orderState=api.pageParam.orderState; 调用
+						}
+					});
+				}
+				//api.closeWin();
+			});
+		}
+
+		//提现记录
+		function go_tixianlog() {
+			api.openWin({
+				name : 'getMoneyRec',
+				url : './getMoneyRec.html',
+				bounces : false,
+				animation : {
+					type : "push", //动画类型（详见动画类型常量）
+					subType : "from_right", //动画子类型（详见动画子类型常量）
+					duration : 300 //动画过渡时间，默认300毫秒
+				}
+			});
+		}
+
+		function isInteger(obj) {
+			return obj % 1 === 0
+		}
+	</script>
+</html>

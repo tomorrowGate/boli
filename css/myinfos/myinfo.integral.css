@@ -1,0 +1,103 @@
+html,
+body {
+    background: #f2f2f2;
+}
+
+/* 头部区域 */
+.headImg {
+    background: url("../../image/my.asset.png") no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 10px 0 65px 15px;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headText {
+    font-size: 1.2em;
+}
+
+.introduce {
+    height: 23px;
+    background: rgb(40, 40, 40, .3);
+    border-radius: 20px 0 0 20px;
+    font-size: 0.8em;
+    padding: 0 10px;
+    line-height: 23px;
+}
+
+.integral {
+    padding: 25px 0 5px 10px;
+    font-size: 0.8em;
+}
+
+.integralNub {
+    font-size: 1.8em;
+}
+
+.upgrade {
+    font-size: 0.8em;
+    margin-left: 10px;
+    line-height: 20px;
+}
+
+.progress {
+    margin: 0 10px;
+    width: 90%;
+    height: 3px;
+    border-radius: 10px;
+}
+
+/* 赚取积分和活跃值 */
+.project{
+    display: flex;
+    justify-content: center;
+    flex-wrap:wrap;
+}
+.dynamic {
+    box-sizing: border-box;
+    width: 96%;
+    margin: -50px auto 0;
+    background: #fff;
+    border-radius: 5px;
+    
+}
+.dynamicHead{
+    line-height: 45px;
+    border-bottom: 1px solid #f2f2f2;
+    padding-left: 15px;
+}
+/* 获取方式 */
+.signItem{
+    width: 50%;
+    box-sizing: border-box;
+    padding: 10px 5px 10px 15px;
+    border: 1px solid #f2f2f2;
+    font-size: 0.9em;
+}
+.sign{
+    display: flex;
+    justify-content: space-between;
+    padding:0 5px 5px 0;
+   
+}
+.signIn{
+    color: #6fba2c;
+    font-size: 0.9em;
+}
+.gain{
+    color: #ccc;
+    font-size: 0.8em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.gainNub{
+    color: #6fba2c;
+}
+

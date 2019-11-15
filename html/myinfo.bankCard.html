@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加银行卡</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.bankCard.css" />
+</head>
+
+<body>
+    <!-- 头部 -->
+    <header class="page-head" ref="header">
+        <div class="back" @click="goBack" tapmode="tapmodeclass">
+            <i class="iconfont icon-back"></i>
+        </div>
+        <div class="head-center">
+            <span>添加银行卡</span>
+        </div>
+    </header>
+    <!-- 表单区域 -->
+    <div class="wap">
+    <form class="bankForm" action="">
+        <div class="bankTitle">请选择银行卡类型</div>
+        <div class="ui-form-item ui-border-b bankItem">
+            <label class="formRight">
+                银行
+            </label>
+            <input  type="text" placeholder="请输入银行">
+        </div>
+        <div class="ui-form-item ui-border-b bankItem">
+            <label>
+                卡类型
+            </label>
+            <input type="text" placeholder="请选择证件类型">
+        </div>
+        <div class="bankTitle">请填写个人信息</div>
+        <div class="ui-form-item ui-border-b bankItem">
+            <label  class="formRight">
+                职业
+            </label>
+            <input type="text" placeholder="请选择职业">
+        </div>
+        <div class="ui-form-item ui-border-b bankItem">
+            <label  class="formRight">
+                地区
+            </label>
+            <input type="text" placeholder="请选择地区">
+        </div>
+        <div class="bankTitle">请填写手机号</div>
+        <div class="ui-form-item ui-border-b bankItem">
+            <label>
+                手机号
+            </label>
+            <input type="text" placeholder="请输入银行预留手机号">
+        </div>
+    </form>
+    <!-- 协议/确定 -->
+    <p class="agree">同意<span class="agreement">用户协议</span></p>
+    <button class="bankBtn">确定</button>
+</div>
+</body>
+
+</html>

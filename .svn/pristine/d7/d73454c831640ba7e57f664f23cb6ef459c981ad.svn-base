@@ -1,0 +1,15 @@
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+.head-center{
+    margin: 0 auto;
+    font-weight: bold;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:55%;
+    transform: translateY(-50%)
+}

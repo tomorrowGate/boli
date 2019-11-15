@@ -1,0 +1,155 @@
+/* 头部 */
+html,body{
+    height: 100%;
+}
+.page-head{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+    color: #fff;
+    background: #70bb2d;
+}
+.head-center{
+    font-weight: bold;
+    margin: 0 auto;
+}
+.back{
+    position: absolute;
+    left: 10px;
+    top:50%;
+    transform: translateY(-50%)
+}
+.money-detail{
+    position: absolute;
+    top:50%;
+    right: 0px;
+    height: 20px;
+    line-height: 20px;
+    padding: 2px 12px;
+    color: #fff;
+    font-size: 0.7em;
+    border-radius: 12px 0 0 12px;
+    background: rgba(0,0,0,0.3);
+    transform: translateY(-50%);
+}
+.asset-outcon{
+    position: relative;
+}
+/* 头部图片 */
+.headImg{
+    position: relative;
+    width: 100%;
+    height: 40vw;
+    background: url("../../image/my.asset.png") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.headImg-text{
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.headerImg-center{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    text-align: center;
+}
+.invitat-app-down{
+    width: 100%;
+    text-align: center;
+    font-size: 2.4em;
+}
+.invitat-vip{
+    /* font-size: 1.2em; */
+}
+/* 余额 */
+.assets-moneys{
+    position: relative;
+    background: #fff;
+    text-align: center;
+    width: 96%;
+    padding: 12px;
+    margin: -20px auto;
+    border-radius: 4px;
+    z-index: 3;
+}
+.col-bottom-text{
+    font-size: 0.8em;
+
+}
+/* 邀请得积分 */
+.integral{
+    width: 96%;
+    background: #fff;
+    border-radius: 6px;
+    padding: 20px 0 ;
+    margin: 30px auto;
+    box-shadow: 0 4px 4px #ddd;
+    z-index: 2;
+}
+.getIntegral{
+    margin-left: 10px;
+    font-weight: bold;
+    
+}
+.integralText{
+    font-size: 0.7em;
+    color: #a3a3a3;
+    margin:2px 0 20px 10px;
+}
+.integralBtn{
+    width: 88%;
+    height: 35px;
+    background:#6eb92c;
+    color: #fff;
+    border-radius: 30px;
+    margin:5px 0 20px 6%;
+    font-size: 15px;
+}
+.integralBtn-withdrawal{
+    background: #b8b8b8;
+}
+.recruitName{
+    font-weight: bold;
+    margin:0 0 15px 10px;
+    font-size: 15px;
+}
+.recruit{
+    width: 94%;
+    height:85px ;
+    background-image: linear-gradient(to top,#ed7852,#fe9661);
+    margin: 0 0 15px 3%;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    text-align: center;
+    line-height:30px ;
+    padding: 15px;
+    box-sizing: border-box;
+}
+.recruitText{
+    font-size: 0.9em;
+}
+.integral-under{
+    font-size: 0.8em;
+    text-align: center;
+    color: #6eb92c;
+}
+.tolook{
+    padding: 2px 14px;
+    height: 16px;
+    line-height: 17px;
+    width: auto;
+    margin-left: 10px;
+    font-size: 0.8em;
+    border-radius: 10px;
+    text-align: center;
+    border:1px solid #adadad;
+}
+.integral-btnouts{
+    margin: 50px 0;
+}

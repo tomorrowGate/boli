@@ -1,0 +1,226 @@
+/* 视频详情  */
+.detail-teach-videos{
+    
+ }
+ .detail-teach-videobox{
+     position: relative;
+     height: 170px;
+ }
+ .video{
+     width: 100%;
+     height: 100%;
+
+ }
+ .video-tag{
+    background: #6eb92c;
+    color: #fff;
+    height: 16px;
+    line-height: 16px;
+    padding: 0 10px;
+    border-radius: 8px;
+ }
+ .detail-video-bottom{
+    padding:10px;
+ }
+ /*.detail-video-tag {
+     position: absolute;
+     top:6px;
+     right:10px;
+     font-size: 0.8em;
+ }*/
+
+ .detail-video-name{
+     font-weight: bold;
+ }
+ .icon-back{
+   position: absolute;
+   top:6px;
+   left: 10px;
+   color: #000;
+ }
+ .video-video-detail{
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+ }
+ .video-video-left{
+     display: flex;
+     align-items: center;
+     font-size: 0.8em;
+     color: #999;
+ }
+ .video-left-text{
+     margin: 5px;
+ }
+ .video-video-right{
+     display: flex;
+     align-items: center;
+     font-size: 0.9em;
+ }
+ .video-right-text{
+     font-size: 0.9em;
+     color: #999;
+ }
+ .video-footer-item{
+     margin-left: 10px;
+ }
+ .video-detail-pay{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+   /* font-size: 0.7em;*/
+    color: #f00;
+    margin-top:15px;
+ }
+ .video-detail-pay span{
+     display: inline;
+ }
+ .video-pay-num{
+     font-size: 16px;
+     font-weight: bold;
+     margin: 0 4px;
+ }
+ /* 厨师名片 */
+ .chef-detail-info{
+    padding: 10px 0;
+    background: #f2f2f2;
+ }
+ .chef-main-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #dfdfdf;
+    background: #fff;
+}
+.chef-head-left{
+    display: flex;
+    align-items: center;
+}
+.chef-main-head .icon-qianbi{
+    color: #6eb92c;
+}
+.chef-left-text{
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-left: 6px;
+}
+.chef-trends-head{
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: 15px 15px;
+    background: #fff;
+}
+.trends-head-imgbox{
+    width: 50px;
+    height: 50px;
+    background: skyblue;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.trends-head-imgbox img{
+    width: 100%;
+}
+.trends-center-name{
+    font-weight: bold;
+}
+.trends-light{
+    color: #999;
+    font-size: 0.9em;
+}
+.trends-head-right{
+    position: absolute;
+    right:10px;
+    top:50%;
+    height: 16px;
+    line-height: 16px;
+    padding: 0px 8px;
+    border:1px solid #6eb92c;
+    border-radius: 9px;
+    color: #6eb92c;
+    font-size: 0.9em;
+    transform: translateY(-50%);
+}
+
+ /* 详情 */
+
+.instructional-detal{
+    padding:0 0 10px 10px ;
+    font-size: 0.9em;
+    border-bottom: 1px solid #dfdfdf;
+}
+.instructional-detal-title{
+}
+.detal-title-p{
+    border-left: 2px solid #6eb92c;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-indent: 4px;
+    margin: 20px 0 10px 0;
+}
+.matter{
+    margin-bottom: 3px;
+}
+.synopsis{
+  padding: 10px;
+  font-size: 0.9em;
+  margin-bottom: 40px;
+}
+/* 底部付费 */
+.instructional-teaching-foot{
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    background: #fff;
+    font-size: 0.9em;
+    box-shadow:0 0 4px #999;
+    z-index: 3;
+}
+.instructional-collect-real{
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+.instructional-collect-style{
+    flex:2;
+    background: #6eb92c;
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+}
+
+/* 弹框 */
+.dialog-x{
+    /*  width: 20px;
+     height: 20px; */
+     text-align: right;
+ }
+ .ui-checkbox input:checked:before, 
+ .ui-checkbox-s input:checked:before{
+     color: #6eb92c;
+ }
+ .dialog-foot-pay{
+     font-size: 14px;
+ }
+ .dialog-foot-pay .ui-form-item{
+     font-size: 15px;
+ }
+ .pay-study{
+     width: 60%;
+     height: 30px;
+     line-height: 30px;
+     background: #6eb92c;
+     border-radius: 15px;
+     margin: 16px auto;
+     text-align: center;
+     color: #fff;
+ }
+ .ui-dialog-cnt{
+     padding: 10px;
+ }

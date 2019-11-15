@@ -1,0 +1,80 @@
+
+/*信息栏*/
+.infobar{
+  height: 150px;
+  border-bottom: 1px solid #f2f2f2;
+  padding-top:6%;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 14px;
+}
+.profile{
+  position: relative;
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid #f2f2f2;
+  line-height: 40px;
+  font-size: 14px;
+}
+.profile-data{
+  width: 15%;
+  padding: 0 16px;
+}
+
+.profileBtn{
+   width: 75%;
+   height: 30px;
+   background: #a8a8a8;
+   color: #ffffff;
+   border-radius: 30px;
+   position: absolute;
+   bottom: 45px;
+   left: 13%;
+   font-weight: bold;
+}
+
+.profile-out-input{
+  position: absolute;
+  top:0px;
+  left: calc( 15% + 32px);
+  width: calc( 80% - 32px);
+}
+.profile-input{
+  position: relative;
+  padding: 10px;
+  width: 90%;
+  z-index: 2;
+}
+.isNameErr{
+  position: absolute;
+  width:100%; 
+  height:40px;
+  border:1px solid #f00;
+  z-index:0;
+}
+.button-nor{
+  text-align: center;
+}
+.greenBtn{
+  background: #6eb92c;
+}
+/* .isNameErr::after{
+  display: block;
+  content: "";
+  position: absolute;
+  width:100%; 
+  height:40px;
+  border:1px solid #f00;
+} */
+
+.effeckt-list[data-effeckt-type='from-above'] .new-item {
+  -webkit-backface-visibility: visible;
+          backface-visibility: visible;
+  -webkit-animation: openSpace 500ms ease forwards, fromAbove 500ms both 500ms;
+          animation: openSpace 500ms ease forwards, fromAbove 500ms both 500ms; }
+
+.effeckt-list[data-effeckt-type='from-above'] .remove-item {
+  -webkit-backface-visibility: visible;
+          backface-visibility: visible;
+  -webkit-animation: toAbove 500ms both, closeSpace 500ms ease forwards 650ms;
+          animation: toAbove 500ms both, closeSpace 500ms ease forwards 650ms; }

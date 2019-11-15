@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+  <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <style>
+    		body,html{
+    		background-color:#f2f2f2;
+    	}
+    	.row{
+    	margin:0px;
+    	padding:0px;
+    	}
+    	.xt{
+    	height:10px; 
+    	background-color:#f2f2f2;
+    	
+    	}
+    	.ipt1{
+    	width:90%;
+    	margin-left:5%;
+    	font-size:17px;
+    	padding:10px 0px;
+    	
+    	}
+    	.cx{
+    	color:#898989;
+    	padding-left:5%;
+    	margin: 3% 0px;
+    	width:75%;
+    	}
+    	.tj{
+    	color:#599524;
+    	border:1px solid #599524;
+    	border-radius:30px;
+    	text-align:center;
+    	width:20%;
+    	margin-top:3%;
+    	padding:0.5%
+    	}
+    	.zpjs{
+			width:90%;
+			margin-left:5%;
+			color:#8c8c8c;
+			background-color:#fff;
+			margin-top:5%;
+			height:50%;
+			}
+    	.ipt{
+    	width:70%;
+    	margin-left:15%;
+    	line-height:30px;
+    	background-color:#599524;
+    	color:#fff;
+    	border-radius:40px;
+    	margin-top:20%;
+    	}
+    	.xzcx {
+				border: 1px solid #599524;
+				border-radius: 20px;
+				padding: 2px 0px;
+				text-align: center;
+				margin-left: 3%;
+				font-size:13px;
+				margin-top:4%;
+				color:#599524;
+			}
+      .chose_img{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin:10px 0;
+          line-height: 25px;
+          font-size: 0.8em;
+          color: #999;
+          height: 5em;
+          width: 5em;
+          text-align: center;
+          border:1px solid #b1b1b1;
+          margin-top:3%
+       }
+       .show_image{ display:none; }
+       .show_image img{ height:100px;margin-bottom: 20px;margin-right:0.5em }
+      .submit_btn {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #333;
+        color: #fff;
+        text-align: center;
+        height: 44px;
+        line-height: 44px;
+        font-size: 0.9em
+      }
+
+      
+      .cuisineChoiceItem{
+          margin-right: 5px;
+      }
+      .cus-del{
+          margin-right: 2px;
+      }
+      .cuisineBtn {
+          border: 1px solid #b0b0b0;
+          color: #b0b0b0;
+          border-radius: 20px;
+          line-height: 20px;
+          padding:0 10px;
+          margin-top: 10px;
+          font-size: 14px;
+      }
+      .cuisineBtn-selected{
+          border: 1px solid #6fba2c;
+          color: #6fba2c;
+      }
+    </style>
+</head>
+<body>
+  <div id="wrap">
+	<header ref="header">
+    <div class="header">
+      上传教学
+    </div>
+    <div class="DIV_L" @click="goBack()" tapmode>
+      <i class="iconfont icon-back"></i>
+    </div>
+  </header>
+		
+		    <!--选择菜系-->
+    <div class="contaienr" style="height:150px;background-color:#fff;" >
+      <div class="row" >
+        <div class="col-xs-6 cx" style="" id="my_cx">请选择菜系</div>
+        <div class="col-xs-6 tj" id="tj" style="" @click="gototjcx" tapmode>添加</div>
+      </div>
+      <div class="row" id="xzcx">
+
+          <div class="cuisineChoiceItem" v-for="(v,i) in chooseCus" :key="v.id">
+              <!-- <input type="checkbox" :id="v.id" :name="v.id" class="chk_1" :value="v.name" v-model="v.checked"/> 
+              <label :for="v.id" class="cuisineBtn">{{v.name}} <span class="cus-del" @click="delBtn(v.id)">x</span></label>  -->
+              <span class="cuisineBtn">{{v.name}} <span class="cus-del" @click="delBtn(v.id)">x</span></span> 
+          </div> 
+
+      </div>
+    </div>
+
+ <!--图片上传-->
+    <div class="contaienr" style="height:220px;background-color:#fff;margin-top:10px">
+    <div class="chose_img" onclick="showAction()" tapmode>上传图片<br/>(最多3张)</div>
+	    <div class="item show_image" id="upload_img_list" style="margin-left:5%;"></div>
+    
+    </div>
+    <div class="row xt"></div>
+    
+		<input type="button" value="发布" class="ipt" onclick="xyb()"/>
+		
+  </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+	var userId = window.localStorage.getItem("userId");
+	var id="";
+		//用户id
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+    });
+    
+    function get_my_tag(){
+      alert(1)
+      wrap.get_my_tag()
+    }
+
+      var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            checkedNames:"",
+            customCui:"",
+            isCusTrim:false,
+
+            cusInfos:[],
+            chooseCus:[],
+
+            id:0,
+        },
+        computed: {
+        },
+        methods: {
+            goBack: function goBack() {
+                /* api.execScript({
+                    name:"chef.settled",
+                    script:"get_user_info();"
+                });
+                api.execScript({
+                    name:"kitchen.store",
+                    script:"get_user_info();"
+                }); */
+                api.closeWin()
+            },
+            get_my_tag:function get_my_tag(){
+              var that = this
+              console.log(that.URL)
+              console.log(userId)
+      				api.ajax({
+                url: that.URL + 'index.php?app=appfind&act=get_article_tags',
+                method: 'post',
+                cache: false,
+                timeout: 30,
+                dataType: 'json',
+                returnAll: false,
+                data: {
+                    values:{
+                        id:that.id
+                    }
+                }
+              }, function (ret, err) {
+                console.log(JSON.stringify(ret));
+                if (ret.done) {
+                    that.chooseCus = ret.retval
+
+                } else {
+                    var timer = setTimeout(function(){
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                        clearTimeout(timer)
+                    },1000)
+                    
+                }
+              });
+            },
+            chooseCusArr:function(value,isChecked){
+               if(isChecked){
+                   this.chooseCus.push(value)
+               }else{
+                    this.delBtn(value.id)
+               }
+            },
+            delBtn:function(id){
+                var that = this
+                this.chooseCus.forEach(function(v,i){
+                    if(v.id==id){
+                        that.chooseCus.splice(i,1)
+                    }
+                });
+                this.cusInfos.forEach(function(v,i){
+                    if(v.id==id){
+                        v.checked = !v.checked
+                    }
+                });
+            },
+            openKindsPage:function(page,pageParams){
+                //pageArr={page:page,pageParamKey:[]}
+                api.openWin({
+                    name: page,
+                    url: './'+page+'.html',
+                    bounces: false,
+                    reload:true,
+                    animation:{
+                        type:"push",                
+                        subType:"from_right",      
+                        duration:300                
+                    },
+                    pageParam: pageParams
+                });
+            },
+            addCustom:function(){
+                var that = this
+                if(this.customCui.length==0){
+                    this.isCusTrim = true
+                    this.$refs.customCui.focus()
+                }else{
+                    var cusOnj={name:that.customCui}
+                    //ajax
+                    this.chooseCus.push(cusOnj)
+                    //this.goBack()
+                }
+            },
+            saveCuisine:function(){
+                var that = this
+                console.log(JSON.stringify(this.chooseCus))
+                var tags = JSON.stringify(this.chooseCus)
+                /* if(!this.checkedNames){
+                    api.toast({
+                        msg: '请确保信息真实有效',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    return
+                } */
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=edit_member_tags',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values:{
+                            tags:that.chooseCus,
+                            user_id:userId
+                        }
+                        
+                    }
+                }, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        api.toast({
+                            msg: "提交成功",
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                        that.goBack()
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            gototjcx:function gototjcx(){
+              var that = this
+              api.openWin({
+                name: 'myinfo.cuisine',
+                url: './myinfo.cuisine.html',
+                bounces: false,
+                pageParam: {
+                  id:that.id
+                }
+              });
+            }
+    
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+			              that.id=api.pageParam.id;
+                    //
+                    that.get_my_tag()
+                }
+            })
+        },
+        mounted: function mounted() {
+
+        },
+    })
+
+		
+	
+		
+
+	
+		
+		 function showAction(){
+          var imglength= $("#upload_img_list").find("img");
+          if(imglength.length<=2){
+          api.actionSheet({
+            title: '上传图片',
+            cancelTitle: '取消',
+            buttons: ['拍照','从手机相册选择']
+          }, function(ret, err) {
+            if (ret) {
+              getPicture(ret.buttonIndex,'device_pic');
+            }
+          });
+          }else{
+          api.toast({msg:"最多上传3张图片!"});
+          }
+        }
+        var base64data_str=[];
+      function getPicture(sourceType,pictureType) {
+        if(sourceType==1){ // 拍照
+          api.getPicture({
+            sourceType: 'camera',
+            encodingType: 'jpg',
+            mediaValue: 'pic',
+            allowEdit: false,
+            destinationType: 'base64',
+            quality: 50,
+            saveToPhotoAlbum: true
+          }, function(ret, err) {
+            if (ret) {
+              if(ret.base64Data){
+                var str='<span><img src="'+ret.base64Data+'" class="file_id" onclick="edit_img(this)"><i class="iconfont icon-ic_searchclosed delete_icon" onclick="edit_img(this)"></i></span>';
+                $("#upload_img_list").append(str);
+                $("#upload_img_list").show();
+                console.log("==加入数组==");
+                base64data_str.push(ret.base64Data);
+              }
+            }else {
+              console.log(JSON.stringify(err));
+            }
+          });
+        }
+        else if(sourceType==2){ // 从相机中选择
+          api.getPicture({
+              sourceType: 'library',
+              encodingType: 'jpg',
+              mediaValue: 'pic',
+              allowEdit: false,
+              destinationType: 'base64',
+              quality: 50,
+               /* targetWidth: 80,
+              targetHeight: 80*/
+            }, function(ret, err) {
+              if (ret) {
+                 if(ret.base64Data){
+                var str='<span><img src="'+ret.base64Data+'" class="file_id" onclick="edit_img(this)"><i class="iconfont icon-ic_searchclosed delete_icon" onclick="edit_img(this)"></i></span>';//onclick="edit_img()"
+                $("#upload_img_list").append(str);
+                $("#upload_img_list").show();
+                console.log("==加入数组==");
+                base64data_str.push(ret.base64Data);
+                /*$('#imgUp').attr('src', ret.base64Data);*/
+              }
+                }else {
+                console.log(JSON.stringify(err));
+               }
+          });
+        }
+      }
+    function edit_img(objthis){
+    $(objthis).parent("span").remove();
+    var deletesrc=$(objthis).parent("span").find('img').attr('src');
+    //console.log(deletesrc);
+          for(var i = 0; i < base64data_str.length; i++) {
+            if(base64data_str[i] == deletesrc) {
+              console.log('删除图片'+i);
+              base64data_str.splice(i, 1);
+              break;
+            }
+          }
+    //console.log(base64data_str);
+    }
+    //显示上传的截图
+    function showImg(input) {
+        api.showProgress({
+            title: '努力加载中...',
+            modal: false
+        });
+        var file = input.files[0];
+        var reader = new FileReader();
+        if(file){
+          reader.readAsDataURL(file);
+          // 图片读取成功回调函数
+          reader.onload = function(e) {
+              document.getElementById('show').src=e.target.result;
+              //address_url=e.target.result;
+              api.hideProgress();
+          }
+          $(".show_image").show();
+        }
+
+        api.hideProgress();
+    }
+
+    function xyb(){
+       
+    
+    
+    }
+      
+</script>
+</html>

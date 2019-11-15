@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>名厨详情</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chefs/chef.detail.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <header class="page-head" ref="header">
+            <div class="back" @click="goBack" tapmode>
+                <i class="iconfont icon-back"></i>
+            </div>
+        </header>
+        <!-- 厨师名片 -->
+        <div class="chef-detail-info">
+            <div class="chef-trends-head">
+                <div class="trends-head-imgbox">
+                    <img :src="imgsrc" alt="">
+                </div>
+                <div class="trends-head-center">
+                    <div class="trends-center-top">
+                        <span class="trends-center-name">{{MastInfo.real_name2}}</span>
+                    </div>
+                    <div class="trends-center-bottom trends-light">
+                        <span class="trends-center-iden trends-light">{{MastInfo.cook_level}}</span>
+                    </div>
+                </div>
+                <div class="trends-head-right">
+                    <div class="trends-head-focus" @click="focus">关注</div>
+                </div>
+            </div>
+            <div class="trends-head-foot">
+                <div class="head-footer-item">
+                    <span class="head-footer-key trends-light">粉丝</span>
+                    <span class="head-footer-fansnum">{{MastInfo.gz_coung}}</span>
+                </div>
+                <div class="head-footer-item">
+                    <span class="head-footer-key trends-light" @click="focus()">关注</span><span
+                        class="head-footer-focusnum">{{MastInfo.wgz_coung}}</span>
+                </div>
+            </div>
+            <div class="chef-hotslist-head"  ref="chef-hotslist-head">
+                <p :class="['hotslist-head-item',isDet==1?'hotslist-head-active':'']" @click="changeDis(1)">资料</p>
+                <p :class="['hotslist-head-item',isDet==2?'hotslist-head-active':'']" @click="changeDis(2)">厨圈</p>
+                <p :class="['hotslist-head-item',isDet==3?'hotslist-head-active':'']" @click="changeDis(3)">菜谱</p>
+                <p :class="['hotslist-head-item',isDet==4?'hotslist-head-active':'']" @click="changeDis(4)">教学</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    $(function () {//消除300ms点击延迟
+        FastClick.attach(document.body);
+    });
+    var wrap = new Vue({
+        el: '#wrap',
+        data: {
+            URL: "",
+            isDet: 1,
+            imgDefalt: '../image/headimgDef.png',
+            focusText: "关注",
+            isShowDia: false,
+            sf_id:0,//师傅id
+            MastInfo:[],
+            isShowApprentice:true
+        },
+        computed: {
+            imgsrc:function(){
+                console.log(this.MastInfo.photo)
+                if(this.MastInfo&&this.MastInfo.photo){
+                    var realimg = this.URL+this.MastInfo.photo
+                    return realimg
+                }else{
+                    console.log(this.imgDefalt)
+                    return this.imgDefalt
+                }
+            }
+        },
+        methods: {
+            goBack:function goBack(){
+                api.closeWin();
+            },
+            //点击视频详情
+            goTeachDet: function goTeachDet() {
+                api.openWin({
+                    name: 'chef.instructional',
+                    url: './chef.instructional.html',
+                    bounces: false,
+                    pageParam: { key: 'value' }
+                });
+            },
+            isApprenticed:function (){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=pd_sf',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            sf_id: that.sf_id
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.isShowApprentice = false//不能拜师
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else{
+                        that.isShowApprentice = true//可以拜师
+                        
+                    }
+                });
+            },
+            getMasterInfo:function (){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appstaff&act=get_staff_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: that.userId,
+                            sf_id: that.sf_id
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        that.MastInfoExper = ret.retval[1]
+                        that.MastInfo = ret.retval[0]
+                        console.log(JSON.stringify(that.MastInfoExper))
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            changeDis: function changeDis(type) {
+                this.isDet = type
+                //var pageParam = ['chef.detailcomponent','chef.videocomponent','chef.trendcomponent','chef.menucomponent']
+                api.setFrameGroupIndex({
+                    name: 'group1',
+                    index: type-1,
+                    scroll:true,
+                });
+            },
+            focus: function focus() {
+                var that = this
+                api.ajax({
+                    url: 'ajax_url',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll:false
+                },function(ret,err){
+                    if (ret) {
+                        // TODO 
+                        that.focusText = "已关注"
+                    } else {
+                        
+                    };
+                });
+                
+            },
+            payStudy: function payStudy() {
+                this.isShowDia = true
+            },
+            closeDia: function closeDia() {
+                this.isShowDia = false
+            },
+            payReal: function payReal() {
+                this.isShowDia = false
+                api.ajax({
+                    url: 'ajax_url',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false
+                }, function (ret, err) {
+                    if (ret) {
+                        // TODO 
+                    } else {
+                        api.alert({
+                            msg: ('错误码：' + err.code + '；错误信息：' + err.msg + '网络状态码：' + err.statusCode)
+                        });
+                    };
+                });
+            },
+            openFrameGroup:function openFrameGroup(){
+                var that = this
+                var top = this.$refs['chef-hotslist-head'].getBoundingClientRect().bottom
+                api.openFrameGroup({
+                    name: 'group1',
+                    rect: {
+                        marginTop: top+10, // frame页面距离win顶部的高度
+                        marginBottom: 0, // frame页面距离win底部的高度
+                        w: 'auto' // frame页面的宽度 自适应屏幕宽度
+                    },
+                    scrollEnabled: true,
+                    bounces:false,
+                    frames: [
+                        {
+                            name: 'chef.detailcomponent',
+                            url: 'chef.detailcomponent.html',
+                            pageParam: {
+                                sf_id:that.sf_id,
+                                MastInfoExper:that.MastInfoExper,
+                                isShowApprentice:that.isShowApprentice
+                            },
+                            bounces:false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                        {
+                            name: 'chef.trendcomponent',
+                            url: 'chef.trendcomponent.html',
+                            pageParam: {
+                                sf_id:that.sf_id,
+                                isShowApprentice:that.isShowApprentice
+                            },
+                            bounces:false,
+                            // customRefreshHeader: 'UIPullRefresh'
+                        },
+                        {
+                            name: 'chef.menucomponent',
+                            url: 'chef.menucomponent.html',
+                            pageParam: {
+                                sf_id:that.sf_id,
+                                isShowApprentice:that.isShowApprentice
+                            },
+                            bounces:false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                        {
+                            name: 'chef.videocomponent',
+                            url: 'chef.videocomponent.html',
+                            pageParam: {
+                                sf_id:that.sf_id,
+                                isShowApprentice:that.isShowApprentice
+                            },
+                            bounces:false,
+                            //customRefreshHeader: 'UIPullRefresh'
+                        },
+                    ]
+                }, function(ret, err) {
+                    if (ret.index > -1) {
+                        that.isDet = ret.index+1
+                    }
+                });
+            }
+        },
+        created: function created() {
+            var that = this
+            apiready = function () {
+                that.URL = $api.URL();
+                that.sf_id = api.pageParam.sf_id;
+                that.userId = window.localStorage.getItem("userId")
+                var header = that.$refs["header"];
+                headerH = $api.fixStatusBar(header);
+                //headerH要先获取，再触发openFrameGroup
+                that.openFrameGroup()
+                that.getMasterInfo()
+               
+            }
+        },
+        mounted: function mounted() {
+            var that = this
+            
+        },
+    })
+    
+
+</script>
+
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+  <title>修改资料</title>
+  <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+  <link rel="stylesheet" type="text/css" href="../css/api.css" />
+  <link rel="stylesheet" type="text/css" href="../css/frozenui.css">
+  <style>
+    html,
+    body {
+      background-color: #f4f4f4;
+    }
+
+    p {
+      margin: 10px;
+      color: #666;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+    }
+
+    .out_div {
+      margin-top: 10px;
+    }
+
+    .ip {
+      width: 100%;
+      outline: none
+    }
+
+    .ip1 {
+      outline: none
+    }
+
+    #portrait_div {
+      text-align: center;
+      color: #666;
+    }
+
+    #my_portrait {
+      width: 100px;
+      height: 100px;
+      border-radius: 50px;
+    }
+
+    .edit_portrait {
+      padding: 2px 10px;
+      border: 1px solid #666;
+      border-radius: 8px
+    }
+
+    #sex_div label {
+      padding-left: 20px;
+      width: 60%;
+    }
+
+    .tags {
+      float: left;
+      height: 6em;
+      line-height: 6em;
+      width: 6em;
+      border-radius: 3em;
+      background-color: #666;
+      font-size: 0.9em;
+      text-align: center;
+      margin: 10px;
+      position: relative;
+      color: #fff;
+    }
+
+    .tags input {
+      z-index: 22;
+    }
+
+    .mytags {
+      background-color: #21bdc9;
+    }
+
+    .tag_t {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6em;
+      text-align: center;
+    }
+
+    .sub_btn {
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    #btn_tj {
+      width: 80%;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 15px;
+      padding: 0;
+    }
+
+    input[type='checkbox'] {
+      vertical-align: middle;
+      width: 6em;
+      height: 6em;
+      -webkit-appearance: none;
+      outline: 0 !important;
+      display: inline-block;
+      background-color: transparent;
+      position: relative;
+      top: -2px;
+    }
+
+    input[type='checkbox']:checked {
+      background-color: transparent;
+    }
+    .ui-radio input:checked:after {
+      background: #6eb92c;
+  }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header">修改资料</div>
+    <div class="DIV_L" onclick="goBack()" tapmode><i class="iconfont icon-back"></i></div>
+  </header>
+  <div name="infoForm">
+    <div id="nickname_div" class="hide">
+      <p>输入昵称</p>
+      <div class="out_div clearfix">
+        <input type="text" name="nickname" id="nickname" class="ip" placeholder="昵称最多6个字符" maxlength="6" />
+      </div>
+    </div>
+
+    <div id="portrait_div" class="hide">
+      <div class="out_div clearfix" id="tx">
+        <p><img src="" id="my_portrait" /></p>
+        <span class="edit_portrait" onclick="showAction()" tapmode>修改头像</span>
+      </div>
+    </div>
+    <div id="sex_div" class="hide">
+      <p>选择性别</p>
+      <div class="out_div clearfix">
+          <div class="ui-form-item ui-form-item-radio ui-border-b">
+              <label class="ui-radio" for="male">
+                  <input type="radio" name="sex" value="1" id="male">
+              </label>
+              <label for="male">男</label>
+          </div>
+          <div class="ui-form-item ui-form-item-radio ui-border-b">
+              <label class="ui-radio" for="radio">
+                  <input type="radio" checked="" name="sex" value="2" id="female">
+              </label>
+              <label for="female">女</label>
+          </div>
+          <div class="ui-form-item ui-form-item-radio ui-border-b">
+              <label class="ui-radio" for="radio">
+                  <input type="radio" name="sex" value="0" id="secret">
+              </label>
+              <label for="secret">保密</label>
+          </div>
+      </div>
+    </div>
+    <div id="address_div" class="hide">
+      <p>选择常驻地</p>
+      <div class="out_div clearfix">
+        <div onclick="selectCity()" tapmode><input name="address" id="address" placeholder="点击选择常驻地" class="ip"
+            readonly> </div>
+      </div>
+    </div>
+    <div id="autograph_div" class="hide">
+      <p>有趣的个性签名可以获得更多关注哦~</p>
+      <div class="out_div clearfix">
+        <textarea name="autograph" id="autograph" maxlength="30"></textarea>
+      </div>
+    </div>
+
+
+    <div id="position_div" class="hide">
+        <p>输入职位</p>
+        <div class="out_div clearfix">
+          <input type="text" name="position" id="position" class="ip" placeholder="输入职位"/>
+        </div>
+      </div>
+    
+    <div id="company_div" class="hide">
+      <p>请输入您的单位</p>
+      <div class="out_div clearfix">
+        <textarea name="company" id="company"></textarea>
+      </div>
+    </div>
+
+    <div id="mytags_div" class="hide">
+      <p>最多可选择5个哦~</p>
+      <div class="out_div clearfix" id="mytags">
+        <!--<div class="tags mytags"><input name="tags" value="1" type="checkbox"/><span class="tag_t">数码控</span></div>
+
+          <div class="tags mytags"><input  name="tags" value="3" type="checkbox" /><span class="tag_t">资深吃货</span></div>-->
+      </div>
+    </div>
+    <div class="sub_btn"><span id="btn_tj" class="btn_default2" onclick="infoModify()" tapmode>保存</span></div>
+  </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+<script type="text/javascript">
+  var userId = window.localStorage.getItem("userId"); //用户id
+  $(function () {  //消除300ms点击延迟
+    FastClick.attach(document.body);
+  });
+  //返回上一页
+  function goBack() {
+    api.execScript({
+      name: "infomation",
+      script: "getInfo();"
+    });
+    api.execScript({
+      name: "chef.settled",
+      script: "get_user_info();"
+    });
+    api.closeWin();
+  }
+
+  var URL = "";
+  var UIActionSelector;
+  var add_id;
+  var before_portrait = "";
+  var infoType = "";
+  apiready = function () {
+
+    infoType = api.pageParam.infoType;//修改资料类型
+
+    URL = $api.URL();
+    var header = $api.dom('header');
+
+    //keyback();
+    getInfo();
+    getTags();
+    getInfo2();
+    //适配iOS 7+，Android 4.4+状态栏
+    $api.fixStatusBar(header);
+    //显示要修改的资料
+    showType(infoType);
+
+    //常驻地选择
+    UIActionSelector = api.require('UIActionSelector');
+
+  };
+
+  function getInfo() {
+    api.ajax({
+      url: URL + 'index.php?app=myinfo&act=get_info',
+      method: 'post',
+      cache: false,
+      timeout: 30,
+      dataType: 'json',
+      returnAll: false,
+      data: {
+        values: {
+          user_id: userId,
+        }
+      }
+    }, function (ret, err) {
+
+      console.log(JSON.stringify(ret));
+      if (ret && ret.done) {
+        $("#nickname").val(ret.retval.real_name);
+        //$api.attr($api.byId("portrait"),'src',ret.retval.portrait);
+        //$api.attr($api.byId("my_portrait"),'src',ret.retval.portrait);
+        var portrait = ret.retval.portrait;
+        if (portrait != null) {
+
+
+          if (portrait.substr(0, 7).toLowerCase() == "http://") {
+            $api.attr($api.byId('my_portrait'), 'src', portrait);
+          } else {
+            $api.attr($api.byId('my_portrait'), 'src', URL + portrait);
+          }
+          before_portrait = $("#my_portrait").attr('src');
+        }
+        if (infoType == "portrait") {
+          $("#btn_tj").attr("onclick", "noportrait();");
+        }
+        console.log(URL + ret.retval.portrait);
+        $('input:radio[value=' + ret.retval.gender + ']').prop('checked', 'checked');
+        //$("#nickname").html(ret.retval.address);
+        $("#autograph").val(ret.retval.qm);
+        window.localStorage.setItem('real_name', ret.retval.real_name); //昵称
+        window.localStorage.setItem('gender', ret.retval.gender); //用户等级
+        window.localStorage.setItem('portrait', ret.retval.portrait); //用户头像
+        window.localStorage.setItem('autograph', ret.retval.qm); //个性签名
+      }
+    });
+  }
+
+
+  function getInfo2() {
+    api.ajax({
+      url: URL + 'index.php?app=myinfo&act=get_address',
+      method: 'post',
+      cache: false,
+      timeout: 30,
+      dataType: 'json',
+      returnAll: false,
+      data: {
+        values: {
+          user_id: userId,
+          status: 1
+        }
+      }
+    }, function (ret, err) {
+      console.log(JSON.stringify(ret));
+      if (ret && ret.done) {
+        $("#address").val(ret.retval.region_name);
+        add_id = ret.retval.addr_id;
+        window.localStorage.setItem('addr_id', ret.retval.addr_id);
+        window.localStorage.setItem('region_name', ret.retval.region_name);
+        window.localStorage.setItem('address', ret.retval.address);
+      }
+    });
+  }
+
+
+  function showType(infoType) {
+    $api.removeCls($api.byId(infoType + "_div"), "hide");
+  }
+
+  // 上传图片
+  function showAction() {
+
+    api.actionSheet({
+      title: '上传图片',
+      cancelTitle: '取消',
+      buttons: ['拍照', '从手机相册选择']
+    }, function (ret, err) {
+      if (ret) {
+        getPicture(ret.buttonIndex);
+      }
+    });
+  }
+
+  function getPicture(sourceType) {
+    if (sourceType == 1) {// 拍照
+      api.getPicture({
+        sourceType: 'camera',
+        encodingType: 'jpg',
+        mediaValue: 'pic',
+        allowEdit: false,
+        destinationType: 'base64',
+        quality: 50,
+        saveToPhotoAlbum: true
+      }, function (ret, err) {
+        if (ret) {
+          $("#my_portrait").attr('src', ret.base64Data);
+          console.log(ret.base64Data);
+          $("#btn_tj").attr("onclick", "infoModify();");
+        } else {
+          api.toast(JSON.stringify(err));
+        }
+      });
+    } else if (sourceType == 2) {// 从相机中选择
+      api.getPicture({
+        sourceType: 'library',
+        encodingType: 'jpg',
+        mediaValue: 'pic',
+        allowEdit: false,
+        destinationType: 'base64',
+        quality: 50,
+        /*targetHeight: 80*/
+      }, function (ret, err) {
+        if (ret) {
+          if (ret) {
+            $("#my_portrait").attr('src', ret.base64Data);
+            //console.log(ret.base64Data);
+            $("#btn_tj").attr("onclick", "infoModify();");
+          } else {
+            api.toast(JSON.stringify(err));
+          }
+        } else {
+          api.toast(JSON.stringify(err));
+        }
+      });
+    }
+  }
+  function selectCity() {
+    UIActionSelector.open({
+      datas: 'widget://res/city.json',
+      layout: {
+        row: 5,
+        col: 3,
+        height: 30,
+        size: 12,
+        sizeActive: 14,
+        rowSpacing: 5,
+        colSpacing: 10,
+        maskBg: 'rgba(0,0,0,0.2)',
+        bg: '#fff',
+        color: '#666',
+        colorActive: '#f00',
+        colorSelected: '#000'
+      },
+      animation: true,
+      cancel: {
+        text: '取消',
+        size: 12,
+        w: 90,
+        h: 35,
+        bg: '#fff',
+        bgActive: '#ccc',
+        color: '#888',
+        colorActive: '#fff'
+      },
+      ok: {
+        text: '确定',
+        size: 12,
+        w: 90,
+        h: 35,
+        bg: '#fff',
+        bgActive: '#ccc',
+        color: '#888',
+        colorActive: '#fff'
+      },
+      title: {
+        text: '请选择',
+        size: 12,
+        h: 44,
+        bg: '#eee',
+        color: '#888'
+      },
+      fixedOn: api.frameName
+    }, function (ret, err) {
+      if (ret) {
+        //alert(JSON.stringify(ret));
+        if (ret.eventType == 'ok') {
+          $api.val($api.byId('address'), ret.level1 + '-' + ret.level2 + '-' + ret.level3);
+        }
+      } else {
+        alert(JSON.stringify(err));
+      }
+    });
+  }
+
+  //获取标签列表
+  function getTags() {
+    api.ajax({
+      url: URL + 'index.php?app=myinfo&act=find_tag',
+      method: 'post',
+      cache: false,
+      timeout: 30,
+      dataType: 'json',
+      returnAll: false,
+      data: {
+        values: {
+          user_id: userId
+        }
+      }
+    }, function (ret, err) {
+
+      if (ret.done) {
+        console.log("tag=>" + JSON.stringify(ret));
+        var str = '';
+        $.each(ret.retval, function (i, item) {
+
+          if (item.is_c) {
+            str += '<div class="tags mytags" ><input name="tags" value="' + item.id + '" type="checkbox" checked="checked" /><span class="tag_t">' + item.name + '</span></div>';
+          } else {
+            str += '<div class="tags" ><input name="tags" value="' + item.id + '" type="checkbox" /><span class="tag_t">' + item.name + '</span></div>';
+          }
+        });
+        $("#mytags").html(str);
+
+        $("input[name='tags']").click(function () {
+
+          $(this).parent(".tags").toggleClass('mytags');
+          $("input[name='tags']").parent(".tags").removeClass('mytags');
+          $("input[name='tags']:checked").parent(".tags").addClass('mytags');
+        });
+      } else {
+        console.log("error");
+      }
+    });
+  }
+
+
+
+
+  //提交
+
+  function infoModify() {
+
+    var nickname = $("#nickname").val();
+    var portrait = $("#my_portrait").attr('src');
+
+    //console.log(portrait);
+    var sex = $("input[name='sex']:checked").val();
+    var address = $("#address").val();
+    var autograph = $("#autograph").val();
+
+    var position = $("#position").val()// 职位
+    var company = $("#company").val()// 单位
+    var tagvals = '';
+
+    $("input[name='tags']:checked").each(function (index, item) {
+      tagvals += $(this).val() + ',';
+
+    });
+    tagvals = tagvals.substring(0, tagvals.length - 1);
+
+    console.log("address=>" + address + "nickname=>" + nickname + "portrait=>" + portrait.length + "sex=>" + sex + "autograph=>" + autograph + "tagvals=>" + tagvals);
+    console.log(add_id + "==" + URL);
+    api.ajax({
+      url: URL + 'index.php?app=myinfo&act=update_info',
+      method: 'post',
+      cache: false,
+      timeout: 30,
+      dataType: 'json',
+      returnAll: false,
+      data: {
+        values: {
+          user_id: userId,
+          real_name: nickname,
+          portrait: portrait,
+          gender: sex,
+          qm: autograph,
+          tag: tagvals,
+          ur: URL,
+          address: address,
+          addr_id: add_id,
+
+         /*  position:position,
+          company:company */
+        }
+      }
+    }, function (ret, err) {
+      console.log(JSON.stringify(ret));
+      if (ret.done) {
+        api.toast({
+          msg: '修改成功',
+          duration: 2000,
+          location: 'bottom'
+        });
+        getInfo();
+        getInfo2();
+        api.execScript({
+          name: "infomation",
+          script: "getInfo();"
+        });
+        api.execScript({
+          name: "infomation",
+          script: "getInfo2();"
+        });
+        api.execScript({
+          name: "root",
+          frameName: "myinfo",
+          script: "get_user_info();"
+        });
+        api.closeWin();
+      } else {
+        console.log(ret.msg);
+        api.toast({
+          msg: '修改失败',
+          duration: 2000,
+          location: 'bottom'
+        });
+      }
+      if (err) {
+        api.toast({
+          msg: err.msg,
+          duration: 2000,
+          location: 'bottom'
+        });
+      }
+    });
+  }
+  function noportrait() {
+    api.toast({
+      msg: "请选择新的头像",
+      duration: 2000,
+      location: 'bottom'
+    });
+  }
+</script>
+
+</html>

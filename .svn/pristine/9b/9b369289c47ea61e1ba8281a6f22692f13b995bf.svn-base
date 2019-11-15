@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>订单支付</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/myinfos/myinfo.orderForm.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部 -->
+        <header class="headImg">
+            <i class="iconfont icon-back"></i>
+
+            <!--  <img src="../image//invitationDown.png" alt=""> -->
+            <div class="headerImg-center">
+                <p class="invitat-app-down headImg-text"><i></i>支付成功</p>
+                <p class="invitat-vip "><span>共支付：</span><span>{{price}}</span></p>
+            </div>
+            <div class="btnFlex">
+                <button class="headBtn">订单详情</button>
+                <button class="headBtn">返回首页</button>
+            </div>
+        </header>
+        <!-- 猜我喜欢 -->
+        <div class="like">———<span class="guessLike">猜我喜欢</span>———</div>
+        <!-- 全部最新热卖列表 -->
+        <div class="bestSellers">
+            <div class="bestSellers-item" v-for="(v,i) in 6" :key="i"
+                @click="goGoodsDet(v.goods_id,v.store_id)">
+                <div class="bestSellers-img">
+                    <img v-lazy="URL+v.default_image" :key="v.default_image">
+                </div>
+                <div class="bestSellers-item-bottom">
+                    <p class="introduce introduce-text">{{v.goods_name}}</p>
+                    <p class="bestSellers-red introduce">
+                        <span class="introduce-left">
+                            <span class="bestSellers-text">￥{{v.price}}</span>
+                            <!--  <span class="bestSellers-del">{{v.oprice}}积分</span> -->
+                        </span>
+                        <span class="salesVolume">销量{{v.orders}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="foot-add-more">{{bottomText}}</div>
+    </div>
+</body>
+
+
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue-lazyload.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    Vue.use(VueLazyload, {
+        loading: '../image/cacheImg.jpg'
+    })
+
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            swiperTop: null,
+            price:0,
+            orderId:0,
+            category: [],
+            noKillGoods: false,
+            killGoodsArr: [],//秒杀产品列表
+            pointGoodsFive: [],
+            pointGoodsTen: [],
+            pointGoodsTenup: [],
+            bottomLists: {
+                activeIndex: 0,
+                list: [[], [], []],
+                start: [0, 0, 0],
+                end: [false, false, false],
+                showList: []
+            },
+            bottomText: "正在努力加载..."
+        },
+        methods: {
+            goBack: function () {
+                api.closeWin();
+            },
+            //跳转首页
+            goHomePage: function goHomePage() {
+                api.closeToWin({
+                    name: 'root'
+                });
+            },
+
+            //跳转订单
+            goSearch: function goSearch() {
+                var that = this
+                api.openWin({
+                    name: 'order.view',
+                    url: './order.view.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        orderId : that.orderId
+                    }
+                });
+            },
+            //进入商品详情
+            goGoodsDet: function goGoodsDet(id, storeType) {
+                //console.log(id)
+                api.openWin({
+                    name: 'mall.description',
+                    url: './mall.description.html',
+                    bounces: false,
+                    animation: {
+                        type: "push",
+                        subType: "from_right",
+                        duration: 300
+                    },
+                    pageParam: {
+                        goodId: id,
+                        storeType: storeType
+                    }
+                });
+            },
+            changeBottomList: function (i) {
+                var that = this
+                this.bottomLists.activeIndex = i
+                var funcArr = ["get_hot_goods"]
+                //that.bottomText[i] = "正在努力加载..."
+                api.ajax({
+                    url: that.URL + '/index.php?app=appjfstore&act=get_hot_goods',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: { start: that.bottomLists.start[i] }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret && ret.done) {
+                        if (ret.retval.length <= 0) {
+                            that.bottomLists.end[i] = true
+                        } else {
+                            ret.retval.forEach(function (v, index) {
+                                v.price = v.price <= 1 ? v.price : parseInt(v.price)
+                                v.oprice = v.oprice <= 1 ? v.oprice : parseInt(v.oprice)
+                                that.bottomLists.list[i].push(v)
+                            })
+                            that.bottomLists.start[i] += 6;
+                            that.bottomLists.end[i] = false
+                        }
+                        that.bottomLists.showList = that.bottomLists.list[i]
+
+                    } else if (ret) {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        that.bottomLists.end[i] = true
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+        },
+        created: function created() {
+            var that = this
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.orderId = api.pageParam.orderId
+                    that.price = api.pageParam.price
+                    that.changeBottomList(that.bottomLists.activeIndex)
+                    //上拉加载
+                    api.addEventListener({
+                        name: 'scrolltobottom',
+                        extra: {
+                            threshold: 50 //距离底部距离
+                        }
+                    }, function (ret, err) {
+                        if (that.bottomLists.end[that.bottomLists.activeIndex]) {
+                            that.bottomText = "——————到底线了——————"
+                            api.toast({
+                                msg: '没有更多了',
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                        } else {
+                            that.changeBottomList(that.bottomLists.activeIndex)
+                        }
+                    });
+                }
+            })
+        },
+        mounted: function mounted() {
+
+            //this.initSwiperTop()
+        },
+    })
+</script>
+
+</html>

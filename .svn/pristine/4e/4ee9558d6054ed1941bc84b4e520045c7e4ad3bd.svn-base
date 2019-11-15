@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品详情</title>
+    <link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/malls/mall.description.css" />
+</head>
+
+<body>
+    <div id="wrap">
+        <!-- 头部导航 -->
+        <div :class="['page-head',isTopShow?'':'hide-header']" ref="header">
+            <transition 
+            enter-active-class="animated fadeIn">
+                <div class="page-head-normall" ref="page-head-normall" v-show="isTopShow">
+                    <div class="back" @click="goBack" tapmode>
+                        <i class="iconfont icon-back"></i>
+                    </div>
+                    <a href="#baby">宝贝</a>
+                    <a href="#comment">评价</a>
+                    <a href="#detail">详情</a>
+                    <a href="#mustKnow">须知</a>
+                    <i :class="['iconfont',isGoodsFav ?'icon-shoucang':'icon-wuxiaoxing-kong']" @click="addFacorate" tapmode></i>
+                </div>
+            </transition>
+            <transition 
+            enter-active-class="animated fadeIn">
+                <div class="fix-head" ref="fix-head" v-show="!isTopShow">
+                    <div class="fix-i-out">
+                        <i class="iconfont icon-back" @click="goBack" tapmode></i>
+                    </div>
+                    <div class="fix-i-out">
+                        <i 
+                        @click="addFacorate"
+                        tapmode
+                        :class="['iconfont','detail-video-tag',isGoodsFav ?'icon-shoucang':'icon-wuxiaoxing-kong']"></i>
+                    </div>
+                </div>
+            </transition>
+        </div>
+        <div class="main" id="main">
+            <!-- 视频详情 -->
+            <div class="detail-teach-videobox" id="baby">
+                <div class="swiper-container goods-swiper-recommend">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide swiper-option" v-for="(v,i) in goodsInfo._images" :key="i" tapmode>
+                            <div class="forum-item-imgbox">
+                                <img :src="URL+v.image_url" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="navBtn">
+                    <button class="videoBtn"><i></i>视频</button>
+                    <button class="imgBtn">图片</button>
+                </div>
+            </div>
+            <!-- 秒杀显示 -->
+            <div class="kill-time" v-show="seckill==1">
+                <div class="kill-time-text">限时秒杀</div>
+                <div class="kill-time-timeout">
+                    <div class="kill-timeout-text" v-if="countTime.endText.length>0">{{countTime.endText}}</div>
+                    <div class="kill-timeout-text" v-else>距离秒杀结束剩  {{countTime.day}}天{{countTime.hour}}:{{countTime.minute}}:{{countTime.second}}</div>
+                </div>
+            </div>
+            <!-- 商品价格 -->
+            <div class="price">
+                <div v-if="storeType==3">
+                    <p class="priceDiscount">
+                        <span class="priceNum">{{parseInt(goodsInfo.price)}}积分</span>
+                    </p>
+                </div>
+                <div v-else="storeType==3">
+                    <p class="priceDiscount" v-if="seckill==1">
+                        <span class="priceNum">￥{{goodsInfo.sp_goods_price}}</span>
+                        <span class="priceDel">￥{{goodsInfo.price}}</span>
+                    </p>
+                    <p class="priceDiscount" v-else="seckill==1">
+                        <span class="priceNum"><span class="earn-text">￥</span>{{goodsInfo.price}}</span>
+                        <span class="priceDel">￥{{goodsInfo.oprice}}</span>
+                        <span v-if="isShowLittle">
+                            <span class="earn-text">赚</span>
+                            {{(goodsInfo.settlement_price*0.35).toFixed(2)}}
+                        </span>
+                    </p>
+                </div>
+                <div class="priceMarin" v-if="isShowLittle">
+                    <span class="priceLogo">厨小店</span>
+                    <span class="priceSmall" v-if="false">￥{{}}</span>
+                </div>
+                <p class="price-goodName">{{goodsInfo.goods_name}}</p>
+            </div>
+            <!-- 发货优惠 -->
+
+            <div class="consignment">
+                <span class="tag">发货</span>
+                <i class="iconfont icon-didian"></i>
+                <span class="add">{{goodsAddress}}</span>
+                <!-- <span>快递：0.00</span> -->
+                <span class="salesVolume">销量{{goodsInfo.orders}}</span>
+            </div>
+            <div class="discount" @click="showCoupon" v-if="storeType!=3" tapmode>
+                <span class="tag">优惠</span>
+                <span class="coupon">领优惠券</span>
+                <i class="iconfont icon-htbArrowright icon-right"></i>
+            </div>
+            <!-- 保障 -->
+            <div class="guarantee">
+                <span class="tag">保障</span>
+                <div class="guarantee-center">
+                    <!-- <span class="guaranteeEstimate">17：00前付款，预计9月30日(后台送到)</span> -->
+                    <span class="guaranteeText">送货上门 · 设备免费安装</span>
+                </div>
+                <i class="iconfont icon-htbArrowright icon-Location"></i>
+            </div>
+            <!-- 选择参数 -->
+            <div class="consignment" @click="showGoodCards" tapmode>
+                <span class="tag">选择</span>
+                <span>选择</span>
+                <span>分类</span>
+                <i class="iconfont icon-htbArrowright icon-right"></i>
+            </div>
+            <div class="discount" v-if="false">
+                <span class="tag">参数</span>
+                <span>集成灶品牌</span>
+                <span>型号</span>
+                <i class="iconfont icon-htbArrowright icon-right"></i>
+            </div>
+            <!-- 宝贝评价 -->
+            <div class="evaluate" id="comment" v-if="false">
+                <div class="evaluateHead">
+                    <span>宝贝评价</span>
+                    <span>(889)</span>
+
+                    <span class="whole">查看全部<i class="iconfont icon-htbArrowright icon-left"></i></span>
+                </div>
+                <div class="message">
+                    <div class="flex">
+                        <div class="circle">
+                            <img src="" alt="">
+                        </div>
+                        <span class="circleName">涵(宝宝)</span>
+                    </div>
+                    <p class="circleText">已安装好,很给力,物流很快,服务态度也好。</p>
+                </div>
+                <div class="message">
+                    <div class="flex">
+                        <div class="circle">
+                            <img src="" alt="">
+                        </div>
+                        <span class="circleName">涵(宝宝)</span>
+                    </div>
+                    <p class="circleText">已安装好,很给力,物流很快,服务态度也好。</p>
+                </div>
+            </div>
+            <!-- 商品详情 -->
+            <div class="commodityHead" id="detail">
+                <p class="commoditySpacing">——————<span class="commodityTitle">商品详情</span>——————</p>
+                <div class="rich-text" ref="rich-text" v-html="goodsInfo.description">
+                </div>
+            </div>
+            <!-- 购买须知 -->
+            <div id="mustKnow">
+                <div class="mustknow-box">
+                    <img src="../image/notice.jpg" alt="">
+                </div>
+            </div>
+            
+        <!-- 购物车弹框 -->
+        <transition 
+            enter-active-class="animated fadeIn" 
+            leave-active-class="animated fadeOut" 
+            :duration="500">
+        <div class="dia-shopcard" v-show="isShowCar">
+            <transition 
+                enter-active-class="animated fadeIn" 
+                leave-active-class="animated fadeOut" 
+                :duration="200">
+                <div class="dia-mask" @click="closeDia" tapmode v-show="isShowCar"  @touchmove.prevent></div>
+            </transition>
+            <transition 
+                enter-active-class="animated fadeInUpBig" 
+                leave-active-class="animated fadeOutDownBig" 
+                :duration="500">
+            <div class="dia-shopcard-real" v-show="isShowCar">
+                <div class="dia-shopcard-top">
+                    <div class="dia-shopcard-imgbox">
+                        <img :src="goodsInfo.default_image" alt="">
+                    </div>
+                    <div class="dia-shopcard-topright">
+                        <div class="shopcard-topright-sybol">￥<span class="shopcard-topright-money">{{goodShowPrice}}</span> </div>
+                        <div class="shopcard-topright-stock">库存{{storkSelect+"件"}}</div>
+                        <div class="shopcard-topright-address">配送至：德清县，选择 {{selectColor+specificationName}}</div>
+                    </div>
+                </div>
+                <div class="dia-shopcard-content">
+                    <div class="shopcard-content-block">
+                        <div class="shopcard-content-head">配送区域</div>
+                        <div class="shopcard-content-items">
+                            <div class="shopcard-content-item">
+                                <div>
+                                    <i class="iconfont icon-didian"></i>
+                                    <span class="sendAdd">{{goodsAddress}}</span>
+                                </div>
+                                <div class=""><i class="iconfont icon-htbArrowright"></i></div>
+                                
+                            </div>
+                           <!--  <div class="shopcard-content-item">
+                                <span class="">预约配送 30分钟内付款，预计9.20到</span>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="shopcard-content-block" v-if="specArrLen">
+                        <div class="shopcard-content-head">颜色分类</div>
+                        <div class="shopcard-content-items">
+                            <div class="shopcard-label-out">
+                                <span 
+                                    :class="['shopcard-content-itemlabel',selectColor==i?'shopcard-content-itemsel':'']" 
+                                    v-for="(v,i) in specificationsArr" 
+                                    @click="changeColors(i,1)"
+                                    tapmode
+                                    :key="i">
+                                    {{i}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shopcard-content-block" v-if="specTextShow">
+                        <div class="shopcard-content-head">型号</div>
+                        <div class="shopcard-content-items">
+                            <div class="shopcard-label-out" >
+                                <span 
+                                    :class="['shopcard-content-itemlabel',selectSpecifications==v.spec_id?'shopcard-content-itemsel':'']" 
+                                    v-for="(v,i) in specificationsArr[selectColor]" 
+                                    @click="changeColors(v.spec_id,2,v.stock,v.spec_2,v.price)"
+                                    tapmode
+                                    :key="i">
+                                    {{v.spec_2}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shopcard-content-block">
+                        <div class="shopcard-content-items shopcard-content-itemslast">
+                            <div class="shopcard-content-item">
+                                <span class="">购买数量</span>
+                            </div>
+                            <!-- 秒杀的 -->
+                            <div class="shopcard-content-item shopcard-content-numchange" v-if="seckill">
+                                <span class="shopcard-content-itemlabel shopcard-content-calc" @click="minusNumKill" tapmode>-</span>
+                                <span class="shopcard-content-itemlabel shopcard-content-calc">{{buyKillNum}}</span>
+                                <span class="shopcard-content-itemlabel shopcard-content-calc" @click="addNumKill" tapmode>+</span>
+                            </div>
+                            <!-- 正常的 -->
+                            <div class="shopcard-content-item shopcard-content-numchange" v-else>
+                                <span class="shopcard-content-itemlabel shopcard-content-calc" @click="minusNum" tapmode>-</span>
+                                <span class="shopcard-content-itemlabel shopcard-content-calc">{{buyNum}}</span>
+                                <span class="shopcard-content-itemlabel shopcard-content-calc" @click="addNum" tapmode>+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dia-shopcard-bottom" v-show="seckill==1">
+                    <div class="shopcard-bottom-kill" @click="buyRightNow" tapmode>立即购买</div>
+                </div>
+                <div class="dia-shopcard-bottom" v-show="seckill!=1">
+                    <div class="shopcard-bottom-item shopcard-bottom-left" @click="addShopCard" tapmode>加入购物车</div>
+                    <div class="shopcard-bottom-item shopcard-bottom-right" @click="buyRightNow" tapmode>立即购买</div>
+                </div>
+            </div>
+            </transition>
+        </div> 
+    </transition>  
+
+
+        <!-- 优惠券弹框 -->
+        <transition 
+            enter-active-class="animated fadeIn" 
+            leave-active-class="animated fadeOut" 
+            :duration="500">
+        <div class="dia-shopcard" v-show="isShowCoupon">
+            <transition 
+                enter-active-class="animated fadeIn" 
+                leave-active-class="animated fadeOut" 
+                :duration="200">
+                <div class="dia-mask" @click="cancleCoupon" v-show="isShowCoupon" tapmode @touchmove.prevent></div>
+            </transition>
+            <transition 
+                enter-active-class="animated fadeInUpBig" 
+                leave-active-class="animated fadeOutDownBig" 
+                :duration="500">
+            <div class="dia-shopcard-real dia-coupon-real" v-show="isShowCoupon">
+                <div class="dia-shopcard-top dia-coupton-top" @touchmove.prevent>
+                    <p class="coupton-title">优惠券</p>
+                </div>
+                <div class="dia-shopcard-content">
+                    <div :class="['coupon-item',v.is_have==1?'gray-coup':'']" v-for="(v,i) in couponArr" :key="i" >
+                        <div class="coupin-item-left">
+                            <div class="coupon-item-money">￥<span class="money-real">{{v.coupon_value}}</span></div>
+                            <div class="coupon-usetime">使用期限：{{v.start_time}} - {{v.end_time}}</div>
+                            <div class="coupon-use-condition">{{v.coupon_name}}</div>
+                        </div>
+                        <div 
+                        class="coupin-item-right" 
+                        @click="receiveCoupon(v.coupon_id,v.is_have,i)" 
+                        tapmode
+                        v-show="!v.is_have">
+                            <div class="coupon-item-receive">领 取</div>
+                        </div>
+                        <div 
+                        class="coupin-item-right" 
+                        @click="receiveCoupon(v.coupon_id,v.is_have,i)" 
+                        tapmode
+                        v-show="v.is_have">
+                            <div class="coupon-item-receive">已领取</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dia-shopcard-bottom">
+                    <div class="shopcard-bottom-kill coupon-bottom-canele" @click="cancleCoupon" tapmode>取消</div>
+                </div>
+            </div>
+            </transition>
+        </div> 
+    </transition>  
+
+    
+        <!-- 分享弹框 -->
+        <transition 
+            enter-active-class="animated fadeIn" 
+            leave-active-class="animated fadeOut" 
+            :duration="500">
+        <div class="dia-shopcard" v-show="isShowShare" @touchmove.prevent>
+            <transition 
+                enter-active-class="animated fadeIn" 
+                leave-active-class="animated fadeOut" 
+                :duration="200">
+                <div class="dia-mask" v-show="isShowShare" @click="cancleShare" tapmode></div>
+            </transition>
+            <transition 
+                enter-active-class="animated fadeInUpBig" 
+                leave-active-class="animated fadeOutDownBig" 
+                :duration="500">
+            <div class="dia-shopcard-real dia-coupon-real dia-share-real" v-show="isShowShare">
+                <div class="dia-shopcard-top dia-share-top" v-if="isShowLittle">
+                    <p class="share-title">分享好友下单赚8</p>
+                    <p class="share-explain">只要你的好友通过你的连接购买此商品，你就能赚到至少8元利润~</p>
+                </div>
+                <div class="dia-shopcard-top dia-share-top" v-else>
+                    <p class="share-title">分享好友下单</p>
+                    <p class="share-explain">新用户下载app更优惠哦</p>
+                </div>
+                <div class="dia-share-content">
+                    <div class="share-item" @click="get_goods_info(goodId,'session')" tapmode>
+                        <div class="coupon-share-imgbox">
+                            <img src="../image/wechat.png" alt="">
+                        </div>
+                        <div class="share-item-text">微信</div>
+                    </div>
+                    <div class="share-item" @click="get_goods_info(goodId,'timeline')" tapmode>
+                        <div class="coupon-share-imgbox">
+                            <img src="../image/wpyq.png" alt="">
+                        </div>
+                        <div class="share-item-text">朋友圈</div>
+                    </div>
+                    <div class="share-item" @click="get_goods_info(goodId,'QFriend')" tapmode>
+                        <div class="coupon-share-imgbox">
+                            <img src="../image/qq.png" alt="">
+                        </div>
+                        <div class="share-item-text">QQ</div>
+                    </div>
+                    <div class="share-item" @click="get_goods_info(goodId,'sinaWb')" tapmode>
+                        <div class="coupon-share-imgbox">
+                            <img src="../image/weibo.png" alt="">
+                        </div>
+                        <div class="share-item-text">微博</div>
+                    </div>
+                    <div class="share-item" @click="copylink()" tapmode>
+                        <div class="coupon-share-imgbox">
+                            <img src="../image/copylink.png" alt="">
+                        </div>
+                        <div class="share-item-text">复制链接</div>
+                    </div>
+                    <div class="share-item" @click="openPictorial()" tapmode>
+                        <div class="coupon-share-imgbox">
+                            <img src="../image/erweima.png" alt="">
+                        </div>
+                        <div class="share-item-text">画报分享</div>
+                    </div>
+                </div>
+                <div class="dia-shopcard-bottom">
+                    <div class="shopcard-bottom-kill coupon-bottom-canele" @click="cancleShare" tapmode>取消</div>
+                </div>
+            </div>
+            </transition>
+        </div> 
+    </transition>  
+
+        <!-- 底部导航条 -->
+        
+        <nav class="footNav" v-if="storeType==3">
+            <div class="dia-shopcard-bottom">
+                <div class="shopcard-bottom-kill" @click="buyRightNow" tapmode>兑换</div>
+            </div>
+        </nav>
+        <nav class="footNav" v-else="storeType==3">
+            <div class="footNav-top footNav-bor" @click="goShopCart" tapmode>
+                <i class="iconfont icon-gouwuche"></i>
+                <p> 购物车</p>
+            </div>
+            <div class="footNav-top footNav-bor" @click="goCustom" tapmode>
+                <i class="iconfont icon-kefu1"></i>
+                <p> 客服</p>
+            </div>
+            <div class="footNav-item footNav-purchase" @click="showGoodCards" tapmode>自购</div>
+            <div class="footNav-item footNav-share" @click="shareGoods" tapmode>分享</div>
+        </nav>
+
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../script/lib/swiper.min.js"></script>
+<script type="text/javascript" src="../script/lib/vue.min.js"></script>
+<script type="text/javascript">
+    var userId = window.localStorage.getItem("userId");
+    
+    var wrap = new Vue({
+        el: "#wrap",
+        data: {
+            URL: "",
+            topBanner: {},
+            imgDefalt: '../image/headimgDef.png',
+            swiperTop: null,
+            isTopShow: false,
+            isGoodsFav:false,//是否收藏
+            dialogBox:null,//分享模块
+            isShowLittle:0,//是否显示厨小店，1：显示
+            goodId: 0,
+            seckill:0,//是否为秒杀商品
+            storeType:2,//默认的商店类型为2，积分商城为3
+            upper:1,
+            sale:1,
+            killEndTime:0,
+            countTime: {
+                day:0,
+                hour: 0,
+                minute: 0,
+                second: 0,
+                endText: ""
+            },
+            goodsInfo: [],
+            couponArr:[],
+            storeId:0,
+            goodShowPrice:0,
+            goodsAddress:"",
+            isShowCar:false,
+            isShowCoupon:false,
+            isShowShare:false,
+            storkSelect:0,//库存
+            specificationsArr:[],//规格数组
+            specArrLen:0,//规格数组的长度
+            selectColor:'',//被选中的颜色
+            specificationName:"",//被选中的规格的名称
+            selectSpecifications:'',//被选中的规格id
+            buyNum:1,
+            buyKillNum:10,
+            //goodsInfo._specs[0].stork
+        },
+        computed: {
+            specTextShow:function(){
+                console.log("是否有规格"+this.specArrLen)
+                if(this.specArrLen&&this.specificationsArr[this.selectColor]&&this.specificationsArr[this.selectColor].length){
+                    console.log(this.specificationsArr[this.selectColor].length)
+                    return this.specificationsArr[this.selectColor].length
+                }
+                return this.specArrLen&&this.specificationsArr[this.selectColor]&&this.specificationsArr[this.selectColor].length
+            },
+        },
+        methods: {
+            goBack: function goBack() {
+                api.closeWin()
+            },
+            isLogin:function isLogin(){
+                console.log(window.localStorage.getItem("userId"))
+                if(!userId){
+                    var timer = setTimeout(function(){
+                        api.openWin({
+                            name : 'login',
+                            url : './login.html',
+                            allowEdit:true,
+                            slidBackEnabled:false
+                        });
+                        api.toast({
+                            msg: '请先登录!',
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                        clearTimeout(timer)
+                    },1000)
+                }
+                
+            },
+            checkLogin: function checkLogin() {
+                if (window.localStorage.getItem("ugrade")) {
+                    var ugrade = window.localStorage.getItem("ugrade"); //用户等级
+                } else {
+                    var ugrade = 0; //未登录
+                }
+            },
+            getScroll: function getScroll() {
+                var top = this.$refs['header'].getBoundingClientRect().bottom
+                var scrollTop = document.documentElement.scrollTop || document.body.scrollTop//必须加上|| document.body.scrollTop
+                if (scrollTop >= top) {
+                    this.isTopShow = true
+                } else {
+                    this.isTopShow = false
+                }
+            },
+            showCoupon:function showCoupon(e){
+                this.isShowCoupon = true
+            },
+            cancleCoupon:function cancleCoupon(e){
+                this.isShowCoupon = false
+            },
+            cancleShare:function(){
+                this.isShowShare = false
+            },
+            //判断是否为厨小店
+            isLittleKitchen :function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=appvstore',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: userId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret.retval));
+                    if (ret && ret.done) {
+                       that.isShowLittle = ret.retval
+                       console.log()
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        console.log(err.msg)
+                        /* api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        }); */
+                    }
+                });
+            },
+            //初始化图片视频轮播图
+            initSwiperPic: function () {
+                new Swiper('.goods-swiper-recommend', {
+                    slidesPerView: 'auto',
+                    observer: true,
+                    observeParents: true,
+                    on: {
+                        click: function () {
+                            const realIndex = this.realIndex;
+                            console.log(this.realIndex)
+                        }
+                    },
+                    preventLinksPropagation: false   // 阻止点击事件冒泡
+                });
+            },
+            //根据userid和goodsid获取商品
+            getGoodsInfo: function getGoodsInfo() {
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=goods&id=' + that.goodId + '&ajax=1',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: userId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret.retval));
+                    if (ret && ret.done) {
+                        var reg = /<img.*?src=[\"|\']?(.*?)[\"|\']?\s.*?>/ig   // 不能删  
+                        /* console.log(ret.retval.description.match(reg)) */
+                        var imgArr = ret.retval.description.match(reg)
+                        var regImg = /<img.*?src=[\"|\']/ig  //只匹配<img src=" 
+                        var replaceImg = "<img src=\""+that.URL //要替换的正则
+
+                        // imgArr.forEach(function(v,i){
+                        //     if(/(http|https):\/\/([\w.]+\/?)\S*/ig.test(v)){
+                        //         return
+                        //     }else{
+                        //         ret.retval.description = ret.retval.description.replace(regNoHttpImg,replaceImg)
+                        //         console.log(ret.retval.description)
+                        //     }
+                        // })
+                        if(!/(http|https):\/\/([\w.]+\/?)\S*/ig.test(ret.retval.description)){
+                            ret.retval.description = ret.retval.description.replace(regImg,replaceImg)
+                            //console.log(ret.retval.description)
+                        }
+                        //ret.retval.description = ret.retval.description.replace(regNoHttpImg,replaceImg)
+                        ret.retval.default_image=ret.retval.default_image?that.URL+ret.retval.default_image:"../image/cacheImg.jpg"
+                        that.goodsInfo = ret.retval
+                        that.storeId = ret.retval.store_id
+                        console.log("storeId="+ret.retval.store_id)
+                        if(that.seckill){
+                            //如果是秒杀产品
+                            //console.log(ret.retval.sp_goods_price)
+                            that.goodShowPrice = ret.retval.sp_goods_price
+                            that.storkSelect = ret.retval.orders
+                        }else{
+                            that.goodShowPrice = ret.retval.price
+                            that.storkSelect = ret.retval._specs[0]["stock"]
+                        }
+                        /* if(that.isShowLittle){
+                             //that.goodShowPrice = ret.retval.price
+                        }
+                        if(){
+
+                        } */
+                        
+                        
+                        //console.log(ret.retval.description.match(reg))
+                        that.$nextTick(function () {
+                            that.initSwiperPic()
+                        })
+                    } else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                });
+            },
+            getDistributorAdd:function(){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=boli_homepage&act=get_tuijian_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: userId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret.retval));
+                    if (ret && ret.done) {
+                        that.goodsAddress = ret.retval
+                    } else {
+                        console.log(ret)
+                       console.log(err)
+                    }
+                });
+            },
+            showGoodCards:function(){
+                this.isShowCar = true
+            },
+            closeDia:function(){
+                this.isShowCar = false
+            },
+            shareGoods:function(){
+                var that = this
+                var gID = that.goodId;
+                this.isShowShare = true
+                return
+                /* that.dialogBox = api.require('dialogBox');
+                that.dialogBox.actionMenu({
+                    rect : {
+                        h : 150
+                    },
+                    texts : {
+                        cancel : '取消'
+                    },
+                    items : [{text : '微信', icon : 'widget://image/wechat.png'}
+                    , { text : '微信朋友圈',icon : 'widget://image/wpyq.png'}
+                    , { text : 'QQ',icon : 'widget://image/qq.png'}
+                    , {text : '微博',  icon : 'widget://image/weibo.png'}
+                    , {  text : '复制链接',icon : 'widget://image/copylink.png'}
+                    ,{ text : '画报分享', icon : 'widget://image/erweima.png'}],
+                    styles : {
+                        bg : '#FFF',
+                        column : 5,
+                        row:2,
+                        itemText : {
+                            color : '#000',
+                            size : 12,
+                            marginT : 8
+                        },
+                        itemIcon : {
+                            size : 60
+                        },
+                        cancel : {
+                            bg : 'fs://icon.png',
+                            color : '#000',
+                            h : 44,
+                            size : 14
+                        }
+                    },
+				    tapClose : true
+                }, function(ret, err) {
+                    if (ret) {
+                        //console.log(JSON.stringify(ret));
+                        if(ret.eventType == "cancel"){
+                            return
+                        }else if(ret.index == 5){
+                            that.openPictorial(that.goodId)
+                        }else if(ret.index == 4){
+                            that.copylink(that.goodId)
+                        }else{
+                            var funParam = ["session","timeline","QFriend","sinaWb",'','']
+                            that.get_goods_info(that.goodId, funParam[ret.index]);
+                        }
+                        that.dialogBox.close({
+                            dialogName : 'actionMenu'
+                        });
+                    } else {
+                        //alert(JSON.stringify(err));
+                    }
+                }); */
+            },
+            openPictorial:function(gID){
+                api.openWin({
+                    name : 'appshare.ewm',
+                    url : './appshare.ewm.html',
+                    bounces : false,
+                    pageParam : {
+                        goodId : gID
+                    },
+                    animation : {
+                        type : "push",
+                        subType : "from_right", 
+                        duration : 300 
+                    }
+                });
+            },
+            copylink:function(gID){
+                var content = URL + 'index.php?app=goods&id=' + gID;;
+                var clipBoard = api.require('clipBoard');
+                clipBoard.set({
+                    value : content
+                }, function(ret, err) {
+                    if (ret) {
+                        api.toast({
+                            msg : '复制成功!',
+                            duration : 2000,
+                            location : 'bottom'
+                        });
+                    } else {
+                        api.toast({
+                            msg : '复制失败!',
+                            duration : 2000,
+                            location : 'bottom'
+                        });
+                    }
+                });
+            },
+            get_goods_info:function(goods_id, tag){
+                var that = this
+                api.ajax({
+                    url : that.URL + 'index.php?app=appfind&act=get_goods_info',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            goods_id : goods_id,
+                        }
+                    }
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret.done) {
+                        var UID = localStorage.getItem("UID");
+                        var title = ret.retval.goods_name;
+                        var text = ret.retval.extension_content;
+                        var url = that.URL+"index.php?app=qrcode&good_id="+ret.retval.goods_id+"&user_id="+UID;
+                        var img = that.URL+ ret.retval.default_image;
+                        //console.log("path=>>>>>>>>"+img);
+                        that.shareReal(tag, title, text, url, img);
+                    } else {
+                        //alert(ret.msg);
+                    }
+                });
+            },
+            shareReal: function(tar, title, text, url, img) {
+                var sharesParam=[{ chName:"微信",requireName:"wx"},{ chName:"QQ",requireName:"QQPlus"},{ chName:"微信",requireName:"weibo"},{ chName:"微博",requireName:"weibo"}]
+                filename = (new Date()).valueOf() + '.' + img.substring(img.lastIndexOf('.') + 1);
+                //console.log("path2=>>>>>>>>"+filename);
+                api.download({
+                    url : img,
+                    savePath : 'fs://' + filename,
+                    report : false,
+                    cache : true,
+                    allowResume : true
+                }, function(ret, err) {
+                    if(tar=='session'||tar=='timeline'){
+                        var wx = api.require('wx');
+                        wx.isInstalled(function(ret) {
+                            if (ret.installed) {
+                                api.toast({
+                                    msg : '分享中，请稍候',
+                                    duration : 2000,
+                                    location : "middle"
+                                });
+                            } else {
+                                api.toast({
+                                    msg : '没有安装微信，无法进行分享',
+                                    duration : 2000,
+                                    location : "middle"
+                                });
+                            }
+                        });
+                        wx.shareWebpage({
+                            apiKey : '',
+                            scene : tar,
+                            title : title,
+                            description : text,
+                            thumb : 'fs://' + filename,
+                            contentUrl : url
+                        }, function(ret, err) {
+                            if (ret.status) {
+                                api.toast({
+                                    msg : '分享成功',
+                                    duration : 2000,
+                                    location : "middle"
+                                });
+                            }
+                        });
+                    }else if(tar=='QFriend'){
+                        var qq = api.require('QQPlus');
+                        qq.installed(function(ret) {
+                            if (ret.status) {
+                                api.toast({
+                                    msg : '分享中，请稍候',
+                                    duration : 2000,
+                                    location : "middle"
+                                });
+                            } else {
+                                api.toast({
+                                    msg : '没有安装QQ，无法进行分享',
+                                    duration : 2000,
+                                    location : "middle"
+                                });
+                            }
+                        });
+                        qq.shareNews({
+                            url : url,
+                            title : title,
+                            description : text,
+                            imgUrl : img,
+                            type : tar
+                        }, function(ret, err) {
+                            if (ret.status) {
+                                api.toast({
+                                    msg : '分享成功',
+                                    duration : 2000,
+                                    location : "botoom"
+                                });
+                            }
+                        });
+                    }else if(tar=='sinaWb'){
+                        api.download({
+                            url : img,
+                            savePath : 'fs://' + filename,
+                            report : false,
+                            cache : true,
+                            allowResume : true
+                        }, function(ret, err) {
+                            var weibo = api.require('weibo');
+                            weibo.shareImage({
+                                text : title + text + url,
+                                imageUrl : 'fs://' + filename
+                            }, function(ret, err) {
+                                if (ret.status) {
+                                    api.toast({
+                                        msg : '分享成功',
+                                        duration : 2000,
+                                        location : "middle"
+                                    });
+                                }
+                            });
+                        });
+                    }
+                    
+                });
+            },
+            changeColors:function(id,type,stork,specificationName,showPrice){
+                if(type==1){
+                    this.selectColor = id
+                }
+                if(type==2){
+                    this.selectSpecifications = id
+                    this.storkSelect = parseInt(stork) 
+                    this.specificationName = specificationName
+                    this.goodShowPrice = showPrice
+                }
+            },
+            addShopCard:function(){
+                var that = this
+                console.log(that.selectSpecifications)
+                var specArrLen = that.specArrLen
+                if(this.storkSelect<=0){
+                    api.toast({
+                        msg: '暂时没有库存了~',
+                        duration: 2000,
+                        location: 'middle'
+                    });
+                    //return
+                }
+                if(that.specArrLen){//如果有颜色
+                    if(!that.selectSpecifications){//有颜色，且没有规格id，
+                        api.toast({
+                            msg : '请选择物品规格',
+                            duration : 2000,
+                            location : 'bottom'
+                        });
+                        return
+                    }
+                }
+                var spec_id = that.selectSpecifications?that.selectSpecifications:that.goodsInfo.default_spec
+                api.ajax({
+                    url : that.URL + 'index.php?app=cart&act=add',
+                    method : 'get',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            spec_id : spec_id,
+                            quantity : that.buyNum,
+                            user_id : userId
+                        }
+                    }
+                }, function(ret, err) {
+                    if (ret && ret.done) {
+                        console.log(JSON.stringify(ret));
+
+                        api.toast({
+                            msg : '加入成功',
+                            duration : 2000,
+                            location : 'bottom'
+                        });
+                    }else if (ret) {
+                        api.toast({
+                            msg: ret.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: err.msg,
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                    /* api.toast({
+                        msg : '已加入购物车',
+                        duration : 2000,
+                        location : 'bottom'
+                    }); */
+                });
+            },
+            buyRightNow:function(){
+                var that = this
+                var spec_id = that.selectSpecifications?that.selectSpecifications:that.goodsInfo.default_spec
+                console.log(that.selectSpecifications)
+                console.log(that.goodsInfo.default_spec)
+                console.log(spec_id)
+                var zhuan = that.isShowLittle?that.goodsInfo.settlement_price*0.35:0
+                var realBuyNum 
+                console.log(that.seckill>0)
+                if(that.seckill>0){
+                    realBuyNum = that.buyKillNum
+                }else{
+                    realBuyNum = that.buyNum
+                }
+                console.log(realBuyNum)
+                if(this.storkSelect<=0){
+                    api.toast({
+                        msg: '暂时没有库存了~',
+                        duration: 2000,
+                        location: 'middle'
+                    });
+                    //return
+                }
+                if(that.specArrLen){//如果有颜色
+                    if(!that.selectSpecifications){//有颜色，且没有规格id，
+                        api.toast({
+                            msg : '请选择物品规格',
+                            duration : 2000,
+                            location : 'bottom'
+                        });
+                        return
+                    }
+                }
+                api.ajax({
+                    url : that.URL + 'index.php?app=cart&act=to_shop',
+                    method : 'get',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            spec_id : spec_id,
+                            quantity : realBuyNum,
+                            user_id : userId
+                        }
+                    }
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret));
+                    //return;
+                    if (ret && ret.done) {
+                        that.closeDia()
+                        api.openWin({
+                            name : 'order.confirm',
+                            url : './order.confirm.html',
+                            bounces : false,
+                            pageParam : {
+                               /*  orderId : ret.retval.orderId, */
+                                store_id : that.storeId,
+                                goods_id : that.goodId,
+                                spec_id : spec_id,
+                                zhuan:zhuan
+                            },
+                            animation : {
+                                type : "push", //动画类型（详见动画类型常量）
+                                subType : "from_right", //动画子类型（详见动画子类型常量）
+                                duration : 300 //动画过渡时间，默认300毫秒
+                            }
+                        });
+                    } else {
+                        api.toast({
+                            msg : ret.msg,
+                            duration : 2000,
+                            location : 'bottom'
+                        });
+                    }
+                });
+            },
+            //是否收藏
+            getCollect:function getCollect(gId) {
+                var that = this
+                api.ajax({
+                    url : that.URL + 'index.php?app=myinfo&act=find_one_collect_goods',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id : userId,
+                            goods_id : gId,
+                        }
+                    }
+                }, function(ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret.done) {
+                        that.isGoodsFav = true
+                    } else {
+                        that.isGoodsFav = false
+                    }
+                });
+            },
+            //获取规格
+            getSpecifications:function Specifications(){
+                var that = this
+                api.ajax({
+                    url: that.URL + 'index.php?app=homepage&act=get_goods_info',
+                    method: 'post',
+                    cache: false,
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {
+                            user_id: userId,
+                            goods_id: that.goodId
+                        }
+                    }
+                }, function (ret, err) {
+                    //console.log(JSON.stringify(ret.retval));
+                    if (ret && ret.done) {
+                        that.specificationsArr = ret.retval[2]
+                        for(var key in that.specificationsArr) {
+                            //判断是否有颜色，规格等属性
+                            if (key !=""){
+                                that.specArrLen = true
+                                return
+                            }else{
+                                that.specArrLen =false//false代表没有specid，只有defaultid，代表没有颜色这些
+                            }
+                        }
+                            console.log(that.specArrLen)
+                    } else {
+                        console.log(ret)
+                        console.log(err)
+                    }
+                });
+            },
+            addNumKill:function addNumKill(){
+                if(this.buyKillNum*1>=this.upper*1){
+                    this.buyKillNum =this.upper
+                }else{
+                    this.buyKillNum++
+                }
+            },
+            addNum:function addNum(){
+                this.buyNum++
+            },
+            minusNumKill:function minusNumKill(){
+                if(this.buyKillNum*1<=this.sale*1){
+                    this.buyKillNum =this.sale
+                }else{
+                    this.buyKillNum--
+                }
+            },
+            minusNum:function minusNum(){
+                this.buyNum = this.buyNum<=1?1:this.buyNum-1
+            },
+            goShopCart:function goShopCart(){
+                api.openWin({
+                    name : 'cart',
+                    url : './cart.html',
+                    bounces : false,
+                    animation : {
+                        type : "push", 
+                        subType : "from_right", 
+                        duration : 300 
+                    }
+                });
+            },
+            goCustom:function goCustom(){
+                /* api.toast({
+                    msg: '等待客服接口中。。。',
+                    duration: 2000,
+                    location: 'middle'
+                }); */
+                window.location.href="https://care60.live800.com/live800/chatClient/chatbox.jsp?companyID=80004404&configID=1751"
+            },
+            addFacorate:function addFacorate(){
+                var that =this
+                api.ajax({
+                    url : that.URL + 'index.php?app=myinfo&act=add_collect',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id : userId,
+                            goods_id : that.goodId,
+                            type : "goods"
+                        }
+                    }
+                }, function(ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret.done) {
+                        console.log(ret.retval);
+                        if (ret.retval == 2) {
+                            console.log(ret.retval.length);
+                            that.isGoodsFav = true
+                            api.toast({
+                                msg : '收藏成功',
+                                duration : 2000,
+                                location : 'middle'
+                            });
+                        } else if (ret.retval == 1) {
+                            console.log(ret.retval.length);
+                            that.isGoodsFav = false
+                            api.toast({
+                                msg : '取消收藏',
+                                duration : 2000,
+                                location : 'middle'
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg : '收藏失败',
+                            duration : 2000,
+                            location : 'middle'
+                        });
+                    }
+                });
+            },
+            //获取优惠券s
+            getCoupons:function getCoupons(){
+                var that =this
+                api.ajax({
+                    url : that.URL + 'index.php?app=appcoupon&act=getAllCoupon',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id : userId,
+                        }
+                    }
+                }, function(ret, err) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret&&ret.done) {
+                        that.couponArr = ret.retval
+                    } else {
+                        
+                    }
+                });
+            },
+            
+            receiveCoupon:function receiveCoupon(id, is_have,i){
+                var that = this
+                if (is_have == 1) {
+                    api.toast({
+                        msg : '你已经领过了',
+                        duration : 2000,
+                        location : 'middle'
+                    });
+                    return;
+                }
+                api.ajax({
+                    url : that.URL + 'index.php?app=appcoupon&act=getCoupons',
+                    method : 'post',
+                    cache : false,
+                    timeout : 30,
+                    dataType : 'json',
+                    returnAll : false,
+                    data : {
+                        values : {
+                            user_id : userId,
+                            coupon_id : id
+                        }
+                    }
+                }, function(ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if(ret&&ret.done){
+                        //that.couponArr[i].is_have = 1
+                        console.log(i)
+                        Vue.set(that.couponArr[i], 'is_have', 1)
+                        api.toast({
+                            msg : "领取成功",
+                            duration : 2000,
+                            location : 'middle'
+                        });
+
+                    }else{
+                        api.toast({
+                            msg : ret.msg,
+                            duration : 2000,
+                            location : 'middle'
+                        });
+                    }
+                });
+            },
+            //倒计时
+            countdowm: function (timestamp) {
+                //countTime
+                var self = this;
+                var timer = setInterval(function () {
+                    var nowTime = new Date();
+                    var endTime = new Date(timestamp * 1000);
+                    //var endTime = new Date(timestamp);
+                    var t = endTime.getTime() - nowTime.getTime();
+                    if (t > 0) {
+                        var day = Math.floor(t / (3600000 * 24));
+                        var hour = Math.floor((t / 3600000) % 24);
+                        //var hour = Math.floor((t / 3600000));
+                        var min = Math.floor((t / 60000) % 60);
+                        var sec = Math.floor((t / 1000) % 60);
+                        hour = hour < 10 ? "0" + hour : hour;
+                        min = min < 10 ? "0" + min : min;
+                        sec = sec < 10 ? "0" + sec : sec;
+                        self.countTime.day = day
+                        self.countTime.hour = hour
+                        self.countTime.minute = min
+                        self.countTime.second = sec
+                    } else {
+                        clearInterval(timer);
+                        self.countDowmCB();
+                    }
+                }, 1000);
+            },
+            countDowmCB: function countDowmCB() {
+                this.countTime.endText = "已结束";
+            },
+        },
+        created: function created() {
+            var that = this
+            
+            this.$nextTick(function () {
+                apiready = function () {
+                    var header = that.$refs.header;
+                    $api.fixStatusBar(header);
+                    that.URL = $api.URL()
+                    that.goodId = api.pageParam.goodId
+                    that.seckill = api.pageParam.seckill//是否为秒杀
+                    that.killEndTime = api.pageParam.endTime//秒杀的结束时间
+                    that.sale = api.pageParam.sale//秒杀的开始物品数量
+                    that.upper = api.pageParam.upper//秒杀的最多物品数量
+                    that.storeType = api.pageParam.storeType
+                    that.buyKillNum = that.sale
+                    if(that.killEndTime){
+                        that.countdowm(that.killEndTime)
+                    }
+                    if(that.storeType==3){
+                        that.monetary = "积分"
+                    }
+                    console.log(api.pageParam.goodId)
+                    that.isLogin()
+                    that.getGoodsInfo()
+                    that.isLittleKitchen()
+                    that.getCollect(that.goodId)
+                    that.getDistributorAdd()
+                    that.getSpecifications()
+                    that.getCoupons()
+                    $('.swiper-wrapper').on('touchstart', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: false
+                        });
+                    });
+                    $('.swiper-wrapper').on('touchend', function () {
+                        api.setFrameAttr({
+                            name: 'mall',
+                            bounces: true
+                        });
+                    });
+
+                }
+            })
+        },
+        mounted: function mounted() {
+            window.addEventListener('scroll', this.getScroll);
+            var that = this
+        },
+        destroyed: function destroyed() {
+            window.removeEventListener('scroll', this.getScroll);
+        },
+    })
+</script>
+
+</html>

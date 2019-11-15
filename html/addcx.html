@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/api.css"/>
+		<style>
+			html, body {
+				background-color: #f4f4f4;
+				height: 100%;
+			}
+			.row {
+				margin: 0px;
+				padding: 0px;
+			}
+			.cx {
+				border: 1px solid #000;
+				border-radius: 20px;
+				padding: 2px 0px;
+				text-align: center;
+				margin-left: 3%;
+				font-size:13px;
+				margin-top:4%;
+			}
+			.xzcx {
+				border: 1px solid #6fba2c;
+				border-radius: 20px;
+				padding: 2px 0px;
+				text-align: center;
+				margin-left: 3%;
+				font-size:13px;
+				margin-top:4%;
+				color:#6fba2c;
+			}
+			.ipt1{
+    	width:90%;
+    	margin-left:5%;
+    	font-size:17px;
+    	padding:10px 0px;
+    	
+    	}
+    	.cx1{
+    	color:#898989;
+    	padding-left:5%;
+    	margin: 3% 0px;
+    	width:75%;
+    	}
+    	.tj{
+    	color:#6fba2c;
+    	border:1px solid #6fba2c;
+    	border-radius:30px;
+    	text-align:center;
+    	width:20%;
+    	margin-top:4%;
+    	padding:0.5%
+    	}
+    	.ipt{
+    	width:70%;
+    	margin-left:15%;
+    	line-height:30px;
+    	background-color:#6fba2c;
+    	color:#fff;
+    	border-radius:40px;
+    	margin-top:20%;
+    	}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="header">
+				菜系标签
+			</div>
+			<div class="DIV_L" onclick="goBack()" tapmode>
+				<i class="iconfont icon-back"></i>
+			</div>
+		</header>
+		<!--菜系选择-->
+		<div class="container" style="background-color: #fff;height:50%;">
+			<div class="row" style="padding-left:5%;padding-top: 4%">
+				请选择菜系
+			</div>
+			<div class="row" style="width:94%;margin-left:3%" id="cxzl"> 
+				<div class="col-xs-2 cx" id="1" onclick="xz(1)">
+					融合菜
+				</div>
+				<div class="col-xs-2 xzcx">
+					鲁菜
+				</div>
+				<div class="col-xs-2 cx">
+					川菜
+				</div>
+				<div class="col-xs-2 cx">
+					淮扬菜
+				</div>
+				<div class="col-xs-2 cx">
+					粤菜
+				</div>
+				<div class="col-xs-2 cx" >
+					闽菜
+				</div>
+				<div class="col-xs-2 cx">
+					湘菜
+				</div>
+				<div class="col-xs-2 cx">
+					浙菜
+				</div>
+				<div class="col-xs-2 cx">
+					徽菜
+				</div>
+				<div class="col-xs-2 cx">
+					东北菜
+				</div>
+				<div class="col-xs-2 cx" >
+					饮品
+				</div>
+				<div class="col-xs-2 cx">
+					杭州菜
+				</div>
+				<div class="col-xs-2 cx">
+					蒙菜
+				</div>
+				<div class="col-xs-2 cx">
+					鲁菜
+				</div>
+				<div class="col-xs-2 cx">
+					粤菜
+				</div>
+			</div>
+		</div>
+		<div class="row" style=";background-color:#fff;margin-top:5%">
+		
+		  <div class="col-xs-6 cx1" style=""><input type="text" class="ipt1" placeholder="自定义菜系" id="zdycx" /></div>
+    <div class="col-xs-6 tj" id="tj" style="" onclick="tjcx()">添加</div>
+		
+		</div>
+		<input type="button" value="保存" class="ipt" onclick="bccx()"/>
+	</body>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/lib/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../script/lib/fastclick.js"></script>
+	<script type="text/javascript">
+		var userId = window.localStorage.getItem("userId");
+		//用户id
+		$(function() {//消除300ms点击延迟
+			FastClick.attach(document.body);
+		});
+		//返回上一页
+		function goBack() {
+			api.closeWin();
+		}
+
+		var URL = "";
+		apiready = function() {
+			URL = $api.URL();
+			var header = $api.dom('header');
+			//适配iOS 7+，Android 4.4+状态栏
+			$api.fixStatusBar(header);
+		};
+		
+		function tjcx(){
+		var cxm=$("#zdycx").val();
+		$("#cxzl").append('<div class="col-xs-2 cx" id="'+cxm+'" onclick="xz('+cxm+')">'+cxm+'</div>')
+		
+		
+		}
+		
+		
+		
+		function xz(num){
+		if(num==1){
+		 
+            $("#1").toggleClass("xzcx");
+		}
+		
+		
+		}
+		
+		
+		
+		function bccx(){
+		
+		var cxm=$(".xzcx").html();
+		
+		
+	
+		  api.openWin({
+          name: '保存菜系',
+          url: './myteach.html',
+          bounces: false,
+          pageParam: {
+          xzcx:cxm
+          
+          
+          }
+        });
+		
+		}
+	</script>
+</html>
